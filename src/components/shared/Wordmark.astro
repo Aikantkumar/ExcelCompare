@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { class: className = '', size = 'md' } = Astro.props;
+---
+
+<a href="/" class={`inline-flex items-center gap-3 no-underline group ${className}`}>
+  <div class="w-6 h-6 border border-white flex items-center justify-center transition-transform group-hover:rotate-45 duration-300">
+    <div class="w-2 h-2 bg-white"></div>
+  </div>
+  <span class="text-wordmark tracking-[6px] text-white">
+    COMPARE<span class="text-[#c3d9f3]">EXCEL</span>
+  </span>
+</a>

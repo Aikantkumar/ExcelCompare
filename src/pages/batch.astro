@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
+---
+
+<Layout
+  title="Batch Excel Compare Queue — Process Multiple File Pairs"
+  description="Automate comparison across multiple pairs of Excel spreadsheets in a single batch queue with downloadable summary audit reports."
+>
+  <div class="py-8 bg-[#000000]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+      <div class="text-caption text-[#c3d9f3]">MODE 04</div>
+      <h1 class="text-display-md text-white">BATCH COMPARISON QUEUE</h1>
+      <p class="font-serif text-[#999999] text-base mt-1">
+        Queue and execute multiple spreadsheet comparisons simultaneously.
+      </p>
+    </div>
+
+    <CompareToolContainer client:load initialMode="batch" />
+  </div>
+</Layout>

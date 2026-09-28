@@ -1,0 +1,56 @@
+---
+import Wordmark from '../shared/Wordmark.astro';
+
+const pathname = new URL(Astro.request.url).pathname;
+
+const navItems = [
+  { name: 'COMPARE FILES', href: '/compare' },
+  { name: 'COMPARE COLUMNS', href: '/compare-columns' },
+  { name: 'RECONCILE', href: '/reconcile' },
+  { name: 'BATCH DIFF', href: '/batch' },
+  { name: 'FEATURES', href: '/features' },
+  { name: 'HELP', href: '/help' },
+];
+---
+
+<header class="sticky top-0 z-50 bg-[#000000]/90 backdrop-blur-md border-b border-[#262626] transition-colors">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Brand Wordmark -->
+    <Wordmark />
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center space-x-8" aria-label="Main Navigation">
+      {navItems.map((item) => {
+        const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+        return (
+          <a
+            href={item.href}
+            class={`text-nav transition-colors ${
+              isActive 
+                ? 'text-white border-b border-white pb-1 font-semibold' 
+                : 'text-[#999999] hover:text-white'
+            }`}
+          >
+            {item.name}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-4">
+      <a href="/compare" class="btn-primary py-2 px-5 text-xs h-9 tracking-[2px]">
+        LAUNCH TOOL
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Sub-nav -->
+  <div class="md:hidden flex items-center justify-around border-t border-[#262626] bg-[#0d0d0d] px-2 py-2 overflow-x-auto text-[11px] font-mono tracking-wider text-[#cccccc] space-x-2">
+    <a href="/compare" class={pathname === '/compare' ? 'text-white font-bold underline' : 'hover:text-white'}>FILES</a>
+    <a href="/compare-columns" class={pathname === '/compare-columns' ? 'text-white font-bold underline' : 'hover:text-white'}>COLUMNS</a>
+    <a href="/reconcile" class={pathname === '/reconcile' ? 'text-white font-bold underline' : 'hover:text-white'}>RECONCILE</a>
+    <a href="/batch" class={pathname === '/batch' ? 'text-white font-bold underline' : 'hover:text-white'}>BATCH</a>
+    <a href="/features" class={pathname === '/features' ? 'text-white font-bold underline' : 'hover:text-white'}>ADVANTAGE</a>
+  </div>
+</header>

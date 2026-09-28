@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Privacy Guarantee — 100% Client-Side Browser Excel Processing"
+  description="CompareExcel processes all spreadsheet files 100% locally inside your browser. No files or cell data are ever uploaded to any server."
+>
+  <div class="py-16 bg-[#000000] border-b border-[#262626]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="text-center space-y-4">
+        <div class="text-caption text-[#5fa657]">100% LOCAL BROWSER DIFF GUARANTEE</div>
+        <h1 class="text-display-lg text-white">YOUR SPREADSHEET DATA NEVER LEAVES YOUR DEVICE</h1>
+      </div>
+
+      <div class="border border-[#262626] bg-[#0d0d0d] p-8 space-y-6 font-serif text-[#cccccc] leading-relaxed">
+        <h2 class="text-title-md text-white font-mono">ZERO SERVER UPLOAD ARCHITECTURE</h2>
+        <p>
+          At CompareExcel, we understand that financial reports, payroll sheets, supplier pricing lists, and audit files contain private, highly sensitive business data.
+        </p>
+        <p>
+          Unlike legacy cloud diff services that require uploading your `.xlsx` files to a remote server, CompareExcel performs <strong>100% of its parsing, diff calculation, set matching, and report rendering locally inside your web browser</strong> using JavaScript Web Workers and SheetJS.
+        </p>
+
+        <h2 class="text-title-md text-white font-mono">TECHNICAL VERIFICATION</h2>
+        <ul class="list-disc pl-6 space-y-2 font-mono text-xs text-[#999999]">
+          <li>Open Network DevTools: No HTTP POST or file upload requests occur when loading or diffing spreadsheets.</li>
+          <li>Works Offline: Once the page is loaded, you can disconnect your internet entirely and continue diffing files offline.</li>
+          <li>No Third-Party Data Selling or Analytics on Spreadsheet Contents.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>

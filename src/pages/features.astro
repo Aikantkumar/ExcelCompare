@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CompetitorComparison from '../components/landing/CompetitorComparison.astro';
+---
+
+<Layout
+  title="CompareExcel Features & Competitor Matrix"
+  description="Explore the full feature comparison matrix between CompareExcel.com and generic diff tools like excelcompare.org."
+>
+  <div class="py-16 bg-[#000000]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center space-y-4">
+      <div class="text-caption text-[#c3d9f3]">FEATURE MATRIX & ARCHITECTURE</div>
+      <h1 class="text-display-lg text-white">ENGINEERED FOR SPREADSHEET SUPREMACY</h1>
+      <p class="font-serif text-lg text-[#999999] max-w-2xl mx-auto">
+        Discover how our formula awareness, smart fuzzy row matching, cell annotations, and export tools revolutionize Excel auditing.
+      </p>
+    </div>
+
+    <CompetitorComparison />
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-xs font-mono">
+      <div class="border border-[#262626] bg-[#0d0d0d] p-6 space-y-3">
+        <h3 class="text-title-sm text-white">01. FORMULA INSPECTION</h3>
+        <p class="font-serif text-[#cccccc] text-sm leading-relaxed">
+          Standard tools only read calculated display numbers. CompareExcel inspects underlying formulas (`=SUM(A1:A100)` vs `=SUM(A1:A99)`), highlighting subtle calculation errors before they reach production.
+        </p>
+      </div>
+
+      <div class="border border-[#262626] bg-[#0d0d0d] p-6 space-y-3">
+        <h3 class="text-title-sm text-white">02. FUZZY ROW ALIGNMENT</h3>
+        <p class="font-serif text-[#cccccc] text-sm leading-relaxed">
+          If a row is added or sorted differently, conventional diff tools mark all subsequent rows as deleted/added. Our smart algorithm computes row signatures to keep matching data aligned seamlessly.
+        </p>
+      </div>
+
+      <div class="border border-[#262626] bg-[#0d0d0d] p-6 space-y-3">
+        <h3 class="text-title-sm text-white">03. CELL ANNOTATIONS</h3>
+        <p class="font-serif text-[#cccccc] text-sm leading-relaxed">
+          Audit with precision. Click any cell in the diff grid to flag items, leave reviewer notes, and export comprehensive audit summaries for compliance sign-off.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>

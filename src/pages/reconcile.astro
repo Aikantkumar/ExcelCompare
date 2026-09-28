@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
+---
+
+<Layout
+  title="Reconcile Excel Data — ID-Based Key/Value Match Engine"
+  description="Reconcile financial records, inventory SKUs, and data exports by matching rows using a primary key ID column."
+>
+  <div class="py-8 bg-[#000000]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+      <div class="text-caption text-[#c3d9f3]">MODE 03</div>
+      <h1 class="text-display-md text-white">ID-BASED DATA RECONCILIATION ENGINE</h1>
+      <p class="font-serif text-[#999999] text-base mt-1">
+        Match rows across spreadsheets by primary key ID and flag value mismatches regardless of row order.
+      </p>
+    </div>
+
+    <CompareToolContainer client:load initialMode="reconcile" />
+  </div>
+</Layout>

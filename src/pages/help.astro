@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Documentation & Help — CompareExcel"
+  description="Learn how to compare Excel files, inspect formulas, run ID-based reconciliation, and export PDF/HTML audit reports."
+>
+  <div class="py-16 bg-[#000000] border-b border-[#262626]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="text-center space-y-4">
+        <div class="text-caption text-[#c3d9f3]">DOCUMENTATION & KNOWLEDGE BASE</div>
+        <h1 class="text-display-lg text-white">HOW TO COMPARE SPREADSHEETS LIKE A PRO</h1>
+      </div>
+
+      <div class="space-y-8 font-serif text-[#cccccc] leading-relaxed">
+        <div class="border border-[#262626] bg-[#0d0d0d] p-8 space-y-4">
+          <h2 class="text-title-md text-white font-mono">1. VISUAL FILE COMPARISON (COMPARE FILES)</h2>
+          <p>
+            Drop two files into File 1 and File 2. The engine parses all worksheets locally using Web Workers. Side-by-Side view presents both spreadsheets aligned with synchronized scrolling. Modified cells render in soft amber, added rows in emerald green, deleted rows in rose red, and formula changes in deep indigo.
+          </p>
+        </div>
+
+        <div class="border border-[#262626] bg-[#0d0d0d] p-8 space-y-4">
+          <h2 class="text-title-md text-white font-mono">2. COLUMN SET OPERATIONS (COMPARE COLUMNS)</h2>
+          <p>
+            When you only need to compare two lists (e.g. email subscriber lists, part numbers, or product SKUs), select "Compare Columns". Pick the column from File 1 and File 2. The tool computes set intersection, unique left values, and unique right values with instant CSV download.
+          </p>
+        </div>
+
+        <div class="border border-[#262626] bg-[#0d0d0d] p-8 space-y-4">
+          <h2 class="text-title-md text-white font-mono">3. ID-BASED RECONCILIATION (RECONCILE)</h2>
+          <p>
+            For financial ledgers or inventory audits where rows are not in identical order, use Reconciliation Mode. Pick the Primary Key column (e.g. Account Code or SKU) and target Value column. Records are matched by key ID across both sheets, highlighting mismatches instantly.
+          </p>
+        </div>
+
+        <div class="border border-[#262626] bg-[#0d0d0d] p-8 space-y-4">
+          <h2 class="text-title-md text-white font-mono">4. EXPORTING REPORTS & SHARING</h2>
+          <p>
+            Click "Export Diff" in the toolbar to generate a high-density, printable HTML report suitable for PDF conversion. You can also generate shareable links or grab the <code>&lt;compare-excel&gt;</code> web component snippet for intranet dashboards.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

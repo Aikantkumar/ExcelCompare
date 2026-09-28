@@ -1,11 +1,46 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Hero from '../components/landing/Hero.astro';
+import FeatureGrid from '../components/landing/FeatureGrid.astro';
+import CompetitorComparison from '../components/landing/CompetitorComparison.astro';
+import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="CompareExcel — #1 Online Excel Spreadsheet Diff Engine (100% Private)"
+  description="Compare Excel spreadsheets online with full cell-by-cell diff, formula inspection, synchronized scrolling, smart fuzzy row matching, and zero server upload."
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Main Interactive Comparison Tool Workspace -->
+  <section class="py-12 bg-[#000000] border-b border-[#262626]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center">
+      <div class="text-caption text-[#c3d9f3]">INTERACTIVE WORKSPACE</div>
+      <h2 class="text-display-md text-white mt-1">TEST LIVE SPREADSHEET DIFFERENTIAL ENGINE</h2>
+    </div>
+    <CompareToolContainer client:load initialMode="files" />
+  </section>
+
+  <!-- Feature Grid Section -->
+  <FeatureGrid />
+
+  <!-- Competitor Advantage Matrix Section -->
+  <CompetitorComparison />
+
+  <!-- CTA Band -->
+  <section class="py-24 bg-[#000000] text-center border-b border-[#262626]">
+    <div class="max-w-4xl mx-auto px-4 space-y-6">
+      <div class="text-caption text-[#c3d9f3]">ENGINEERED FOR ACCURACY & PRIVACY</div>
+      <h2 class="text-display-lg text-white">READY TO RUN YOUR SPREADSHEET AUDIT?</h2>
+      <p class="font-serif text-lg text-[#999999] max-w-xl mx-auto">
+        No sign up, no credit card, no software installation required. Drop your files and get instant visual diffs inside your local browser.
+      </p>
+      <div class="pt-4">
+        <a href="/compare" class="btn-primary">
+          OPEN COMPARISON WORKSPACE NOW
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
