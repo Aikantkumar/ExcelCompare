@@ -5,6 +5,10 @@ import * as XLSX from 'xlsx';
  */
 export async function parseExcelFile(file) {
   return new Promise((resolve, reject) => {
+    if (!file) {
+      return reject(new Error('No file provided'));
+    }
+
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -18,13 +22,28 @@ export async function parseExcelFile(file) {
           cellNF: true,
         });
 
+        if (!workbook || !workbook.SheetNames || workbook.SheetNames.length === 0) {
+          throw new Error('The uploaded file does not contain any valid worksheets.');
+        }
+
         const resultSheets = {};
 
         workbook.SheetNames.forEach((sheetName) => {
           const worksheet = workbook.Sheets[sheetName];
-          const range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1');
+          if (!worksheet) {
+            resultSheets[sheetName] = { name: sheetName, rows: [], rowCount: 0, colCount: 0 };
+            return;
+          }
 
+          const ref = worksheet['!ref'];
+          if (!ref) {
+            resultSheets[sheetName] = { name: sheetName, rows: [], rowCount: 0, colCount: 0 };
+            return;
+          }
+
+          const range = XLSX.utils.decode_range(ref);
           const rows = [];
+
           for (let R = range.s.r; R <= range.e.r; ++R) {
             const row = [];
             for (let C = range.s.c; C <= range.e.c; ++C) {
@@ -61,11 +80,11 @@ export async function parseExcelFile(file) {
           sheets: resultSheets,
         });
       } catch (err) {
-        reject(err);
+        reject(err instanceof Error ? err : new Error(String(err)));
       }
     };
 
-    reader.onerror = (error) => reject(error);
+    reader.onerror = (error) => reject(error || new Error('Failed to read file'));
     reader.readAsArrayBuffer(file);
   });
 }
@@ -113,6 +132,47 @@ export const SAMPLE_DATASETS = {
             [{ val: '2002' }, { val: 'Cloud Infrastructure' }, { val: '15,000' }, { val: '22,100' }, { val: '=D6-C6*1.05', formula: '=D6-C6*1.05' }], // Formula modified!
             [{ val: '2003' }, { val: 'Office Supplies' }, { val: '3,000' }, { val: '2,800' }, { val: '=D7-C7', formula: '=D7-C7' }],
             [{ val: '9000' }, { val: 'Net Profit' }, { val: '92,000' }, { val: '120,600' }, { val: '=SUM(D2:D7)-SUM(C2:C7)', formula: '=SUM(D2:D7)-SUM(C2:C7)' }],
+          ]
+        }
+      }
+    }
+  },
+  register: {
+    name: 'Project Register (v1 vs v2)',
+    fileA: {
+      fileName: 'register-v1.xlsx',
+      sheetNames: ['Register'],
+      sheets: {
+        'Register': {
+          name: 'Register',
+          rowCount: 6,
+          colCount: 8,
+          rows: [
+            [{ val: 'Item ID' }, { val: 'Workstream' }, { val: 'Owner' }, { val: 'Priority' }, { val: 'Status' }, { val: 'Start date' }, { val: 'Target date' }, { val: 'Budget' }],
+            [{ val: 'HZ-001' }, { val: 'Facilities' }, { val: 'Avery Singh' }, { val: 'High' }, { val: 'Complete' }, { val: '2026-07-06' }, { val: '2026-07-17' }, { val: '$18,050.00' }],
+            [{ val: 'HZ-002' }, { val: 'Procurement' }, { val: 'Leah Morgan' }, { val: 'Medium' }, { val: 'In Progress' }, { val: '2026-07-06' }, { val: '2026-08-07' }, { val: '$72,000.00' }],
+            [{ val: 'HZ-003' }, { val: 'Communications' }, { val: 'Maya Chen' }, { val: 'High' }, { val: 'In-Review' }, { val: '2026-07-08' }, { val: '7/24/2026' }, { val: '$9,500.00' }],
+            [{ val: 'HZ-004' }, { val: 'Data' }, { val: 'Noah Williams' }, { val: 'Medium' }, { val: 'Complete' }, { val: '2026-07-01' }, { val: '2026-07-15' }, { val: '$14,000.00' }],
+            [{ val: 'HZ-005' }, { val: 'Engineering' }, { val: 'Liam Vance' }, { val: 'Low' }, { val: 'Pending' }, { val: '2026-07-10' }, { val: '2026-08-20' }, { val: '$32,500.00' }],
+          ]
+        }
+      }
+    },
+    fileB: {
+      fileName: 'register-v2.xlsx',
+      sheetNames: ['Register'],
+      sheets: {
+        'Register': {
+          name: 'Register',
+          rowCount: 6,
+          colCount: 8,
+          rows: [
+            [{ val: 'Item ID' }, { val: 'Workstream' }, { val: 'Owner' }, { val: 'Priority' }, { val: 'Status' }, { val: 'Start date' }, { val: 'Target date' }, { val: 'Budget' }],
+            [{ val: 'HZ-001' }, { val: 'Facilities' }, { val: 'Elena Ford' }, { val: 'High' }, { val: 'Complete' }, { val: '2026-07-06' }, { val: '2026-07-17' }, { val: '$18,120.00' }],
+            [{ val: 'HZ-002' }, { val: 'Finance' }, { val: 'Leah Morgan' }, { val: 'High' }, { val: 'In Progress' }, { val: '2026-07-06' }, { val: '2026-08-07' }, { val: '$72,000.00' }],
+            [{ val: 'HZ-003' }, { val: 'Communications' }, { val: 'Maya Chen' }, { val: 'High' }, { val: 'Complete' }, { val: '2026-07-08' }, { val: '07-24' }, { val: '$9,500.00' }],
+            [{ val: 'HZ-004' }, { val: 'Data' }, { val: 'Noah Williams' }, { val: 'Medium' }, { val: 'Complete' }, { val: '2026-07-01' }, { val: '2026-07-15' }, { val: '$14,000.00' }],
+            [{ val: 'HZ-005' }, { val: 'Engineering' }, { val: 'Liam Vance' }, { val: 'Medium' }, { val: 'In Progress' }, { val: '2026-07-10' }, { val: '2026-08-20' }, { val: '$35,000.00' }],
           ]
         }
       }

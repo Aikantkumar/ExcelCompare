@@ -5,17 +5,17 @@ import CompareToolContainer from '../components/comparison/CompareToolContainer.
 
 <Layout
   title="Visual File Diff — Compare Excel Files Online (Sync Scroll)"
-  description="Compare two Excel files side-by-side with synchronized scrolling, cell-by-cell diff, formula inspection, and cell annotations."
+  description="Compare two Excel files with top-bottom stacked view, synchronized scrolling, overlapped/merged view, cell-by-cell diff, formula inspection, and cell annotations."
 >
   <div class="py-8 bg-[#000000]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
       <div class="text-caption text-[#c3d9f3]">MODE 01</div>
       <h1 class="text-display-md text-white">VISUAL FILE COMPARISON ENGINE</h1>
       <p class="font-serif text-[#999999] text-base mt-1">
-        Side-by-side synchronized scrolling Excel spreadsheet comparison with formula detection & annotations.
+        Top-bottom stacked & side-by-side synchronized scrolling Excel spreadsheet comparison with formula detection, overlapped merge view & annotations.
       </p>
     </div>
 
-    <CompareToolContainer client:load initialMode="files" />
+    <CompareToolContainer client:only="react" initialMode="files" />
   </div>
 </Layout>
