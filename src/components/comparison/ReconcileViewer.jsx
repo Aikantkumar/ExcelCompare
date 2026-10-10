@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { KeyRound, ShieldCheck, Filter, Download, Search } from 'lucide-react';
 import { reconcileSheets } from './diffEngine';
+import { VirtualizedTableBody } from './VirtualizedTable';
 
 export default function ReconcileViewer({ sheetA, sheetB }) {
   const [keyColIndex, setKeyColIndex] = useState(0);
@@ -161,51 +162,71 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
         </button>
       </div>
 
-      {/* Reconciliation Data Table */}
-      <div className="border border-[#262626] bg-[#0d0d0d] overflow-x-auto">
-        <table className="w-full font-mono text-xs border-collapse">
-          <thead>
-            <tr className="bg-[#000000] border-b border-[#262626] text-[#999999]">
-              <th className="py-3 px-4 text-left font-normal uppercase">PRIMARY KEY / ID</th>
-              <th className="py-3 px-4 text-left font-normal uppercase">LEFT FILE VALUE</th>
-              <th className="py-3 px-4 text-left font-normal uppercase">RIGHT FILE VALUE</th>
-              <th className="py-3 px-4 text-left font-normal uppercase">RECONCILIATION STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredRecords.map((item, idx) => {
-              let bg = 'bg-[#000000]';
-              let badgeBg = 'bg-[#1f1f1f] text-white';
+      {/* Reconciliation Data Table - Virtualized */}
+      <div className="border border-[#262626] bg-[#0d0d0d]" style={{ height: 620 }}>
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-20 bg-[#000000] border-b border-[#262626]">
+          <table className="w-full border-collapse text-xs font-mono">
+            <thead>
+              <tr className="text-[#999999]">
+                <th className="py-3 px-4 text-left font-normal uppercase sticky left-0 bg-[#000000] z-10 min-w-[200px]">PRIMARY KEY / ID</th>
+                <th className="py-3 px-4 text-left font-normal uppercase min-w-[200px]">LEFT FILE VALUE</th>
+                <th className="py-3 px-4 text-left font-normal uppercase min-w-[200px]">RIGHT FILE VALUE</th>
+                <th className="py-3 px-4 text-left font-normal uppercase min-w-[200px]">RECONCILIATION STATUS</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <VirtualizedTableBody
+          rows={filteredRecords}
+          columns={[
+            { key: 'key', minWidth: '200px', width: '200px' },
+            { key: 'valA', minWidth: '200px', width: '200px' },
+            { key: 'valB', minWidth: '200px', width: '200px' },
+            { key: 'status', minWidth: '200px', width: '200px' },
+          ]}
+          rowHeight={40}
+          containerHeight={620}
+          overscan={5}
+          estimatedRowSize={() => 40}
+          renderCell={(item, cIdx) => {
+            let bg = 'bg-[#000000]';
+            let badgeBg = 'bg-[#1f1f1f] text-white';
 
-              if (item.status === 'MISMATCH') {
-                bg = 'bg-[#2d2208] text-[#fcd34d]';
-                badgeBg = 'bg-[#78350f] text-[#fcd34d]';
-              } else if (item.status === 'MATCH') {
-                bg = 'bg-[#000000] text-[#cccccc]';
-                badgeBg = 'bg-[#047857] text-[#6ee7b7]';
-              } else if (item.status === 'ONLY_LEFT') {
-                bg = 'bg-[#3b1219] text-[#fca5a5]';
-                badgeBg = 'bg-[#b91c1c] text-[#fca5a5]';
-              } else if (item.status === 'ONLY_RIGHT') {
-                bg = 'bg-[#1e1b4b] text-[#a5b4fc]';
-                badgeBg = 'bg-[#4338ca] text-[#a5b4fc]';
-              }
+            if (item.status === 'MISMATCH') {
+              bg = 'bg-[#2d2208] text-[#fcd34d]';
+              badgeBg = 'bg-[#78350f] text-[#fcd34d]';
+            } else if (item.status === 'MATCH') {
+              bg = 'bg-[#000000] text-[#cccccc]';
+              badgeBg = 'bg-[#047857] text-[#6ee7b7]';
+            } else if (item.status === 'ONLY_LEFT') {
+              bg = 'bg-[#3b1219] text-[#fca5a5]';
+              badgeBg = 'bg-[#b91c1c] text-[#fca5a5]';
+            } else if (item.status === 'ONLY_RIGHT') {
+              bg = 'bg-[#1e1b4b] text-[#a5b4fc]';
+              badgeBg = 'bg-[#4338ca] text-[#a5b4fc]';
+            }
 
-              return (
-                <tr key={idx} className={`border-b border-[#262626] ${bg}`}>
-                  <td className="py-3 px-4 font-semibold">{item.key}</td>
-                  <td className="py-3 px-4">{item.valA}</td>
-                  <td className="py-3 px-4">{item.valB}</td>
-                  <td className="py-3 px-4">
+            switch (cIdx) {
+              case 0:
+                return <td className={`py-3 px-4 font-semibold ${bg}`}>{item.key}</td>;
+              case 1:
+                return <td className={`py-3 px-4 ${bg}`}>{item.valA}</td>;
+              case 2:
+                return <td className={`py-3 px-4 ${bg}`}>{item.valB}</td>;
+              case 3:
+                return (
+                  <td className={`py-3 px-4 ${bg}`}>
                     <span className={`px-2.5 py-1 text-[10px] font-mono tracking-wider uppercase border border-current ${badgeBg}`}>
                       {item.status}
                     </span>
                   </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                );
+              default:
+                return null;
+            }
+          }}
+        />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect, useCallback, Component, lazy, Suspense } from 'react';
 import { 
   FileSpreadsheet, 
   Upload, 
@@ -8,16 +8,21 @@ import {
   X,
   RotateCcw,
   AlertTriangle,
-  Layers as LayersIcon
+  Layers as LayersIcon,
+  Cpu
 } from 'lucide-react';
-import { parseExcelFile, SAMPLE_DATASETS } from './excelParser';
-import { compareSheets } from './diffEngine';
-import DiffViewer from './DiffViewer';
-import TopBottomDiffViewer from './TopBottomDiffViewer';
-import ColumnCompareViewer from './ColumnCompareViewer';
-import ReconcileViewer from './ReconcileViewer';
-import BatchCompareViewer from './BatchCompareViewer';
-import ExportModal from './ExportModal';
+import { SAMPLE_DATASETS } from './excelParser';
+import { useDiffWorker } from './useDiffWorker';
+import { isWorkerSupported } from './workerClient.js';
+import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
+import ViewerLoadingSkeleton from './ViewerLoadingSkeleton';
+
+const DiffViewer = lazy(() => import('./DiffViewer'));
+const TopBottomDiffViewer = lazy(() => import('./TopBottomDiffViewer'));
+const ColumnCompareViewer = lazy(() => import('./ColumnCompareViewer'));
+const ReconcileViewer = lazy(() => import('./ReconcileViewer'));
+const BatchCompareViewer = lazy(() => import('./BatchCompareViewer'));
+const ExportModal = lazy(() => import('./ExportModal'));
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -64,17 +69,23 @@ const initialSheetNameA = initialSample.fileA.sheetNames[0];
 const initialSheetNameB = initialSample.fileB.sheetNames[0];
 const initialSheetA = initialSample.fileA.sheets[initialSheetNameA];
 const initialSheetB = initialSample.fileB.sheets[initialSheetNameB];
-const initialDiffData = compareSheets(initialSheetA, initialSheetB);
 
 export default function CompareToolContainer({ initialMode = 'files' }) {
   const [activeMode, setActiveMode] = useState(initialMode);
-  const [parsedFileA, setParsedFileA] = useState(initialSample.fileA);
-  const [parsedFileB, setParsedFileB] = useState(initialSample.fileB);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isParsing, setIsParsing] = useState(false);
+  
+  // Store only sheetNames + current sheet data (not full parsed files)
+  const [sheetNamesA, setSheetNamesA] = useState(initialSample.fileA.sheetNames);
+  const [sheetNamesB, setSheetNamesB] = useState(initialSample.fileB.sheetNames);
+  const [sheetDataA, setSheetDataA] = useState(initialSheetA);
+  const [sheetDataB, setSheetDataB] = useState(initialSheetB);
+  const [fileNameA, setFileNameA] = useState(initialSample.fileA.fileName);
+  const [fileNameB, setFileNameB] = useState(initialSample.fileB.fileName);
+  
   const [selectedSheetA, setSelectedSheetA] = useState(initialSheetNameA);
   const [selectedSheetB, setSelectedSheetB] = useState(initialSheetNameB);
-  const [diffData, setDiffData] = useState(initialDiffData);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [useWorker, setUseWorker] = useState(true);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isDragActiveA, setIsDragActiveA] = useState(false);
   const [isDragActiveB, setIsDragActiveB] = useState(false);
@@ -87,6 +98,7 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
     matchColumnsByHeaders: false,
     ignoreWhitespace: false,
     ignoreCase: false,
+    collapseUnchangedBlocks: false,
     hideUnchangedRows: false,
     hideUnchangedColumns: false,
     normalizeDatesUS: false,
@@ -95,55 +107,80 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
     sortRows: 'none',
   });
 
+  // Use Web Worker for diff computation
+  const { diffData, isLoading, error: workerError, computeDiff, abort, clear: clearDiff } = useDiffWorker({
+    fallbackToMainThread: true,
+    onError: (err) => setErrorMsg(err.message || 'Diff computation failed'),
+  });
+  
+  // Debounced diff computation using worker
+  const computeDiffDebounced = useDebouncedCallback(
+    useCallback((sheetA, sheetB, options) => {
+      if (sheetA && sheetB) {
+        computeDiff(sheetA, sheetB, options);
+      }
+    }, [computeDiff]),
+    300
+  );
+
   const loadSample = (sampleKey) => {
-    setIsLoading(true);
-    setErrorMsg('');
     try {
       const sample = SAMPLE_DATASETS[sampleKey];
-      setParsedFileA(sample.fileA);
-      setParsedFileB(sample.fileB);
+      setSheetNamesA(sample.fileA.sheetNames);
+      setSheetNamesB(sample.fileB.sheetNames);
+      setSheetDataA(sample.fileA.sheets[sample.fileA.sheetNames[0]]);
+      setSheetDataB(sample.fileB.sheets[sample.fileB.sheetNames[0]]);
+      setFileNameA(sample.fileA.fileName);
+      setFileNameB(sample.fileB.fileName);
       setSelectedSheetA(sample.fileA.sheetNames[0]);
       setSelectedSheetB(sample.fileB.sheetNames[0]);
       const sA = sample.fileA.sheets[sample.fileA.sheetNames[0]];
       const sB = sample.fileB.sheets[sample.fileB.sheetNames[0]];
-      setDiffData(compareSheets(sA, sB, diffOptions));
-      setIsLoading(false);
+      computeDiff(sA, sB, diffOptions);
     } catch (err) {
       setErrorMsg('Failed to load sample dataset');
-      setIsLoading(false);
     }
   };
 
   const handleClearAll = () => {
-    setParsedFileA(null);
-    setParsedFileB(null);
+    setSheetNamesA([]);
+    setSheetNamesB([]);
+    setSheetDataA(null);
+    setSheetDataB(null);
+    setFileNameA('');
+    setFileNameB('');
     setSelectedSheetA('');
     setSelectedSheetB('');
-    setDiffData(null);
     setErrorMsg('');
+    clearDiff();
   };
 
   const handleFileDrop = async (file, side) => {
     if (!file) return;
-    setIsLoading(true);
     setErrorMsg('');
+    setIsParsing(true);
     try {
+      const { parseExcelFile } = await import('./excelParser');
       const parsed = await parseExcelFile(file);
       if (!parsed.sheetNames || parsed.sheetNames.length === 0) {
         throw new Error('File has no valid worksheets');
       }
       if (side === 'A') {
-        setParsedFileA(parsed);
+        setSheetNamesA(parsed.sheetNames);
+        setSheetDataA(parsed.sheets[parsed.sheetNames[0]]);
+        setFileNameA(parsed.fileName);
         setSelectedSheetA(parsed.sheetNames[0]);
       } else {
-        setParsedFileB(parsed);
+        setSheetNamesB(parsed.sheetNames);
+        setSheetDataB(parsed.sheets[parsed.sheetNames[0]]);
+        setFileNameB(parsed.fileName);
         setSelectedSheetB(parsed.sheetNames[0]);
       }
-      setIsLoading(false);
     } catch (err) {
       const msg = err && err.message ? err.message : `Error parsing ${file.name}.`;
       setErrorMsg(`Error parsing ${file.name}: ${msg}. Please ensure it is a valid .xlsx, .xls, or .csv file.`);
-      setIsLoading(false);
+    } finally {
+      setIsParsing(false);
     }
   };
 
@@ -182,39 +219,34 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
 
   const handleRemoveFile = (side) => {
     if (side === 'A') {
-      setParsedFileA(null);
+      setSheetNamesA([]);
+      setSheetDataA(null);
+      setFileNameA('');
       setSelectedSheetA('');
     } else {
-      setParsedFileB(null);
+      setSheetNamesB([]);
+      setSheetDataB(null);
+      setFileNameB('');
       setSelectedSheetB('');
     }
-    setDiffData(null);
+    clearDiff();
   };
 
-  // Re-run diffing whenever sheets or options change
+  const isInitialMount = React.useRef(true);
+
   useEffect(() => {
-    if (parsedFileA && parsedFileB && selectedSheetA && selectedSheetB) {
-      const sheetA = parsedFileA.sheets[selectedSheetA];
-      const sheetB = parsedFileB.sheets[selectedSheetB];
-
-      if (sheetA && sheetB) {
-        try {
-          const result = compareSheets(sheetA, sheetB, diffOptions);
-          setDiffData(result);
-        } catch (err) {
-          setErrorMsg('Error computing differences between selected sheets.');
-          setDiffData(null);
-        }
+    if (sheetDataA && sheetDataB && selectedSheetA && selectedSheetB) {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+        computeDiff(sheetDataA, sheetDataB, diffOptions);
       } else {
-        setDiffData(null);
+        computeDiffDebounced(sheetDataA, sheetDataB, diffOptions);
       }
-    } else {
-      setDiffData(null);
     }
-  }, [parsedFileA, parsedFileB, selectedSheetA, selectedSheetB, diffOptions]);
+  }, [sheetDataA, sheetDataB, selectedSheetA, selectedSheetB, diffOptions, computeDiff, computeDiffDebounced]);
 
-  const sheetA = parsedFileA?.sheets[selectedSheetA];
-  const sheetB = parsedFileB?.sheets[selectedSheetB];
+  const sheetA = sheetDataA;
+  const sheetB = sheetDataB;
 
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -304,7 +336,7 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
             INVENTORY SKU
           </button>
 
-          {(parsedFileA || parsedFileB) && (
+          {(sheetNamesA.length > 0 || sheetNamesB.length > 0) && (
             <button
               onClick={handleClearAll}
               className="px-3 py-1.5 text-[11px] font-mono border border-[#3a3a3a] text-[#999999] hover:text-white hover:border-white transition-all flex items-center gap-1"
@@ -314,6 +346,22 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               CLEAR ALL
             </button>
           )}
+          <div className="flex items-center gap-2 ml-2 border-l border-[#3a3a3a] pl-3">
+            <span className="text-[10px] font-mono text-[#666666] uppercase hidden lg:inline">WORKER:</span>
+            <button
+              onClick={() => setUseWorker(!useWorker)}
+              disabled={!isWorkerSupported()}
+              className={`px-2.5 py-1.5 text-[11px] font-mono border rounded transition-all flex items-center gap-1 ${
+                useWorker
+                  ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]'
+                  : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+              }`}
+              title={useWorker ? 'Using Web Worker (click to disable)' : 'Using Main Thread (click to enable Web Worker)'}
+            >
+              <Cpu className="w-3.5 h-3.5" />
+              {useWorker ? 'WORKER' : 'MAIN'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -331,10 +379,10 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
           >
             <div className="flex items-center justify-between border-b border-[#262626] pb-2">
               <span className="text-caption text-[#c3d9f3]">FILE 1 (ORIGINAL / BEFORE)</span>
-              {parsedFileA && (
+              {sheetNamesA.length > 0 && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono text-[#999999]">
-                    {parsedFileA.sheetNames.length} SHEET(S)
+                    {sheetNamesA.length} SHEET(S)
                   </span>
                   <button 
                     onClick={() => handleRemoveFile('A')}
@@ -347,12 +395,12 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               )}
             </div>
 
-            {parsedFileA ? (
+            {sheetNamesA.length > 0 ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-between bg-[#0d0d0d] p-2.5 border border-[#262626]">
                   <div className="flex items-center gap-3 overflow-hidden">
                     <FileSpreadsheet className="w-5 h-5 text-[#5fa657] shrink-0" />
-                    <span className="text-xs font-mono text-white truncate">{parsedFileA.fileName}</span>
+                    <span className="text-xs font-mono text-white truncate">{fileNameA}</span>
                   </div>
                   <label className="text-[10px] font-mono text-[#c3d9f3] hover:underline cursor-pointer shrink-0 ml-2">
                     CHANGE
@@ -365,14 +413,14 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
                   </label>
                 </div>
 
-                {parsedFileA.sheetNames.length > 1 && (
+                {sheetNamesA.length > 1 && (
                   <div>
                     <select
                       value={selectedSheetA}
                       onChange={(e) => setSelectedSheetA(e.target.value)}
                       className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-1.5 font-mono text-xs focus:outline-none"
                     >
-                      {parsedFileA.sheetNames.map((name) => (
+                      {sheetNamesA.map((name) => (
                         <option key={name} value={name}>{name}</option>
                       ))}
                     </select>
@@ -407,10 +455,10 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
           >
             <div className="flex items-center justify-between border-b border-[#262626] pb-2">
               <span className="text-caption text-[#c3d9f3]">FILE 2 (MODIFIED / AFTER)</span>
-              {parsedFileB && (
+              {sheetNamesB.length > 0 && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono text-[#999999]">
-                    {parsedFileB.sheetNames.length} SHEET(S)
+                    {sheetNamesB.length} SHEET(S)
                   </span>
                   <button 
                     onClick={() => handleRemoveFile('B')}
@@ -423,12 +471,12 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               )}
             </div>
 
-            {parsedFileB ? (
+            {sheetNamesB.length > 0 ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-between bg-[#0d0d0d] p-2.5 border border-[#262626]">
                   <div className="flex items-center gap-3 overflow-hidden">
                     <FileSpreadsheet className="w-5 h-5 text-[#5fa657] shrink-0" />
-                    <span className="text-xs font-mono text-white truncate">{parsedFileB.fileName}</span>
+                    <span className="text-xs font-mono text-white truncate">{fileNameB}</span>
                   </div>
                   <label className="text-[10px] font-mono text-[#c3d9f3] hover:underline cursor-pointer shrink-0 ml-2">
                     CHANGE
@@ -441,14 +489,14 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
                   </label>
                 </div>
 
-                {parsedFileB.sheetNames.length > 1 && (
+                {sheetNamesB.length > 1 && (
                   <div>
                     <select
                       value={selectedSheetB}
                       onChange={(e) => setSelectedSheetB(e.target.value)}
                       className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-1.5 font-mono text-xs focus:outline-none"
                     >
-                      {parsedFileB.sheetNames.map((name) => (
+                      {sheetNamesB.map((name) => (
                         <option key={name} value={name}>{name}</option>
                       ))}
                     </select>
@@ -493,20 +541,20 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
       )}
 
       {/* Guidance Banner when only 1 file is loaded */}
-      {!isLoading && (activeMode === 'files' || activeMode === 'stacked') && !diffData && (parsedFileA || parsedFileB) && (
+      {!isLoading && (activeMode === 'files' || activeMode === 'stacked') && !diffData && (sheetNamesA.length > 0 || sheetNamesB.length > 0) && (
         <div className="bg-[#141414] border border-[#262626] p-12 text-center space-y-4">
           <FileSpreadsheet className="w-10 h-10 text-[#c3d9f3] mx-auto" />
           <h3 className="text-white font-mono text-sm uppercase tracking-wider">
-            {parsedFileA ? `FILE 1 (${parsedFileA.fileName}) LOADED` : `FILE 2 (${parsedFileB.fileName}) LOADED`}
+            {sheetNamesA.length > 0 ? `FILE 1 (${fileNameA}) LOADED` : `FILE 2 (${fileNameB}) LOADED`}
           </h3>
           <p className="font-serif text-[#999999] text-sm max-w-md mx-auto">
-            Please upload or drop {parsedFileA ? 'File 2 (Modified / After)' : 'File 1 (Original / Before)'} in the dropzone above to generate visual cell diffs.
+            Please upload or drop {sheetNamesA.length > 0 ? 'File 2 (Modified / After)' : 'File 1 (Original / Before)'} in the dropzone above to generate visual cell diffs.
           </p>
         </div>
       )}
 
       {/* Guidance Banner when both files are empty */}
-      {!isLoading && !parsedFileA && !parsedFileB && activeMode !== 'batch' && (
+      {!isLoading && sheetNamesA.length === 0 && sheetNamesB.length === 0 && activeMode !== 'batch' && (
         <div className="bg-[#0d0d0d] border border-[#262626] p-12 text-center space-y-4">
           <Upload className="w-10 h-10 text-[#666666] mx-auto" />
           <h3 className="text-white font-mono text-sm uppercase tracking-wider">DROP TWO EXCEL FILES ABOVE TO START</h3>
@@ -518,54 +566,70 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
 
       {/* Tool View Rendering wrapped in ErrorBoundary */}
       <ErrorBoundary onReset={handleClearAll}>
-        {!isLoading && activeMode === 'files' && diffData && (
-          <DiffViewer
-            diffData={diffData}
-            sheetName={selectedSheetA}
-            onExport={() => setIsExportOpen(true)}
-            onShare={() => setIsExportOpen(true)}
-            options={diffOptions}
-            onOptionsChange={setDiffOptions}
-            headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-            headersB={sheetB?.rows?.[0]?.map(c => String(c?.val || `Column ${cIdx + 1}`)) || []}
-          />
-        )}
+        <Suspense fallback={<ViewerLoadingSkeleton />}>
+          {!isLoading && !isParsing && activeMode === 'files' && diffData && (
+            <DiffViewer
+              diffData={diffData}
+              sheetName={selectedSheetA}
+              onExport={() => setIsExportOpen(true)}
+              onShare={() => setIsExportOpen(true)}
+              options={diffOptions}
+              onOptionsChange={setDiffOptions}
+              headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+              headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+            />
+          )}
 
-        {!isLoading && activeMode === 'stacked' && diffData && (
-          <TopBottomDiffViewer
-            diffData={diffData}
-            sheetName={selectedSheetA}
-            onExport={() => setIsExportOpen(true)}
-            onShare={() => setIsExportOpen(true)}
-            options={diffOptions}
-            onOptionsChange={setDiffOptions}
-            headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-            headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-          />
-        )}
+          {!isLoading && !isParsing && activeMode === 'stacked' && diffData && (
+            <TopBottomDiffViewer
+              diffData={diffData}
+              sheetName={selectedSheetA}
+              onExport={() => setIsExportOpen(true)}
+              onShare={() => setIsExportOpen(true)}
+              options={diffOptions}
+              onOptionsChange={setDiffOptions}
+              headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+              headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+            />
+          )}
 
-        {!isLoading && activeMode === 'columns' && sheetA && sheetB && (
-          <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} />
-        )}
+          {!isLoading && !isParsing && activeMode === 'columns' && sheetA && sheetB && (
+            <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} />
+          )}
 
-        {!isLoading && activeMode === 'reconcile' && sheetA && sheetB && (
-          <ReconcileViewer sheetA={sheetA} sheetB={sheetB} />
-        )}
+          {!isLoading && !isParsing && activeMode === 'reconcile' && sheetA && sheetB && (
+            <ReconcileViewer sheetA={sheetA} sheetB={sheetB} />
+          )}
 
-        {activeMode === 'batch' && (
-          <BatchCompareViewer />
-        )}
+          {activeMode === 'batch' && (
+            <BatchCompareViewer />
+          )}
+        </Suspense>
       </ErrorBoundary>
 
       {/* Export / Share Modal */}
-      <ExportModal
-        isOpen={isExportOpen}
-        onClose={() => setIsExportOpen(false)}
-        diffData={diffData}
-        sheetName={selectedSheetA}
-        fileAName={parsedFileA?.fileName}
-        fileBName={parsedFileB?.fileName}
-      />
+      {isExportOpen && (
+        <Suspense fallback={<>
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-[#141414] border border-[#262626] p-6 max-w-xl w-full">
+              <div className="animate-pulse space-y-4">
+                <div className="h-6 w-1/3 bg-[#262626] rounded" />
+                <div className="h-4 w-full bg-[#262626] rounded" />
+                <div className="h-4 w-2/3 bg-[#262626] rounded" />
+              </div>
+            </div>
+          </div>
+        </>}>
+          <ExportModal
+            isOpen={isExportOpen}
+            onClose={() => setIsExportOpen(false)}
+            diffData={diffData}
+            sheetName={selectedSheetA}
+            fileAName={fileNameA}
+            fileBName={fileNameB}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

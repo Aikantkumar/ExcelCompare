@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Eye, 
   Layers, 
@@ -15,6 +15,7 @@ import {
   Settings
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
+import { VirtualizedTable, SpreadsheetVirtualizedTable } from './VirtualizedTable';
 
 export default function DiffViewer({ 
   diffData, 
@@ -47,10 +48,10 @@ export default function DiffViewer({
   const [appearanceTheme, setAppearanceTheme] = useState('dark'); // 'dark' | 'glass' | 'highContrast'
 
   // Sync scroll and scroll-to-cell refs
-  const tableViewportRef = useRef(null);
   const leftTableRef = useRef(null);
   const rightTableRef = useRef(null);
   const isSyncingRef = useRef(false);
+  const virtualTableRef = useRef(null);
 
   const { rows = [], changesList = [], activeColIndices = [], stats = {} } = diffData || {};
 
@@ -62,6 +63,7 @@ export default function DiffViewer({
     matchColumnsByHeaders = false,
     ignoreWhitespace = false,
     ignoreCase = false,
+    collapseUnchangedBlocks = false,
     hideUnchangedRows = false,
     hideUnchangedColumns = false,
     normalizeDatesUS = false,
@@ -85,6 +87,11 @@ export default function DiffViewer({
 
     const change = changesList[targetIdx];
     if (change) {
+      // First scroll the virtualized table to the row
+      if (virtualTableRef.current) {
+        virtualTableRef.current.scrollToIndex(change.rowIdx, 'center');
+      }
+      // Then scroll the cell into view horizontally
       const cellId = `cell-${change.rowIdx}-${change.colIdx}`;
       const elem = document.getElementById(cellId);
       if (elem) {
@@ -141,14 +148,49 @@ export default function DiffViewer({
     setShowAnnotationModal(false);
   };
 
-  // Filter rows by search query
-  const displayRows = rows.filter((row) => {
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    const matchA = row.cellsA?.some((c) => String(c?.val || '').toLowerCase().includes(q));
-    const matchB = row.cellsB?.some((c) => String(c?.val || '').toLowerCase().includes(q));
-    return matchA || matchB;
-  });
+  const [expandedBlockIds, setExpandedBlockIds] = useState(new Set());
+
+  const handleToggleCollapse = (row) => {
+    if (row.blockId !== undefined) {
+      setExpandedBlockIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(row.blockId)) {
+          next.delete(row.blockId);
+        } else {
+          next.add(row.blockId);
+        }
+        return next;
+      });
+    }
+  };
+
+  // Filter and flatten rows by searchQuery and expanded blocks
+  const displayRows = useMemo(() => {
+    let list = [];
+    rows.forEach((row, idx) => {
+      if (row.type === 'COLLAPSED') {
+        if (expandedBlockIds.has(idx)) {
+          list.push(...(row.hiddenRows || []));
+        } else {
+          list.push({ ...row, blockId: idx });
+        }
+      } else {
+        list.push(row);
+      }
+    });
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter((row) => {
+        if (row.type === 'COLLAPSED') return true;
+        const matchA = row.cellsA?.some((c) => String(c?.val || '').toLowerCase().includes(q));
+        const matchB = row.cellsB?.some((c) => String(c?.val || '').toLowerCase().includes(q));
+        return matchA || matchB;
+      });
+    }
+
+    return list;
+  }, [rows, expandedBlockIds, searchQuery]);
 
   const colsToRender = activeColIndices.length > 0
     ? activeColIndices
@@ -366,6 +408,11 @@ export default function DiffViewer({
                 onChange={(val) => updateOption('ignoreCase', val)}
               />
               <ToggleRow
+                label="Collapse unchanged blocks"
+                checked={collapseUnchangedBlocks}
+                onChange={(val) => updateOption('collapseUnchangedBlocks', val)}
+              />
+              <ToggleRow
                 label="Hide unchanged rows"
                 checked={hideUnchangedRows}
                 onChange={(val) => updateOption('hideUnchangedRows', val)}
@@ -475,90 +522,77 @@ export default function DiffViewer({
             )}
           </div>
 
-          {/* Interactive Redline Grid */}
-          <div
-            ref={tableViewportRef}
-            className="overflow-auto max-h-[620px] scrollbar-thin relative"
-          >
-            <table className="w-full text-xs font-mono border-collapse select-text">
-              <thead>
-                <tr className="bg-[#000000] border-b border-[#262626] text-[#999999] sticky top-0 z-20">
-                  {/* Line Number Column Header */}
-                  <th className="w-12 py-2 px-2 border-r border-[#262626] text-center font-normal text-[10px]">
-                    1 &nbsp; 1
-                  </th>
-                  {/* Dynamic Column Headers (A, B, C...) */}
-                  {colsToRender.map((cIdx) => (
-                    <th
-                      key={cIdx}
-                      className="py-2 px-3 border-r border-[#262626] text-left font-semibold text-white uppercase min-w-[120px]"
-                    >
-                      {getColumnLetter(cIdx)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {displayRows.map((row, rIdx) => {
-                  const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
+          {/* Interactive Redline Grid - Virtualized */}
+          <SpreadsheetVirtualizedTable
+            ref={virtualTableRef}
+            rows={displayRows}
+            columns={colsToRender.map(cIdx => ({ 
+              key: cIdx, 
+              minWidth: '120px',
+              width: '120px'
+            }))}
+            rowHeight={32}
+            headerHeight={36}
+            firstColWidth={48}
+            containerHeight={620}
+            overscan={5}
+            estimatedRowSize={() => 32}
+            renderFirstColHeader={() => '1&nbsp;1'}
+            onToggleCollapse={handleToggleCollapse}
+            renderCollapsedRow={(row) => (
+              <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+                <span>↕</span>
+                <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+                <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+              </div>
+            )}
+            renderFirstColCell={(row) => (
+              <>
+                <span className="text-[#999999] mr-1">
+                  {row.indexA !== null ? row.indexA + 1 : '-'}
+                </span>
+                <span>
+                  {row.indexB !== null ? row.indexB + 1 : '-'}
+                </span>
+              </>
+            )}
+            renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
+            renderCell={(row, cIdx, rIdx) => {
+              const actualColIdx = colsToRender[cIdx];
+              const cellA = row.cellsA?.[actualColIdx] || { val: '' };
+              const cellB = row.cellsB?.[actualColIdx] || { val: '' };
+              const status = row.cellStatuses?.[actualColIdx] || 'SAME';
+              const cellId = `cell-${rIdx}-${actualColIdx}`;
+              const isCellFocused = activeChange && activeChange.rowIdx === rIdx && activeChange.colIdx === actualColIdx;
 
-                  return (
-                    <tr
-                      key={rIdx}
-                      className={`border-b border-[#262626]/60 transition-colors ${
-                        isRowFocused ? 'bg-[#1f1f1f]/80' : 'hover:bg-[#1a1a1a]/50'
-                      }`}
-                    >
-                      {/* Dual Line Numbers */}
-                      <td className="py-2 px-2 border-r border-[#262626] text-center text-[#666666] select-none text-[10px] font-mono bg-[#050505]">
-                        <span className="text-[#999999] mr-1">
-                          {row.indexA !== null ? row.indexA + 1 : '-'}
-                        </span>
-                        <span>
-                          {row.indexB !== null ? row.indexB + 1 : '-'}
-                        </span>
-                      </td>
-
-                      {/* Spreadsheet Row Cells */}
-                      {colsToRender.map((cIdx) => {
-                        const cellA = row.cellsA?.[cIdx] || { val: '' };
-                        const cellB = row.cellsB?.[cIdx] || { val: '' };
-                        const status = row.cellStatuses?.[cIdx] || 'SAME';
-                        const cellId = `cell-${rIdx}-${cIdx}`;
-                        const isCellFocused = activeChange && activeChange.rowIdx === rIdx && activeChange.colIdx === cIdx;
-
-                        return (
-                          <td
-                            key={cIdx}
-                            id={cellId}
-                            onClick={() => handleCellClick(rIdx, cIdx, viewTab === 'original' ? cellA : cellB)}
-                            className={`py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono whitespace-nowrap overflow-hidden text-ellipsis max-w-[220px] transition-all ${
-                              isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
-                            } ${getCellStyle(status, viewTab, preserveFormatting)}`}
-                          >
-                            {/* Render based on selected Tab */}
-                            {viewTab === 'original' ? (
-                              <span>{cellA.val || '-'}</span>
-                            ) : viewTab === 'changed' ? (
-                              <span>{cellB.val || '-'}</span>
-                            ) : (
-                              /* Redline Combined View */
-                              <RedlineCellContent
-                                cellA={cellA}
-                                cellB={cellB}
-                                status={status}
-                                granularity={diffGranularity}
-                              />
-                            )}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+              return (
+                <td
+                  id={cellId}
+                  onClick={() => handleCellClick(rIdx, actualColIdx, viewTab === 'original' ? cellA : cellB)}
+                  className={`py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono whitespace-nowrap overflow-hidden text-ellipsis max-w-[220px] transition-all ${
+                    isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
+                  } ${getCellStyle(status, viewTab, preserveFormatting)}`}
+                >
+                  {viewTab === 'original' ? (
+                    <span>{cellA.val || '-'}</span>
+                  ) : viewTab === 'changed' ? (
+                    <span>{cellB.val || '-'}</span>
+                  ) : (
+                    <RedlineCellContent
+                      cellA={cellA}
+                      cellB={cellB}
+                      status={status}
+                      granularity={diffGranularity}
+                    />
+                  )}
+                </td>
+              );
+            }}
+            getRowClassName={(row, rIdx) => {
+              const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
+              return isRowFocused ? 'bg-[#1f1f1f]/80' : '';
+            }}
+          />
         </div>
 
         {/* ========================================================================= */}

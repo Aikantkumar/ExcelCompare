@@ -22,8 +22,8 @@ export function compareSheets(sheetA, sheetB, options = {}) {
     sortRows = 'none',
   } = options;
 
-  let rawRowsA = sheetA?.rows ? JSON.parse(JSON.stringify(sheetA.rows)) : [];
-  let rawRowsB = sheetB?.rows ? JSON.parse(JSON.stringify(sheetB.rows)) : [];
+  let rawRowsA = sheetA?.rows ? sheetA.rows.map(row => [...row]) : [];
+  let rawRowsB = sheetB?.rows ? sheetB.rows.map(row => [...row]) : [];
 
   // 1. Optional Column Sorting & Header Matching
   let colMappingB = null;
@@ -235,8 +235,55 @@ export function compareSheets(sheetA, sheetB, options = {}) {
     };
   });
 
-  // Filter unchanged rows if requested
-  if (hideUnchangedRows) {
+  // Group consecutive unchanged rows into collapsible blocks if requested
+  const { collapseUnchangedBlocks = false } = options;
+
+  if (collapseUnchangedBlocks && !hideUnchangedRows) {
+    const collapsedResult = [];
+    let currentUnchangedBlock = [];
+
+    diffRows.forEach((row) => {
+      if (row.type === 'SAME') {
+        currentUnchangedBlock.push(row);
+      } else {
+        if (currentUnchangedBlock.length > 0) {
+          if (currentUnchangedBlock.length >= 3) {
+            collapsedResult.push({
+              type: 'COLLAPSED',
+              count: currentUnchangedBlock.length,
+              hiddenRows: currentUnchangedBlock,
+              startIdxA: currentUnchangedBlock[0].indexA,
+              startIdxB: currentUnchangedBlock[0].indexB,
+              endIdxA: currentUnchangedBlock[currentUnchangedBlock.length - 1].indexA,
+              endIdxB: currentUnchangedBlock[currentUnchangedBlock.length - 1].indexB,
+            });
+          } else {
+            collapsedResult.push(...currentUnchangedBlock);
+          }
+          currentUnchangedBlock = [];
+        }
+        collapsedResult.push(row);
+      }
+    });
+
+    if (currentUnchangedBlock.length > 0) {
+      if (currentUnchangedBlock.length >= 3) {
+        collapsedResult.push({
+          type: 'COLLAPSED',
+          count: currentUnchangedBlock.length,
+          hiddenRows: currentUnchangedBlock,
+          startIdxA: currentUnchangedBlock[0].indexA,
+          startIdxB: currentUnchangedBlock[0].indexB,
+          endIdxA: currentUnchangedBlock[currentUnchangedBlock.length - 1].indexA,
+          endIdxB: currentUnchangedBlock[currentUnchangedBlock.length - 1].indexB,
+        });
+      } else {
+        collapsedResult.push(...currentUnchangedBlock);
+      }
+    }
+
+    diffRows = collapsedResult;
+  } else if (hideUnchangedRows) {
     diffRows = diffRows.filter(r => r.type !== 'SAME');
   }
 
