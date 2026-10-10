@@ -9,6 +9,36 @@ let initPromise = null;
 let messageId = 0;
 const pendingRequests = new Map();
 
+function initWorker() {
+  if (initPromise) return initPromise;
+  if (workerInstance && workerReady) return Promise.resolve(workerInstance);
+
+  initPromise = (async () => {
+    workerInstance = createWorker();
+
+    await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Worker initialization timeout'));
+      }, 5000);
+
+      workerInstance.addEventListener('message', function handler(e) {
+        if (e.data.type === 'PONG') {
+          clearTimeout(timeout);
+          workerInstance.removeEventListener('message', handler);
+          workerReady = true;
+          resolve(true);
+        }
+      });
+
+      workerInstance.postMessage({ id: 0, type: 'PING' });
+    });
+
+    return workerInstance;
+  })();
+
+  return initPromise;
+}
+
 function createWorker() {
   if (typeof Worker === 'undefined') {
     throw new Error('Web Workers not supported in this environment');
@@ -53,34 +83,7 @@ async function ensureWorker() {
   if (workerInstance && workerReady) {
     return workerInstance;
   }
-
-  if (initPromise) {
-    await initPromise;
-    return workerInstance;
-  }
-
-  initPromise = (async () => {
-    workerInstance = createWorker();
-
-    await new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        reject(new Error('Worker initialization timeout'));
-      }, 5000);
-
-      workerInstance.addEventListener('message', function handler(e) {
-        if (e.data.type === 'PONG') {
-          clearTimeout(timeout);
-          workerInstance.removeEventListener('message', handler);
-          workerReady = true;
-          resolve(true);
-        }
-      });
-
-      workerInstance.postMessage({ id: 0, type: 'PING' });
-    });
-  })();
-
-  await initPromise;
+  await initWorker();
   return workerInstance;
 }
 
@@ -134,3 +137,5 @@ export function getWorkerStatus() {
 export function isWorkerSupported() {
   return typeof Worker !== 'undefined';
 }
+
+export { initWorker };

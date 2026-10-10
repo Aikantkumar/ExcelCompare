@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { compareSheetsWorker, terminateWorker, isWorkerReady } from './workerClient.js';
+import { compareSheetsWorker, terminateWorker, isWorkerReady, initWorker } from './workerClient.js';
 import { compareSheetsCore, compressResult } from './diffWorkerCore.js';
 
 const FALLBACK_THRESHOLD = 5000;
@@ -26,6 +26,10 @@ export function useDiffWorker(options = {}) {
 
   const abortRef = useRef(false);
   const mountedRef = useRef(true);
+
+  useEffect(() => {
+    initWorker().catch(() => {});
+  }, []);
 
   useEffect(() => {
     mountedRef.current = true;

@@ -11,7 +11,7 @@ import {
   Layers as LayersIcon,
   Cpu
 } from 'lucide-react';
-import { SAMPLE_DATASETS } from './excelParser';
+import { SAMPLE_DATASETS } from './sampleDatasets';
 import { useDiffWorker } from './useDiffWorker';
 import { isWorkerSupported } from './workerClient.js';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
@@ -107,10 +107,14 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
     sortRows: 'none',
   });
 
+  const handleWorkerError = useCallback((err) => {
+    setErrorMsg(err.message || 'Diff computation failed');
+  }, []);
+
   // Use Web Worker for diff computation
   const { diffData, isLoading, error: workerError, computeDiff, abort, clear: clearDiff } = useDiffWorker({
     fallbackToMainThread: true,
-    onError: (err) => setErrorMsg(err.message || 'Diff computation failed'),
+    onError: handleWorkerError,
   });
   
   // Debounced diff computation using worker
@@ -577,6 +581,8 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               onOptionsChange={setDiffOptions}
               headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
               headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+              colWidthsA={sheetA?.colWidths || []}
+              colWidthsB={sheetB?.colWidths || []}
             />
           )}
 
@@ -590,6 +596,8 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               onOptionsChange={setDiffOptions}
               headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
               headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+              colWidthsA={sheetA?.colWidths || []}
+              colWidthsB={sheetB?.colWidths || []}
             />
           )}
 

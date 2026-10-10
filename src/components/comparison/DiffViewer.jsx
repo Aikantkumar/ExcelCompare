@@ -12,7 +12,8 @@ import {
   ChevronUp,
   ChevronDown,
   Sliders,
-  Settings
+  Settings,
+  Columns
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
 import { VirtualizedTable, SpreadsheetVirtualizedTable } from './VirtualizedTable';
@@ -25,14 +26,19 @@ export default function DiffViewer({
   options = {},
   onOptionsChange = () => {},
   headersA = [],
-  headersB = []
+  headersB = [],
+  colWidthsA = [],
+  colWidthsB = []
 }) {
   // Sidebar visibility states
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
   const [showRightSidebar, setShowRightSidebar] = useState(true);
 
-  // Tab mode above table: 'redline' | 'original' | 'changed'
+  // Tab mode above table: 'redline' | 'original' | 'changed' | 'sideBySide'
   const [viewTab, setViewTab] = useState('redline');
+
+  // Sync scroll for side-by-side mode
+  const [syncScroll, setSyncScroll] = useState(true);
 
   // Interactive change selection & navigation state
   const [activeChangeIndex, setActiveChangeIndex] = useState(0);
@@ -87,9 +93,28 @@ export default function DiffViewer({
 
     const change = changesList[targetIdx];
     if (change) {
-      // First scroll the virtualized table to the row
-      if (virtualTableRef.current) {
-        virtualTableRef.current.scrollToIndex(change.rowIdx, 'center');
+      // Scroll virtualized table(s) to the row
+      if (viewTab === 'sideBySide') {
+        if (leftTableRef.current) {
+          leftTableRef.current.scrollToIndex(change.rowIdx, 'center');
+        }
+        if (rightTableRef.current) {
+          rightTableRef.current.scrollToIndex(change.rowIdx, 'center');
+        }
+        // Sync scroll position if enabled
+        if (syncScroll) {
+          const leftScrollEl = leftTableRef.current?.getVirtualizer?.()?.scrollElement;
+          const rightScrollEl = rightTableRef.current?.getVirtualizer?.()?.scrollElement;
+          if (leftScrollEl && rightScrollEl) {
+            isSyncingRef.current = true;
+            rightScrollEl.scrollTop = leftScrollEl.scrollTop;
+            requestAnimationFrame(() => { isSyncingRef.current = false; });
+          }
+        }
+      } else {
+        if (virtualTableRef.current) {
+          virtualTableRef.current.scrollToIndex(change.rowIdx, 'center');
+        }
       }
       // Then scroll the cell into view horizontally
       const cellId = `cell-${change.rowIdx}-${change.colIdx}`;
@@ -120,12 +145,16 @@ export default function DiffViewer({
   const handleScrollSync = (source) => {
     if (isSyncingRef.current) return;
     isSyncingRef.current = true;
-    const sourceElem = source === 'left' ? leftTableRef.current : rightTableRef.current;
-    const targetElem = source === 'left' ? rightTableRef.current : leftTableRef.current;
+    const sourceVirtualizer = source === 'left' ? leftTableRef.current?.getVirtualizer?.() : rightTableRef.current?.getVirtualizer?.();
+    const targetVirtualizer = source === 'left' ? rightTableRef.current?.getVirtualizer?.() : leftTableRef.current?.getVirtualizer?.();
 
-    if (sourceElem && targetElem) {
-      targetElem.scrollTop = sourceElem.scrollTop;
-      targetElem.scrollLeft = sourceElem.scrollLeft;
+    if (sourceVirtualizer && targetVirtualizer) {
+      const sourceScrollEl = sourceVirtualizer.scrollElement;
+      const targetScrollEl = targetVirtualizer.scrollElement;
+      if (sourceScrollEl && targetScrollEl) {
+        targetScrollEl.scrollTop = sourceScrollEl.scrollTop;
+        targetScrollEl.scrollLeft = sourceScrollEl.scrollLeft;
+      }
     }
     requestAnimationFrame(() => {
       isSyncingRef.current = false;
@@ -196,7 +225,216 @@ export default function DiffViewer({
     ? activeColIndices
     : Array.from({ length: stats.maxCols || 1 }, (_, i) => i);
 
+  // Build column definitions with actual widths from Excel
+  const buildColumns = (colWidths) => colsToRender.map(cIdx => ({
+    key: cIdx,
+    minWidth: colWidths[cIdx] ? `${colWidths[cIdx]}px` : '120px',
+    width: colWidths[cIdx] ? `${colWidths[cIdx]}px` : '120px'
+  }));
+
   const activeChange = changesList[activeChangeIndex];
+
+  // Render table based on viewTab mode
+  const renderTable = () => {
+    if (viewTab === 'sideBySide') {
+      return (
+        <div className="grid grid-cols-2 gap-0 h-[620px] overflow-hidden">
+          {/* Left Table - File A (Original) */}
+          <div className="bg-[#141414] border-r border-[#262626] h-full overflow-hidden">
+            <div className="bg-[#000000] px-3 py-1.5 border-b border-[#262626] text-xs font-mono text-[#5fa657] font-bold">
+              FILE 1 (ORIGINAL / BEFORE)
+            </div>
+            <SpreadsheetVirtualizedTable
+              ref={leftTableRef}
+              rows={displayRows}
+              columns={buildColumns(colWidthsA)}
+              rowHeight={32}
+              headerHeight={36}
+              firstColWidth={48}
+              containerHeight={580}
+              overscan={5}
+              estimatedRowSize={() => 32}
+              renderFirstColHeader={() => 'FILE 1'}
+              onToggleCollapse={handleToggleCollapse}
+              renderCollapsedRow={(row) => (
+                <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+                  <span>↕</span>
+                  <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+                  <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+                </div>
+              )}
+              renderFirstColCell={(row) => (
+                <span>{row.indexA !== null ? row.indexA + 1 : '-'}</span>
+              )}
+              renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
+              renderCell={(row, cIdx, rIdx) => {
+                const actualColIdx = colsToRender[cIdx];
+                const cellA = row.cellsA?.[actualColIdx] || { val: '' };
+
+                return <div className="cell-content">{cellA.val || '-'}</div>;
+              }}
+              getCellProps={(row, cIdx, rIdx) => {
+                const actualColIdx = colsToRender[cIdx];
+                const cellA = row.cellsA?.[actualColIdx] || { val: '' };
+                const cellB = row.cellsB?.[actualColIdx] || { val: '' };
+                const status = row.cellStatuses?.[actualColIdx] || 'SAME';
+                const cellId = `cell-${rIdx}-${actualColIdx}`;
+                const isCellFocused = activeChange && activeChange.rowIdx === rIdx && activeChange.colIdx === actualColIdx;
+
+                return {
+                  id: cellId,
+                  onClick: () => handleCellClick(rIdx, actualColIdx, cellA, 'A'),
+                  className: `py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono transition-all ${
+                    isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
+                  } ${getCellStyle(status, 'original', preserveFormatting)}`,
+                };
+              }}
+              getRowClassName={(row, rIdx) => {
+                const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
+                return isRowFocused ? 'bg-[#1f1f1f]/80' : '';
+              }}
+              onScroll={syncScroll ? (e) => handleScrollSync('left') : undefined}
+            />
+          </div>
+
+          {/* Right Table - File B (Modified) */}
+          <div className="bg-[#141414] h-full overflow-hidden">
+            <div className="bg-[#000000] px-3 py-1.5 border-b border-[#262626] text-xs font-mono text-[#fca5a5] font-bold">
+              FILE 2 (MODIFIED / AFTER)
+            </div>
+            <SpreadsheetVirtualizedTable
+              ref={rightTableRef}
+              rows={displayRows}
+              columns={buildColumns(colWidthsB)}
+              rowHeight={32}
+              headerHeight={36}
+              firstColWidth={48}
+              containerHeight={580}
+              overscan={5}
+              estimatedRowSize={() => 32}
+              renderFirstColHeader={() => 'FILE 2'}
+              onToggleCollapse={handleToggleCollapse}
+              renderCollapsedRow={(row) => (
+                <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+                  <span>↕</span>
+                  <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+                  <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+                </div>
+              )}
+              renderFirstColCell={(row) => (
+                <span>{row.indexB !== null ? row.indexB + 1 : '-'}</span>
+              )}
+              renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
+              renderCell={(row, cIdx, rIdx) => {
+                const actualColIdx = colsToRender[cIdx];
+                const cellB = row.cellsB?.[actualColIdx] || { val: '' };
+
+                return <div className="cell-content">{cellB.val || '-'}</div>;
+              }}
+              getCellProps={(row, cIdx, rIdx) => {
+                const actualColIdx = colsToRender[cIdx];
+                const cellA = row.cellsA?.[actualColIdx] || { val: '' };
+                const cellB = row.cellsB?.[actualColIdx] || { val: '' };
+                const status = row.cellStatuses?.[actualColIdx] || 'SAME';
+                const cellId = `cell-${rIdx}-${actualColIdx}`;
+                const isCellFocused = activeChange && activeChange.rowIdx === rIdx && activeChange.colIdx === actualColIdx;
+
+                return {
+                  id: cellId,
+                  onClick: () => handleCellClick(rIdx, actualColIdx, cellB, 'B'),
+                  className: `py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono transition-all ${
+                    isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
+                  } ${getCellStyle(status, 'changed', preserveFormatting)}`,
+                };
+              }}
+              getRowClassName={(row, rIdx) => {
+                const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
+                return isRowFocused ? 'bg-[#1f1f1f]/80' : '';
+              }}
+              onScroll={syncScroll ? (e) => handleScrollSync('right') : undefined}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <SpreadsheetVirtualizedTable
+        ref={virtualTableRef}
+        rows={displayRows}
+        columns={buildColumns(colWidthsA.length > 0 ? colWidthsA : colWidthsB)}
+        rowHeight={32}
+        headerHeight={36}
+        firstColWidth={48}
+        containerHeight={620}
+        overscan={5}
+        estimatedRowSize={() => 32}
+        renderFirstColHeader={() => '1&nbsp;1'}
+        onToggleCollapse={handleToggleCollapse}
+        renderCollapsedRow={(row) => (
+          <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+            <span>↕</span>
+            <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+            <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+          </div>
+        )}
+        renderFirstColCell={(row) => (
+          <>
+            <span className="text-[#999999] mr-1">
+              {row.indexA !== null ? row.indexA + 1 : '-'}
+            </span>
+            <span>
+              {row.indexB !== null ? row.indexB + 1 : '-'}
+            </span>
+          </>
+        )}
+        renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
+        renderCell={(row, cIdx, rIdx) => {
+          const actualColIdx = colsToRender[cIdx];
+          const cellA = row.cellsA?.[actualColIdx] || { val: '' };
+          const cellB = row.cellsB?.[actualColIdx] || { val: '' };
+          const status = row.cellStatuses?.[actualColIdx] || 'SAME';
+
+          return (
+            <div className="cell-content">
+              {viewTab === 'original' ? (
+                <span>{cellA.val || '-'}</span>
+              ) : viewTab === 'changed' ? (
+                <span>{cellB.val || '-'}</span>
+              ) : (
+                <RedlineCellContent
+                  cellA={cellA}
+                  cellB={cellB}
+                  status={status}
+                  granularity={diffGranularity}
+                />
+              )}
+            </div>
+          );
+        }}
+        getCellProps={(row, cIdx, rIdx) => {
+          const actualColIdx = colsToRender[cIdx];
+          const cellA = row.cellsA?.[actualColIdx] || { val: '' };
+          const cellB = row.cellsB?.[actualColIdx] || { val: '' };
+          const status = row.cellStatuses?.[actualColIdx] || 'SAME';
+          const cellId = `cell-${rIdx}-${actualColIdx}`;
+          const isCellFocused = activeChange && activeChange.rowIdx === rIdx && activeChange.colIdx === actualColIdx;
+
+          return {
+            id: cellId,
+            onClick: () => handleCellClick(rIdx, actualColIdx, viewTab === 'original' ? cellA : cellB),
+            className: `py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono transition-all ${
+              isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
+            } ${getCellStyle(status, viewTab, preserveFormatting)}`,
+          };
+        }}
+        getRowClassName={(row, rIdx) => {
+          const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
+          return isRowFocused ? 'bg-[#1f1f1f]/80' : '';
+        }}
+      />
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -253,6 +491,17 @@ export default function DiffViewer({
           >
             Changed
           </button>
+          <button
+            onClick={() => setViewTab('sideBySide')}
+            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
+              viewTab === 'sideBySide'
+                ? 'border-white text-white bg-[#1f1f1f] font-bold'
+                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+            }`}
+          >
+            <Columns className="w-3.5 h-3.5 inline mr-1" />
+            Side by Side
+          </button>
         </div>
 
         {/* Center: Search & Formula Indicator */}
@@ -267,6 +516,17 @@ export default function DiffViewer({
               className="bg-[#000000] border border-[#3a3a3a] pl-8 pr-3 py-1 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white w-40 sm:w-56"
             />
           </div>
+          {viewTab === 'sideBySide' && (
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-mono text-[#999999] hover:text-white hidden sm:inline">
+              <input
+                type="checkbox"
+                checked={syncScroll}
+                onChange={(e) => setSyncScroll(e.target.checked)}
+                className="w-4 h-4 accent-[#5fa657]"
+              />
+              Sync Scroll
+            </label>
+          )}
         </div>
 
         {/* Right: Actions & Right Sidebar Toggle */}
@@ -505,7 +765,7 @@ export default function DiffViewer({
         <div className={`${
           showLeftSidebar && showRightSidebar ? 'lg:col-span-6' :
           showLeftSidebar || showRightSidebar ? 'lg:col-span-9' : 'lg:col-span-12'
-        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all`}>
+        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0`}>
           
           {/* Table Header Controls */}
           <div className="bg-[#141414] px-4 py-2 border-b border-[#262626] flex items-center justify-between text-xs font-mono uppercase text-white select-none">
@@ -522,192 +782,122 @@ export default function DiffViewer({
             )}
           </div>
 
-          {/* Interactive Redline Grid - Virtualized */}
-          <SpreadsheetVirtualizedTable
-            ref={virtualTableRef}
-            rows={displayRows}
-            columns={colsToRender.map(cIdx => ({ 
-              key: cIdx, 
-              minWidth: '120px',
-              width: '120px'
-            }))}
-            rowHeight={32}
-            headerHeight={36}
-            firstColWidth={48}
-            containerHeight={620}
-            overscan={5}
-            estimatedRowSize={() => 32}
-            renderFirstColHeader={() => '1&nbsp;1'}
-            onToggleCollapse={handleToggleCollapse}
-            renderCollapsedRow={(row) => (
-              <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
-                <span>↕</span>
-                <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
-                <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
-              </div>
-            )}
-            renderFirstColCell={(row) => (
-              <>
-                <span className="text-[#999999] mr-1">
-                  {row.indexA !== null ? row.indexA + 1 : '-'}
-                </span>
-                <span>
-                  {row.indexB !== null ? row.indexB + 1 : '-'}
-                </span>
-              </>
-            )}
-            renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
-            renderCell={(row, cIdx, rIdx) => {
-              const actualColIdx = colsToRender[cIdx];
-              const cellA = row.cellsA?.[actualColIdx] || { val: '' };
-              const cellB = row.cellsB?.[actualColIdx] || { val: '' };
-              const status = row.cellStatuses?.[actualColIdx] || 'SAME';
-              const cellId = `cell-${rIdx}-${actualColIdx}`;
-              const isCellFocused = activeChange && activeChange.rowIdx === rIdx && activeChange.colIdx === actualColIdx;
-
-              return (
-                <td
-                  id={cellId}
-                  onClick={() => handleCellClick(rIdx, actualColIdx, viewTab === 'original' ? cellA : cellB)}
-                  className={`py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono whitespace-nowrap overflow-hidden text-ellipsis max-w-[220px] transition-all ${
-                    isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
-                  } ${getCellStyle(status, viewTab, preserveFormatting)}`}
-                >
-                  {viewTab === 'original' ? (
-                    <span>{cellA.val || '-'}</span>
-                  ) : viewTab === 'changed' ? (
-                    <span>{cellB.val || '-'}</span>
-                  ) : (
-                    <RedlineCellContent
-                      cellA={cellA}
-                      cellB={cellB}
-                      status={status}
-                      granularity={diffGranularity}
-                    />
-                  )}
-                </td>
-              );
-            }}
-            getRowClassName={(row, rIdx) => {
-              const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
-              return isRowFocused ? 'bg-[#1f1f1f]/80' : '';
-            }}
-          />
+{renderTable()}
         </div>
 
-        {/* ========================================================================= */}
-        {/* 📋 RIGHT SIDEBAR: CHANGES AUDIT & NAVIGATION PANEL                        */}
-        {/* ========================================================================= */}
-        {showRightSidebar && (
-          <div className="lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all">
-            
-            {/* Panel Header & Summary Counters */}
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">
-                  Changes
-                </span>
-              </div>
-              <button
-                onClick={() => setShowRightSidebar(false)}
-                className="text-[#666666] hover:text-white transition-colors"
-                title="Collapse Sidebar"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Global Summary Stats Header Bar (- 89 | + 89 | ~ 1) */}
-            <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono">
-              <div className="flex items-center gap-3">
-                <span className="text-[#fca5a5] font-bold" title="Deletions">
-                  - {stats.totalDeleted || 0}
-                </span>
-                <span className="text-[#6ee7b7] font-bold" title="Additions">
-                  + {stats.totalAdded || 0}
-                </span>
-                <span className="text-[#fcd34d] font-bold" title="Modifications">
-                  ~ {stats.totalModified || 0}
-                </span>
-              </div>
-              <div className="text-[10px] text-[#999999] font-bold">
-                TOTAL: {changesList.length}
-              </div>
-            </div>
-
-            {/* Navigation Controls (X of Y with Up/Down buttons) */}
-            <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a]">
-              <span className="text-xs font-mono text-[#cccccc]">
-                {changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}
-              </span>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => jumpToChange(activeChangeIndex - 1)}
-                  disabled={changesList.length === 0}
-                  className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors"
-                  title="Previous Change (Up Arrow)"
-                >
-                  <ChevronUp className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => jumpToChange(activeChangeIndex + 1)}
-                  disabled={changesList.length === 0}
-                  className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors"
-                  title="Next Change (Down Arrow)"
-                >
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Scrollable List of Change Cards */}
-            <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin">
-              {changesList.length === 0 ? (
-                <div className="text-center py-8 text-xs font-mono text-[#666666]">
-                  No changes detected in current view.
+            {/* ========================================================================= */}
+            {/* 📋 RIGHT SIDEBAR: CHANGES AUDIT & NAVIGATION PANEL                        */}
+            {/* ========================================================================= */}
+            {showRightSidebar && (
+              <div className="lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all">
+                
+                {/* Panel Header & Summary Counters */}
+                <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">
+                      Changes
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setShowRightSidebar(false)}
+                    className="text-[#666666] hover:text-white transition-colors"
+                    title="Collapse Sidebar"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
-              ) : (
-                changesList.map((item, idx) => {
-                  const isActive = activeChangeIndex === idx;
 
-                  return (
-                    <div
-                      key={item.id}
-                      onClick={() => jumpToChange(idx)}
-                      className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${
-                        isActive
-                          ? 'border-white bg-[#1f1f1f] shadow-md transform translate-x-0.5'
-                          : 'border-[#262626] bg-[#0d0d0d] hover:border-[#3a3a3a] hover:bg-[#141414]'
-                      }`}
+                {/* Global Summary Stats Header Bar (- 89 | + 89 | ~ 1) */}
+                <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[#fca5a5] font-bold" title="Deletions">
+                      - {stats.totalDeleted || 0}
+                    </span>
+                    <span className="text-[#6ee7b7] font-bold" title="Additions">
+                      + {stats.totalAdded || 0}
+                    </span>
+                    <span className="text-[#fcd34d] font-bold" title="Modifications">
+                      ~ {stats.totalModified || 0}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-[#999999] font-bold">
+                    TOTAL: {changesList.length}
+                  </div>
+                </div>
+
+                {/* Navigation Controls (X of Y with Up/Down buttons) */}
+                <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a]">
+                  <span className="text-xs font-mono text-[#cccccc]">
+                    {changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => jumpToChange(activeChangeIndex - 1)}
+                      disabled={changesList.length === 0}
+                      className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors"
+                      title="Previous Change (Up Arrow)"
                     >
-                      {/* Card Header: Type Badge, Cell Ref, Card Number */}
-                      <div className="flex items-center justify-between">
-                        <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${
-                          item.type === 'MODIFIED' ? 'bg-[#2d2208] text-[#fcd34d] border border-[#78350f]' :
-                          item.type === 'ADDED' ? 'bg-[#062c19] text-[#6ee7b7] border border-[#047857]' :
-                          item.type === 'DELETED' ? 'bg-[#3b1219] text-[#fca5a5] border border-[#b91c1c]' :
-                          'bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca]'
-                        }`}>
-                          {item.type}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-white">{item.cellRef}</span>
-                          <span className="text-[10px] text-[#666666]">#{item.id}</span>
-                        </div>
-                      </div>
+                      <ChevronUp className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => jumpToChange(activeChangeIndex + 1)}
+                      disabled={changesList.length === 0}
+                      className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors"
+                      title="Next Change (Down Arrow)"
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
 
-                      {/* Card Body: Inline Diff Snippet */}
-                      <div className="pt-1 text-[11px] leading-relaxed break-words font-mono">
-                        <FormattedCardDiff item={item} />
-                      </div>
+                {/* Scrollable List of Change Cards */}
+                <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin">
+                  {changesList.length === 0 ? (
+                    <div className="text-center py-8 text-xs font-mono text-[#666666]">
+                      No changes detected in current view.
                     </div>
-                  );
-                })
-              )}
-            </div>
+                  ) : (
+                    changesList.map((item, idx) => {
+                      const isActive = activeChangeIndex === idx;
+
+                      return (
+                        <div
+                          key={item.id}
+                          onClick={() => jumpToChange(idx)}
+                          className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${
+                            isActive
+                              ? 'border-white bg-[#1f1f1f] shadow-md transform translate-x-0.5'
+                              : 'border-[#262626] bg-[#0d0d0d] hover:border-[#3a3a3a] hover:bg-[#141414]'
+                          }`}
+                        >
+                          {/* Card Header: Type Badge, Cell Ref, Card Number */}
+                          <div className="flex items-center justify-between">
+                            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${
+                              item.type === 'MODIFIED' ? 'bg-[#2d2208] text-[#fcd34d] border border-[#78350f]' :
+                              item.type === 'ADDED' ? 'bg-[#062c19] text-[#6ee7b7] border border-[#047857]' :
+                              item.type === 'DELETED' ? 'bg-[#3b1219] text-[#fca5a5] border border-[#b91c1c]' :
+                              'bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca]'
+                            }`}>
+                              {item.type}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-white">{item.cellRef}</span>
+                              <span className="text-[10px] text-[#666666]">#{item.id}</span>
+                            </div>
+                          </div>
+
+                          {/* Card Body: Inline Diff Snippet */}
+                          <div className="pt-1 text-[11px] leading-relaxed break-words font-mono">
+                            <FormattedCardDiff item={item} />
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
       {/* Modal: Appearance Options */}
       {showAppearanceModal && (
@@ -822,23 +1012,23 @@ function getCellStyle(status, viewTab, preserveFormatting) {
 // Helper: Render cell redline inline diff
 function RedlineCellContent({ cellA, cellB, status, granularity }) {
   if (status === 'SAME') {
-    return <span>{cellB.val || cellA.val || '-'}</span>;
+    return <span className="cell-text">{cellB.val || cellA.val || '-'}</span>;
   }
   if (status === 'ADDED') {
-    return <span className="text-[#6ee7b7] underline">{cellB.val}</span>;
+    return <span className="cell-text text-[#6ee7b7] underline">+{cellB.val}</span>;
   }
   if (status === 'DELETED') {
-    return <span className="line-through text-[#fca5a5]">{cellA.val}</span>;
+    return <span className="cell-text line-through text-[#fca5a5]">-{cellA.val}</span>;
   }
   
-  // Modified cell inline rendering
+  // Modified cell inline rendering - compact vertical layout
   const valA = cellA.val || '';
   const valB = cellB.val || '';
 
   return (
-    <div className="flex items-center gap-1.5 flex-wrap">
-      <span className="line-through text-[#fca5a5] opacity-80">{valA}</span>
-      <span className="text-[#6ee7b7] font-bold">{valB}</span>
+    <div className="redline-cell-content">
+      <span className="line-through text-[#fca5a5] opacity-80 block truncate">{valA}</span>
+      <span className="text-[#6ee7b7] font-bold block truncate">{valB}</span>
     </div>
   );
 }

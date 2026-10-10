@@ -21,7 +21,7 @@ self.onmessage = (e) => {
     workbook.SheetNames.forEach((sheetName) => {
       const worksheet = workbook.Sheets[sheetName];
       if (!worksheet || !worksheet['!ref']) {
-        resultSheets[sheetName] = { name: sheetName, rows: [], rowCount: 0, colCount: 0 };
+        resultSheets[sheetName] = { name: sheetName, rows: [], rowCount: 0, colCount: 0, colWidths: [] };
         return;
       }
 
@@ -49,11 +49,25 @@ self.onmessage = (e) => {
         rows.push(row);
       }
 
+      // Extract column widths from worksheet['!cols']
+      const colWidths = [];
+      if (worksheet['!cols']) {
+        worksheet['!cols'].forEach((col, idx) => {
+          const widthPx = col.wpx || (col.width ? Math.round(col.width * 7.5 + 5) : 120);
+          colWidths[idx] = Math.max(80, Math.min(400, widthPx));
+        });
+      }
+      const maxCols = rows[0] ? rows[0].length : 0;
+      for (let i = 0; i < maxCols; i++) {
+        if (!colWidths[i]) colWidths[i] = 120;
+      }
+
       resultSheets[sheetName] = {
         name: sheetName,
         rows,
         rowCount: rows.length,
         colCount: rows[0] ? rows[0].length : 0,
+        colWidths: colWidths,
       };
     });
 

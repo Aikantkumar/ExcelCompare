@@ -28,7 +28,9 @@ export default function TopBottomDiffViewer({
   options = {},
   onOptionsChange = () => {},
   headersA = [],
-  headersB = []
+  headersB = [],
+  colWidthsA = [],
+  colWidthsB = []
 }) {
   const [viewMode, setViewMode] = useState('stacked'); // 'stacked' | 'overlapped'
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -111,6 +113,33 @@ export default function TopBottomDiffViewer({
     }
   };
 
+  // Synchronized scrolling for stacked viewport
+  const handleScrollSync = (source) => {
+    if (isSyncingRef.current) return;
+    isSyncingRef.current = true;
+    
+    let sourceVirtualizer, targetVirtualizer;
+    if (source === 'top') {
+      sourceVirtualizer = virtualTopTableRef.current?.getVirtualizer?.();
+      targetVirtualizer = virtualBottomTableRef.current?.getVirtualizer?.();
+    } else if (source === 'bottom') {
+      sourceVirtualizer = virtualBottomTableRef.current?.getVirtualizer?.();
+      targetVirtualizer = virtualTopTableRef.current?.getVirtualizer?.();
+    }
+
+    if (sourceVirtualizer && targetVirtualizer) {
+      const sourceScrollEl = sourceVirtualizer.scrollElement;
+      const targetScrollEl = targetVirtualizer.scrollElement;
+      if (sourceScrollEl && targetScrollEl) {
+        targetScrollEl.scrollTop = sourceScrollEl.scrollTop;
+        targetScrollEl.scrollLeft = sourceScrollEl.scrollLeft;
+      }
+    }
+    requestAnimationFrame(() => {
+      isSyncingRef.current = false;
+    });
+  };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -186,9 +215,59 @@ export default function TopBottomDiffViewer({
     ? activeColIndices
     : Array.from({ length: stats.maxCols || 1 }, (_, i) => i);
 
+  // Build column definitions with actual widths from Excel
+  const buildColumns = (colWidths) => colsToRender.map(cIdx => ({
+    key: cIdx,
+    minWidth: colWidths[cIdx] ? `${colWidths[cIdx]}px` : '120px',
+    width: colWidths[cIdx] ? `${colWidths[cIdx]}px` : '120px'
+  }));
+
   const activeChange = changesList[activeChangeIndex];
 
-  const renderCellContent = (row, cIdx, rIdx, isTop) => {
+  const getCellContent = (row, cIdx, rIdx, isTop) => {
+    const cellA = row.cellsA?.[cIdx] || { val: '' };
+    const cellB = row.cellsB?.[cIdx] || { val: '' };
+    const status = row.cellStatuses?.[cIdx] || 'SAME';
+
+    let cellToShow;
+    let cellStatus;
+    if (viewMode === 'overlapped') {
+      if (status === 'ADDED') {
+        cellToShow = cellB;
+        cellStatus = 'ADDED';
+      } else if (status === 'DELETED') {
+        cellToShow = cellA;
+        cellStatus = 'DELETED';
+      } else if (status === 'MODIFIED' || status === 'FORMULA_CHANGED') {
+        cellToShow = cellB;
+        cellStatus = status;
+      } else {
+        cellToShow = cellA;
+        cellStatus = 'SAME';
+      }
+    } else {
+      cellToShow = isTop ? cellA : cellB;
+      cellStatus = status;
+    }
+
+    return (
+      <div className="cell-content">
+        {viewMode === 'overlapped' ? (
+          <OverlappedCellContent
+            cellA={cellA}
+            cellB={cellB}
+            status={status}
+            granularity={diffGranularity}
+            compareFormulas={compareFormulas}
+          />
+        ) : (
+          <span className="cell-text">{cellToShow.val || '-'}</span>
+        )}
+      </div>
+    );
+  };
+
+  const getCellProps = (row, cIdx, rIdx, isTop) => {
     const cellA = row.cellsA?.[cIdx] || { val: '' };
     const cellB = row.cellsB?.[cIdx] || { val: '' };
     const status = row.cellStatuses?.[cIdx] || 'SAME';
@@ -216,28 +295,13 @@ export default function TopBottomDiffViewer({
       cellStatus = status;
     }
 
-    return (
-      <td
-        key={cIdx}
-        id={cellId}
-        onClick={() => handleCellClick(rIdx, cIdx, cellToShow, isTop ? 'A' : 'B')}
-        className={`py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono whitespace-nowrap overflow-hidden text-ellipsis max-w-[220px] transition-all ${
-          isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
-        } ${getCellStyle(cellStatus, viewTab, preserveFormatting, viewMode)}`}
-      >
-        {viewMode === 'overlapped' ? (
-          <OverlappedCellContent
-            cellA={cellA}
-            cellB={cellB}
-            status={status}
-            granularity={diffGranularity}
-            compareFormulas={compareFormulas}
-          />
-        ) : (
-          <span>{cellToShow.val || '-'}</span>
-        )}
-      </td>
-    );
+    return {
+      id: cellId,
+      onClick: () => handleCellClick(rIdx, cIdx, cellToShow, isTop ? 'A' : 'B'),
+      className: `py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono transition-all ${
+        isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
+      } ${getCellStyle(cellStatus, viewTab, preserveFormatting, viewMode)}`,
+    };
   };
 
   const renderFirstColCell = (row, rIdx, isTop) => (
@@ -471,7 +535,7 @@ export default function TopBottomDiffViewer({
         <div className={`${
           showLeftSidebar && showRightSidebar ? 'lg:col-span-6' :
           showLeftSidebar || showRightSidebar ? 'lg:col-span-9' : 'lg:col-span-12'
-        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all`}>
+        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0`}>
           
           <div className="bg-[#141414] px-4 py-2 border-b border-[#262626] flex items-center justify-between text-xs font-mono uppercase text-white select-none">
             <div className="flex items-center gap-4">
@@ -495,7 +559,7 @@ export default function TopBottomDiffViewer({
                 <SpreadsheetVirtualizedTable
                   ref={virtualTopTableRef}
                   rows={displayRows}
-                  columns={colsToRender.map(cIdx => ({ key: cIdx, minWidth: '120px', width: '120px' }))}
+                  columns={buildColumns(colWidthsA)}
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
@@ -513,8 +577,10 @@ export default function TopBottomDiffViewer({
                   renderFirstColHeader={() => 'FILE 1'}
                   renderFirstColCell={(row, rIdx) => renderFirstColCell(row, rIdx, true)}
                   renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
-                  renderCell={(row, cIdx, rIdx) => renderCellContent(row, colsToRender[cIdx], rIdx, true)}
+                  renderCell={(row, cIdx, rIdx) => getCellContent(row, colsToRender[cIdx], rIdx, true)}
+                  getCellProps={(row, cIdx, rIdx) => getCellProps(row, colsToRender[cIdx], rIdx, true)}
                   getRowClassName={getRowClassName}
+                  onScroll={syncScroll ? (e) => handleScrollSync('top') : undefined}
                 />
               </div>
               <div className="bg-[#141414] border border-[#262626] p-2">
@@ -522,7 +588,7 @@ export default function TopBottomDiffViewer({
                 <SpreadsheetVirtualizedTable
                   ref={virtualBottomTableRef}
                   rows={displayRows}
-                  columns={colsToRender.map(cIdx => ({ key: cIdx, minWidth: '120px', width: '120px' }))}
+                  columns={buildColumns(colWidthsB)}
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
@@ -540,8 +606,10 @@ export default function TopBottomDiffViewer({
                   renderFirstColHeader={() => 'FILE 2'}
                   renderFirstColCell={(row, rIdx) => renderFirstColCell(row, rIdx, false)}
                   renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
-                  renderCell={(row, cIdx, rIdx) => renderCellContent(row, colsToRender[cIdx], rIdx, false)}
+                  renderCell={(row, cIdx, rIdx) => getCellContent(row, colsToRender[cIdx], rIdx, false)}
+                  getCellProps={(row, cIdx, rIdx) => getCellProps(row, colsToRender[cIdx], rIdx, false)}
                   getRowClassName={getRowClassName}
+                  onScroll={syncScroll ? (e) => handleScrollSync('bottom') : undefined}
                 />
               </div>
             </div>
@@ -555,7 +623,7 @@ export default function TopBottomDiffViewer({
                 <SpreadsheetVirtualizedTable
                   ref={virtualOverlappedTableRef}
                   rows={displayRows}
-                  columns={colsToRender.map(cIdx => ({ key: cIdx, minWidth: '120px', width: '120px' }))}
+                  columns={buildColumns(colWidthsA.length > 0 ? colWidthsA : colWidthsB)}
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
@@ -573,7 +641,8 @@ export default function TopBottomDiffViewer({
                   renderFirstColHeader={() => 'FILE 1'}
                   renderFirstColCell={(row, rIdx) => renderFirstColCell(row, rIdx, true)}
                   renderHeader={(col, cIdx) => getColumnLetter(colsToRender[cIdx])}
-                  renderCell={(row, cIdx, rIdx) => renderCellContent(row, colsToRender[cIdx], rIdx, true)}
+                  renderCell={(row, cIdx, rIdx) => getCellContent(row, colsToRender[cIdx], rIdx, true)}
+                  getCellProps={(row, cIdx, rIdx) => getCellProps(row, colsToRender[cIdx], rIdx, true)}
                   getRowClassName={getRowClassName}
                 />
               </div>
@@ -697,28 +766,28 @@ function getCellStyle(status, viewTab, preserveFormatting, viewMode) {
 
 function OverlappedCellContent({ cellA, cellB, status, granularity, compareFormulas }) {
   if (status === 'SAME') {
-    return <span>{cellB.val || cellA.val || '-'}</span>;
+    return <span className="cell-text">{cellB.val || cellA.val || '-'}</span>;
   }
   if (status === 'ADDED') {
-    return <span className="text-[#6ee7b7] underline font-bold">+{cellB.val}</span>;
+    return <span className="cell-text text-[#6ee7b7] underline font-bold">+{cellB.val}</span>;
   }
   if (status === 'DELETED') {
-    return <span className="line-through text-[#fca5a5]">-{cellA.val}</span>;
+    return <span className="cell-text line-through text-[#fca5a5]">-{cellA.val}</span>;
   }
   if (status === 'FORMULA_CHANGED') {
     return (
-      <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="line-through text-[#fca5a5] opacity-80">{cellA.formula || cellA.val}</span>
-        <span className="text-[#a5b4fc] font-bold underline">ƒ{cellB.formula || cellB.val}</span>
+      <div className="redline-cell-content">
+        <span className="line-through text-[#fca5a5] opacity-80 block truncate">{cellA.formula || cellA.val}</span>
+        <span className="text-[#a5b4fc] font-bold underline block truncate">ƒ{cellB.formula || cellB.val}</span>
       </div>
     );
   }
   const valA = cellA.val || '';
   const valB = cellB.val || '';
   return (
-    <div className="flex items-center gap-1.5 flex-wrap">
-      <span className="line-through text-[#fca5a5] opacity-80">{valA}</span>
-      <span className="text-[#6ee7b7] font-bold">{valB}</span>
+    <div className="redline-cell-content">
+      <span className="line-through text-[#fca5a5] opacity-80 block truncate">{valA}</span>
+      <span className="text-[#6ee7b7] font-bold block truncate">{valB}</span>
     </div>
   );
 }
