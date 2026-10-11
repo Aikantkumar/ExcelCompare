@@ -2,13 +2,9 @@ import React, { useState, useEffect, useCallback, Component, lazy, Suspense } fr
 import { 
   FileSpreadsheet, 
   Upload, 
-  Columns3, 
-  KeyRound, 
-  Layers,
   X,
   RotateCcw,
   AlertTriangle,
-  Layers as LayersIcon,
   Cpu
 } from 'lucide-react';
 import { SAMPLE_DATASETS } from './sampleDatasets';
@@ -17,11 +13,7 @@ import { isWorkerSupported } from './workerClient.js';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
 import ViewerLoadingSkeleton from './ViewerLoadingSkeleton';
 
-const DiffViewer = lazy(() => import('./DiffViewer'));
 const TopBottomDiffViewer = lazy(() => import('./TopBottomDiffViewer'));
-const ColumnCompareViewer = lazy(() => import('./ColumnCompareViewer'));
-const ReconcileViewer = lazy(() => import('./ReconcileViewer'));
-const BatchCompareViewer = lazy(() => import('./BatchCompareViewer'));
 const ExportModal = lazy(() => import('./ExportModal'));
 
 class ErrorBoundary extends Component {
@@ -70,8 +62,7 @@ const initialSheetNameB = initialSample.fileB.sheetNames[0];
 const initialSheetA = initialSample.fileA.sheets[initialSheetNameA];
 const initialSheetB = initialSample.fileB.sheets[initialSheetNameB];
 
-export default function CompareToolContainer({ initialMode = 'files' }) {
-  const [activeMode, setActiveMode] = useState(initialMode);
+export default function CompareToolContainer() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isParsing, setIsParsing] = useState(false);
   
@@ -254,71 +245,8 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
 
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      {/* Mode Navigation Bar matching DESIGN.md pill buttons & typography */}
+      {/* Top Toolbar with Sample Loaders & Controls */}
       <div className="bg-[#0d0d0d] border border-[#262626] p-3 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={() => setActiveMode('files')}
-            className={`px-5 py-2.5 text-xs font-mono tracking-[2px] uppercase transition-all rounded-full border ${
-              activeMode === 'files'
-                ? 'bg-white text-black border-white font-bold'
-                : 'bg-transparent text-[#999999] border-[#3a3a3a] hover:border-white hover:text-white'
-            }`}
-          >
-            <FileSpreadsheet className="w-4 h-4 inline mr-2" />
-            COMPARE FILES
-          </button>
-
-          <button
-            onClick={() => setActiveMode('stacked')}
-            className={`px-5 py-2.5 text-xs font-mono tracking-[2px] uppercase transition-all rounded-full border ${
-              activeMode === 'stacked'
-                ? 'bg-white text-black border-white font-bold'
-                : 'bg-transparent text-[#999999] border-[#3a3a3a] hover:border-white hover:text-white'
-            }`}
-          >
-            <LayersIcon className="w-4 h-4 inline mr-2" />
-            TOP/BOTTOM VIEW
-          </button>
-
-          <button
-            onClick={() => setActiveMode('columns')}
-            className={`px-5 py-2.5 text-xs font-mono tracking-[2px] uppercase transition-all rounded-full border ${
-              activeMode === 'columns'
-                ? 'bg-white text-black border-white font-bold'
-                : 'bg-transparent text-[#999999] border-[#3a3a3a] hover:border-white hover:text-white'
-            }`}
-          >
-            <Columns3 className="w-4 h-4 inline mr-2" />
-            COMPARE COLUMNS
-          </button>
-
-          <button
-            onClick={() => setActiveMode('reconcile')}
-            className={`px-5 py-2.5 text-xs font-mono tracking-[2px] uppercase transition-all rounded-full border ${
-              activeMode === 'reconcile'
-                ? 'bg-white text-black border-white font-bold'
-                : 'bg-transparent text-[#999999] border-[#3a3a3a] hover:border-white hover:text-white'
-            }`}
-          >
-            <KeyRound className="w-4 h-4 inline mr-2" />
-            RECONCILE (ID MATCH)
-          </button>
-
-          <button
-            onClick={() => setActiveMode('batch')}
-            className={`px-5 py-2.5 text-xs font-mono tracking-[2px] uppercase transition-all rounded-full border ${
-              activeMode === 'batch'
-                ? 'bg-white text-black border-white font-bold'
-                : 'bg-transparent text-[#999999] border-[#3a3a3a] hover:border-white hover:text-white'
-            }`}
-          >
-            <Layers className="w-4 h-4 inline mr-2" />
-            BATCH QUEUE
-          </button>
-        </div>
-
-        {/* Preset Sample Loaders & Clear Button */}
         <div className="flex items-center gap-2">
           <span className="text-[10px] font-mono text-[#666666] uppercase hidden lg:inline">TRY DEMO SAMPLES:</span>
           <button
@@ -369,11 +297,10 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
         </div>
       </div>
 
-      {/* File Upload Header Cards (Visible for Files, Columns, Reconcile) */}
-      {activeMode !== 'batch' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* File A Card */}
-          <div 
+      {/* File Upload Header Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* File A Card */}
+        <div 
             className={`bg-[#141414] border p-4 space-y-3 transition-colors ${
               isDragActiveA ? 'border-white bg-[#1f1f1f]' : 'border-[#262626]'
             }`}
@@ -448,8 +375,8 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
             )}
           </div>
 
-          {/* File B Card */}
-          <div 
+        {/* File B Card */}
+        <div 
             className={`bg-[#141414] border p-4 space-y-3 transition-colors ${
               isDragActiveB ? 'border-white bg-[#1f1f1f]' : 'border-[#262626]'
             }`}
@@ -523,8 +450,7 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               </label>
             )}
           </div>
-        </div>
-      )}
+      </div>
 
       {/* Loading Indicator */}
       {isLoading && (
@@ -545,7 +471,7 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
       )}
 
       {/* Guidance Banner when only 1 file is loaded */}
-      {!isLoading && (activeMode === 'files' || activeMode === 'stacked') && !diffData && (sheetNamesA.length > 0 || sheetNamesB.length > 0) && (
+      {!isLoading && !diffData && (sheetNamesA.length > 0 || sheetNamesB.length > 0) && (
         <div className="bg-[#141414] border border-[#262626] p-12 text-center space-y-4">
           <FileSpreadsheet className="w-10 h-10 text-[#c3d9f3] mx-auto" />
           <h3 className="text-white font-mono text-sm uppercase tracking-wider">
@@ -558,7 +484,7 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
       )}
 
       {/* Guidance Banner when both files are empty */}
-      {!isLoading && sheetNamesA.length === 0 && sheetNamesB.length === 0 && activeMode !== 'batch' && (
+      {!isLoading && sheetNamesA.length === 0 && sheetNamesB.length === 0 && (
         <div className="bg-[#0d0d0d] border border-[#262626] p-12 text-center space-y-4">
           <Upload className="w-10 h-10 text-[#666666] mx-auto" />
           <h3 className="text-white font-mono text-sm uppercase tracking-wider">DROP TWO EXCEL FILES ABOVE TO START</h3>
@@ -571,22 +497,7 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
       {/* Tool View Rendering wrapped in ErrorBoundary */}
       <ErrorBoundary onReset={handleClearAll}>
         <Suspense fallback={<ViewerLoadingSkeleton />}>
-          {!isLoading && !isParsing && activeMode === 'files' && diffData && (
-            <DiffViewer
-              diffData={diffData}
-              sheetName={selectedSheetA}
-              onExport={() => setIsExportOpen(true)}
-              onShare={() => setIsExportOpen(true)}
-              options={diffOptions}
-              onOptionsChange={setDiffOptions}
-              headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-              headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-              colWidthsA={sheetA?.colWidths || []}
-              colWidthsB={sheetB?.colWidths || []}
-            />
-          )}
-
-          {!isLoading && !isParsing && activeMode === 'stacked' && diffData && (
+          {!isLoading && !isParsing && diffData && (
             <TopBottomDiffViewer
               diffData={diffData}
               sheetName={selectedSheetA}
@@ -599,18 +510,6 @@ export default function CompareToolContainer({ initialMode = 'files' }) {
               colWidthsA={sheetA?.colWidths || []}
               colWidthsB={sheetB?.colWidths || []}
             />
-          )}
-
-          {!isLoading && !isParsing && activeMode === 'columns' && sheetA && sheetB && (
-            <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} />
-          )}
-
-          {!isLoading && !isParsing && activeMode === 'reconcile' && sheetA && sheetB && (
-            <ReconcileViewer sheetA={sheetA} sheetB={sheetB} />
-          )}
-
-          {activeMode === 'batch' && (
-            <BatchCompareViewer />
           )}
         </Suspense>
       </ErrorBoundary>

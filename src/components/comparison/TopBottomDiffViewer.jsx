@@ -46,6 +46,13 @@ export default function TopBottomDiffViewer({
   const [annotations, setAnnotations] = useState({});
   const [appearanceTheme, setAppearanceTheme] = useState('dark');
   const [syncScroll, setSyncScroll] = useState(true);
+  const [tableHeight, setTableHeight] = useState(() => Math.floor(window.innerHeight / 2 - 140));
+
+  useEffect(() => {
+    const handleResize = () => setTableHeight(Math.floor(window.innerHeight / 2 - 140));
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const virtualTopTableRef = useRef(null);
   const virtualBottomTableRef = useRef(null);
@@ -563,7 +570,7 @@ export default function TopBottomDiffViewer({
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
-                  containerHeight={500}
+                  containerHeight={tableHeight}
                   overscan={5}
                   estimatedRowSize={() => 32}
                   onToggleCollapse={handleToggleCollapse}
@@ -592,7 +599,7 @@ export default function TopBottomDiffViewer({
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
-                  containerHeight={500}
+                  containerHeight={tableHeight}
                   overscan={5}
                   estimatedRowSize={() => 32}
                   onToggleCollapse={handleToggleCollapse}
