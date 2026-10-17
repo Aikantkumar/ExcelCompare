@@ -587,12 +587,9 @@ export function compressResult(result) {
           : []
       };
     }),
-    changesList: (changesList || []).map(c => ({
+    changesList: changesList.map(c => ({
       id: c.id,
       type: c.type,
-      category: c.category,
-      subtype: c.subtype,
-      flags: c.flags || [],
       cellRef: c.cellRef,
       rowIdx: c.rowIdx,
       colIdx: c.colIdx,
@@ -604,11 +601,5 @@ export function compressResult(result) {
     })),
     activeColIndices,
     stats,
-    structuralChanges: result.structuralChanges || [],
-    nameChanges: result.nameChanges || [],
-    formatChanges: result.formatChanges || [],
-    macroChanges: result.macroChanges || [],
-    auditFlags: result.auditFlags || [],
-    sheetNames: result.sheetNames || [],
   };
 }

@@ -7,10 +7,6 @@
  * - Granular changes audit list (C2, H2, etc.)
  */
 
-import { isSystemGenerated, buildRowMap, buildColMap } from './formulaNormalizer.js';
-import { CHANGE_CATEGORIES, AUDIT_FLAGS } from './changeCategories.js';
-import { isExcelError } from './excelParser.js';
-
 export function compareSheets(sheetA, sheetB, options = {}) {
   const {
     compareFormulas = true,
@@ -64,18 +60,6 @@ export function compareSheets(sheetA, sheetB, options = {}) {
   let totalFormulaChanges = 0;
   const changesList = [];
   let changeCounter = 0;
-
-  // Track structural changes
-  const structuralChanges = [];
-  const nameChanges = [];
-  const formatChanges = [];
-  const macroChanges = [];
-  const auditFlags = [];
-
-  // Build row/col maps for formula normalization
-  const rowMap = buildRowMap(mappedRows);
-  const colMap = buildColMap(colMappingB, maxCols);
-  const sheetName = sheetA?.name || 'Sheet1';
 
   let diffRows = mappedRows.map((pair, rowIndex) => {
     const rowA = pair.rowA;
@@ -194,60 +178,27 @@ export function compareSheets(sheetA, sheetB, options = {}) {
 
       let status = 'SAME';
 
-      if (compareFormulas && (formA || formB)) {
-        if (formA !== formB) {
-          // Check if this is a system-generated formula change
-          const isSysGen = isSystemGenerated(formA, formB, mappedRows, colMappingB, maxCols, sheetName);
-          
-          status = isSysGen ? 'SYSGEN_FORMULA_CHANGED' : 'FORMULA_CHANGED';
-          if (!isSysGen) totalFormulaChanges++;
-          rowHasChanges = true;
+      if (compareFormulas && (formA || formB) && formA !== formB) {
+        status = 'FORMULA_CHANGED';
+        totalFormulaChanges++;
+        rowHasChanges = true;
 
-          changeCounter++;
-          const colLetter = getColumnLetter(c);
-          const cellRef = `${colLetter}${(pair.origIndexB ?? pair.origIndexA ?? rowIndex) + 1}`;
-          
-          // Detect audit flags
-          const flags = [];
-          if (formA && !formB && valB && !isExcelError(valB)) {
-            flags.push('HARDCODED');
-          }
-          if (!isExcelError(valA) && isExcelError(valB)) {
-            flags.push('NEW_ERROR');
-          }
-          if (isExcelError(valA) && !isExcelError(valB)) {
-            flags.push('ERROR_CLEARED');
-          }
-
-          changesList.push({
-            id: changeCounter,
-            type: isSysGen ? 'SYSGEN_FORMULA_CHANGED' : 'FORMULA_CHANGED',
-            category: isSysGen ? 'SYSGEN_FORMULA' : 'FORMULA',
-            cellRef,
-            rowIdx: rowIndex,
-            colIdx: c,
-            valA,
-            valB,
-            formulaA: formA,
-            formulaB: formB,
-            charDiff: computeCharDiff(formA || valA, formB || valB, diffGranularity),
-            flags,
-          });
-        }
+        changeCounter++;
+        const colLetter = getColumnLetter(c);
+        const cellRef = `${colLetter}${(pair.origIndexB ?? pair.origIndexA ?? rowIndex) + 1}`;
+        changesList.push({
+          id: changeCounter,
+          type: 'FORMULA_CHANGED',
+          cellRef,
+          rowIdx: rowIndex,
+          colIdx: c,
+          valA,
+          valB,
+          formulaA: formA,
+          formulaB: formB,
+          charDiff: computeCharDiff(formA || valA, formB || valB, diffGranularity),
+        });
       } else if (cleanValA !== cleanValB) {
-        // Determine if this is an entered value or calculated value change
-        const hasFormulaA = !!formA;
-        const hasFormulaB = !!formB;
-        
-        let category;
-        if (hasFormulaA && hasFormulaB && formA === formB) {
-          // Same formula, different result - calculated value changed
-          category = 'CALCULATED_VALUE';
-        } else {
-          // Entered value changed (or formula became value or vice versa)
-          category = 'ENTERED_VALUE';
-        }
-
         status = 'MODIFIED';
         totalModified++;
         rowHasChanges = true;
@@ -255,23 +206,9 @@ export function compareSheets(sheetA, sheetB, options = {}) {
         changeCounter++;
         const colLetter = getColumnLetter(c);
         const cellRef = `${colLetter}${(pair.origIndexB ?? pair.origIndexA ?? rowIndex) + 1}`;
-        
-        // Detect audit flags
-        const flags = [];
-        if (formA && !formB && valB && !isExcelError(valB)) {
-          flags.push('HARDCODED');
-        }
-        if (!isExcelError(valA) && isExcelError(valB)) {
-          flags.push('NEW_ERROR');
-        }
-        if (isExcelError(valA) && !isExcelError(valB)) {
-          flags.push('ERROR_CLEARED');
-        }
-
         changesList.push({
           id: changeCounter,
           type: 'MODIFIED',
-          category,
           cellRef,
           rowIdx: rowIndex,
           colIdx: c,
@@ -280,7 +217,6 @@ export function compareSheets(sheetA, sheetB, options = {}) {
           formulaA: formA,
           formulaB: formB,
           charDiff: computeCharDiff(valA, valB, diffGranularity),
-          flags,
         });
       }
 
@@ -365,194 +301,10 @@ export function compareSheets(sheetA, sheetB, options = {}) {
     }
   }
 
-  // Detect structural changes (rows, columns, sheets)
-  if (sheetA && sheetB) {
-    const rowsA = sheetA.rows || [];
-    const rowsB = sheetB.rows || [];
-    
-    // Row additions/deletions (from mappedRows)
-    mappedRows.forEach((pair, rowIndex) => {
-      if (!pair.rowA && pair.rowB) {
-        structuralChanges.push({
-          category: 'STRUCTURAL',
-          subtype: 'ROW_ADDED',
-          rowIdx: rowIndex,
-          colIdx: -1,
-          cellRef: '',
-          valA: '—',
-          valB: '—',
-          description: `Row added at index ${rowIndex + 1}`,
-        });
-      } else if (pair.rowA && !pair.rowB) {
-        structuralChanges.push({
-          category: 'STRUCTURAL',
-          subtype: 'ROW_DELETED',
-          rowIdx: rowIndex,
-          colIdx: -1,
-          cellRef: '',
-          valA: '—',
-          valB: '—',
-          description: `Row deleted at index ${rowIndex + 1}`,
-        });
-      }
-    });
-
-    // Column additions/deletions
-    const maxColsA = sheetA.colCount || (rowsA[0] ? rowsA[0].length : 0);
-    const maxColsB = sheetB.colCount || (rowsB[0] ? rowsB[0].length : 0);
-    if (maxColsA !== maxColsB) {
-      if (maxColsB > maxColsA) {
-        for (let c = maxColsA; c < maxColsB; c++) {
-          structuralChanges.push({
-            category: 'STRUCTURAL',
-            subtype: 'COLUMN_ADDED',
-            rowIdx: -1,
-            colIdx: c,
-            cellRef: '',
-            valA: '—',
-            valB: '—',
-            description: `Column ${getColumnLetter(c)} added`,
-          });
-        }
-      } else {
-        for (let c = maxColsB; c < maxColsA; c++) {
-          structuralChanges.push({
-            category: 'STRUCTURAL',
-            subtype: 'COLUMN_DELETED',
-            rowIdx: -1,
-            colIdx: c,
-            cellRef: '',
-            valA: '—',
-            valB: '—',
-            description: `Column ${getColumnLetter(c)} deleted`,
-          });
-        }
-      }
-    }
-
-    // Sheet visibility changes
-    if (sheetA.hidden !== sheetB.hidden) {
-      structuralChanges.push({
-        category: 'STRUCTURAL',
-        subtype: 'SHEET_VISIBILITY',
-        rowIdx: -1,
-        colIdx: -1,
-        cellRef: '',
-        valA: sheetA.hidden ? 'HIDDEN' : 'VISIBLE',
-        valB: sheetB.hidden ? 'HIDDEN' : 'VISIBLE',
-        description: `Sheet visibility changed: ${sheetA.hidden ? 'Hidden' : 'Visible'} → ${sheetB.hidden ? 'Hidden' : 'Visible'}`,
-      });
-    }
-
-    // Defined names comparison
-    const namesA = sheetA.names || [];
-    const namesB = sheetB.names || [];
-    const allNames = new Set([...namesA.map(n => n.name), ...namesB.map(n => n.name)]);
-    allNames.forEach(name => {
-      const nA = namesA.find(n => n.name === name);
-      const nB = namesB.find(n => n.name === name);
-      if (nA && !nB) {
-        nameChanges.push({
-          category: 'NAMES',
-          subtype: 'REMOVED',
-          name,
-          ref: nA.ref,
-          sheetScope: nA.sheetScope,
-          description: `Name "${name}" removed`,
-        });
-      } else if (!nA && nB) {
-        nameChanges.push({
-          category: 'NAMES',
-          subtype: 'ADDED',
-          name,
-          ref: nB.ref,
-          sheetScope: nB.sheetScope,
-          description: `Name "${name}" added`,
-        });
-      } else if (nA && nB && nA.ref !== nB.ref) {
-        nameChanges.push({
-          category: 'NAMES',
-          subtype: 'CHANGED',
-          name,
-          ref: nB.ref,
-          sheetScope: nB.sheetScope,
-          description: `Name "${name}" now refers to ${nB.ref}`,
-        });
-      }
-    });
-
-    // Cell format changes (number formats)
-    const fmtsA = sheetA.numFmts || {};
-    const fmtsB = sheetB.numFmts || {};
-    const allCells = new Set([...Object.keys(fmtsA), ...Object.keys(fmtsB)]);
-    allCells.forEach(cellAddr => {
-      const fmtA = fmtsA[cellAddr];
-      const fmtB = fmtsB[cellAddr];
-      if (fmtA !== fmtB) {
-        formatChanges.push({
-          category: 'CELL_FORMAT',
-          subtype: 'NUMBER_FORMAT',
-          cellRef: cellAddr,
-          valA: fmtA != null ? String(fmtA) : 'General',
-          valB: fmtB != null ? String(fmtB) : 'General',
-          description: `Number format changed at ${cellAddr}`,
-        });
-      }
-    });
-
-    // Macro changes
-    const vbaA = sheetA.vba || { hash: null };
-    const vbaB = sheetB.vba || { hash: null };
-    if (vbaA.hash && !vbaB.hash) {
-      macroChanges.push({
-        category: 'MACROS',
-        subtype: 'VBA_REMOVED',
-        description: 'VBA project removed',
-      });
-    } else if (!vbaA.hash && vbaB.hash) {
-      macroChanges.push({
-        category: 'MACROS',
-        subtype: 'VBA_ADDED',
-        description: 'VBA project added',
-      });
-    } else if (vbaA.hash && vbaB.hash && vbaA.hash !== vbaB.hash) {
-      macroChanges.push({
-        category: 'MACROS',
-        subtype: 'VBA_CHANGED',
-        description: 'VBA project changed',
-      });
-    }
-  }
-
-  // Aggregate audit flags from all changes
-  const flagCounts = {};
-  changesList.forEach(change => {
-    if (change.flags) {
-      change.flags.forEach(flag => {
-        flagCounts[flag] = (flagCounts[flag] || 0) + 1;
-      });
-    }
-  });
-  AUDIT_FLAGS.forEach(flagDef => {
-    if (flagCounts[flagDef.id]) {
-      auditFlags.push({
-        category: 'AUDIT',
-        flag: flagDef.id,
-        count: flagCounts[flagDef.id],
-        description: `${flagDef.label}: ${flagCounts[flagDef.id]} occurrence(s)`,
-      });
-    }
-  });
-
   return {
     rows: diffRows,
     changesList,
     activeColIndices,
-    structuralChanges,
-    nameChanges,
-    formatChanges,
-    macroChanges,
-    auditFlags,
     stats: {
       totalRows: diffRows.length,
       totalChanges: changesList.length,
@@ -560,11 +312,6 @@ export function compareSheets(sheetA, sheetB, options = {}) {
       totalDeleted,
       totalModified,
       totalFormulaChanges,
-      totalStructural: structuralChanges.length,
-      totalNames: nameChanges.length,
-      totalFormats: formatChanges.length,
-      totalMacros: macroChanges.length,
-      totalAuditFlags: auditFlags.length,
       maxCols,
     },
   };

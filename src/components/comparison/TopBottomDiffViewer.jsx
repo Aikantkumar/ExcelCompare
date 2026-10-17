@@ -17,22 +17,11 @@ import {
   Minimize2,
   Maximize,
   Minimize,
-  Copy,
-  Filter,
-  BarChart2,
-  FileSpreadsheet,
   Layers as LayersIcon
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
 import { SpreadsheetVirtualizedTable } from './VirtualizedTable';
 import { useFullView } from './useFullView';
-import CategoryFilter from './CategoryFilter';
-import ResultsGrid from './ResultsGrid';
-import ChangeHistogram from './ChangeHistogram';
-import StatusBar from './StatusBar';
-import SheetTabs from './SheetTabs';
-import { downloadXlsx, copyToClipboard, toCsv } from './resultsExport';
-import { CHANGE_CATEGORIES, AUDIT_FLAGS, getCategoryColor, getCategoryPattern, groupChanges } from './changeCategories';
 
 export default function TopBottomDiffViewer({ 
   diffData, 
@@ -44,9 +33,7 @@ export default function TopBottomDiffViewer({
   headersA = [],
   headersB = [],
   colWidthsA = [],
-  colWidthsB = [],
-  fileNameA = 'File A',
-  fileNameB = 'File B',
+  colWidthsB = []
 }) {
   const [viewMode, setViewMode] = useState('stacked'); // 'stacked' | 'overlapped'
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -65,17 +52,6 @@ export default function TopBottomDiffViewer({
   const [tableHeight, setTableHeight] = useState(() => Math.floor(window.innerHeight / 2 - 140));
   const [registerBodyHeight, setRegisterBodyHeight] = useState(0);
   const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
-  
-  // Category filter state
-  const [enabledCategories, setEnabledCategories] = useState(() => new Set(CHANGE_CATEGORIES.map(c => c.id)));
-  const [enabledAuditFlags, setEnabledAuditFlags] = useState(() => new Set(AUDIT_FLAGS.map(f => f.id)));
-  const [hideSystemGenerated, setHideSystemGenerated] = useState(false);
-  const [showOnlyFlagged, setShowOnlyFlagged] = useState(false);
-  const [selectedDetailItem, setSelectedDetailItem] = useState(null);
-  const [activeSheet, setActiveSheet] = useState(sheetName);
-  const [linkSheets, setLinkSheets] = useState(false);
-  const [sheetNames, setSheetNames] = useState(() => (diffData?.sheetNames || [sheetName]));
-  const [copiedExport, setCopiedExport] = useState(false);
 
   const { isFullView, toggleFullView, exitFullView } = useFullView({ isDesktop });
 
@@ -97,83 +73,7 @@ export default function TopBottomDiffViewer({
   const activePaneRef = useRef(null);
   const registerBodyRef = useRef(null);
 
-  const { rows = [], changesList = [], activeColIndices = [], stats = {}, structuralChanges = [], nameChanges = [], formatChanges = [], macroChanges = [], auditFlags = [], sheetNames: diffSheetNames = [] } = diffData || {};
-
-  // Compute category counts
-  const categoryCounts = useMemo(() => {
-    const counts = {};
-    CHANGE_CATEGORIES.forEach(c => { counts[c.id] = 0; });
-    AUDIT_FLAGS.forEach(f => { counts[f.id] = 0; });
-    
-    // Count from changesList
-    changesList.forEach(change => {
-      if (change.category) {
-        counts[change.category] = (counts[change.category] || 0) + 1;
-      } else if (change.type === 'FORMULA_CHANGED') {
-        counts['FORMULA'] = (counts['FORMULA'] || 0) + 1;
-      } else if (change.type === 'SYSGEN_FORMULA_CHANGED') {
-        counts['SYSGEN_FORMULA'] = (counts['SYSGEN_FORMULA'] || 0) + 1;
-      } else if (change.type === 'MODIFIED') {
-        // Default to ENTERED_VALUE for backward compatibility
-        counts['ENTERED_VALUE'] = (counts['ENTERED_VALUE'] || 0) + 1;
-      }
-      if (change.flags) {
-        change.flags.forEach(flag => {
-          counts[flag] = (counts[flag] || 0) + 1;
-        });
-      }
-    });
-    
-    // Count structural changes
-    structuralChanges.forEach(change => {
-      counts[change.category] = (counts[change.category] || 0) + 1;
-    });
-    nameChanges.forEach(change => {
-      counts[change.category] = (counts[change.category] || 0) + 1;
-    });
-    formatChanges.forEach(change => {
-      counts[change.category] = (counts[change.category] || 0) + 1;
-    });
-    macroChanges.forEach(change => {
-      counts[change.category] = (counts[change.category] || 0) + 1;
-    });
-    
-    return counts;
-  }, [changesList, structuralChanges, nameChanges, formatChanges, macroChanges]);
-
-  // Compute audit flag counts
-  const auditCounts = useMemo(() => {
-    const counts = {};
-    AUDIT_FLAGS.forEach(f => { counts[f.id] = 0; });
-    changesList.forEach(change => {
-      if (change.flags) {
-        change.flags.forEach(flag => {
-          counts[flag] = (counts[flag] || 0) + 1;
-        });
-      }
-    });
-    return counts;
-  }, [changesList]);
-
-  // Filter changes based on enabled categories and audit flags
-  const filteredChangesList = useMemo(() => {
-    return changesList.filter(change => {
-      const cat = change.category || (change.type === 'FORMULA_CHANGED' ? 'FORMULA' : change.type === 'SYSGEN_FORMULA_CHANGED' ? 'SYSGEN_FORMULA' : 'ENTERED_VALUE');
-      if (!enabledCategories.has(cat)) return false;
-      if (hideSystemGenerated && (cat === 'SYSGEN_FORMULA' || cat === 'SYSGEN_NAMES')) return false;
-      if (showOnlyFlagged && (!change.flags || change.flags.length === 0)) return false;
-      if (change.flags && change.flags.length > 0) {
-        if (!change.flags.some(f => enabledAuditFlags.has(f))) return false;
-      }
-      return true;
-    });
-  }, [changesList, enabledCategories, enabledAuditFlags, hideSystemGenerated, showOnlyFlagged]);
-
-  // Group changes for details grid
-  const groupedChanges = useMemo(() => groupChanges(filteredChangesList), [filteredChangesList]);
-
-  // All sheet names from diff data
-  const allSheetNames = useMemo(() => diffSheetNames.length > 0 ? diffSheetNames : [sheetName], [diffSheetNames, sheetName]);
+  const { rows = [], changesList = [], activeColIndices = [], stats = {} } = diffData || {};
 
   const {
     compareFormulas = true,
@@ -196,11 +96,11 @@ export default function TopBottomDiffViewer({
   };
 
   const jumpToChange = (index) => {
-    if (!filteredChangesList || filteredChangesList.length === 0) return;
-    const targetIdx = (index + filteredChangesList.length) % filteredChangesList.length;
+    if (!changesList || changesList.length === 0) return;
+    const targetIdx = (index + changesList.length) % changesList.length;
     setActiveChangeIndex(targetIdx);
 
-    const change = filteredChangesList[targetIdx];
+    const change = changesList[targetIdx];
     if (change) {
       // Scroll virtualized table to row
       if (viewMode === 'stacked') {
@@ -287,7 +187,7 @@ export default function TopBottomDiffViewer({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeChangeIndex, filteredChangesList]);
+  }, [activeChangeIndex, changesList]);
 
   // ResizeObserver for register body height in full view
   useEffect(() => {
@@ -341,7 +241,7 @@ export default function TopBottomDiffViewer({
     return Math.max(200, availableHeight);
   }, [isFullView, isDesktop, registerBodyHeight]);
 
-  const activeChange = filteredChangesList[activeChangeIndex];
+  const activeChange = changesList[activeChangeIndex];
 
   // Scroll to active change when table heights change in full view
   useEffect(() => {
@@ -362,49 +262,6 @@ export default function TopBottomDiffViewer({
     setSelectedCell({ rIdx, cIdx, cell, side, key });
     setAnnotationText(annotations[key] || '');
     setShowAnnotationModal(true);
-  };
-
-  // Export functions
-  const handleExportXlsx = async () => {
-    const summaryRows = groupedChanges.map(item => ({
-      Sheet: sheetName,
-      Cell: item.cellRef || '—',
-      'Value 1': item.valA || '—',
-      'Value 2': item.valB || '—',
-      Category: item.category || item.type,
-      Description: item.description || '',
-      Flags: item.flags?.join(', ') || '',
-    }));
-    
-    const sheets = {};
-    sheets[sheetName] = groupedChanges.map(item => ({
-      Sheet: sheetName,
-      Cell: item.cellRef || '—',
-      'Value 1': item.valA || '—',
-      'Value 2': item.valB || '—',
-      Category: item.category || item.type,
-      Description: item.description || '',
-      Flags: item.flags?.join(', ') || '',
-    }));
-    
-    downloadXlsx({ summaryRows, sheets });
-  };
-
-  const handleCopyCsv = async () => {
-    const headers = ['Sheet', 'Cell', 'Value 1', 'Value 2', 'Category', 'Description', 'Flags'];
-    const rows = groupedChanges.map(item => ({
-      Sheet: sheetName,
-      Cell: item.cellRef || '—',
-      'Value 1': item.valA || '—',
-      'Value 2': item.valB || '—',
-      Category: item.category || item.type,
-      Description: item.description || '',
-      Flags: item.flags?.join(', ') || '',
-    }));
-    const csv = toCsv(rows, headers);
-    await copyToClipboard(csv);
-    setCopiedExport(true);
-    setTimeout(() => setCopiedExport(false), 2000);
   };
 
   const saveAnnotation = () => {
@@ -694,23 +551,10 @@ export default function TopBottomDiffViewer({
             </span>
           </button>
 
-          <div className="relative">
-            <button onClick={onExport} className="btn-primary py-1.5 px-3 text-xs h-8 tracking-[1px]">
-              <Filter className="w-3.5 h-3.5 inline mr-1" />
-              Export
-              <ChevronDown className="w-3.5 h-3.5 inline ml-1" />
-            </button>
-            <div className="absolute right-0 top-full mt-1 bg-[#141414] border border-[#262626] p-2 rounded shadow-lg z-50 min-w-[160px]">
-              <button onClick={handleExportXlsx} className="w-full flex items-center gap-2 px-3 py-2 text-xs font-mono text-[#cccccc] hover:text-white hover:bg-[#262626] rounded transition-colors">
-                <FileSpreadsheet className="w-4 h-4" />
-                Export XLSX
-              </button>
-              <button onClick={handleCopyCsv} className="w-full flex items-center gap-2 px-3 py-2 text-xs font-mono text-[#cccccc] hover:text-white hover:bg-[#262626] rounded transition-colors">
-                <Copy className="w-4 h-4" />
-                {copiedExport ? 'Copied!' : 'Copy CSV'}
-              </button>
-            </div>
-          </div>
+          <button onClick={onExport} className="btn-primary py-1.5 px-3 text-xs h-8 tracking-[1px]">
+            <Download className="w-3.5 h-3.5 inline mr-1" />
+            Export
+          </button>
           <button
             onClick={() => { if (onShare) onShare(); setCopiedLink(true); setTimeout(() => setCopiedLink(false), 2000); }}
             className="btn-secondary py-1.5 px-3 text-xs h-8 tracking-[1px]"
@@ -802,24 +646,6 @@ export default function TopBottomDiffViewer({
                 <button onClick={() => { updateOption('normalizeDatesEU', !normalizeDatesEU); if (!normalizeDatesEU) updateOption('normalizeDatesUS', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesEU ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (EU)</button>
               </div>
             </div>
-
-            {/* Category Filter */}
-            <div className="border-t border-[#262626] pt-4">
-              <CategoryFilter
-                categories={CHANGE_CATEGORIES}
-                counts={categoryCounts}
-                enabled={enabledCategories}
-                onChange={setEnabledCategories}
-                auditFlags={AUDIT_FLAGS}
-                auditCounts={auditCounts}
-                auditEnabled={enabledAuditFlags}
-                onAuditChange={setEnabledAuditFlags}
-                showOnlyFlagged={showOnlyFlagged}
-                onShowOnlyFlaggedChange={setShowOnlyFlagged}
-                onHideSystemGenerated={() => setHideSystemGenerated(!hideSystemGenerated)}
-                hideSystemGenerated={hideSystemGenerated}
-              />
-            </div>
           </div>
         )}
 
@@ -828,22 +654,9 @@ export default function TopBottomDiffViewer({
           showLeftSidebar || showRightSidebar ? 'lg:col-span-9' : 'lg:col-span-12'
         } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0 ${isFullView ? 'min-h-0 flex flex-col' : ''}`}>
           
-          {/* Sheet Tabs */}
-          <SheetTabs
-            sheets={allSheetNames}
-            activeSheet={activeSheet}
-            onSheetChange={setActiveSheet}
-            changeCounts={categoryCounts}
-            linkSheets={linkSheets}
-            otherSheets={allSheetNames}
-            otherActiveSheet={activeSheet}
-            onLinkSheetsChange={setLinkSheets}
-            side="A"
-          />
-
           <div className="shrink-0 bg-[#141414] px-4 py-2 border-b border-[#262626] flex items-center justify-between text-xs font-mono uppercase text-white select-none">
             <div className="flex items-center gap-4">
-              <span className="font-bold text-[#c3d9f3]">{activeSheet}</span>
+              <span className="font-bold text-[#c3d9f3]">{sheetName}</span>
               <span className="text-[10px] text-[#666666]">{displayRows.length} ROW(S) DISPLAYED</span>
               {viewMode === 'overlapped' && (
                 <span className="px-2 py-0.5 text-[10px] font-mono bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca] rounded">OVERLAPPED VIEW</span>
@@ -971,89 +784,51 @@ export default function TopBottomDiffViewer({
         </div>
 
         {showRightSidebar && (
-          <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto flex flex-col' : ''}`}>
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3 shrink-0">
+          <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
+            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Details</span>
+                <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes</span>
               </div>
               <button onClick={() => setShowRightSidebar(false)} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Summary Stats */}
-            <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono shrink-0">
+            <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono">
               <div className="flex items-center gap-3">
                 <span className="text-[#fca5a5] font-bold" title="Deletions">- {stats.totalDeleted || 0}</span>
                 <span className="text-[#6ee7b7] font-bold" title="Additions">+ {stats.totalAdded || 0}</span>
                 <span className="text-[#fcd34d] font-bold" title="Modifications">~ {stats.totalModified || 0}</span>
                 <span className="text-[#a5b4fc] font-bold" title="Formula Changes">ƒ {stats.totalFormulaChanges || 0}</span>
               </div>
-              <div className="text-[10px] text-[#999999] font-bold">TOTAL: {filteredChangesList.length}</div>
+              <div className="text-[10px] text-[#999999] font-bold">TOTAL: {changesList.length}</div>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a] shrink-0">
-              <span className="text-xs font-mono text-[#cccccc]">{filteredChangesList.length > 0 ? `${activeChangeIndex + 1} of ${filteredChangesList.length}` : '0 of 0'}</span>
+            <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a]">
+              <span className="text-xs font-mono text-[#cccccc]">{changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}</span>
               <div className="flex items-center gap-1">
-                <button onClick={() => jumpToChange(activeChangeIndex - 1)} disabled={filteredChangesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Previous Change (Up Arrow)"><ChevronUp className="w-4 h-4" /></button>
-                <button onClick={() => jumpToChange(activeChangeIndex + 1)} disabled={filteredChangesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Next Change (Down Arrow)"><ChevronDown className="w-4 h-4" /></button>
+                <button onClick={() => jumpToChange(activeChangeIndex - 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Previous Change (Up Arrow)"><ChevronUp className="w-4 h-4" /></button>
+                <button onClick={() => jumpToChange(activeChangeIndex + 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Next Change (Down Arrow)"><ChevronDown className="w-4 h-4" /></button>
               </div>
             </div>
 
-            {/* Results Grid (Details) */}
-            <div className="flex-1 min-h-[220px] max-h-[340px] shrink-0 overflow-hidden flex flex-col">
-              <ResultsGrid
-                items={groupedChanges}
-                onRowClick={(item) => {
-                  setSelectedDetailItem(item);
-                  if (item.rowIdx != null) {
-                    jumpToChange(filteredChangesList.findIndex(c => c.rowIdx === item.rowIdx && c.colIdx === item.colIdx));
-                  }
-                }}
-                activeRowId={selectedDetailItem?.id}
-                getCategoryColor={getCategoryColor}
-                getCategoryPattern={getCategoryPattern}
-              />
-            </div>
-
-            {/* Change Histogram */}
-            <ChangeHistogram
-              items={filteredChangesList}
-              total={filteredChangesList.length}
-              bins={40}
-              onBinClick={(rowIdx) => {
-                const targetChange = filteredChangesList.find(c => c.rowIdx === rowIdx);
-                if (targetChange) {
-                  jumpToChange(filteredChangesList.indexOf(targetChange));
-                }
-              }}
-              caption="CHANGES BY ROW"
-              categoryColors={Object.fromEntries(CHANGE_CATEGORIES.map(c => [c.id, c.colorToken]))}
-            />
-
-            {/* Status Bar */}
-            <StatusBar
-              status={filteredChangesList.length > 0 ? 'CHANGES DETECTED' : 'NO CHANGES'}
-              fileAName={fileNameA || 'File A'}
-              sheetAName={activeSheet}
-              fileBName={fileNameB || 'File B'}
-              sheetBName={activeSheet}
-              displayedCount={filteredChangesList.length}
-              totalCount={changesList.length}
-              isComparing={false}
-            />
-
-            {/* Export Actions */}
-            <div className="flex gap-2 p-2 border-t border-[#262626] bg-[#000000] shrink-0">
-              <button onClick={handleExportXlsx} className="flex-1 btn-secondary text-xs py-2 flex items-center justify-center gap-1">
-                <FileSpreadsheet className="w-3.5 h-3.5" />
-                EXPORT XLSX
-              </button>
-              <button onClick={handleCopyCsv} className="flex-1 btn-secondary text-xs py-2 flex items-center justify-center gap-1">
-                <Copy className="w-3.5 h-3.5" />
-                {copiedExport ? 'COPIED!' : 'COPY CSV'}
-              </button>
+            <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin">
+              {changesList.length === 0 ? (
+                <div className="text-center py-8 text-xs font-mono text-[#666666]">No changes detected in current view.</div>
+              ) : (
+                changesList.map((item, idx) => {
+                  const isActive = activeChangeIndex === idx;
+                  return (
+                    <div key={item.id} onClick={() => jumpToChange(idx)} className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${isActive ? 'border-white bg-[#1f1f1f] shadow-md transform translate-x-0.5' : 'border-[#262626] bg-[#0d0d0d] hover:border-[#3a3a3a] hover:bg-[#141414]'}`}>
+                      <div className="flex items-center justify-between">
+                        <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${item.type === 'MODIFIED' ? 'bg-[#2d2208] text-[#fcd34d] border border-[#78350f]' : item.type === 'ADDED' ? 'bg-[#062c19] text-[#6ee7b7] border border-[#047857]' : item.type === 'DELETED' ? 'bg-[#3b1219] text-[#fca5a5] border border-[#b91c1c]' : 'bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca]'}`}>{item.type}</span>
+                        <div className="flex items-center gap-2"><span className="font-bold text-white">{item.cellRef}</span><span className="text-[10px] text-[#666666]">#{item.id}</span></div>
+                      </div>
+                      <div className="pt-1 text-[11px] leading-relaxed break-words font-mono"><FormattedCardDiff item={item} /></div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         )}
