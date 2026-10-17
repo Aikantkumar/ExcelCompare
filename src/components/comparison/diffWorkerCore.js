@@ -236,7 +236,7 @@ function getRowHash(row) {
 }
 
 function padRow(row, length) {
-  const newRow = [...row];
+  const newRow = Array.isArray(row) ? [...row] : [];
   while (newRow.length < length) {
     newRow.push({ val: '', formula: '', type: 'empty' });
   }
@@ -261,8 +261,8 @@ export function compareSheetsCore(sheetA, sheetB, options = {}) {
     sortRows = 'none',
   } = options;
 
-  let rawRowsA = sheetA?.rows ? sheetA.rows.map(row => [...row]) : [];
-  let rawRowsB = sheetB?.rows ? sheetB.rows.map(row => [...row]) : [];
+  let rawRowsA = Array.isArray(sheetA?.rows) ? sheetA.rows.map(row => Array.isArray(row) ? [...row] : []) : [];
+  let rawRowsB = Array.isArray(sheetB?.rows) ? sheetB.rows.map(row => Array.isArray(row) ? [...row] : []) : [];
 
   let colMappingB = null;
   if (matchColumnsByHeaders && rawRowsA.length > 0 && rawRowsB.length > 0) {
@@ -300,7 +300,7 @@ export function compareSheetsCore(sheetA, sheetB, options = {}) {
     const rowA = pair.rowA;
     let rowB = pair.rowB;
 
-    if (colMappingB && rowB) {
+    if (colMappingB && rowB && Array.isArray(rowB)) {
       rowB = remapRowCols(rowB, colMappingB, maxCols);
     }
 

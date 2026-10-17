@@ -64,8 +64,8 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
                 <tr class="${r.type.toLowerCase()}">
                   <td>${r.indexA !== null ? r.indexA + 1 : '-'}/${r.indexB !== null ? r.indexB + 1 : '-'}</td>
                   <td><strong>${r.type}</strong></td>
-                  <td>${r.cellsA.map((c) => c.val).join(' | ')}</td>
-                  <td>${r.cellsB.map((c) => c.val).join(' | ')}</td>
+                  <td>${Array.isArray(r.cellsA) ? r.cellsA.map((c) => c.val).join(' | ') : '-'}</td>
+                  <td>${Array.isArray(r.cellsB) ? r.cellsB.map((c) => c.val).join(' | ') : '-'}</td>
                 </tr>
               `
                 )

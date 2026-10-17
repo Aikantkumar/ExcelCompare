@@ -316,7 +316,7 @@ export default function TopBottomDiffViewer({
     rows.forEach((row, idx) => {
       if (row.type === 'COLLAPSED') {
         if (expandedBlockIds.has(idx)) {
-          list.push(...(row.hiddenRows || []));
+          list.push(...(Array.isArray(row.hiddenRows) ? row.hiddenRows : []));
         } else {
           list.push({ ...row, blockId: idx });
         }
