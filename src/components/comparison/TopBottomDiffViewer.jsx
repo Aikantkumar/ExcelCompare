@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { 
   Eye, 
   Layers, 
@@ -15,10 +15,13 @@ import {
   Settings,
   Maximize2,
   Minimize2,
+  Maximize,
+  Minimize,
   Layers as LayersIcon
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
 import { SpreadsheetVirtualizedTable } from './VirtualizedTable';
+import { useFullView } from './useFullView';
 
 export default function TopBottomDiffViewer({ 
   diffData, 
@@ -47,6 +50,10 @@ export default function TopBottomDiffViewer({
   const [appearanceTheme, setAppearanceTheme] = useState('dark');
   const [syncScroll, setSyncScroll] = useState(true);
   const [tableHeight, setTableHeight] = useState(() => Math.floor(window.innerHeight / 2 - 140));
+  const [registerBodyHeight, setRegisterBodyHeight] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
+
+  const { isFullView, toggleFullView, exitFullView } = useFullView({ isDesktop });
 
   useEffect(() => {
     const handleResize = () => setTableHeight(Math.floor(window.innerHeight / 2 - 140));
@@ -54,10 +61,17 @@ export default function TopBottomDiffViewer({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const virtualTopTableRef = useRef(null);
   const virtualBottomTableRef = useRef(null);
   const virtualOverlappedTableRef = useRef(null);
-  const isSyncingRef = useRef(false);
+  const activePaneRef = useRef(null);
+  const registerBodyRef = useRef(null);
 
   const { rows = [], changesList = [], activeColIndices = [], stats = {} } = diffData || {};
 
@@ -90,6 +104,7 @@ export default function TopBottomDiffViewer({
     if (change) {
       // Scroll virtualized table to row
       if (viewMode === 'stacked') {
+        activePaneRef.current = 'top';
         if (virtualTopTableRef.current) {
           virtualTopTableRef.current.scrollToIndex(change.rowIdx, 'center');
         }
@@ -101,29 +116,38 @@ export default function TopBottomDiffViewer({
           virtualOverlappedTableRef.current.scrollToIndex(change.rowIdx, 'center');
         }
       }
-      // Then scroll the cell into view horizontally
+      // Then scroll the cell into view horizontally (container only, no page scroll)
       const cellId = `cell-${change.rowIdx}-${change.colIdx}`;
       const elem = document.getElementById(cellId);
-      if (elem) {
-        elem.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-      }
-      
-      if (syncScroll && viewMode === 'stacked') {
-        const topScrollContainer = virtualTopTableRef.current?.getVirtualizer?.()?.scrollElement;
-        const bottomScrollContainer = virtualBottomTableRef.current?.getVirtualizer?.()?.scrollElement;
-        if (topScrollContainer && bottomScrollContainer) {
-          isSyncingRef.current = true;
-          bottomScrollContainer.scrollTop = topScrollContainer.scrollTop;
-          requestAnimationFrame(() => { isSyncingRef.current = false; });
+      if (elem && viewMode === 'stacked') {
+        const topVirtualizer = virtualTopTableRef.current?.getVirtualizer?.();
+        const bottomVirtualizer = virtualBottomTableRef.current?.getVirtualizer?.();
+        const topScrollEl = topVirtualizer?.scrollElement;
+        const bottomScrollEl = bottomVirtualizer?.scrollElement;
+        const container = topScrollEl || bottomScrollEl;
+        if (container) {
+          const cellRect = elem.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+          const left = container.scrollLeft + (cellRect.left - containerRect.left) - (containerRect.width / 2) + (cellRect.width / 2);
+          container.scrollTo({ left: Math.max(0, left), behavior: 'auto' });
+        }
+      } else if (elem && viewMode === 'overlapped') {
+        const overlappedVirtualizer = virtualOverlappedTableRef.current?.getVirtualizer?.();
+        const scrollEl = overlappedVirtualizer?.scrollElement;
+        if (scrollEl) {
+          const cellRect = elem.getBoundingClientRect();
+          const containerRect = scrollEl.getBoundingClientRect();
+          const left = scrollEl.scrollLeft + (cellRect.left - containerRect.left) - (containerRect.width / 2) + (cellRect.width / 2);
+          scrollEl.scrollTo({ left: Math.max(0, left), behavior: 'auto' });
         }
       }
     }
   };
 
   // Synchronized scrolling for stacked viewport
-  const handleScrollSync = (source) => {
-    if (isSyncingRef.current) return;
-    isSyncingRef.current = true;
+  const handleScrollSync = useCallback((source) => {
+    if (!syncScroll) return;
+    if (activePaneRef.current !== null && activePaneRef.current !== source) return;
     
     let sourceVirtualizer, targetVirtualizer;
     if (source === 'top') {
@@ -138,14 +162,17 @@ export default function TopBottomDiffViewer({
       const sourceScrollEl = sourceVirtualizer.scrollElement;
       const targetScrollEl = targetVirtualizer.scrollElement;
       if (sourceScrollEl && targetScrollEl) {
-        targetScrollEl.scrollTop = sourceScrollEl.scrollTop;
-        targetScrollEl.scrollLeft = sourceScrollEl.scrollLeft;
+        const topDiff = Math.abs(targetScrollEl.scrollTop - sourceScrollEl.scrollTop);
+        const leftDiff = Math.abs(targetScrollEl.scrollLeft - sourceScrollEl.scrollLeft);
+        if (topDiff >= 1) {
+          targetScrollEl.scrollTop = sourceScrollEl.scrollTop;
+        }
+        if (leftDiff >= 1) {
+          targetScrollEl.scrollLeft = sourceScrollEl.scrollLeft;
+        }
       }
     }
-    requestAnimationFrame(() => {
-      isSyncingRef.current = false;
-    });
-  };
+  }, [syncScroll]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -161,6 +188,74 @@ export default function TopBottomDiffViewer({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeChangeIndex, changesList]);
+
+  // ResizeObserver for register body height in full view
+  useEffect(() => {
+    if (!isFullView || !isDesktop || !registerBodyRef.current) {
+      setRegisterBodyHeight(0);
+      return;
+    }
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setRegisterBodyHeight(entry.contentRect.height);
+      }
+    });
+    ro.observe(registerBodyRef.current);
+    return () => ro.disconnect();
+  }, [isFullView, isDesktop]);
+
+  // Full view: Esc to exit (modal-aware, handled by hook for base behavior)
+  useEffect(() => {
+    if (!isFullView) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (showAnnotationModal || showAppearanceModal) return;
+        const exportModal = document.querySelector('[data-export-modal]');
+        if (exportModal) return;
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        exitFullView();
+      } else if (e.key === 'ArrowDown' || e.key === 'j' || e.key === 'ArrowUp' || e.key === 'k') {
+        // Allow j/k/ArrowUp/ArrowDown navigation in full view
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullView, showAnnotationModal, showAppearanceModal, exitFullView]);
+
+  // Calculate table heights for full view
+  const stackedTableHeight = React.useMemo(() => {
+    if (!isFullView || !isDesktop || registerBodyHeight === 0) return tableHeight;
+    // Vertical chrome: header strip (48px) + padding (16px*2) + gap (16px) + label rows (2*24px) + container padding (2*16px)
+    // header strip = ~48px, p-4 = 16px top/bottom, gap-4 = 16px, label rows = 24px each, table container p-2 = 8px each
+    const verticalChrome = 48 + 32 + 16 + 48 + 32; // ~176px
+    const availableHeight = registerBodyHeight - verticalChrome;
+    const height = Math.floor(availableHeight / 2);
+    return Math.max(160, height);
+  }, [isFullView, isDesktop, registerBodyHeight, tableHeight]);
+
+  const overlappedTableHeight = React.useMemo(() => {
+    if (!isFullView || !isDesktop || registerBodyHeight === 0) return 500;
+    // Vertical chrome: header strip + padding + label row + container padding
+    const verticalChrome = 48 + 32 + 24 + 16; // ~120px
+    const availableHeight = registerBodyHeight - verticalChrome;
+    return Math.max(200, availableHeight);
+  }, [isFullView, isDesktop, registerBodyHeight]);
+
+  const activeChange = changesList[activeChangeIndex];
+
+  // Scroll to active change when table heights change in full view
+  useEffect(() => {
+    if (!isFullView) return;
+    if (activeChange == null) return;
+    const targetIdx = activeChange.rowIdx;
+    if (viewMode === 'stacked') {
+      activePaneRef.current = 'top';
+      virtualTopTableRef.current?.scrollToIndex(targetIdx, 'center');
+      virtualBottomTableRef.current?.scrollToIndex(targetIdx, 'center');
+    } else {
+      virtualOverlappedTableRef.current?.scrollToIndex(targetIdx, 'center');
+    }
+  }, [isFullView, stackedTableHeight, overlappedTableHeight, viewMode, activeChange]);
 
   const handleCellClick = (rIdx, cIdx, cell, side = 'both') => {
     const key = `${rIdx}_${cIdx}_${side}`;
@@ -228,8 +323,6 @@ export default function TopBottomDiffViewer({
     minWidth: colWidths[cIdx] ? `${colWidths[cIdx]}px` : '120px',
     width: colWidths[cIdx] ? `${colWidths[cIdx]}px` : '120px'
   }));
-
-  const activeChange = changesList[activeChangeIndex];
 
   const getCellContent = (row, cIdx, rIdx, isTop) => {
     const cellA = row.cellsA?.[cIdx] || { val: '' };
@@ -326,9 +419,9 @@ export default function TopBottomDiffViewer({
   };
 
   return (
-    <div className="space-y-4">
+    <div className={isFullView ? 'fixed inset-0 z-[60] bg-[#000000] flex flex-col gap-4 p-4 overflow-y-auto lg:overflow-hidden' : 'space-y-4'}>
       {/* Top Main Toolbar */}
-      <div className="bg-[#141414] border border-[#262626] p-3 flex flex-wrap items-center justify-between gap-4">
+      <div className="shrink-0 bg-[#141414] border border-[#262626] p-3 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowLeftSidebar(!showLeftSidebar)}
@@ -441,6 +534,23 @@ export default function TopBottomDiffViewer({
             <Settings className="w-4 h-4" />
           </button>
 
+          <button
+            onClick={toggleFullView}
+            className={`p-1.5 text-xs font-mono border rounded transition-all ${
+              isFullView
+                ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
+                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+            }`}
+            title={isFullView ? 'Exit Full View' : 'Enter Full View'}
+            aria-pressed={isFullView}
+            aria-label={isFullView ? 'Exit Full View' : 'Enter Full View'}
+          >
+            {isFullView ? <Minimize className="w-4 h-4 inline" /> : <Maximize className="w-4 h-4 inline" />}
+            <span className="ml-1 text-[11px] font-bold hidden sm:inline">
+              {isFullView ? 'EXIT FULL VIEW' : 'FULL VIEW'}
+            </span>
+          </button>
+
           <button onClick={onExport} className="btn-primary py-1.5 px-3 text-xs h-8 tracking-[1px]">
             <Download className="w-3.5 h-3.5 inline mr-1" />
             Export
@@ -472,9 +582,9 @@ export default function TopBottomDiffViewer({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+      <div className={`grid grid-cols-1 lg:grid-cols-12 gap-4 ${isFullView ? 'flex-1 min-h-0 items-stretch h-full' : 'items-start'}`}>
         {showLeftSidebar && (
-          <div className="lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-6 select-none transition-all">
+          <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-6 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
             <div className="flex items-center justify-between border-b border-[#262626] pb-3">
               <div className="flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-[#c3d9f3]" />
@@ -542,9 +652,9 @@ export default function TopBottomDiffViewer({
         <div className={`${
           showLeftSidebar && showRightSidebar ? 'lg:col-span-6' :
           showLeftSidebar || showRightSidebar ? 'lg:col-span-9' : 'lg:col-span-12'
-        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0`}>
+        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0 ${isFullView ? 'min-h-0 flex flex-col' : ''}`}>
           
-          <div className="bg-[#141414] px-4 py-2 border-b border-[#262626] flex items-center justify-between text-xs font-mono uppercase text-white select-none">
+          <div className="shrink-0 bg-[#141414] px-4 py-2 border-b border-[#262626] flex items-center justify-between text-xs font-mono uppercase text-white select-none">
             <div className="flex items-center gap-4">
               <span className="font-bold text-[#c3d9f3]">{sheetName}</span>
               <span className="text-[10px] text-[#666666]">{displayRows.length} ROW(S) DISPLAYED</span>
@@ -559,9 +669,16 @@ export default function TopBottomDiffViewer({
             )}
           </div>
 
-          {viewMode === 'stacked' ? (
-            <div className="space-y-4 p-4">
-              <div className="bg-[#141414] border border-[#262626] p-2">
+          <div ref={registerBodyRef} className={isFullView ? 'flex-1 min-h-0 overflow-hidden' : ''}>
+            {viewMode === 'stacked' ? (
+              <div className="space-y-4 p-4">
+              <div className="bg-[#141414] border border-[#262626] p-2"
+                onPointerDown={() => { activePaneRef.current = 'top'; }}
+                onWheel={() => { activePaneRef.current = 'top'; }}
+                onTouchStart={() => { activePaneRef.current = 'top'; }}
+                onFocus={() => { activePaneRef.current = 'top'; }}
+                onPointerLeave={() => { if (activePaneRef.current === 'top') activePaneRef.current = null; }}
+              >
                 <div className="text-xs font-mono text-[#c3d9f3] mb-2">FILE 1 (ORIGINAL / BEFORE)</div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualTopTableRef}
@@ -570,9 +687,10 @@ export default function TopBottomDiffViewer({
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
-                  containerHeight={tableHeight}
-                  overscan={5}
+                  containerHeight={stackedTableHeight}
+                  overscan={12}
                   estimatedRowSize={() => 32}
+                  fixedRowHeight={true}
                   onToggleCollapse={handleToggleCollapse}
                   renderCollapsedRow={(row) => (
                     <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
@@ -590,7 +708,13 @@ export default function TopBottomDiffViewer({
                   onScroll={syncScroll ? (e) => handleScrollSync('top') : undefined}
                 />
               </div>
-              <div className="bg-[#141414] border border-[#262626] p-2">
+              <div className="bg-[#141414] border border-[#262626] p-2"
+                onPointerDown={() => { activePaneRef.current = 'bottom'; }}
+                onWheel={() => { activePaneRef.current = 'bottom'; }}
+                onTouchStart={() => { activePaneRef.current = 'bottom'; }}
+                onFocus={() => { activePaneRef.current = 'bottom'; }}
+                onPointerLeave={() => { if (activePaneRef.current === 'bottom') activePaneRef.current = null; }}
+              >
                 <div className="text-xs font-mono text-[#fca5a5] mb-2">FILE 2 (MODIFIED / AFTER)</div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualBottomTableRef}
@@ -599,9 +723,10 @@ export default function TopBottomDiffViewer({
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
-                  containerHeight={tableHeight}
-                  overscan={5}
+                  containerHeight={stackedTableHeight}
+                  overscan={12}
                   estimatedRowSize={() => 32}
+                  fixedRowHeight={true}
                   onToggleCollapse={handleToggleCollapse}
                   renderCollapsedRow={(row) => (
                     <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
@@ -634,7 +759,7 @@ export default function TopBottomDiffViewer({
                   rowHeight={32}
                   headerHeight={36}
                   firstColWidth={48}
-                  containerHeight={500}
+                  containerHeight={overlappedTableHeight}
                   overscan={5}
                   estimatedRowSize={() => 32}
                   onToggleCollapse={handleToggleCollapse}
@@ -655,10 +780,11 @@ export default function TopBottomDiffViewer({
               </div>
             </div>
           )}
+          </div>
         </div>
 
         {showRightSidebar && (
-          <div className="lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all">
+          <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
             <div className="flex items-center justify-between border-b border-[#262626] pb-3">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes</span>
@@ -710,7 +836,7 @@ export default function TopBottomDiffViewer({
       </div>
 
       {showAppearanceModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
           <div className="bg-[#141414] border border-[#262626] p-6 max-w-md w-full space-y-4 select-none">
             <div className="flex justify-between items-center border-b border-[#262626] pb-3">
               <h3 className="text-title-sm text-white flex items-center gap-2"><Settings className="w-4 h-4 text-[#c3d9f3]" />APPEARANCE & THEME SETTINGS</h3>
@@ -729,7 +855,7 @@ export default function TopBottomDiffViewer({
       )}
 
       {showAnnotationModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
           <div className="bg-[#141414] border border-[#262626] p-6 max-w-md w-full space-y-4">
             <div className="flex justify-between items-center border-b border-[#262626] pb-3">
               <h3 className="text-title-sm text-white flex items-center gap-2"><MessageSquare className="w-4 h-4 text-[#c3d9f3]" />CELL ANNOTATION & AUDIT NOTE</h3>

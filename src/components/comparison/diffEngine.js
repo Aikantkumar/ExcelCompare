@@ -597,56 +597,106 @@ export function reconcileSheets(sheetA, sheetB, keyColIdx = 0, valColIdx = 1) {
   const rowsA = sheetA?.rows || [];
   const rowsB = sheetB?.rows || [];
 
-  const mapA = new Map();
+  const countA = new Map();
+  const firstA = new Map();
   rowsA.slice(1).forEach((row, idx) => {
     const key = String(row[keyColIdx]?.val || '').trim();
     const val = String(row[valColIdx]?.val || '').trim();
-    if (key) mapA.set(key, { key, val, rowIdx: idx + 1, row });
+    if (!key) return;
+    const current = countA.get(key) || 0;
+    countA.set(key, current + 1);
+    if (!firstA.has(key)) {
+      firstA.set(key, { key, val, rowIdx: idx + 1, row });
+    }
   });
 
-  const mapB = new Map();
+  const countB = new Map();
+  const firstB = new Map();
   rowsB.slice(1).forEach((row, idx) => {
     const key = String(row[keyColIdx]?.val || '').trim();
     const val = String(row[valColIdx]?.val || '').trim();
-    if (key) mapB.set(key, { key, val, rowIdx: idx + 1, row });
+    if (!key) return;
+    const current = countB.get(key) || 0;
+    countB.set(key, current + 1);
+    if (!firstB.has(key)) {
+      firstB.set(key, { key, val, rowIdx: idx + 1, row });
+    }
   });
+
+  const allKeys = new Set([...countA.keys(), ...countB.keys()]);
 
   const matched = [];
   const mismatched = [];
   const onlyA = [];
   const onlyB = [];
+  const duplicateKeys = [];
+  let skippedEmptyKey = 0;
 
-  mapA.forEach((itemA, key) => {
-    if (mapB.has(key)) {
-      const itemB = mapB.get(key);
+  const totalRowsA = rowsA.length - 1;
+  const totalRowsB = rowsB.length - 1;
+
+  allKeys.forEach((key) => {
+    const cA = countA.get(key) || 0;
+    const cB = countB.get(key) || 0;
+
+    if (cA > 1 || cB > 1) {
+      duplicateKeys.push({
+        key,
+        countA: cA,
+        countB: cB,
+        status: 'DUPLICATE_KEY',
+      });
+      return;
+    }
+
+    const hasA = cA === 1;
+    const hasB = cB === 1;
+
+    if (hasA && hasB) {
+      const itemA = firstA.get(key);
+      const itemB = firstB.get(key);
       if (itemA.val === itemB.val) {
         matched.push({ key, valA: itemA.val, valB: itemB.val, status: 'MATCH' });
       } else {
         mismatched.push({ key, valA: itemA.val, valB: itemB.val, status: 'MISMATCH' });
       }
-    } else {
+    } else if (hasA) {
+      const itemA = firstA.get(key);
       onlyA.push({ key, valA: itemA.val, valB: '-', status: 'ONLY_LEFT' });
-    }
-  });
-
-  mapB.forEach((itemB, key) => {
-    if (!mapA.has(key)) {
+    } else if (hasB) {
+      const itemB = firstB.get(key);
       onlyB.push({ key, valA: '-', valB: itemB.val, status: 'ONLY_RIGHT' });
     }
   });
+
+  rowsA.slice(1).forEach((row) => {
+    const key = String(row[keyColIdx]?.val || '').trim();
+    if (!key) skippedEmptyKey++;
+  });
+  rowsB.slice(1).forEach((row) => {
+    const key = String(row[keyColIdx]?.val || '').trim();
+    if (!key) skippedEmptyKey++;
+  });
+
+  const allRecords = [...mismatched, ...onlyA, ...onlyB, ...matched, ...duplicateKeys];
 
   return {
     matched,
     mismatched,
     onlyA,
     onlyB,
-    all: [...mismatched, ...onlyA, ...onlyB, ...matched],
+    duplicateKeys,
+    all: allRecords,
     stats: {
       matchedCount: matched.length,
       mismatchedCount: mismatched.length,
       onlyACount: onlyA.length,
       onlyBCount: onlyB.length,
-      totalKeys: mapA.size + mapB.size - matched.length - mismatched.length,
+      duplicateCount: duplicateKeys.length,
+      skippedEmptyKey,
+      totalKeys: allKeys.size,
+      totalRowsA,
+      totalRowsB,
     },
   };
 }

@@ -70,9 +70,8 @@ export function VirtualizedTable({
     <div
       ref={parentRef}
       className={`overflow-auto relative ${className}`}
-      style={{ height: containerHeight, ...style }}
+      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: 'contain', scrollBehavior: 'auto' }}
       onScroll={(e) => {
-        virtualizer.measure();
         onScroll?.(e);
       }}
     >
@@ -174,6 +173,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
     renderCollapsedRow,
     onToggleCollapse,
     onScroll,
+    fixedRowHeight = false,
   },
   ref
 ) => {
@@ -191,6 +191,9 @@ export const SpreadsheetVirtualizedTable = forwardRef((
     count: rows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: (index) => {
+      if (fixedRowHeight) {
+        return estimatedRowSize ? estimatedRowSize(index) : rowHeight;
+      }
       const measured = measuredRowHeights.get(index);
       if (measured) return measured;
       return estimatedRowSize ? estimatedRowSize(index) : rowHeight;
@@ -231,9 +234,8 @@ export const SpreadsheetVirtualizedTable = forwardRef((
     <div
       ref={parentRef}
       className={`overflow-auto relative ${className}`}
-      style={{ height: containerHeight, ...style }}
+      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: 'contain', scrollBehavior: 'auto' }}
       onScroll={(e) => {
-        virtualizer.measure();
         onScroll?.(e);
       }}
     >
@@ -312,7 +314,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                 return (
                   <tr
                     key={rowKey(row, virtualRow.index)}
-                    ref={(el) => {
+                    ref={fixedRowHeight ? undefined : (el) => {
                       if (el) {
                         const h = el.offsetHeight;
                         if (h > 0 && h !== rowHeight) {
@@ -326,8 +328,9 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                       left: 0,
                       width: totalWidthPx,
                       transform: `translateY(${virtualRow.start}px)`,
-                      height: 'auto',
-                      minHeight: virtualRow.size,
+                      height: fixedRowHeight ? `${virtualRow.size}px` : 'auto',
+                      minHeight: fixedRowHeight ? undefined : virtualRow.size,
+                      overflow: fixedRowHeight ? 'hidden' : undefined,
                     }}
                     className={`border-b border-[#262626]/60 transition-colors ${
                       isSelected ? 'bg-[#1f1f1f]/80' : 'hover:bg-[#1a1a1a]/50'
@@ -410,9 +413,8 @@ export function VirtualizedTableBody({
     <div
       ref={parentRef}
       className={`overflow-auto relative ${className}`}
-      style={{ height: containerHeight, ...style }}
+      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: 'contain', scrollBehavior: 'auto' }}
       onScroll={(e) => {
-        virtualizer.measure();
         onScroll?.(e);
       }}
     >

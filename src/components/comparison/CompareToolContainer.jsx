@@ -14,6 +14,9 @@ import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
 import ViewerLoadingSkeleton from './ViewerLoadingSkeleton';
 
 const TopBottomDiffViewer = lazy(() => import('./TopBottomDiffViewer'));
+const ColumnCompareViewer = lazy(() => import('./ColumnCompareViewer'));
+const ReconcileViewer = lazy(() => import('./ReconcileViewer'));
+const BatchCompareViewer = lazy(() => import('./BatchCompareViewer'));
 const ExportModal = lazy(() => import('./ExportModal'));
 
 class ErrorBoundary extends Component {
@@ -55,18 +58,16 @@ class ErrorBoundary extends Component {
   }
 }
 
-// Initial sample data for synchronous SSR / client hydration consistency
 const initialSample = SAMPLE_DATASETS.register;
 const initialSheetNameA = initialSample.fileA.sheetNames[0];
 const initialSheetNameB = initialSample.fileB.sheetNames[0];
 const initialSheetA = initialSample.fileA.sheets[initialSheetNameA];
 const initialSheetB = initialSample.fileB.sheets[initialSheetNameB];
 
-export default function CompareToolContainer() {
+export default function CompareToolContainer({ initialMode = 'stacked' }) {
   const [errorMsg, setErrorMsg] = useState('');
   const [isParsing, setIsParsing] = useState(false);
   
-  // Store only sheetNames + current sheet data (not full parsed files)
   const [sheetNamesA, setSheetNamesA] = useState(initialSample.fileA.sheetNames);
   const [sheetNamesB, setSheetNamesB] = useState(initialSample.fileB.sheetNames);
   const [sheetDataA, setSheetDataA] = useState(initialSheetA);
@@ -81,11 +82,10 @@ export default function CompareToolContainer() {
   const [isDragActiveA, setIsDragActiveA] = useState(false);
   const [isDragActiveB, setIsDragActiveB] = useState(false);
 
-  // Full Diffchecker Options State
   const [diffOptions, setDiffOptions] = useState({
     compareFormulas: true,
     smartRowMatch: true,
-    diffGranularity: 'smart', // 'smart' | 'word' | 'char'
+    diffGranularity: 'smart',
     matchColumnsByHeaders: false,
     ignoreWhitespace: false,
     ignoreCase: false,
@@ -102,13 +102,11 @@ export default function CompareToolContainer() {
     setErrorMsg(err.message || 'Diff computation failed');
   }, []);
 
-  // Use Web Worker for diff computation
   const { diffData, isLoading, error: workerError, computeDiff, abort, clear: clearDiff } = useDiffWorker({
     fallbackToMainThread: true,
     onError: handleWorkerError,
   });
   
-  // Debounced diff computation using worker
   const computeDiffDebounced = useDebouncedCallback(
     useCallback((sheetA, sheetB, options) => {
       if (sheetA && sheetB) {
@@ -208,7 +206,6 @@ export default function CompareToolContainer() {
     if (e.target.files && e.target.files[0]) {
       handleFileDrop(e.target.files[0], side);
     }
-    // Reset input value so selecting the same file triggers change event again
     e.target.value = null;
   };
 
@@ -242,6 +239,14 @@ export default function CompareToolContainer() {
 
   const sheetA = sheetDataA;
   const sheetB = sheetDataB;
+
+  const showTopBottomViewer = initialMode === 'stacked' || initialMode === 'files';
+  const showColumnViewer = initialMode === 'columns';
+  const showReconcileViewer = initialMode === 'reconcile';
+  const showBatchViewer = initialMode === 'batch';
+
+  const needsDiffData = showTopBottomViewer;
+  const hasDataForColumnReconcile = sheetDataA && sheetDataB;
 
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -497,7 +502,7 @@ export default function CompareToolContainer() {
       {/* Tool View Rendering wrapped in ErrorBoundary */}
       <ErrorBoundary onReset={handleClearAll}>
         <Suspense fallback={<ViewerLoadingSkeleton />}>
-          {!isLoading && !isParsing && diffData && (
+          {needsDiffData && !isLoading && !isParsing && diffData && (
             <TopBottomDiffViewer
               diffData={diffData}
               sheetName={selectedSheetA}
@@ -511,13 +516,25 @@ export default function CompareToolContainer() {
               colWidthsB={sheetB?.colWidths || []}
             />
           )}
+          
+          {showColumnViewer && hasDataForColumnReconcile && (
+            <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} />
+          )}
+          
+          {showReconcileViewer && hasDataForColumnReconcile && (
+            <ReconcileViewer sheetA={sheetA} sheetB={sheetB} />
+          )}
+          
+          {showBatchViewer && (
+            <BatchCompareViewer />
+          )}
         </Suspense>
       </ErrorBoundary>
 
       {/* Export / Share Modal */}
       {isExportOpen && (
         <Suspense fallback={<>
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4" data-export-modal>
             <div className="bg-[#141414] border border-[#262626] p-6 max-w-xl w-full">
               <div className="animate-pulse space-y-4">
                 <div className="h-6 w-1/3 bg-[#262626] rounded" />

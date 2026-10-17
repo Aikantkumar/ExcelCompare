@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
-import { Columns3, CheckCircle2, AlertTriangle, ArrowRight, Download, Search } from 'lucide-react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { Columns3, CheckCircle2, AlertTriangle, ArrowRight, Download, Search, Maximize, Minimize } from 'lucide-react';
 import { compareColumns } from './diffEngine';
+import { useFullView } from './useFullView';
 
 export default function ColumnCompareViewer({ sheetA, sheetB }) {
   const [colAIndex, setColAIndex] = useState(0);
   const [colBIndex, setColBIndex] = useState(0);
   const [searchFilter, setSearchFilter] = useState('');
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
+
+  const { isFullView, toggleFullView, exitFullView } = useFullView({ isDesktop });
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const rowsA = sheetA?.rows || [];
   const rowsB = sheetB?.rows || [];
 
-  const headersA = rowsA[0]?.map((c, i) => c.val || `Col ${String.fromCharCode(65 + i)}`) || ['Col A'];
-  const headersB = rowsB[0]?.map((c, i) => c.val || `Col ${String.fromCharCode(65 + i)}`) || ['Col B'];
+  const headersA = useMemo(() => rowsA[0]?.map((c, i) => c.val || `Col ${String.fromCharCode(65 + i)}`) || ['Col A'], [rowsA]);
+  const headersB = useMemo(() => rowsB[0]?.map((c, i) => c.val || `Col ${String.fromCharCode(65 + i)}`) || ['Col B'], [rowsB]);
 
-  const valuesA = rowsA.slice(1).map((r) => r[colAIndex]?.val).filter(Boolean);
-  const valuesB = rowsB.slice(1).map((r) => r[colBIndex]?.val).filter(Boolean);
+  const valuesA = useMemo(() => rowsA.slice(1).map((r) => r[colAIndex]?.val).filter(Boolean), [rowsA, colAIndex]);
+  const valuesB = useMemo(() => rowsB.slice(1).map((r) => r[colBIndex]?.val).filter(Boolean), [rowsB, colBIndex]);
 
-  const result = compareColumns(valuesA, valuesB);
+  const result = useMemo(() => compareColumns(valuesA, valuesB), [valuesA, valuesB]);
 
-  const filterList = (arr) => {
+  const filterList = useCallback((arr) => {
     if (!searchFilter.trim()) return arr;
     return arr.filter((v) => String(v).toLowerCase().includes(searchFilter.toLowerCase()));
-  };
+  }, [searchFilter]);
 
-  const exportSetCsv = (filename, list) => {
+  const exportSetCsv = useCallback((filename, list) => {
     const csvContent = 'data:text/csv;charset=utf-8,' + list.join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
@@ -32,14 +42,40 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+  }, []);
+
+  const rootClassName = isFullView
+    ? 'fixed inset-0 z-[60] bg-[#000000] flex flex-col gap-4 p-4 overflow-hidden lg:overflow-y-auto'
+    : 'space-y-6';
+
+  const panelClassName = isFullView ? 'shrink-0' : '';
+  const resultsAreaClassName = isFullView ? 'flex-1 min-h-0' : '';
+  const listScrollClassName = isFullView ? 'flex-1 min-h-0 overflow-y-auto' : 'max-h-96 overflow-y-auto';
 
   return (
-    <div className="space-y-6">
+    <div className={rootClassName}>
       {/* Column Pickers Header */}
-      <div className="bg-[#141414] border border-[#262626] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={`bg-[#141414] border border-[#262626] p-6 grid grid-cols-1 md:grid-cols-2 gap-6 ${panelClassName}`}>
         <div>
-          <label className="text-caption text-white mb-2 block">SELECT COLUMN FROM LEFT FILE:</label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-caption text-white mb-0 block">SELECT COLUMN FROM LEFT FILE:</label>
+            <button
+              onClick={toggleFullView}
+              className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded transition-all flex items-center gap-1 ${
+                isFullView
+                  ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
+                  : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+              }`}
+              title={isFullView ? 'Exit Full View' : 'Enter Full View'}
+              aria-pressed={isFullView}
+              aria-label={isFullView ? 'Exit Full View' : 'Enter Full View'}
+            >
+              {isFullView ? <Minimize className="w-3.5 h-3.5 inline" /> : <Maximize className="w-3.5 h-3.5 inline" />}
+              <span className="ml-1 text-[11px] font-bold hidden sm:inline">
+                {isFullView ? 'EXIT FULL VIEW' : 'FULL VIEW'}
+              </span>
+            </button>
+          </div>
           <select
             value={colAIndex}
             onChange={(e) => setColAIndex(Number(e.target.value))}
@@ -76,7 +112,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 ${panelClassName}`}>
         <div className="bg-[#062c19] border border-[#047857] p-5 space-y-1">
           <div className="text-caption text-[#6ee7b7]">INTERSECTION (EXISTS IN BOTH)</div>
           <div className="text-3xl font-display text-[#6ee7b7]">{result.stats.intersectionCount}</div>
@@ -97,7 +133,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
       </div>
 
       {/* Search Filter */}
-      <div className="relative">
+      <div className={`relative ${panelClassName}`}>
         <Search className="w-4 h-4 absolute left-3 top-3.5 text-[#666666]" />
         <input
           type="text"
@@ -109,10 +145,10 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
       </div>
 
       {/* 3-Column Breakdown Grids */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${resultsAreaClassName}`}>
         {/* Column 1: Intersection */}
-        <div className="border border-[#262626] bg-[#0d0d0d]">
-          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between">
+        <div className="border border-[#262626] bg-[#0d0d0d] flex flex-col">
+          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between shrink-0">
             <span className="text-xs font-mono uppercase text-[#6ee7b7]">INTERSECTION ({result.intersection.length})</span>
             <button
               onClick={() => exportSetCsv('intersection.csv', result.intersection)}
@@ -121,7 +157,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
               <Download className="w-3 h-3" /> CSV
             </button>
           </div>
-          <div className="max-h-96 overflow-y-auto p-2 font-mono text-xs space-y-1">
+          <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
             {filterList(result.intersection).map((val, idx) => (
               <div key={idx} className="bg-[#062c19]/50 text-[#6ee7b7] p-2 border-l-2 border-[#047857]">
                 {val}
@@ -134,8 +170,8 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
         </div>
 
         {/* Column 2: Only Left */}
-        <div className="border border-[#262626] bg-[#0d0d0d]">
-          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between">
+        <div className="border border-[#262626] bg-[#0d0d0d] flex flex-col">
+          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between shrink-0">
             <span className="text-xs font-mono uppercase text-[#fca5a5]">ONLY LEFT ({result.onlyInA.length})</span>
             <button
               onClick={() => exportSetCsv('only_left.csv', result.onlyInA)}
@@ -144,7 +180,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
               <Download className="w-3 h-3" /> CSV
             </button>
           </div>
-          <div className="max-h-96 overflow-y-auto p-2 font-mono text-xs space-y-1">
+          <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
             {filterList(result.onlyInA).map((val, idx) => (
               <div key={idx} className="bg-[#3b1219]/50 text-[#fca5a5] p-2 border-l-2 border-[#b91c1c]">
                 {val}
@@ -157,8 +193,8 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
         </div>
 
         {/* Column 3: Only Right */}
-        <div className="border border-[#262626] bg-[#0d0d0d]">
-          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between">
+        <div className="border border-[#262626] bg-[#0d0d0d] flex flex-col">
+          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between shrink-0">
             <span className="text-xs font-mono uppercase text-[#fcd34d]">ONLY RIGHT ({result.onlyInB.length})</span>
             <button
               onClick={() => exportSetCsv('only_right.csv', result.onlyInB)}
@@ -167,7 +203,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
               <Download className="w-3 h-3" /> CSV
             </button>
           </div>
-          <div className="max-h-96 overflow-y-auto p-2 font-mono text-xs space-y-1">
+          <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
             {filterList(result.onlyInB).map((val, idx) => (
               <div key={idx} className="bg-[#2d2208]/50 text-[#fcd34d] p-2 border-l-2 border-[#78350f]">
                 {val}

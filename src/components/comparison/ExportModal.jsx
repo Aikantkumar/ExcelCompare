@@ -89,7 +89,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4" data-export-modal>
       <div className="bg-[#141414] border border-[#262626] p-6 max-w-xl w-full space-y-6">
         <div className="flex justify-between items-center border-b border-[#262626] pb-4">
           <h3 className="text-title-md text-white flex items-center gap-2">
