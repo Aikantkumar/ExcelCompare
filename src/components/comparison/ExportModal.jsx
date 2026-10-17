@@ -89,14 +89,14 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4" data-export-modal>
-      <div className="bg-[#141414] border border-[#262626] p-6 max-w-xl w-full space-y-6">
-        <div className="flex justify-between items-center border-b border-[#262626] pb-4">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]" data-export-modal>
+      <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-6">
+        <div className="flex justify-between items-center border-b border-[#262626] pb-4 sm:pb-3">
           <h3 className="text-title-md text-white flex items-center gap-2">
             <Download className="w-5 h-5 text-[#c3d9f3]" />
             EXPORT & SHARE COMPARISON REPORT
           </h3>
-          <button onClick={onClose} className="text-[#999999] hover:text-white">✕</button>
+          <button onClick={onClose} className="p-2 text-[#999999] hover:text-white" aria-label="Close export modal">✕</button>
         </div>
 
         {/* Tab Selection */}
@@ -142,7 +142,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
               {embedSnippet}
             </pre>
 
-            <button onClick={copyEmbed} className="btn-secondary w-full py-2 text-xs">
+            <button onClick={copyEmbed} className="btn-secondary w-full py-2 text-xs min-h-[40px]">
               {copiedCode ? <Check className="w-4 h-4 inline mr-2 text-[#5fa657]" /> : <Code className="w-4 h-4 inline mr-2" />}
               {copiedCode ? 'COPIED WIDGET CODE!' : 'COPY EMBED CODE'}
             </button>

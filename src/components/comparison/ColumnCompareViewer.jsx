@@ -45,7 +45,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
   }, []);
 
   const rootClassName = isFullView
-    ? 'fixed inset-0 z-[60] bg-[#000000] flex flex-col gap-4 p-4 overflow-hidden lg:overflow-y-auto'
+    ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-[#000000] h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]'
     : 'space-y-6';
 
   const panelClassName = isFullView ? 'shrink-0' : '';
@@ -55,7 +55,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
   return (
     <div className={rootClassName}>
       {/* Column Pickers Header */}
-      <div className={`bg-[#141414] border border-[#262626] p-6 grid grid-cols-1 md:grid-cols-2 gap-6 ${panelClassName}`}>
+      <div className={`bg-[#141414] border border-[#262626] p-3 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 ${panelClassName}`}>
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="text-caption text-white mb-0 block">SELECT COLUMN FROM LEFT FILE:</label>
@@ -113,19 +113,19 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
 
       {/* Summary Cards */}
       <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 ${panelClassName}`}>
-        <div className="bg-[#062c19] border border-[#047857] p-5 space-y-1">
+        <div className="bg-[#062c19] border border-[#047857] p-3 sm:p-5 space-y-1">
           <div className="text-caption text-[#6ee7b7]">INTERSECTION (EXISTS IN BOTH)</div>
           <div className="text-3xl font-display text-[#6ee7b7]">{result.stats.intersectionCount}</div>
           <div className="text-xs font-mono text-[#999999]">Matching unique items</div>
         </div>
 
-        <div className="bg-[#3b1219] border border-[#b91c1c] p-5 space-y-1">
+        <div className="bg-[#3b1219] border border-[#b91c1c] p-3 sm:p-5 space-y-1">
           <div className="text-caption text-[#fca5a5]">ONLY IN LEFT COLUMN</div>
           <div className="text-3xl font-display text-[#fca5a5]">{result.stats.onlyInACount}</div>
           <div className="text-xs font-mono text-[#999999]">Missing from right file</div>
         </div>
 
-        <div className="bg-[#2d2208] border border-[#78350f] p-5 space-y-1">
+        <div className="bg-[#2d2208] border border-[#78350f] p-3 sm:p-5 space-y-1">
           <div className="text-caption text-[#fcd34d]">ONLY IN RIGHT COLUMN</div>
           <div className="text-3xl font-display text-[#fcd34d]">{result.stats.onlyInBCount}</div>
           <div className="text-xs font-mono text-[#999999]">Missing from left file</div>

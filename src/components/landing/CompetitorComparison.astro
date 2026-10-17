@@ -12,8 +12,8 @@
     </div>
 
     <!-- Comparison Table -->
-    <div class="border border-[#262626] bg-[#000000] overflow-x-auto">
-      <table class="w-full text-xs font-mono border-collapse">
+    <div class="border border-[#262626] bg-[#000000] overflow-x-auto relative">
+      <table class="w-full text-xs font-mono border-collapse" style="min-width: 720px">
         <thead>
           <tr class="bg-[#141414] border-b border-[#262626] text-white">
             <th class="py-4 px-6 text-left text-title-sm font-normal">FEATURE & CAPABILITY</th>
@@ -89,6 +89,8 @@
           </tr>
         </tbody>
       </table>
+      <!-- Scroll hint: fade edge indicating horizontal scrollability -->
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#000000]/80 via-[#000000]/40 to-transparent" aria-hidden="true" />
     </div>
   </div>
 </section>

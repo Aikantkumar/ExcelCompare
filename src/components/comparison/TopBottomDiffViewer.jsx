@@ -36,8 +36,10 @@ export default function TopBottomDiffViewer({
   colWidthsB = []
 }) {
   const [viewMode, setViewMode] = useState('stacked'); // 'stacked' | 'overlapped'
-  const [showLeftSidebar, setShowLeftSidebar] = useState(true);
-  const [showRightSidebar, setShowRightSidebar] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
+  const [showLeftSidebar, setShowLeftSidebar] = useState(isDesktop);
+  const [showRightSidebar, setShowRightSidebar] = useState(isDesktop);
+  const [mobileDrawer, setMobileDrawer] = useState<'tools' | 'audit' | null>(null);
   const [viewTab, setViewTab] = useState('both'); // 'both' | 'original' | 'changed'
   const [activeChangeIndex, setActiveChangeIndex] = useState(0);
   const [selectedCell, setSelectedCell] = useState(null);
@@ -49,22 +51,37 @@ export default function TopBottomDiffViewer({
   const [annotations, setAnnotations] = useState({});
   const [appearanceTheme, setAppearanceTheme] = useState('dark');
   const [syncScroll, setSyncScroll] = useState(true);
-  const [tableHeight, setTableHeight] = useState(() => Math.floor(window.innerHeight / 2 - 140));
+  const [tableHeight, setTableHeight] = useState(() => {
+    if (typeof window === 'undefined') return 400;
+    return Math.min(Math.max(Math.floor(window.innerHeight / 2 - 140), 220), Math.floor(window.innerHeight * 0.6));
+  });
+  const [tableDims, setTableDims] = useState(() => ({
+    rowHeight: typeof window !== 'undefined' && window.innerWidth < 640 ? 36 : 32,
+    firstColWidth: typeof window !== 'undefined' && window.innerWidth < 640 ? 36 : 48,
+  }));
   const [registerBodyHeight, setRegisterBodyHeight] = useState(0);
-  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
 
   const { isFullView, toggleFullView, exitFullView } = useFullView({ isDesktop });
 
   useEffect(() => {
-    const handleResize = () => setTableHeight(Math.floor(window.innerHeight / 2 - 140));
+    const handleResize = () => {
+      setTableHeight(Math.min(Math.max(Math.floor(window.innerHeight / 2 - 140), 220), Math.floor(window.innerHeight * 0.6)));
+      setIsDesktop(window.innerWidth >= 1024);
+      setTableDims({
+        rowHeight: window.innerWidth < 640 ? 36 : 32,
+        firstColWidth: window.innerWidth < 640 ? 36 : 48,
+      });
+      if (window.innerWidth < 1024) {
+        setShowLeftSidebar(false);
+        setShowRightSidebar(false);
+      }
+    };
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
   }, []);
 
   const virtualTopTableRef = useRef(null);
@@ -221,6 +238,14 @@ export default function TopBottomDiffViewer({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isFullView, showAnnotationModal, showAppearanceModal, exitFullView]);
+
+  // Mobile drawer: Esc to close
+  useEffect(() => {
+    if (!mobileDrawer) return;
+    const handleKeyDown = (e) => { if (e.key === 'Escape') setMobileDrawer(null); };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileDrawer]);
 
   // Calculate table heights for full view
   const stackedTableHeight = React.useMemo(() => {
@@ -419,18 +444,19 @@ export default function TopBottomDiffViewer({
   };
 
   return (
-    <div className={isFullView ? 'fixed inset-0 z-[60] bg-[#000000] flex flex-col gap-4 p-4 overflow-y-auto lg:overflow-hidden' : 'space-y-4'}>
+    <div className={isFullView ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-[#000000] h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto lg:overflow-hidden [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]' : 'space-y-4'}>
       {/* Top Main Toolbar */}
-      <div className="shrink-0 bg-[#141414] border border-[#262626] p-3 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+      <div className="shrink-0 bg-[#141414] border border-[#262626] p-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
           <button
-            onClick={() => setShowLeftSidebar(!showLeftSidebar)}
+            onClick={() => { if (isDesktop) setShowLeftSidebar(!showLeftSidebar); else setMobileDrawer(mobileDrawer === 'tools' ? null : 'tools'); }}
             className={`p-1.5 text-xs font-mono border rounded transition-all ${
               showLeftSidebar
                 ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
                 : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
             }`}
-            title="Toggle Left Tools Sidebar"
+            title={mobileDrawer === 'tools' && !isDesktop ? 'Close Tools Drawer' : 'Toggle Left Tools Sidebar'}
+            aria-label={mobileDrawer === 'tools' && !isDesktop ? 'Close Tools & Options drawer' : (showLeftSidebar ? 'Hide Tools Sidebar' : 'Show Tools Sidebar')}
           >
             <Sliders className="w-4 h-4 inline" />
             <span className="ml-1 text-[11px] font-bold hidden sm:inline">
@@ -448,9 +474,10 @@ export default function TopBottomDiffViewer({
                 ? 'border-white text-white bg-[#1f1f1f] font-bold'
                 : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
             }`}
+            aria-label={viewMode === 'stacked' ? 'Stacked layout, active' : 'Stacked layout'}
           >
             <LayersIcon className="w-3.5 h-3.5 inline mr-1" />
-            Stacked
+            <span className="hidden sm:inline">Stacked</span>
           </button>
           <button
             onClick={() => setViewMode('overlapped')}
@@ -459,9 +486,10 @@ export default function TopBottomDiffViewer({
                 ? 'border-white text-white bg-[#1f1f1f] font-bold'
                 : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
             }`}
+            aria-label={viewMode === 'overlapped' ? 'Overlapped layout, active' : 'Overlapped layout'}
           >
             <Maximize2 className="w-3.5 h-3.5 inline mr-1" />
-            Overlapped
+            <span className="hidden sm:inline">Overlapped</span>
           </button>
 
           <div className="h-4 w-px bg-[#262626] mx-1" />
@@ -474,9 +502,30 @@ export default function TopBottomDiffViewer({
                 ? 'border-white text-white bg-[#1f1f1f] font-bold'
                 : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
             }`}
+            aria-label={viewTab === 'both' ? 'Both files view, active' : 'Both files view'}
           >
             <Eye className="w-3.5 h-3.5 inline mr-1" />
-            Both Files
+            <span className="hidden sm:inline">Both Files</span>
+          </button>
+          <button
+            onClick={() => setViewTab('original')}
+            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
+              viewTab === 'original'
+                ? 'border-white text-white bg-[#1f1f1f] font-bold'
+                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+            }`}
+          >
+            Original (Top)
+          </button>
+          <button
+            onClick={() => setViewTab('changed')}
+            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
+              viewTab === 'changed'
+                ? 'border-white text-white bg-[#1f1f1f] font-bold'
+                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+            }`}
+          >
+            Changed (Bottom)
           </button>
           <button
             onClick={() => setViewTab('original')}
@@ -512,15 +561,15 @@ export default function TopBottomDiffViewer({
           </label>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="relative shrink-0">
             <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#666666]" />
             <input
               type="text"
               placeholder="Filter cells..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#000000] border border-[#3a3a3a] pl-8 pr-3 py-1 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white w-40 sm:w-56"
+              className="bg-[#000000] border border-[#3a3a3a] pl-8 pr-3 py-1 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white w-full sm:w-56 max-w-xs sm:max-w-none shrink-0"
             />
           </div>
         </div>
@@ -530,6 +579,7 @@ export default function TopBottomDiffViewer({
             onClick={() => setShowAppearanceModal(true)}
             className="p-1.5 text-xs font-mono border border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white rounded"
             title="Appearance Settings"
+            aria-label="Appearance Settings"
           >
             <Settings className="w-4 h-4" />
           </button>
@@ -566,13 +616,14 @@ export default function TopBottomDiffViewer({
           <div className="h-4 w-px bg-[#262626] mx-1" />
 
           <button
-            onClick={() => setShowRightSidebar(!showRightSidebar)}
+            onClick={() => { if (isDesktop) setShowRightSidebar(!showRightSidebar); else setMobileDrawer(mobileDrawer === 'audit' ? null : 'audit'); }}
             className={`p-1.5 text-xs font-mono border rounded transition-all ${
               showRightSidebar
                 ? 'border-[#c3d9f3] text-[#c3d9f3] bg-[#1e1b4b]'
                 : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
             }`}
-            title="Toggle Right Changes Sidebar"
+            title={mobileDrawer === 'audit' && !isDesktop ? 'Close Audit Drawer' : 'Toggle Right Changes Sidebar'}
+            aria-label={mobileDrawer === 'audit' && !isDesktop ? 'Close Changes Audit drawer' : (showRightSidebar ? 'Hide Changes Sidebar' : 'Show Changes Sidebar')}
           >
             <span className="mr-1 text-[11px] font-bold hidden sm:inline">
               {showRightSidebar ? 'HIDE AUDIT' : 'SHOW AUDIT'}
@@ -583,69 +634,27 @@ export default function TopBottomDiffViewer({
       </div>
 
       <div className={`grid grid-cols-1 lg:grid-cols-12 gap-4 ${isFullView ? 'flex-1 min-h-0 items-stretch h-full' : 'items-start'}`}>
-        {showLeftSidebar && (
+        {!isDesktop && mobileDrawer === 'tools' ? null : showLeftSidebar && (
           <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-6 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
-              <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-[#c3d9f3]" />
-                <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Tools & Options</span>
-              </div>
-              <button onClick={() => setShowLeftSidebar(false)} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar">
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Comparison options</div>
-              
-              <div className="grid grid-cols-2 gap-1 bg-[#000000] p-1 border border-[#262626]">
-                <button onClick={() => updateOption('compareFormulas', false)} className={`py-1.5 text-xs font-mono text-center transition-all ${!compareFormulas ? 'bg-white text-black font-bold' : 'text-[#999999] hover:text-white'}`}>Standard</button>
-                <button onClick={() => updateOption('compareFormulas', true)} className={`py-1.5 text-xs font-mono text-center transition-all ${compareFormulas ? 'bg-white text-black font-bold' : 'text-[#999999] hover:text-white'}`}>Formulas</button>
-              </div>
-
-              <div className="grid grid-cols-3 gap-1 bg-[#000000] p-1 border border-[#262626]">
-                {['smart', 'word', 'char'].map((mode) => (
-                  <button key={mode} onClick={() => updateOption('diffGranularity', mode)} className={`py-1.5 text-xs font-mono text-center capitalize transition-all ${diffGranularity === mode ? 'bg-[#1e1b4b] text-[#c3d9f3] font-bold border border-[#4338ca]' : 'text-[#999999] hover:text-white'}`}>{mode}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-3 border-t border-[#262626] pt-4">
-              <ToggleRow label="Match columns by headers" checked={matchColumnsByHeaders} onChange={(val) => updateOption('matchColumnsByHeaders', val)} />
-              <ToggleRow label="Ignore white space" checked={ignoreWhitespace} onChange={(val) => updateOption('ignoreWhitespace', val)} />
-              <ToggleRow label="Ignore case changes" checked={ignoreCase} onChange={(val) => updateOption('ignoreCase', val)} />
-              <ToggleRow label="Collapse unchanged blocks" checked={collapseUnchangedBlocks} onChange={(val) => updateOption('collapseUnchangedBlocks', val)} />
-              <ToggleRow label="Hide unchanged rows" checked={hideUnchangedRows} onChange={(val) => updateOption('hideUnchangedRows', val)} />
-              <ToggleRow label="Hide unchanged columns" checked={hideUnchangedColumns} onChange={(val) => updateOption('hideUnchangedColumns', val)} />
-            </div>
-
-            <div className="space-y-3 border-t border-[#262626] pt-4">
-              <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Appearance</div>
-              <ToggleRow label="Preserve formatting" checked={preserveFormatting} onChange={(val) => updateOption('preserveFormatting', val)} />
-              <button onClick={() => setShowAppearanceModal(true)} className="w-full py-2 px-3 border border-[#3a3a3a] text-xs font-mono text-[#cccccc] hover:border-white hover:text-white text-left flex items-center justify-between transition-all">
-                <span>🎨 Change appearance</span>
-                <ChevronRight className="w-3.5 h-3.5 text-[#666666]" />
-              </button>
-            </div>
-
-            <div className="space-y-3 border-t border-[#262626] pt-4">
-              <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Tools & Normalization</div>
-              <div className="space-y-1">
-                <label className="text-[10px] font-mono text-[#666666] uppercase">Sort rows</label>
-                <select value={sortRows} onChange={(e) => updateOption('sortRows', e.target.value)} className="w-full bg-[#000000] border border-[#3a3a3a] px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-white">
-                  <option value="none">Original Order</option>
-                  {headersA.map((header, idx) => (
-                    <option key={idx} value={`col${idx}`}>
-                      {header || `Column ${getColumnLetter(idx)}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <button onClick={() => { updateOption('normalizeDatesUS', !normalizeDatesUS); if (!normalizeDatesUS) updateOption('normalizeDatesEU', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesUS ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (US)</button>
-                <button onClick={() => { updateOption('normalizeDatesEU', !normalizeDatesEU); if (!normalizeDatesEU) updateOption('normalizeDatesUS', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesEU ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (EU)</button>
-              </div>
-            </div>
+            <ToolsSidebar
+              compareFormulas={compareFormulas}
+              diffGranularity={diffGranularity}
+              matchColumnsByHeaders={matchColumnsByHeaders}
+              ignoreWhitespace={ignoreWhitespace}
+              ignoreCase={ignoreCase}
+              collapseUnchangedBlocks={collapseUnchangedBlocks}
+              hideUnchangedRows={hideUnchangedRows}
+              hideUnchangedColumns={hideUnchangedColumns}
+              preserveFormatting={preserveFormatting}
+              sortRows={sortRows}
+              normalizeDatesUS={normalizeDatesUS}
+              normalizeDatesEU={normalizeDatesEU}
+              updateOption={updateOption}
+              headersA={headersA}
+              onOpenAppearance={() => setShowAppearanceModal(true)}
+              onClose={() => { setShowLeftSidebar(false); setMobileDrawer(null); }}
+              isDrawer={!isDesktop && mobileDrawer === 'tools'}
+            />
           </div>
         )}
 
@@ -654,7 +663,7 @@ export default function TopBottomDiffViewer({
           showLeftSidebar || showRightSidebar ? 'lg:col-span-9' : 'lg:col-span-12'
         } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0 ${isFullView ? 'min-h-0 flex flex-col' : ''}`}>
           
-          <div className="shrink-0 bg-[#141414] px-4 py-2 border-b border-[#262626] flex items-center justify-between text-xs font-mono uppercase text-white select-none">
+          <div className="shrink-0 bg-[#141414] px-4 py-2 border-b border-[#262626] flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs font-mono uppercase text-white select-none">
             <div className="flex items-center gap-4">
               <span className="font-bold text-[#c3d9f3]">{sheetName}</span>
               <span className="text-[10px] text-[#666666]">{displayRows.length} ROW(S) DISPLAYED</span>
@@ -671,8 +680,8 @@ export default function TopBottomDiffViewer({
 
           <div ref={registerBodyRef} className={isFullView ? 'flex-1 min-h-0 overflow-hidden' : ''}>
             {viewMode === 'stacked' ? (
-              <div className="space-y-4 p-4">
-              <div className="bg-[#141414] border border-[#262626] p-2"
+              <div className="space-y-2 p-2 sm:p-4">
+              <div className="bg-[#141414] border border-[#262626] p-1 sm:p-2"
                 onPointerDown={() => { activePaneRef.current = 'top'; }}
                 onWheel={() => { activePaneRef.current = 'top'; }}
                 onTouchStart={() => { activePaneRef.current = 'top'; }}
@@ -684,9 +693,9 @@ export default function TopBottomDiffViewer({
                   ref={virtualTopTableRef}
                   rows={displayRows}
                   columns={buildColumns(colWidthsA)}
-                  rowHeight={32}
+                  rowHeight={tableDims.rowHeight}
                   headerHeight={36}
-                  firstColWidth={48}
+                  firstColWidth={tableDims.firstColWidth}
                   containerHeight={stackedTableHeight}
                   overscan={12}
                   estimatedRowSize={() => 32}
@@ -708,7 +717,7 @@ export default function TopBottomDiffViewer({
                   onScroll={syncScroll ? (e) => handleScrollSync('top') : undefined}
                 />
               </div>
-              <div className="bg-[#141414] border border-[#262626] p-2"
+              <div className="bg-[#141414] border border-[#262626] p-1 sm:p-2"
                 onPointerDown={() => { activePaneRef.current = 'bottom'; }}
                 onWheel={() => { activePaneRef.current = 'bottom'; }}
                 onTouchStart={() => { activePaneRef.current = 'bottom'; }}
@@ -720,9 +729,9 @@ export default function TopBottomDiffViewer({
                   ref={virtualBottomTableRef}
                   rows={displayRows}
                   columns={buildColumns(colWidthsB)}
-                  rowHeight={32}
+                  rowHeight={tableDims.rowHeight}
                   headerHeight={36}
-                  firstColWidth={48}
+                  firstColWidth={tableDims.firstColWidth}
                   containerHeight={stackedTableHeight}
                   overscan={12}
                   estimatedRowSize={() => 32}
@@ -745,9 +754,9 @@ export default function TopBottomDiffViewer({
                 />
               </div>
             </div>
-          ) : (
-            <div className="p-4">
-              <div className="bg-[#141414] border border-[#262626] p-2">
+            ) : (
+              <div className="p-2 sm:p-4">
+                <div className="bg-[#141414] border border-[#262626] p-1 sm:p-2">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-mono text-[#a5b4fc]">OVERLAPPED / MERGED VIEW</span>
                   <span className="text-[10px] text-[#666666]">Green = Added, Red = Deleted, Yellow = Modified, Blue = Formula Changed</span>
@@ -756,9 +765,9 @@ export default function TopBottomDiffViewer({
                   ref={virtualOverlappedTableRef}
                   rows={displayRows}
                   columns={buildColumns(colWidthsA.length > 0 ? colWidthsA : colWidthsB)}
-                  rowHeight={32}
+                  rowHeight={tableDims.rowHeight}
                   headerHeight={36}
-                  firstColWidth={48}
+                  firstColWidth={tableDims.firstColWidth}
                   containerHeight={overlappedTableHeight}
                   overscan={5}
                   estimatedRowSize={() => 32}
@@ -783,64 +792,85 @@ export default function TopBottomDiffViewer({
           </div>
         </div>
 
-        {showRightSidebar && (
+        {!isDesktop && mobileDrawer === 'audit' ? null : showRightSidebar && (
           <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes</span>
-              </div>
-              <button onClick={() => setShowRightSidebar(false)} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar">
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono">
-              <div className="flex items-center gap-3">
-                <span className="text-[#fca5a5] font-bold" title="Deletions">- {stats.totalDeleted || 0}</span>
-                <span className="text-[#6ee7b7] font-bold" title="Additions">+ {stats.totalAdded || 0}</span>
-                <span className="text-[#fcd34d] font-bold" title="Modifications">~ {stats.totalModified || 0}</span>
-                <span className="text-[#a5b4fc] font-bold" title="Formula Changes">ƒ {stats.totalFormulaChanges || 0}</span>
-              </div>
-              <div className="text-[10px] text-[#999999] font-bold">TOTAL: {changesList.length}</div>
-            </div>
-
-            <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a]">
-              <span className="text-xs font-mono text-[#cccccc]">{changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}</span>
-              <div className="flex items-center gap-1">
-                <button onClick={() => jumpToChange(activeChangeIndex - 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Previous Change (Up Arrow)"><ChevronUp className="w-4 h-4" /></button>
-                <button onClick={() => jumpToChange(activeChangeIndex + 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Next Change (Down Arrow)"><ChevronDown className="w-4 h-4" /></button>
-              </div>
-            </div>
-
-            <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin">
-              {changesList.length === 0 ? (
-                <div className="text-center py-8 text-xs font-mono text-[#666666]">No changes detected in current view.</div>
-              ) : (
-                changesList.map((item, idx) => {
-                  const isActive = activeChangeIndex === idx;
-                  return (
-                    <div key={item.id} onClick={() => jumpToChange(idx)} className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${isActive ? 'border-white bg-[#1f1f1f] shadow-md transform translate-x-0.5' : 'border-[#262626] bg-[#0d0d0d] hover:border-[#3a3a3a] hover:bg-[#141414]'}`}>
-                      <div className="flex items-center justify-between">
-                        <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${item.type === 'MODIFIED' ? 'bg-[#2d2208] text-[#fcd34d] border border-[#78350f]' : item.type === 'ADDED' ? 'bg-[#062c19] text-[#6ee7b7] border border-[#047857]' : item.type === 'DELETED' ? 'bg-[#3b1219] text-[#fca5a5] border border-[#b91c1c]' : 'bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca]'}`}>{item.type}</span>
-                        <div className="flex items-center gap-2"><span className="font-bold text-white">{item.cellRef}</span><span className="text-[10px] text-[#666666]">#{item.id}</span></div>
-                      </div>
-                      <div className="pt-1 text-[11px] leading-relaxed break-words font-mono"><FormattedCardDiff item={item} /></div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
+            <ChangesSidebar
+              stats={stats}
+              changesList={changesList}
+              activeChangeIndex={activeChangeIndex}
+              jumpToChange={jumpToChange}
+              onClose={() => { setShowRightSidebar(false); setMobileDrawer(null); }}
+              isDrawer={!isDesktop && mobileDrawer === 'audit'}
+            />
           </div>
         )}
 
       </div>
 
+      {/* Mobile bottom-sheet drawers for Tools & Options and Audit panels */}
+      {!isDesktop && mobileDrawer === 'tools' && (
+        <div className="fixed left-0 top-0 right-0 bottom-0 z-[80] bg-[#000000]/60 backdrop-blur-sm pointer-events-auto" role="dialog" aria-modal="true" aria-label="Tools & Options">
+          <div className="absolute left-0 bottom-0 right-0 z-[85] bg-[#000000] border border-[#262626] border-t-0 flex flex-col max-h-[85vh] h-[85vh] shadow-2xl [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+            <div className="shrink-0 bg-[#141414] border-b border-[#262626] px-4 py-3 flex items-center justify-between">
+              <h3 className="text-xs font-mono text-white font-bold uppercase tracking-wider">Tools & Options</h3>
+              <button onClick={() => setMobileDrawer(null)} className="text-[#666666] hover:text-white" title="Close drawer" aria-label="Close Tools & Options drawer">
+                <span className="text-[14px]">✕</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              <ToolsSidebar
+                compareFormulas={compareFormulas}
+                diffGranularity={diffGranularity}
+                matchColumnsByHeaders={matchColumnsByHeaders}
+                ignoreWhitespace={ignoreWhitespace}
+                ignoreCase={ignoreCase}
+                collapseUnchangedBlocks={collapseUnchangedBlocks}
+                hideUnchangedRows={hideUnchangedRows}
+                hideUnchangedColumns={hideUnchangedColumns}
+                preserveFormatting={preserveFormatting}
+                sortRows={sortRows}
+                normalizeDatesUS={normalizeDatesUS}
+                normalizeDatesEU={normalizeDatesEU}
+                updateOption={updateOption}
+                headersA={headersA}
+                onOpenAppearance={() => { setShowAppearanceModal(true); setMobileDrawer(null); }}
+                onClose={() => setMobileDrawer(null)}
+                isDrawer={true}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!isDesktop && mobileDrawer === 'audit' && (
+        <div className="fixed left-0 top-0 right-0 bottom-0 z-[80] bg-[#000000]/60 backdrop-blur-sm pointer-events-auto" role="dialog" aria-modal="true" aria-label="Changes Audit">
+          <div className="absolute left-0 bottom-0 right-0 z-[85] bg-[#000000] border border-[#262626] border-t-0 flex flex-col max-h-[85vh] h-[85vh] shadow-2xl [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+            <div className="shrink-0 bg-[#141414] border-b border-[#262626] px-4 py-3 flex items-center justify-between">
+              <h3 className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes Audit</h3>
+              <button onClick={() => setMobileDrawer(null)} className="text-[#666666] hover:text-white" title="Close drawer" aria-label="Close Changes Audit drawer">
+                <span className="text-[14px]">✕</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              <ChangesSidebar
+                stats={stats}
+                changesList={changesList}
+                activeChangeIndex={activeChangeIndex}
+                jumpToChange={jumpToChange}
+                onClose={() => setMobileDrawer(null)}
+                isDrawer={true}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {showAppearanceModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
-          <div className="bg-[#141414] border border-[#262626] p-6 max-w-md w-full space-y-4 select-none">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+          <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
             <div className="flex justify-between items-center border-b border-[#262626] pb-3">
               <h3 className="text-title-sm text-white flex items-center gap-2"><Settings className="w-4 h-4 text-[#c3d9f3]" />APPEARANCE & THEME SETTINGS</h3>
-              <button onClick={() => setShowAppearanceModal(false)} className="text-[#999999] hover:text-white">✕</button>
+              <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-[#999999] hover:text-white" aria-label="Close appearance settings">✕</button>
             </div>
             <div className="space-y-3">
               <div className="text-xs font-mono text-[#999999] uppercase">Grid Theme Preset</div>
@@ -855,11 +885,11 @@ export default function TopBottomDiffViewer({
       )}
 
       {showAnnotationModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
-          <div className="bg-[#141414] border border-[#262626] p-6 max-w-md w-full space-y-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+          <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4">
             <div className="flex justify-between items-center border-b border-[#262626] pb-3">
               <h3 className="text-title-sm text-white flex items-center gap-2"><MessageSquare className="w-4 h-4 text-[#c3d9f3]" />CELL ANNOTATION & AUDIT NOTE</h3>
-              <button onClick={() => setShowAnnotationModal(false)} className="text-[#999999] hover:text-white">✕</button>
+              <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-[#999999] hover:text-white" aria-label="Close annotation editor">✕</button>
             </div>
             <div className="text-xs font-mono text-[#999999] space-y-1">
               <div>POSITION: Row {selectedCell?.rIdx + 1}, Col {getColumnLetter(selectedCell?.cIdx)}</div>
@@ -874,6 +904,146 @@ export default function TopBottomDiffViewer({
         </div>
       )}
     </div>
+  );
+}
+
+function ToolsSidebar({
+  compareFormulas,
+  diffGranularity,
+  matchColumnsByHeaders,
+  ignoreWhitespace,
+  ignoreCase,
+  collapseUnchangedBlocks,
+  hideUnchangedRows,
+  hideUnchangedColumns,
+  preserveFormatting,
+  sortRows,
+  normalizeDatesUS,
+  normalizeDatesEU,
+  updateOption,
+  headersA,
+  onOpenAppearance,
+  onClose,
+  isDrawer
+}) {
+  return (
+    <>
+      {!isDrawer && (
+        <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+          <div className="flex items-center gap-2">
+            <Sliders className="w-4 h-4 text-[#c3d9f3]" />
+            <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Tools & Options</span>
+          </div>
+          <button onClick={onClose} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar" aria-label="Collapse Tools & Options">
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+      <div className="space-y-3">
+        <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Comparison options</div>
+
+        <div className="grid grid-cols-2 gap-1 bg-[#000000] p-1 border border-[#262626]">
+          <button onClick={() => updateOption('compareFormulas', false)} className={`py-1.5 text-xs font-mono text-center transition-all ${!compareFormulas ? 'bg-white text-black font-bold' : 'text-[#999999] hover:text-white'}`}>Standard</button>
+          <button onClick={() => updateOption('compareFormulas', true)} className={`py-1.5 text-xs font-mono text-center transition-all ${compareFormulas ? 'bg-white text-black font-bold' : 'text-[#999999] hover:text-white'}`}>Formulas</button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-1 bg-[#000000] p-1 border border-[#262626]">
+          {['smart', 'word', 'char'].map((mode) => (
+            <button key={mode} onClick={() => updateOption('diffGranularity', mode)} className={`py-1.5 text-xs font-mono text-center capitalize transition-all ${diffGranularity === mode ? 'bg-[#1e1b4b] text-[#c3d9f3] font-bold border border-[#4338ca]' : 'text-[#999999] hover:text-white'}`}>{mode}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-3 border-t border-[#262626] pt-4">
+        <ToggleRow label="Match columns by headers" checked={matchColumnsByHeaders} onChange={(val) => updateOption('matchColumnsByHeaders', val)} />
+        <ToggleRow label="Ignore white space" checked={ignoreWhitespace} onChange={(val) => updateOption('ignoreWhitespace', val)} />
+        <ToggleRow label="Ignore case changes" checked={ignoreCase} onChange={(val) => updateOption('ignoreCase', val)} />
+        <ToggleRow label="Collapse unchanged blocks" checked={collapseUnchangedBlocks} onChange={(val) => updateOption('collapseUnchangedBlocks', val)} />
+        <ToggleRow label="Hide unchanged rows" checked={hideUnchangedRows} onChange={(val) => updateOption('hideUnchangedRows', val)} />
+        <ToggleRow label="Hide unchanged columns" checked={hideUnchangedColumns} onChange={(val) => updateOption('hideUnchangedColumns', val)} />
+      </div>
+
+      <div className="space-y-3 border-t border-[#262626] pt-4">
+        <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Appearance</div>
+        <ToggleRow label="Preserve formatting" checked={preserveFormatting} onChange={(val) => updateOption('preserveFormatting', val)} />
+        <button onClick={onOpenAppearance} className="w-full py-2 px-3 border border-[#3a3a3a] text-xs font-mono text-[#cccccc] hover:border-white hover:text-white text-left flex items-center justify-between transition-all">
+          <span>🎨 Change appearance</span>
+          <ChevronRight className="w-3.5 h-3.5 text-[#666666]" />
+        </button>
+      </div>
+
+      <div className="space-y-3 border-t border-[#262626] pt-4">
+        <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Tools & Normalization</div>
+        <div className="space-y-1">
+          <label className="text-[10px] font-mono text-[#666666] uppercase">Sort rows</label>
+          <select value={sortRows} onChange={(e) => updateOption('sortRows', e.target.value)} className="w-full bg-[#000000] border border-[#3a3a3a] px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-white">
+            <option value="none">Original Order</option>
+            {headersA.map((header, idx) => (
+              <option key={idx} value={`col${idx}`}>
+                {header || `Column ${getColumnLetter(idx)}`}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <button onClick={() => { updateOption('normalizeDatesUS', !normalizeDatesUS); if (!normalizeDatesUS) updateOption('normalizeDatesEU', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesUS ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (US)</button>
+          <button onClick={() => { updateOption('normalizeDatesEU', !normalizeDatesEU); if (!normalizeDatesEU) updateOption('normalizeDatesUS', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesEU ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (EU)</button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function ChangesSidebar({ stats, changesList, activeChangeIndex, jumpToChange, onClose, isDrawer }) {
+  return (
+    <>
+      {!isDrawer && (
+        <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes</span>
+          </div>
+          <button onClick={onClose} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar" aria-label="Collapse Changes Sidebar">
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+      <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono">
+        <div className="flex items-center gap-3">
+          <span className="text-[#fca5a5] font-bold" title="Deletions">- {stats.totalDeleted || 0}</span>
+          <span className="text-[#6ee7b7] font-bold" title="Additions">+ {stats.totalAdded || 0}</span>
+          <span className="text-[#fcd34d] font-bold" title="Modifications">~ {stats.totalModified || 0}</span>
+          <span className="text-[#a5b4fc] font-bold" title="Formula Changes">ƒ {stats.totalFormulaChanges || 0}</span>
+        </div>
+        <div className="text-[10px] text-[#999999] font-bold">TOTAL: {changesList.length}</div>
+      </div>
+
+      <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a]">
+        <span className="text-xs font-mono text-[#cccccc]">{changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}</span>
+        <div className="flex items-center gap-1">
+          <button onClick={() => jumpToChange(activeChangeIndex - 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Previous Change (Up Arrow)"><ChevronUp className="w-4 h-4" /></button>
+          <button onClick={() => jumpToChange(activeChangeIndex + 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Next Change (Down Arrow)"><ChevronDown className="w-4 h-4" /></button>
+        </div>
+      </div>
+
+      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin">
+        {changesList.length === 0 ? (
+          <div className="text-center py-8 text-xs font-mono text-[#666666]">No changes detected in current view.</div>
+        ) : (
+          changesList.map((item, idx) => {
+            const isActive = activeChangeIndex === idx;
+            return (
+              <div key={item.id} onClick={() => jumpToChange(idx)} className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${isActive ? 'border-white bg-[#1f1f1f] shadow-md transform translate-x-0.5' : 'border-[#262626] bg-[#0d0d0d] hover:border-[#3a3a3a] hover:bg-[#141414]'}`}>
+                <div className="flex items-center justify-between">
+                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${item.type === 'MODIFIED' ? 'bg-[#2d2208] text-[#fcd34d] border border-[#78350f]' : item.type === 'ADDED' ? 'bg-[#062c19] text-[#6ee7b7] border border-[#047857]' : item.type === 'DELETED' ? 'bg-[#3b1219] text-[#fca5a5] border border-[#b91c1c]' : 'bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca]'}`}>{item.type}</span>
+                  <div className="flex items-center gap-2"><span className="font-bold text-white">{item.cellRef}</span><span className="text-[10px] text-[#666666]">#{item.id}</span></div>
+                </div>
+                <div className="pt-1 text-[11px] leading-relaxed break-words font-mono"><FormattedCardDiff item={item} /></div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </>
   );
 }
 

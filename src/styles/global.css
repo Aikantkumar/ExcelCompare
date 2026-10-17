@@ -297,16 +297,48 @@ body {
 
 @media (max-width: 768px) {
   .text-display-xl {
-    font-size: 36px;
-    letter-spacing: 2px;
+    font-size: clamp(26px, 8vw, 64px);
+    letter-spacing: 1px;
   }
   .text-display-lg {
-    font-size: 28px;
-    letter-spacing: 2px;
+    font-size: clamp(22px, 7vw, 48px);
+    letter-spacing: 1px;
   }
   .text-display-md {
-    font-size: 22px;
-    letter-spacing: 1.5px;
+    font-size: clamp(20px, 6vw, 32px);
+    letter-spacing: 0.5px;
+  }
+  .text-display-sm {
+    font-size: clamp(18px, 5vw, 24px);
+    letter-spacing: 0.5px;
+  }
+
+  /* Buttons: allow wrapping, scale padding down, cap width so long labels fit on phones */
+  .btn-primary {
+    min-height: 40px;
+    height: auto;
+    padding: 8px 16px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .btn-secondary {
+    min-height: 36px;
+    height: auto;
+    padding: 6px 14px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* Touch targets: at least 40x40px for interactive controls on touch devices */
+@media (pointer: coarse) {
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  label.cursor-pointer {
+    min-width: 40px;
+    min-height: 40px;
   }
 }
 
@@ -348,15 +380,17 @@ body {
   display: block;
 }
 
-/* Ensure sticky headers work correctly with scrollbar */
-.sticky.left-0 {
-  left: 0;
-  box-shadow: 2px 0 4px -2px rgba(0,0,0,0.3);
-}
+@layer components {
+  /* Ensure sticky headers work correctly with scrollbar */
+  .sticky.left-0 {
+    left: 0;
+    box-shadow: 2px 0 4px -2px rgba(0,0,0,0.3);
+  }
 
-.sticky.top-0 {
-  top: 0;
-  box-shadow: 0 2px 4px -2px rgba(0,0,0,0.3);
+  .sticky.top-0 {
+    top: 0;
+    box-shadow: 0 2px 4px -2px rgba(0,0,0,0.3);
+  }
 }
 
 /* Scrollbar gutter compensation for sticky headers */
@@ -366,12 +400,30 @@ body {
   }
 }
 
-/* Focus ring for selected cells */
-.ring-2 {
-  box-shadow: 0 0 0 2px #fcd34d, 0 0 0 4px rgba(252, 211, 77, 0.2);
+@layer components {
+  /* Focus ring for selected cells */
+  .ring-2 {
+    box-shadow: 0 0 0 2px #fcd34d, 0 0 0 4px rgba(252, 211, 77, 0.2);
+  }
+}
+
+/* Hide scrollbars while keeping scrollability (mobile sub-nav hint) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Ensure table layout fixed works correctly */
 table[style*="table-layout: fixed"] {
   table-layout: fixed !important;
+}
+
+/* Last-resort guard: never let the page scroll horizontally. Real overflow
+   sources are fixed per component; this only clips residual edge cases. */
+html,
+body {
+  overflow-x: clip;
 }

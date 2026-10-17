@@ -249,10 +249,10 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
   const hasDataForColumnReconcile = sheetDataA && sheetDataB;
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="space-y-4 max-w-[1600px] mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
       {/* Top Toolbar with Sample Loaders & Controls */}
-      <div className="bg-[#0d0d0d] border border-[#262626] p-3 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+      <div className="bg-[#0d0d0d] border border-[#262626] p-3 flex flex-col sm:flex-row gap-3 items-start sm:items-center w-full">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
           <span className="text-[10px] font-mono text-[#666666] uppercase hidden lg:inline">TRY DEMO SAMPLES:</span>
           <button
             onClick={() => loadSample('register')}
@@ -283,7 +283,8 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
               CLEAR ALL
             </button>
           )}
-          <div className="flex items-center gap-2 ml-2 border-l border-[#3a3a3a] pl-3">
+          </div>
+          <div className="flex items-center gap-2 w-full sm:w-auto border-l border-[#3a3a3a] pl-3 sm:pl-0 sm:border-l-0 ml-0 sm:ml-2">
             <span className="text-[10px] font-mono text-[#666666] uppercase hidden lg:inline">WORKER:</span>
             <button
               onClick={() => setUseWorker(!useWorker)}
@@ -300,13 +301,12 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
             </button>
           </div>
         </div>
-      </div>
 
-      {/* File Upload Header Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* File Upload Header Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* File A Card */}
         <div 
-            className={`bg-[#141414] border p-4 space-y-3 transition-colors ${
+            className={`bg-[#141414] border p-3 sm:p-4 space-y-3 transition-colors ${
               isDragActiveA ? 'border-white bg-[#1f1f1f]' : 'border-[#262626]'
             }`}
             onDragOver={(e) => handleDragOver(e, 'A')}
@@ -334,9 +334,9 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
             {sheetNamesA.length > 0 ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-between bg-[#0d0d0d] p-2.5 border border-[#262626]">
-                  <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="flex items-center gap-3 overflow-hidden min-w-0">
                     <FileSpreadsheet className="w-5 h-5 text-[#5fa657] shrink-0" />
-                    <span className="text-xs font-mono text-white truncate">{fileNameA}</span>
+                    <span className="min-w-0 text-xs font-mono text-white truncate">{fileNameA}</span>
                   </div>
                   <label className="text-[10px] font-mono text-[#c3d9f3] hover:underline cursor-pointer shrink-0 ml-2">
                     CHANGE
@@ -364,7 +364,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                 )}
               </div>
             ) : (
-              <label className={`border-2 border-dashed p-6 block text-center cursor-pointer transition-colors ${
+              <label className={`border-2 border-dashed p-4 sm:p-6 block text-center cursor-pointer transition-colors ${
                 isDragActiveA ? 'border-white bg-[#1f1f1f]' : 'border-[#3a3a3a] hover:border-white'
               }`}>
                 <Upload className="w-6 h-6 text-[#999999] mx-auto mb-2" />
@@ -410,9 +410,9 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
             {sheetNamesB.length > 0 ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-between bg-[#0d0d0d] p-2.5 border border-[#262626]">
-                  <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="flex items-center gap-3 overflow-hidden min-w-0">
                     <FileSpreadsheet className="w-5 h-5 text-[#5fa657] shrink-0" />
-                    <span className="text-xs font-mono text-white truncate">{fileNameB}</span>
+                    <span className="min-w-0 text-xs font-mono text-white truncate">{fileNameB}</span>
                   </div>
                   <label className="text-[10px] font-mono text-[#c3d9f3] hover:underline cursor-pointer shrink-0 ml-2">
                     CHANGE
@@ -440,7 +440,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                 )}
               </div>
             ) : (
-              <label className={`border-2 border-dashed p-6 block text-center cursor-pointer transition-colors ${
+              <label className={`border-2 border-dashed p-4 sm:p-6 block text-center cursor-pointer transition-colors ${
                 isDragActiveB ? 'border-white bg-[#1f1f1f]' : 'border-[#3a3a3a] hover:border-white'
               }`}>
                 <Upload className="w-6 h-6 text-[#999999] mx-auto mb-2" />

@@ -17,9 +17,26 @@ function parseWidth(w) {
   return DEFAULT_COL_WIDTH;
 }
 
-function clampWidth(w) {
-  const parsed = parseWidth(w);
-  return Math.max(MIN_COL_WIDTH, Math.min(MAX_COL_WIDTH, parsed));
+function useResponsiveColumnLimits() {
+  const [limits, setLimits] = useState({ min: MIN_COL_WIDTH, max: MAX_COL_WIDTH });
+  useEffect(() => {
+    const update = () => setLimits({
+      min: window.innerWidth < 640 ? 96 : MIN_COL_WIDTH,
+      max: window.innerWidth < 640 ? 140 : MAX_COL_WIDTH,
+    });
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return limits;
+}
+
+function useTouchOverscroll() {
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    setIsTouch(typeof window !== 'undefined' && ('ontouchstart' in window || window.matchMedia('(pointer: coarse)').matches));
+  }, []);
+  return isTouch;
 }
 
 export function VirtualizedTable({
@@ -42,13 +59,16 @@ export function VirtualizedTable({
 }) {
   const parentRef = useRef(null);
   const tableRef = useRef(null);
+  const { min: minColWidth, max: maxColWidth } = useResponsiveColumnLimits();
+  const isTouch = useTouchOverscroll();
+
+  const overscrollBehavior = isTouch ? 'contain auto' : 'contain';
 
   const virtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: estimatedRowSize || (() => rowHeight),
     overscan,
-    paddingStart: headerHeight,
   });
 
   useEffect(() => {
@@ -56,11 +76,11 @@ export function VirtualizedTable({
   }, [rows.length, virtualizer]);
 
   const virtualRows = virtualizer.getVirtualItems();
-  const totalHeight = virtualizer.getTotalSize() + headerHeight;
+  const totalHeight = virtualizer.getTotalSize();
 
   const colWidths = useMemo(() =>
-    columns.map(c => clampWidth(c.width || c.minWidth || DEFAULT_COL_WIDTH)),
-    [columns]
+    columns.map(c => Math.max(minColWidth, Math.min(maxColWidth, parseWidth(c.width || c.minWidth || DEFAULT_COL_WIDTH)))),
+    [columns, minColWidth, maxColWidth]
   );
 
   const totalWidth = colWidths.reduce((a, b) => a + b, 0);
@@ -70,7 +90,7 @@ export function VirtualizedTable({
     <div
       ref={parentRef}
       className={`overflow-auto relative ${className}`}
-      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: 'contain', scrollBehavior: 'auto' }}
+      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: overscrollBehavior, touchAction: isTouch ? 'pan-x pan-y' : undefined, scrollBehavior: 'auto' }}
       onScroll={(e) => {
         onScroll?.(e);
       }}
@@ -104,7 +124,7 @@ export function VirtualizedTable({
           </div>
         )}
 
-        <div style={{ paddingTop: stickyHeader ? headerHeight : 0, width: totalWidthPx }}>
+        <div style={{ paddingTop: stickyHeader ? headerHeight : 0, width: totalWidthPx, touchAction: isTouch ? 'pan-x pan-y' : undefined }}>
           <table className="w-full border-collapse text-xs font-mono" style={{ tableLayout: 'fixed', width: totalWidthPx }}>
             <tbody>
               {virtualRows.map((virtualRow) => {
@@ -182,10 +202,12 @@ export const SpreadsheetVirtualizedTable = forwardRef((
     columns.map(c => clampWidth(c.width || c.minWidth || DEFAULT_COL_WIDTH))
   );
   const [measuredRowHeights, setMeasuredRowHeights] = useState(new Map());
+  const { min: minColWidth, max: maxColWidth } = useResponsiveColumnLimits();
+  const isTouch = useTouchOverscroll();
 
   useEffect(() => {
-    setColWidths(columns.map(c => clampWidth(c.width || c.minWidth || DEFAULT_COL_WIDTH)));
-  }, [columns]);
+    setColWidths(columns.map(c => Math.max(minColWidth, Math.min(maxColWidth, parseWidth(c.width || c.minWidth || DEFAULT_COL_WIDTH)))));
+  }, [columns, minColWidth, maxColWidth]);
 
   const virtualizer = useVirtualizer({
     count: rows.length,
@@ -199,7 +221,6 @@ export const SpreadsheetVirtualizedTable = forwardRef((
       return estimatedRowSize ? estimatedRowSize(index) : rowHeight;
     },
     overscan,
-    paddingStart: headerHeight,
   });
 
   useImperativeHandle(ref, () => ({
@@ -215,7 +236,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
   }, [rows.length, virtualizer]);
 
   const virtualRows = virtualizer.getVirtualItems();
-  const totalHeight = virtualizer.getTotalSize() + headerHeight;
+  const totalHeight = virtualizer.getTotalSize();
   const totalWidth = firstColWidth + colWidths.reduce((a, b) => a + b, 0);
   const totalWidthPx = `${totalWidth}px`;
 
@@ -234,7 +255,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
     <div
       ref={parentRef}
       className={`overflow-auto relative ${className}`}
-      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: 'contain', scrollBehavior: 'auto' }}
+      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: overscrollBehavior, touchAction: isTouch ? 'pan-x pan-y' : undefined, scrollBehavior: 'auto' }}
       onScroll={(e) => {
         onScroll?.(e);
       }}
@@ -388,6 +409,7 @@ export function VirtualizedTableBody({
   onScroll,
 }) {
   const parentRef = useRef(null);
+  const isTouch = useTouchOverscroll();
 
   const virtualizer = useVirtualizer({
     count: rows.length,
@@ -413,7 +435,7 @@ export function VirtualizedTableBody({
     <div
       ref={parentRef}
       className={`overflow-auto relative ${className}`}
-      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: 'contain', scrollBehavior: 'auto' }}
+      style={{ height: containerHeight, ...style, contain: 'layout paint', overscrollBehavior: overscrollBehavior, touchAction: isTouch ? 'pan-x pan-y' : undefined, scrollBehavior: 'auto' }}
       onScroll={(e) => {
         onScroll?.(e);
       }}

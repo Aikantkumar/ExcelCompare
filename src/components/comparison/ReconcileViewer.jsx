@@ -143,7 +143,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
     : { height: TABLE_DEFAULT_HEIGHT };
 
   return (
-    <div className={isFullView ? 'fixed inset-0 z-[60] bg-[#000000] flex flex-col gap-4 p-4 overflow-hidden' : 'space-y-6'}>
+    <div className={isFullView ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-[#000000] h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]' : 'space-y-6'}>
       {/* Key & Value Column Matcher Config */}
       <div className={`bg-[#141414] border border-[#262626] p-6 space-y-4 ${isFullView ? 'shrink-0' : ''}`}>
         <div className="flex items-center justify-between gap-2 text-title-sm text-white">
@@ -310,9 +310,10 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
           />
         </div>
 
-        <button onClick={exportReconciliationReport} className="btn-primary text-xs h-9 py-1 px-4">
+        <button onClick={exportReconciliationReport} className="btn-primary text-xs whitespace-normal text-center sm:text-left sm:h-9 min-h-[40px] h-auto py-1.5 sm:py-1 px-4">
           <Download className="w-3.5 h-3.5 inline mr-2" />
-          EXPORT RECONCILIATION CSV
+          <span className="block sm:hidden">EXPORT CSV</span>
+          <span className="hidden sm:block">EXPORT RECONCILIATION CSV</span>
         </button>
       </div>
 

@@ -97,7 +97,7 @@ export default function BatchCompareViewer() {
           </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button onClick={addPair} className="btn-secondary text-xs h-9 px-4">
             <Plus className="w-3.5 h-3.5 inline mr-1" />
             ADD FILE PAIR
@@ -117,7 +117,7 @@ export default function BatchCompareViewer() {
       {/* Pairs Queue List */}
       <div className="space-y-4">
         {pairs.map((p, idx) => (
-          <div key={p.id} className="bg-[#0d0d0d] border border-[#262626] p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+          <div key={p.id} className="bg-[#0d0d0d] border border-[#262626] p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-2 items-center">
             <div className="lg:col-span-1 text-caption text-[#999999]">PAIR #{idx + 1}</div>
 
             {/* File A Upload */}
