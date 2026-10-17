@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { compareSheetsWorker, terminateWorker, isWorkerReady, initWorker } from './workerClient.js';
 import { compareSheetsCore, compressResult } from './diffWorkerCore.js';
+import { compareSheets } from './diffEngine.js';
 
 const FALLBACK_THRESHOLD = 5000;
 
@@ -15,11 +16,12 @@ function estimateCellCount(sheetA, sheetB) {
 export function useDiffWorker(options = {}) {
   const {
     fallbackToMainThread = true,
+    initialData = null,
     onProgress,
     onError,
   } = options;
 
-  const [diffData, setDiffData] = useState(null);
+  const [diffData, setDiffData] = useState(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [workerStatus, setWorkerStatus] = useState({ ready: false, pending: 0 });
@@ -68,7 +70,7 @@ export function useDiffWorker(options = {}) {
       if (useWorker) {
         result = await compareSheetsWorker(sheetA, sheetB, diffOptions);
       } else {
-        result = compareSheetsCore(sheetA, sheetB, diffOptions);
+        result = compareSheets(sheetA, sheetB, diffOptions);
       }
 
       if (abortRef.current) return null;
@@ -95,7 +97,7 @@ export function useDiffWorker(options = {}) {
       if (fallbackToMainThread && err.message?.includes('Worker')) {
         try {
           onProgress?.(50, 'fallback');
-          const result = compareSheetsCore(sheetA, sheetB, diffOptions);
+          const result = compareSheets(sheetA, sheetB, diffOptions);
           const compressed = compressResult(result);
           if (mountedRef.current) {
             setDiffData(compressed);

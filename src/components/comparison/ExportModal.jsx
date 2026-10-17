@@ -1,13 +1,105 @@
-import React, { useState } from 'react';
-import { Download, FileText, Code, Share2, Check, Printer } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Download, FileText, Code, Share2, Check, Printer, FileSpreadsheet, Copy } from 'lucide-react';
+import { downloadXlsx, copyToClipboard, toCsv } from './resultsExport';
+import { groupChanges, CHANGE_CATEGORIES, getCategoryColor } from './changeCategories';
 
 export default function ExportModal({ isOpen, onClose, diffData, sheetName, fileAName, fileBName }) {
-  const [activeTab, setActiveTab] = useState('html'); // 'html' | 'pdf' | 'embed' | 'csv'
+  const [activeTab, setActiveTab] = useState('html'); // 'html' | 'xlsx' | 'embed'
   const [copiedCode, setCopiedCode] = useState(false);
 
   if (!isOpen) return null;
 
   const stats = diffData?.stats || {};
+  const changesList = diffData?.changesList || [];
+  const structuralChanges = diffData?.structuralChanges || [];
+  const nameChanges = diffData?.nameChanges || [];
+  const formatChanges = diffData?.formatChanges || [];
+  const macroChanges = diffData?.macroChanges || [];
+
+  const groupedChanges = useMemo(() => groupChanges(changesList), [changesList]);
+
+  const allExportRows = useMemo(() => [
+    ...groupedChanges.map(item => ({
+      Sheet: sheetName,
+      Cell: item.cellRef || '—',
+      'Value 1': item.valA || '—',
+      'Value 2': item.valB || '—',
+      Category: item.category || item.type,
+      Description: item.description || '',
+      Flags: item.flags?.join(', ') || '',
+    })),
+    ...structuralChanges.map(item => ({
+      Sheet: sheetName,
+      Cell: item.cellRef || '—',
+      'Value 1': item.valA || '—',
+      'Value 2': item.valB || '—',
+      Category: item.category,
+      Subtype: item.subtype,
+      Description: item.description || '',
+      Flags: '',
+    })),
+    ...nameChanges.map(item => ({
+      Sheet: sheetName,
+      Cell: item.cellRef || '—',
+      'Value 1': item.valA || '—',
+      'Value 2': item.valB || '—',
+      Category: item.category,
+      Subtype: item.subtype,
+      Name: item.name || '',
+      Ref: item.ref || '',
+      Description: item.description || '',
+      Flags: '',
+    })),
+    ...formatChanges.map(item => ({
+      Sheet: sheetName,
+      Cell: item.cellRef || '—',
+      'Value 1': item.valA || '—',
+      'Value 2': item.valB || '—',
+      Category: item.category,
+      Subtype: item.subtype,
+      Description: item.description || '',
+      Flags: '',
+    })),
+    ...macroChanges.map(item => ({
+      Sheet: sheetName,
+      Cell: '—',
+      'Value 1': '—',
+      'Value 2': '—',
+      Category: item.category,
+      Subtype: item.subtype,
+      Description: item.description || '',
+      Flags: '',
+    })),
+  ], [groupedChanges, structuralChanges, nameChanges, formatChanges, macroChanges, sheetName]);
+
+  const headers = ['Sheet', 'Cell', 'Value 1', 'Value 2', 'Category', 'Subtype', 'Name', 'Ref', 'Description', 'Flags'];
+
+  const handleExportXlsx = () => {
+    const summaryRows = [
+      { Metric: 'Total Changes', Value: stats.totalChanges || 0 },
+      { Metric: 'Added', Value: stats.totalAdded || 0 },
+      { Metric: 'Deleted', Value: stats.totalDeleted || 0 },
+      { Metric: 'Modified', Value: stats.totalModified || 0 },
+      { Metric: 'Formula Changes', Value: stats.totalFormulaChanges || 0 },
+      { Metric: 'Structural Changes', Value: structuralChanges.length },
+      { Metric: 'Name Changes', Value: nameChanges.length },
+      { Metric: 'Format Changes', Value: formatChanges.length },
+      { Metric: 'Macro Changes', Value: macroChanges.length },
+    ];
+    
+    const sheets = {};
+    sheets[sheetName || 'Sheet1'] = allExportRows;
+    sheets['Summary'] = summaryRows;
+    
+    downloadXlsx({ summaryRows, sheets });
+  };
+
+  const handleCopyCsv = async () => {
+    const csv = toCsv(allExportRows, headers);
+    await copyToClipboard(csv);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
 
   const generatePrintableReport = () => {
     const printWindow = window.open('', '_blank');
@@ -110,6 +202,14 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
             HTML / PRINT PDF
           </button>
           <button
+            onClick={() => setActiveTab('xlsx')}
+            className={`px-4 py-2 uppercase tracking-wider ${
+              activeTab === 'xlsx' ? 'border-b-2 border-white text-white font-bold' : 'text-[#999999]'
+            }`}
+          >
+            EXCEL (XLSX)
+          </button>
+          <button
             onClick={() => setActiveTab('embed')}
             className={`px-4 py-2 uppercase tracking-wider ${
               activeTab === 'embed' ? 'border-b-2 border-white text-white font-bold' : 'text-[#999999]'
@@ -129,6 +229,31 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
               <Printer className="w-4 h-4 inline mr-2" />
               GENERATE PRINTABLE PDF / HTML REPORT
             </button>
+          </div>
+        )}
+
+        {activeTab === 'xlsx' && (
+          <div className="space-y-4">
+            <p className="font-serif text-sm text-[#cccccc]">
+              Export all changes, structural differences, names, formats, and macros to a multi-sheet Excel workbook with a summary sheet.
+            </p>
+
+            <div className="flex gap-2">
+              <button onClick={handleExportXlsx} className="btn-primary flex-1 py-3 flex items-center justify-center gap-2">
+                <FileSpreadsheet className="w-4 h-4" />
+                DOWNLOAD XLSX WORKBOOK
+              </button>
+              <button onClick={handleCopyCsv} className="btn-secondary flex-1 py-3 flex items-center justify-center gap-2">
+                <Copy className="w-4 h-4" />
+                {copiedCode ? 'COPIED!' : 'COPY CSV'}
+              </button>
+            </div>
+
+            <div className="bg-[#000000] border border-[#262626] p-3 text-xs font-mono text-[#999999]">
+              <div>Sheets included: Summary, {sheetName || 'Sheet1'}</div>
+              <div>Rows: {allExportRows.length} change records</div>
+              <div>Categories: {CHANGE_CATEGORIES.map(c => c.id).join(', ')}</div>
+            </div>
           </div>
         )}
 

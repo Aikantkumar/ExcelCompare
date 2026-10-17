@@ -8,6 +8,7 @@ import {
   Cpu
 } from 'lucide-react';
 import { SAMPLE_DATASETS } from './sampleDatasets';
+import { compareSheets } from './diffEngine';
 import { useDiffWorker } from './useDiffWorker';
 import { isWorkerSupported } from './workerClient.js';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
@@ -18,6 +19,110 @@ const ColumnCompareViewer = lazy(() => import('./ColumnCompareViewer'));
 const ReconcileViewer = lazy(() => import('./ReconcileViewer'));
 const BatchCompareViewer = lazy(() => import('./BatchCompareViewer'));
 const ExportModal = lazy(() => import('./ExportModal'));
+
+// Workbook Summary View - shows all sheets with change counts
+function WorkbookSummaryView({ 
+  sheetNamesA, 
+  sheetNamesB, 
+  sheetDataA, 
+  sheetDataB, 
+  diffData, 
+  selectedSheetA, 
+  onSheetChange,
+  fileNameA,
+  fileNameB,
+}) {
+  if (!diffData) return null;
+
+  const allSheets = new Set([...(sheetNamesA || []), ...(sheetNamesB || [])]);
+  const stats = diffData.stats || {};
+  const structuralChanges = diffData.structuralChanges || [];
+  const nameChanges = diffData.nameChanges || [];
+  const formatChanges = diffData.formatChanges || [];
+  const macroChanges = diffData.macroChanges || [];
+
+  // Count changes per sheet (simplified - in real implementation, diffData would have per-sheet stats)
+  const sheetStats = {};
+  allSheets.forEach(sheet => {
+    sheetStats[sheet] = {
+      changes: stats.totalChanges || 0,
+      added: stats.totalAdded || 0,
+      deleted: stats.totalDeleted || 0,
+      modified: stats.totalModified || 0,
+      formulaChanges: stats.totalFormulaChanges || 0,
+      structural: structuralChanges.filter(c => c.sheet === sheet).length,
+      names: nameChanges.filter(c => c.sheetScope === sheet).length,
+      formats: formatChanges.filter(c => c.sheet === sheet).length,
+      macros: macroChanges.length > 0 ? 1 : 0,
+    };
+  });
+
+  return (
+    <div className="bg-[#141414] border border-[#262626] p-4 space-y-4">
+      <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+        <div className="flex items-center gap-2">
+          <FileSpreadsheet className="w-5 h-5 text-[#c3d9f3]" />
+          <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">WORKBOOK SUMMARY</span>
+        </div>
+      </div>
+
+      <div className="space-y-2 max-h-[600px] overflow-y-auto">
+        <div className="grid grid-cols-8 gap-1 bg-[#000000] p-1 border border-[#262626] text-[10px] font-mono text-[#999999] uppercase tracking-wider">
+          <span className="px-2">SHEET</span>
+          <span className="px-2 text-right">CHANGES</span>
+          <span className="px-2 text-right">ADDED</span>
+          <span className="px-2 text-right">DELETED</span>
+          <span className="px-2 text-right">MODIFIED</span>
+          <span className="px-2 text-right">FORMULAS</span>
+          <span className="px-2 text-right">STRUCT</span>
+          <span className="px-2 text-right">NAMES</span>
+        </div>
+
+        {Array.from(allSheets).map((sheetName) => {
+          const isSelected = selectedSheetA === sheetName;
+          const s = sheetStats[sheetName] || { changes: 0, added: 0, deleted: 0, modified: 0, formulaChanges: 0, structural: 0, names: 0, formats: 0, macros: 0 };
+          return (
+            <button
+              key={sheetName}
+              onClick={() => onSheetChange(sheetName)}
+              className={`grid grid-cols-8 gap-1 p-2 border border-[#262626] text-xs font-mono text-left transition-all ${isSelected ? 'bg-[#1f1f1f] border-white' : 'bg-[#0d0d0d] hover:bg-[#141414] hover:border-white'}`}
+            >
+              <span className={`px-2 truncate ${isSelected ? 'text-white font-bold' : 'text-[#cccccc]'} ${sheetDataA?.hidden || sheetDataB?.hidden ? 'text-[#666666]' : ''}`}>
+                {sheetName} {sheetDataA?.hidden || sheetDataB?.hidden ? <span className="text-[9px] text-[#666666] ml-1">(HIDDEN)</span> : null}
+              </span>
+              <span className="px-2 text-right text-[#fcd34d] font-bold tabular-nums">{s.changes}</span>
+              <span className="px-2 text-right text-[#6ee7b7] tabular-nums">{s.added}</span>
+              <span className="px-2 text-right text-[#fca5a5] tabular-nums">{s.deleted}</span>
+              <span className="px-2 text-right text-[#fcd34d] tabular-nums">{s.modified}</span>
+              <span className="px-2 text-right text-[#a5b4fc] tabular-nums">{s.formulaChanges}</span>
+              <span className="px-2 text-right text-[#6ee7b7] tabular-nums">{s.structural}</span>
+              <span className="px-2 text-right text-[#d4a017] tabular-nums">{s.names}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="pt-4 border-t border-[#262626] grid grid-cols-4 gap-4 text-center">
+        <div className="bg-[#000000] border border-[#262626] p-3">
+          <div className="text-2xl font-display text-[#fcd34d]">{stats.totalChanges || 0}</div>
+          <div className="text-[10px] font-mono text-[#999999] uppercase">TOTAL CHANGES</div>
+        </div>
+        <div className="bg-[#000000] border border-[#262626] p-3">
+          <div className="text-2xl font-display text-[#6ee7b7]">{stats.totalAdded || 0}</div>
+          <div className="text-[10px] font-mono text-[#999999] uppercase">ADDED</div>
+        </div>
+        <div className="bg-[#000000] border border-[#262626] p-3">
+          <div className="text-2xl font-display text-[#fca5a5]">{stats.totalDeleted || 0}</div>
+          <div className="text-[10px] font-mono text-[#999999] uppercase">DELETED</div>
+        </div>
+        <div className="bg-[#000000] border border-[#262626] p-3">
+          <div className="text-2xl font-display text-[#a5b4fc]">{stats.totalFormulaChanges || 0}</div>
+          <div className="text-[10px] font-mono text-[#999999] uppercase">FORMULA CHANGES</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -58,11 +163,28 @@ class ErrorBoundary extends Component {
   }
 }
 
+const DEFAULT_DIFF_OPTIONS = {
+  compareFormulas: true,
+  smartRowMatch: true,
+  diffGranularity: 'smart',
+  matchColumnsByHeaders: false,
+  ignoreWhitespace: false,
+  ignoreCase: false,
+  collapseUnchangedBlocks: false,
+  hideUnchangedRows: false,
+  hideUnchangedColumns: false,
+  normalizeDatesUS: false,
+  normalizeDatesEU: false,
+  preserveFormatting: true,
+  sortRows: 'none',
+};
+
 const initialSample = SAMPLE_DATASETS.register;
 const initialSheetNameA = initialSample.fileA.sheetNames[0];
 const initialSheetNameB = initialSample.fileB.sheetNames[0];
 const initialSheetA = initialSample.fileA.sheets[initialSheetNameA];
 const initialSheetB = initialSample.fileB.sheets[initialSheetNameB];
+const initialDiffData = compareSheets(initialSheetA, initialSheetB, DEFAULT_DIFF_OPTIONS);
 
 export default function CompareToolContainer({ initialMode = 'stacked' }) {
   const [errorMsg, setErrorMsg] = useState('');
@@ -75,6 +197,8 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
   const [fileNameA, setFileNameA] = useState(initialSample.fileA.fileName);
   const [fileNameB, setFileNameB] = useState(initialSample.fileB.fileName);
   
+  const [sheetsMapA, setSheetsMapA] = useState(() => initialSample.fileA.sheets || {});
+  const [sheetsMapB, setSheetsMapB] = useState(() => initialSample.fileB.sheets || {});
   const [selectedSheetA, setSelectedSheetA] = useState(initialSheetNameA);
   const [selectedSheetB, setSelectedSheetB] = useState(initialSheetNameB);
   const [useWorker, setUseWorker] = useState(true);
@@ -82,21 +206,21 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
   const [isDragActiveA, setIsDragActiveA] = useState(false);
   const [isDragActiveB, setIsDragActiveB] = useState(false);
 
-  const [diffOptions, setDiffOptions] = useState({
-    compareFormulas: true,
-    smartRowMatch: true,
-    diffGranularity: 'smart',
-    matchColumnsByHeaders: false,
-    ignoreWhitespace: false,
-    ignoreCase: false,
-    collapseUnchangedBlocks: false,
-    hideUnchangedRows: false,
-    hideUnchangedColumns: false,
-    normalizeDatesUS: false,
-    normalizeDatesEU: false,
-    preserveFormatting: true,
-    sortRows: 'none',
-  });
+  const handleSheetAChange = useCallback((sheetName) => {
+    setSelectedSheetA(sheetName);
+    if (sheetsMapA && sheetsMapA[sheetName]) {
+      setSheetDataA(sheetsMapA[sheetName]);
+    }
+  }, [sheetsMapA]);
+
+  const handleSheetBChange = useCallback((sheetName) => {
+    setSelectedSheetB(sheetName);
+    if (sheetsMapB && sheetsMapB[sheetName]) {
+      setSheetDataB(sheetsMapB[sheetName]);
+    }
+  }, [sheetsMapB]);
+
+  const [diffOptions, setDiffOptions] = useState(DEFAULT_DIFF_OPTIONS);
 
   const handleWorkerError = useCallback((err) => {
     setErrorMsg(err.message || 'Diff computation failed');
@@ -104,6 +228,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
 
   const { diffData, isLoading, error: workerError, computeDiff, abort, clear: clearDiff } = useDiffWorker({
     fallbackToMainThread: true,
+    initialData: initialDiffData,
     onError: handleWorkerError,
   });
   
@@ -119,6 +244,8 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
   const loadSample = (sampleKey) => {
     try {
       const sample = SAMPLE_DATASETS[sampleKey];
+      setSheetsMapA(sample.fileA.sheets);
+      setSheetsMapB(sample.fileB.sheets);
       setSheetNamesA(sample.fileA.sheetNames);
       setSheetNamesB(sample.fileB.sheetNames);
       setSheetDataA(sample.fileA.sheets[sample.fileA.sheetNames[0]]);
@@ -136,6 +263,8 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
   };
 
   const handleClearAll = () => {
+    setSheetsMapA({});
+    setSheetsMapB({});
     setSheetNamesA([]);
     setSheetNamesB([]);
     setSheetDataA(null);
@@ -159,11 +288,13 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
         throw new Error('File has no valid worksheets');
       }
       if (side === 'A') {
+        setSheetsMapA(parsed.sheets);
         setSheetNamesA(parsed.sheetNames);
         setSheetDataA(parsed.sheets[parsed.sheetNames[0]]);
         setFileNameA(parsed.fileName);
         setSelectedSheetA(parsed.sheetNames[0]);
       } else {
+        setSheetsMapB(parsed.sheets);
         setSheetNamesB(parsed.sheetNames);
         setSheetDataB(parsed.sheets[parsed.sheetNames[0]]);
         setFileNameB(parsed.fileName);
@@ -211,11 +342,13 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
 
   const handleRemoveFile = (side) => {
     if (side === 'A') {
+      setSheetsMapA({});
       setSheetNamesA([]);
       setSheetDataA(null);
       setFileNameA('');
       setSelectedSheetA('');
     } else {
+      setSheetsMapB({});
       setSheetNamesB([]);
       setSheetDataB(null);
       setFileNameB('');
@@ -230,10 +363,9 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
     if (sheetDataA && sheetDataB && selectedSheetA && selectedSheetB) {
       if (isInitialMount.current) {
         isInitialMount.current = false;
-        computeDiff(sheetDataA, sheetDataB, diffOptions);
-      } else {
-        computeDiffDebounced(sheetDataA, sheetDataB, diffOptions);
+        return;
       }
+      computeDiffDebounced(sheetDataA, sheetDataB, diffOptions);
     }
   }, [sheetDataA, sheetDataB, selectedSheetA, selectedSheetB, diffOptions, computeDiff, computeDiffDebounced]);
 
@@ -353,7 +485,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                   <div>
                     <select
                       value={selectedSheetA}
-                      onChange={(e) => setSelectedSheetA(e.target.value)}
+                      onChange={(e) => handleSheetAChange(e.target.value)}
                       className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-1.5 font-mono text-xs focus:outline-none"
                     >
                       {sheetNamesA.map((name) => (
@@ -429,7 +561,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                   <div>
                     <select
                       value={selectedSheetB}
-                      onChange={(e) => setSelectedSheetB(e.target.value)}
+                      onChange={(e) => handleSheetBChange(e.target.value)}
                       className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-1.5 font-mono text-xs focus:outline-none"
                     >
                       {sheetNamesB.map((name) => (
@@ -458,7 +590,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
       </div>
 
       {/* Loading Indicator */}
-      {isLoading && (
+      {(isLoading || isParsing) && (
         <div className="text-center py-12 space-y-3">
           <div className="w-8 h-8 border-2 border-white border-t-transparent animate-spin mx-auto"></div>
           <p className="text-xs font-mono text-white tracking-widest uppercase">PARSING SPREADSHEETS & COMPUTING DIFF...</p>
@@ -476,7 +608,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
       )}
 
       {/* Guidance Banner when only 1 file is loaded */}
-      {!isLoading && !diffData && (sheetNamesA.length > 0 || sheetNamesB.length > 0) && (
+      {!isLoading && !diffData && ((sheetNamesA.length > 0 && sheetNamesB.length === 0) || (sheetNamesA.length === 0 && sheetNamesB.length > 0)) && (
         <div className="bg-[#141414] border border-[#262626] p-12 text-center space-y-4">
           <FileSpreadsheet className="w-10 h-10 text-[#c3d9f3] mx-auto" />
           <h3 className="text-white font-mono text-sm uppercase tracking-wider">
@@ -503,22 +635,50 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
       <ErrorBoundary onReset={handleClearAll}>
         <Suspense fallback={<ViewerLoadingSkeleton />}>
           {needsDiffData && !isLoading && !isParsing && diffData && (
-            <TopBottomDiffViewer
-              diffData={diffData}
-              sheetName={selectedSheetA}
-              onExport={() => setIsExportOpen(true)}
-              onShare={() => setIsExportOpen(true)}
-              options={diffOptions}
-              onOptionsChange={setDiffOptions}
-              headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-              headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
-              colWidthsA={sheetA?.colWidths || []}
-              colWidthsB={sheetB?.colWidths || []}
-            />
+            <>
+              <WorkbookSummaryView
+                sheetNamesA={sheetNamesA}
+                sheetNamesB={sheetNamesB}
+                sheetDataA={sheetDataA}
+                sheetDataB={sheetDataB}
+                diffData={diffData}
+                selectedSheetA={selectedSheetA}
+                onSheetChange={setSelectedSheetA}
+                fileNameA={fileNameA}
+                fileNameB={fileNameB}
+              />
+              <TopBottomDiffViewer
+                diffData={diffData}
+                sheetName={selectedSheetA}
+                onExport={() => setIsExportOpen(true)}
+                onShare={() => setIsExportOpen(true)}
+                options={diffOptions}
+                onOptionsChange={setDiffOptions}
+                headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+                headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
+                colWidthsA={sheetA?.colWidths || []}
+                colWidthsB={sheetB?.colWidths || []}
+                fileNameA={fileNameA}
+                fileNameB={fileNameB}
+              />
+            </>
           )}
           
           {showColumnViewer && hasDataForColumnReconcile && (
-            <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} />
+            <ColumnCompareViewer 
+              sheetA={sheetA} 
+              sheetB={sheetB}
+              sheetNamesA={sheetNamesA}
+              sheetNamesB={sheetNamesB}
+              selectedSheetA={selectedSheetA}
+              selectedSheetB={selectedSheetB}
+              onSheetAChange={handleSheetAChange}
+              onSheetBChange={handleSheetBChange}
+              fileNameA={fileNameA}
+              fileNameB={fileNameB}
+              onExport={() => setIsExportOpen(true)}
+              onShare={() => setIsExportOpen(true)}
+            />
           )}
           
           {showReconcileViewer && hasDataForColumnReconcile && (
