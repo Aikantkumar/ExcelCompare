@@ -17,6 +17,11 @@ function parseWidth(w) {
   return DEFAULT_COL_WIDTH;
 }
 
+function clampWidth(w) {
+  const v = parseWidth(w);
+  return Math.max(MIN_COL_WIDTH, Math.min(MAX_COL_WIDTH, v));
+}
+
 function useResponsiveColumnLimits() {
   const [limits, setLimits] = useState({ min: MIN_COL_WIDTH, max: MAX_COL_WIDTH });
   useEffect(() => {
@@ -98,7 +103,7 @@ export function VirtualizedTable({
       <div style={{ height: totalHeight, position: 'relative', width: totalWidthPx, minWidth: '100%' }}>
         {stickyHeader && (
           <div
-            className="sticky top-0 z-20 bg-[#000000] border-b border-[#262626]"
+            className="sticky top-0 z-20 bg-canvas border-b border-hairline"
             style={{ height: headerHeight, width: totalWidthPx, minWidth: '100%' }}
           >
             <table className="w-full border-collapse" ref={tableRef} style={{ tableLayout: 'fixed', width: totalWidthPx }}>
@@ -108,11 +113,11 @@ export function VirtualizedTable({
                 ))}
               </colgroup>
               <thead>
-                <tr className="text-[#999999] text-xs font-mono">
+                <tr className="text-muted text-xs font-mono">
                   {columns.map((col, cIdx) => (
                     <th
                       key={cIdx}
-                      className="py-2 px-3 border-r border-[#262626] text-left font-semibold text-white uppercase sticky top-0 bg-[#000000] z-10"
+                      className="py-2 px-3 border-r border-hairline text-left font-semibold text-ink uppercase sticky top-0 bg-canvas z-10"
                       style={{ width: `${colWidths[cIdx]}px` }}
                     >
                       {renderHeader ? renderHeader(col, cIdx) : col.label}
@@ -141,8 +146,8 @@ export function VirtualizedTable({
                       transform: `translateY(${virtualRow.start}px)`,
                       height: `${virtualRow.size}px`,
                     }}
-                    className={`border-b border-[#262626]/60 transition-colors ${
-                      isSelected ? 'bg-[#1f1f1f]/80' : 'hover:bg-[#1a1a1a]/50'
+                    className={`border-b border-hairline/60 transition-colors ${
+                      isSelected ? 'bg-surface-elevated/80' : 'hover:bg-surface-hover/50'
                     }`}
                     onClick={() => onRowClick?.(row, virtualRow.index)}
                   >
@@ -151,7 +156,7 @@ export function VirtualizedTable({
                       return (
                         <td
                           key={cIdx}
-                          className="py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono whitespace-nowrap overflow-hidden text-ellipsis"
+                          className="py-2 px-3 border-r border-hairline relative cursor-pointer font-mono whitespace-nowrap overflow-hidden text-ellipsis"
                           style={{ width: `${colWidths[cIdx]}px` }}
                           {...cellProps}
                         >
@@ -204,6 +209,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
   const [measuredRowHeights, setMeasuredRowHeights] = useState(new Map());
   const { min: minColWidth, max: maxColWidth } = useResponsiveColumnLimits();
   const isTouch = useTouchOverscroll();
+  const overscrollBehavior = isTouch ? 'contain auto' : 'contain';
 
   useEffect(() => {
     setColWidths(columns.map(c => Math.max(minColWidth, Math.min(maxColWidth, parseWidth(c.width || c.minWidth || DEFAULT_COL_WIDTH)))));
@@ -263,7 +269,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
       <div style={{ height: totalHeight, position: 'relative', width: totalWidthPx, minWidth: '100%' }}>
         {/* Sticky Header Row */}
         <div
-          className="sticky top-0 z-20 bg-[#000000] border-b border-[#262626]"
+          className="sticky top-0 z-20 bg-canvas border-b border-hairline"
           style={{ height: headerHeight, width: totalWidthPx, minWidth: '100%' }}
         >
           <table className="w-full border-collapse" style={{ tableLayout: 'fixed', width: totalWidthPx }}>
@@ -274,10 +280,10 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                 ))}
               </colgroup>
             <thead>
-              <tr className="text-[#999999] text-xs font-mono">
+              <tr className="text-muted text-xs font-mono">
                 {/* First Column Header (Line Numbers) - Sticky Left */}
                 <th
-                  className="py-2 px-2 border-r border-[#262626] text-center font-normal text-[10px] sticky left-0 bg-[#000000] z-30"
+                  className="py-2 px-2 border-r border-hairline text-center font-normal text-[10px] sticky left-0 bg-canvas z-30"
                   style={{ width: `${firstColWidth}px`, minWidth: `${firstColWidth}px`, maxWidth: `${firstColWidth}px` }}
                 >
                   {renderFirstColHeader ? renderFirstColHeader() : ''}
@@ -286,7 +292,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                 {columns.map((col, cIdx) => (
                   <th
                     key={cIdx}
-                    className="py-2 px-3 border-r border-[#262626] text-left font-semibold text-white uppercase min-w-0 sticky top-0 bg-[#000000] z-10"
+                    className="py-2 px-3 border-r border-hairline text-left font-semibold text-ink uppercase min-w-0 sticky top-0 bg-canvas z-10"
                     style={{ width: `${colWidths[cIdx]}px`, minWidth: `${colWidths[cIdx]}px`, maxWidth: `${colWidths[cIdx]}px` }}
                   >
                     {renderHeader ? renderHeader(col, cIdx) : col.label}
@@ -318,12 +324,12 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                         transform: `translateY(${virtualRow.start}px)`,
                         height: `${virtualRow.size}px`,
                       }}
-                      className="border-b border-[#262626] bg-[#141414] hover:bg-[#1f1f1f] transition-colors cursor-pointer"
+                      className="border-b border-hairline bg-surface-card hover:bg-surface-elevated transition-colors cursor-pointer"
                       onClick={() => onToggleCollapse && onToggleCollapse(row, virtualRow.index)}
                     >
                       <td
                         colSpan={columns.length + 1}
-                        className="py-2 px-4 text-center text-xs font-mono text-[#c3d9f3] bg-[#0d0d0d] hover:bg-[#1a1a1a] border-y border-[#262626] transition-all select-none"
+                        className="py-2 px-4 text-center text-xs font-mono text-link bg-surface-soft hover:bg-surface-hover border-y border-hairline transition-all select-none"
                         style={{ width: totalWidthPx }}
                       >
                         {renderCollapsedRow(row, virtualRow.index)}
@@ -353,14 +359,14 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                       minHeight: fixedRowHeight ? undefined : virtualRow.size,
                       overflow: fixedRowHeight ? 'hidden' : undefined,
                     }}
-                    className={`border-b border-[#262626]/60 transition-colors ${
-                      isSelected ? 'bg-[#1f1f1f]/80' : 'hover:bg-[#1a1a1a]/50'
+                    className={`border-b border-hairline/60 transition-colors ${
+                      isSelected ? 'bg-surface-elevated/80' : 'hover:bg-surface-hover/50'
                     } ${rowClassName}`}
                     onClick={() => onRowClick?.(row, virtualRow.index)}
                   >
                     {/* First Column (Line Numbers) - Sticky Left */}
                     <td
-                      className="py-2 px-2 border-r border-[#262626] text-center text-[#666666] select-none text-[10px] font-mono bg-[#050505] sticky left-0 z-20"
+                      className="py-2 px-2 border-r border-hairline text-center text-muted-soft select-none text-[10px] font-mono bg-surface-gutter sticky left-0 z-20"
                       style={{ width: `${firstColWidth}px`, minWidth: `${firstColWidth}px`, maxWidth: `${firstColWidth}px` }}
                     >
                       {renderFirstColCell(row, virtualRow.index)}
@@ -371,7 +377,7 @@ export const SpreadsheetVirtualizedTable = forwardRef((
                       return (
                         <td
                           key={cIdx}
-                          className="py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono min-w-0"
+                          className="py-2 px-3 border-r border-hairline relative cursor-pointer font-mono min-w-0"
                           style={{ width: `${colWidths[cIdx]}px`, minWidth: `${colWidths[cIdx]}px`, maxWidth: `${colWidths[cIdx]}px` }}
                           {...cellProps}
                         >
@@ -410,6 +416,7 @@ export function VirtualizedTableBody({
 }) {
   const parentRef = useRef(null);
   const isTouch = useTouchOverscroll();
+  const overscrollBehavior = isTouch ? 'contain auto' : 'contain';
 
   const virtualizer = useVirtualizer({
     count: rows.length,
@@ -456,14 +463,14 @@ export function VirtualizedTableBody({
                     transform: `translateY(${virtualRow.start}px)`,
                     height: `${virtualRow.size}px`,
                   }}
-                  className="border-b border-[#262626]/60 transition-colors hover:bg-[#1a1a1a]/50"
+                  className="border-b border-hairline/60 transition-colors hover:bg-surface-hover/50"
                 >
 {columns.map((col, cIdx) => {
                       const cellProps = getCellProps ? getCellProps(row, cIdx, virtualRow.index) : {};
                       return (
                         <td
                           key={cIdx}
-                          className="py-2 px-3 border-r border-[#262626] relative font-mono min-w-0"
+                          className="py-2 px-3 border-r border-hairline relative font-mono min-w-0"
                           style={{ width: `${colWidths[cIdx]}px`, minWidth: `${colWidths[cIdx]}px`, maxWidth: `${colWidths[cIdx]}px` }}
                           {...cellProps}
                         >

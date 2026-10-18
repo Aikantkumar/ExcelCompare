@@ -34,6 +34,10 @@
   --color-diff-formula-text: #a5b4fc;
   --color-diff-formula-border: #4338ca;
 
+  --color-surface-hover: #1a1a1a;
+  --color-surface-gutter: #050505;
+  --color-on-accent: #ffffff;
+
   --font-display: 'Saira Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
@@ -53,8 +57,44 @@
 }
 
 /* Base Styles adhering to DESIGN.md */
-:root {
+:root, :root[data-theme="dark"] {
   color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f6f6f6;
+  --color-surface-card: #efefef;
+  --color-surface-elevated: #e4e4e4;
+  --color-surface-hover: #ebebeb;
+  --color-surface-gutter: #f1f1f1;
+  --color-hairline: #d9d9d9;
+  --color-hairline-strong: #bdbdbd;
+  --color-ink: #000000;
+  --color-body: #333333;
+  --color-body-strong: #1a1a1a;
+  --color-muted: #666666;
+  --color-muted-soft: #8a8a8a;
+  --color-link: #1e5aa8;
+  --color-warning: #a16207;
+  --color-success: #2f7a3d;
+  --color-diff-modified-bg: #fef3c7;
+  --color-diff-modified-text: #92400e;
+  --color-diff-modified-border: #f59e0b;
+  --color-diff-added-bg: #d1fae5;
+  --color-diff-added-text: #065f46;
+  --color-diff-added-border: #10b981;
+  --color-diff-deleted-bg: #fee2e2;
+  --color-diff-deleted-text: #991b1b;
+  --color-diff-deleted-border: #ef4444;
+  --color-diff-formula-bg: #e0e7ff;
+  --color-diff-formula-text: #3730a3;
+  --color-diff-formula-border: #6366f1;
+}
+
+html {
+  background-color: var(--color-canvas);
 }
 
 body {
@@ -76,16 +116,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0d0d0d;
+  background: var(--color-surface-soft);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #262626;
+  background: var(--color-hairline);
   border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3a3a;
+  background: var(--color-hairline-strong);
 }
 
 /* Typography Utility Classes matching DESIGN.md */
@@ -403,7 +443,7 @@ body {
 @layer components {
   /* Focus ring for selected cells */
   .ring-2 {
-    box-shadow: 0 0 0 2px #fcd34d, 0 0 0 4px rgba(252, 211, 77, 0.2);
+    box-shadow: 0 0 0 2px var(--color-diff-modified-text), 0 0 0 4px color-mix(in srgb, var(--color-diff-modified-text) 20%, transparent);
   }
 }
 

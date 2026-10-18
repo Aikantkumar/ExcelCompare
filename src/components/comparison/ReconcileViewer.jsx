@@ -143,20 +143,20 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
     : { height: TABLE_DEFAULT_HEIGHT };
 
   return (
-    <div className={isFullView ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-[#000000] h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]' : 'space-y-6'}>
+    <div className={isFullView ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-canvas h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]' : 'space-y-6'}>
       {/* Key & Value Column Matcher Config */}
-      <div className={`bg-[#141414] border border-[#262626] p-6 space-y-4 ${isFullView ? 'shrink-0' : ''}`}>
-        <div className="flex items-center justify-between gap-2 text-title-sm text-white">
+      <div className={`bg-surface-card border border-hairline p-6 space-y-4 ${isFullView ? 'shrink-0' : ''}`}>
+        <div className="flex items-center justify-between gap-2 text-title-sm text-ink">
           <div className="flex items-center gap-2">
-            <KeyRound className="w-5 h-5 text-[#c3d9f3]" />
+            <KeyRound className="w-5 h-5 text-link" />
             ID-BASED RECONCILIATION CONFIGURATION
           </div>
           <button
             onClick={toggleFullView}
             className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded transition-all flex items-center gap-1 ${
               isFullView
-                ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-success text-success bg-diff-added-bg'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             title={isFullView ? 'Exit Full View' : 'Enter Full View'}
             aria-pressed={isFullView}
@@ -171,11 +171,11 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           <div>
-            <label className="text-caption text-white mb-2 block">PRIMARY KEY / ID COLUMN:</label>
+            <label className="text-caption text-ink mb-2 block">PRIMARY KEY / ID COLUMN:</label>
             <select
               value={keyColIndex}
               onChange={(e) => setKeyColIndex(Number(e.target.value))}
-              className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-3 font-mono text-sm focus:border-white focus:outline-none"
+              className="w-full bg-canvas border border-hairline-strong text-ink p-3 font-mono text-sm focus:border-ink focus:outline-none"
             >
               {headers.map((h, i) => (
                 <option key={i} value={i}>
@@ -184,16 +184,16 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
               ))}
             </select>
             <div className="text-xs font-mono mt-2 flex items-center gap-2">
-              <span className="text-[#999999]">{totalRowsA} rows · {uniqueKeysA} unique keys</span>
+              <span className="text-muted">{totalRowsA} rows · {uniqueKeysA} unique keys</span>
               {hasDuplicateKeys && (
-                <span className="text-[#fcd34d] flex items-center gap-1">
+                <span className="text-diff-modified-text flex items-center gap-1">
                   <AlertTriangle className="w-3 h-3" />
                   2+ duplicate keys. Pick a more unique column.
                 </span>
               )}
             </div>
             {sameColumnWarning && (
-              <div className="text-xs font-mono text-[#fcd34d] mt-1 flex items-center gap-1">
+              <div className="text-xs font-mono text-diff-modified-text mt-1 flex items-center gap-1">
                 <AlertTriangle className="w-3 h-3" />
                 Key and value are the same column
               </div>
@@ -201,11 +201,11 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
           </div>
 
           <div>
-            <label className="text-caption text-white mb-2 block">VALUE COLUMN TO RECONCILE:</label>
+            <label className="text-caption text-ink mb-2 block">VALUE COLUMN TO RECONCILE:</label>
             <select
               value={valColIndex}
               onChange={(e) => setValColIndex(Number(e.target.value))}
-              className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-3 font-mono text-sm focus:border-white focus:outline-none"
+              className="w-full bg-canvas border border-hairline-strong text-ink p-3 font-mono text-sm focus:border-ink focus:outline-none"
             >
               {headers.map((h, i) => (
                 <option key={i} value={i}>
@@ -213,11 +213,11 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
                 </option>
               ))}
             </select>
-            <div className="text-xs font-mono text-[#999999] mt-2">
+            <div className="text-xs font-mono text-muted mt-2">
               {totalRowsB} rows · {uniqueKeysB} unique keys
             </div>
             {sameColumnWarning && (
-              <div className="text-xs font-mono text-[#fcd34d] mt-1 flex items-center gap-1">
+              <div className="text-xs font-mono text-diff-modified-text mt-1 flex items-center gap-1">
                 <AlertTriangle className="w-3 h-3" />
                 Key and value are the same column
               </div>
@@ -231,82 +231,82 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
         <button
           onClick={() => setFilterType('ALL')}
           className={`p-4 border text-left transition-colors ${
-            filterType === 'ALL' ? 'border-white bg-[#1f1f1f]' : 'border-[#262626] bg-[#0d0d0d]'
+            filterType === 'ALL' ? 'border-ink bg-surface-elevated' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-[#999999] uppercase">TOTAL RECORDS</div>
-          <div className="text-2xl font-display text-white">{reconResult.all.length}</div>
+          <div className="text-[10px] font-mono text-muted uppercase">TOTAL RECORDS</div>
+          <div className="text-2xl font-display text-ink">{reconResult.all.length}</div>
         </button>
 
         <button
           onClick={() => setFilterType('MISMATCH')}
           className={`p-4 border text-left transition-colors ${
-            filterType === 'MISMATCH' ? 'border-[#fcd34d] bg-[#2d2208]' : 'border-[#262626] bg-[#0d0d0d]'
+            filterType === 'MISMATCH' ? 'border-diff-modified-border bg-diff-modified-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-[#fcd34d] uppercase">MISMATCHES</div>
-          <div className="text-2xl font-display text-[#fcd34d]">{reconResult.stats.mismatchedCount}</div>
+          <div className="text-[10px] font-mono text-diff-modified-text uppercase">MISMATCHES</div>
+          <div className="text-2xl font-display text-diff-modified-text">{reconResult.stats.mismatchedCount}</div>
         </button>
 
         <button
           onClick={() => setFilterType('MATCH')}
           className={`p-4 border text-left transition-colors ${
-            filterType === 'MATCH' ? 'border-[#6ee7b7] bg-[#062c19]' : 'border-[#262626] bg-[#0d0d0d]'
+            filterType === 'MATCH' ? 'border-diff-added-border bg-diff-added-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-[#6ee7b7] uppercase">EXACT MATCHES</div>
-          <div className="text-2xl font-display text-[#6ee7b7]">{reconResult.stats.matchedCount}</div>
+          <div className="text-[10px] font-mono text-diff-added-text uppercase">EXACT MATCHES</div>
+          <div className="text-2xl font-display text-diff-added-text">{reconResult.stats.matchedCount}</div>
         </button>
 
         <button
           onClick={() => setFilterType('ONLY_L')}
           className={`p-4 border text-left transition-colors ${
-            filterType === 'ONLY_L' ? 'border-[#fca5a5] bg-[#3b1219]' : 'border-[#262626] bg-[#0d0d0d]'
+            filterType === 'ONLY_L' ? 'border-diff-deleted-border bg-diff-deleted-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-[#fca5a5] uppercase">LEFT ONLY</div>
-          <div className="text-2xl font-display text-[#fca5a5]">{reconResult.stats.onlyACount}</div>
+          <div className="text-[10px] font-mono text-diff-deleted-text uppercase">LEFT ONLY</div>
+          <div className="text-2xl font-display text-diff-deleted-text">{reconResult.stats.onlyACount}</div>
         </button>
 
         <button
           onClick={() => setFilterType('ONLY_R')}
           className={`p-4 border text-left transition-colors ${
-            filterType === 'ONLY_R' ? 'border-[#c3d9f3] bg-[#1e1b4b]' : 'border-[#262626] bg-[#0d0d0d]'
+            filterType === 'ONLY_R' ? 'border-link bg-diff-formula-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-[#c3d9f3] uppercase">RIGHT ONLY</div>
-          <div className="text-2xl font-display text-[#c3d9f3]">{reconResult.stats.onlyBCount}</div>
+          <div className="text-[10px] font-mono text-link uppercase">RIGHT ONLY</div>
+          <div className="text-2xl font-display text-link">{reconResult.stats.onlyBCount}</div>
         </button>
 
         {reconResult.stats.duplicateCount > 0 && (
           <button
             onClick={() => setFilterType('DUPLICATE')}
             className={`p-4 border text-left transition-colors ${
-              filterType === 'DUPLICATE' ? 'border-[#d4a017] bg-[#141414]' : 'border-[#262626] bg-[#0d0d0d]'
+              filterType === 'DUPLICATE' ? 'border-warning bg-surface-card' : 'border-hairline bg-surface-soft'
             }`}
           >
-            <div className="text-[10px] font-mono text-[#d4a017] uppercase">DUPLICATE KEY</div>
-            <div className="text-2xl font-display text-[#d4a017]">{reconResult.stats.duplicateCount}</div>
+            <div className="text-[10px] font-mono text-warning uppercase">DUPLICATE KEY</div>
+            <div className="text-2xl font-display text-warning">{reconResult.stats.duplicateCount}</div>
           </button>
         )}
       </div>
 
       {reconResult.stats.skippedEmptyKey > 0 && (
-        <div className={`text-xs font-mono text-[#fcd34d] ${isFullView ? 'shrink-0' : ''}`}>
+        <div className={`text-xs font-mono text-diff-modified-text ${isFullView ? 'shrink-0' : ''}`}>
           {reconResult.stats.skippedEmptyKey} rows skipped (empty key)
         </div>
       )}
 
       {/* Toolbar: Search + Export */}
-      <div className={`bg-[#141414] border border-[#262626] p-4 flex flex-wrap items-center justify-between gap-4 ${isFullView ? 'shrink-0' : ''}`}>
+      <div className={`bg-surface-card border border-hairline p-4 flex flex-wrap items-center justify-between gap-4 ${isFullView ? 'shrink-0' : ''}`}>
         <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 absolute left-3 top-3 text-[#666666]" />
+          <Search className="w-4 h-4 absolute left-3 top-3 text-muted-soft" />
           <input
             type="text"
             placeholder="SEARCH BY KEY OR VALUE..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#000000] border border-[#3a3a3a] pl-10 pr-4 py-2 font-mono text-xs text-white placeholder-[#666666] focus:border-white focus:outline-none"
+            className="w-full bg-canvas border border-hairline-strong pl-10 pr-4 py-2 font-mono text-xs text-ink placeholder-muted-soft focus:border-ink focus:outline-none"
           />
         </div>
 
@@ -318,7 +318,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
       </div>
 
       {/* Reconciliation Data Table */}
-      <div className={`border border-[#262626] bg-[#0d0d0d] flex flex-col ${isFullView ? 'flex-1 min-h-0' : ''}`} style={isFullView ? {} : { height: TABLE_DEFAULT_HEIGHT }}>
+      <div className={`border border-hairline bg-surface-soft flex flex-col ${isFullView ? 'flex-1 min-h-0' : ''}`} style={isFullView ? {} : { height: TABLE_DEFAULT_HEIGHT }}>
         <div 
           ref={parentRef} 
           className="overflow-auto relative" 
@@ -336,15 +336,15 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
           }}>
             {/* Sticky Header */}
             <div 
-              className="sticky top-0 z-10 bg-[#000000] border-b border-[#262626]"
+              className="sticky top-0 z-10 bg-canvas border-b border-hairline"
               style={{ height: HEADER_HEIGHT, display: 'grid', gridTemplateColumns: gridColumns }}
             >
-              <div className="px-4 py-2 text-caption text-[#999999] font-semibold truncate flex items-center">PRIMARY KEY / ID</div>
-              <div className="px-4 py-2 text-caption text-[#999999] font-semibold truncate flex items-center">LEFT FILE VALUE</div>
-              <div className="px-4 py-2 text-caption text-[#999999] font-semibold truncate flex items-center">RIGHT FILE VALUE</div>
-              <div className="px-4 py-2 text-caption text-[#999999] font-semibold truncate flex items-center">RECONCILIATION STATUS</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">PRIMARY KEY / ID</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">LEFT FILE VALUE</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">RIGHT FILE VALUE</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">RECONCILIATION STATUS</div>
               {showDiffColumn && (
-                <div className="px-4 py-2 text-caption text-[#999999] font-semibold truncate flex items-center justify-end">DIFFERENCE</div>
+                <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center justify-end">DIFFERENCE</div>
               )}
             </div>
 
@@ -367,7 +367,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
                       display: 'grid',
                       gridTemplateColumns: gridColumns,
                       ...(item.status === 'MATCH' ? {} : { borderLeftColor: style.rowBorder }),
-                      backgroundColor: item.status === 'MATCH' ? '#0d0d0d' : style.rowBg,
+                      backgroundColor: item.status === 'MATCH' ? 'var(--color-surface-soft)' : style.rowBg,
                       color: style.textColor,
                     };
 
@@ -375,7 +375,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
                       <div
                         key={`${item.status}:${item.key}:${virtualRow.index}`}
                         style={rowStyle}
-                        className={`border-b border-[#262626]/60 transition-colors hover:bg-[#1a1a1a] ${
+                        className={`border-b border-hairline/60 transition-colors hover:bg-surface-hover ${
                           item.status === 'MATCH' ? '' : 'border-l-2'
                         }`}
                       >
@@ -389,7 +389,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
                       {item.status === 'MISMATCH' && item.valA !== item.valB && item.valA !== '-' ? (
                         <>
                           <span className="line-through opacity-60 mr-2">{item.valA}</span>
-                          <span className="text-[#6ee7b7]">{item.valB}</span>
+                          <span className="text-diff-added-text">{item.valB}</span>
                         </>
                       ) : (
                         item.valB || '—'
@@ -405,7 +405,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
                     {showDiffColumn && (
                       <div className="px-4 py-2 flex items-center justify-end min-w-0">
                         {isNumeric && (
-                          <span className={`font-mono tabular-nums ${diff > 0 ? 'text-[#6ee7b7]' : diff < 0 ? 'text-[#fca5a5]' : 'text-[#999999]'}`}>
+                          <span className={`font-mono tabular-nums ${diff > 0 ? 'text-diff-added-text' : diff < 0 ? 'text-diff-deleted-text' : 'text-muted'}`}>
                             {diff > 0 ? '+' : ''}{diff}
                           </span>
                         )}
@@ -419,9 +419,9 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
         </div>
 
         {/* Empty State / Caption */}
-        <div className={`p-3 border-t border-[#262626] bg-[#0d0d0d] ${isFullView ? 'shrink-0' : ''}`}>
+        <div className={`p-3 border-t border-hairline bg-surface-soft ${isFullView ? 'shrink-0' : ''}`}>
           {filteredRecords.length === 0 ? (
-            <div className="text-center py-8 text-xs font-mono text-[#666666]">
+            <div className="text-center py-8 text-xs font-mono text-muted-soft">
               {reconResult.all.length === 0 
                 ? 'No records to display. Check your key/value column selection.' 
                 : searchTerm 
@@ -431,7 +431,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
                     : 'No records to display.'}
             </div>
           ) : (
-            <div className="text-[10px] font-mono text-[#999999] text-right">
+            <div className="text-[10px] font-mono text-muted text-right">
               SHOWING {filteredRecords.length} OF {reconResult.all.length} RECORDS
             </div>
           )}

@@ -90,21 +90,21 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]" data-export-modal>
-      <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-6">
-        <div className="flex justify-between items-center border-b border-[#262626] pb-4 sm:pb-3">
-          <h3 className="text-title-md text-white flex items-center gap-2">
-            <Download className="w-5 h-5 text-[#c3d9f3]" />
+      <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-6">
+        <div className="flex justify-between items-center border-b border-hairline pb-4 sm:pb-3">
+          <h3 className="text-title-md text-ink flex items-center gap-2">
+            <Download className="w-5 h-5 text-link" />
             EXPORT & SHARE COMPARISON REPORT
           </h3>
-          <button onClick={onClose} className="p-2 text-[#999999] hover:text-white" aria-label="Close export modal">✕</button>
+          <button onClick={onClose} className="p-2 text-muted hover:text-ink" aria-label="Close export modal">✕</button>
         </div>
 
         {/* Tab Selection */}
-        <div className="flex border-b border-[#262626] text-xs font-mono">
+        <div className="flex border-b border-hairline text-xs font-mono">
           <button
             onClick={() => setActiveTab('html')}
             className={`px-4 py-2 uppercase tracking-wider ${
-              activeTab === 'html' ? 'border-b-2 border-white text-white font-bold' : 'text-[#999999]'
+              activeTab === 'html' ? 'border-b-2 border-white text-ink font-bold' : 'text-muted'
             }`}
           >
             HTML / PRINT PDF
@@ -112,7 +112,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
           <button
             onClick={() => setActiveTab('embed')}
             className={`px-4 py-2 uppercase tracking-wider ${
-              activeTab === 'embed' ? 'border-b-2 border-white text-white font-bold' : 'text-[#999999]'
+              activeTab === 'embed' ? 'border-b-2 border-white text-ink font-bold' : 'text-muted'
             }`}
           >
             EMBED WIDGET
@@ -121,7 +121,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
 
         {activeTab === 'html' && (
           <div className="space-y-4">
-            <p className="font-serif text-sm text-[#cccccc]">
+            <p className="font-serif text-sm text-body">
               Generate a high-density, printable audit summary report suitable for PDF conversion, compliance documentation, or team sign-off.
             </p>
 
@@ -134,16 +134,16 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
 
         {activeTab === 'embed' && (
           <div className="space-y-4">
-            <p className="font-serif text-sm text-[#cccccc]">
+            <p className="font-serif text-sm text-body">
               Embed this interactive comparison widget directly inside your company intranet, dashboard, or website:
             </p>
 
-            <pre className="bg-[#000000] border border-[#3a3a3a] p-4 text-xs font-mono text-[#c3d9f3] overflow-x-auto whitespace-pre-wrap">
+            <pre className="bg-canvas border border-hairline-strong p-4 text-xs font-mono text-link overflow-x-auto whitespace-pre-wrap">
               {embedSnippet}
             </pre>
 
             <button onClick={copyEmbed} className="btn-secondary w-full py-2 text-xs min-h-[40px]">
-              {copiedCode ? <Check className="w-4 h-4 inline mr-2 text-[#5fa657]" /> : <Code className="w-4 h-4 inline mr-2" />}
+              {copiedCode ? <Check className="w-4 h-4 inline mr-2 text-success" /> : <Code className="w-4 h-4 inline mr-2" />}
               {copiedCode ? 'COPIED WIDGET CODE!' : 'COPY EMBED CODE'}
             </button>
           </div>

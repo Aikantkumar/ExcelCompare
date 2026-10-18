@@ -39,7 +39,7 @@ export default function TopBottomDiffViewer({
   const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
   const [showLeftSidebar, setShowLeftSidebar] = useState(isDesktop);
   const [showRightSidebar, setShowRightSidebar] = useState(isDesktop);
-  const [mobileDrawer, setMobileDrawer] = useState<'tools' | 'audit' | null>(null);
+  const [mobileDrawer, setMobileDrawer] = useState(null); // 'tools' | 'audit' | null
   const [viewTab, setViewTab] = useState('both'); // 'both' | 'original' | 'changed'
   const [activeChangeIndex, setActiveChangeIndex] = useState(0);
   const [selectedCell, setSelectedCell] = useState(null);
@@ -423,8 +423,8 @@ export default function TopBottomDiffViewer({
     return {
       id: cellId,
       onClick: () => handleCellClick(rIdx, cIdx, cellToShow, isTop ? 'A' : 'B'),
-      className: `py-2 px-3 border-r border-[#262626] relative cursor-pointer font-mono transition-all ${
-        isCellFocused ? 'ring-2 ring-[#fcd34d] z-10 shadow-lg' : ''
+      className: `py-2 px-3 border-r border-hairline relative cursor-pointer font-mono transition-all ${
+        isCellFocused ? 'ring-2 ring-diff-modified-text z-10 shadow-lg' : ''
       } ${getCellStyle(cellStatus, viewTab, preserveFormatting, viewMode)}`,
     };
   };
@@ -440,20 +440,20 @@ export default function TopBottomDiffViewer({
 
   const getRowClassName = (row, rIdx) => {
     const isRowFocused = activeChange && activeChange.rowIdx === rIdx;
-    return isRowFocused ? 'bg-[#1f1f1f]/80' : '';
+    return isRowFocused ? 'bg-surface-elevated/80' : '';
   };
 
   return (
-    <div className={isFullView ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-[#000000] h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto lg:overflow-hidden [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]' : 'space-y-4'}>
+    <div className={isFullView ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-canvas h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto lg:overflow-hidden [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]' : 'space-y-4'}>
       {/* Top Main Toolbar */}
-      <div className="shrink-0 bg-[#141414] border border-[#262626] p-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+      <div className="shrink-0 bg-surface-card border border-hairline p-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
           <button
             onClick={() => { if (isDesktop) setShowLeftSidebar(!showLeftSidebar); else setMobileDrawer(mobileDrawer === 'tools' ? null : 'tools'); }}
             className={`p-1.5 text-xs font-mono border rounded transition-all ${
               showLeftSidebar
-                ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-success text-success bg-diff-added-bg'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             title={mobileDrawer === 'tools' && !isDesktop ? 'Close Tools Drawer' : 'Toggle Left Tools Sidebar'}
             aria-label={mobileDrawer === 'tools' && !isDesktop ? 'Close Tools & Options drawer' : (showLeftSidebar ? 'Hide Tools Sidebar' : 'Show Tools Sidebar')}
@@ -464,15 +464,15 @@ export default function TopBottomDiffViewer({
             </span>
           </button>
 
-          <div className="h-4 w-px bg-[#262626] mx-1" />
+          <div className="h-4 w-px bg-hairline mx-1" />
 
-          <span className="text-[10px] font-mono text-[#999999] uppercase tracking-wider hidden md:inline">LAYOUT:</span>
+          <span className="text-[10px] font-mono text-muted uppercase tracking-wider hidden md:inline">LAYOUT:</span>
           <button
             onClick={() => setViewMode('stacked')}
             className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
               viewMode === 'stacked'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-white text-ink bg-surface-elevated font-bold'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             aria-label={viewMode === 'stacked' ? 'Stacked layout, active' : 'Stacked layout'}
           >
@@ -483,8 +483,8 @@ export default function TopBottomDiffViewer({
             onClick={() => setViewMode('overlapped')}
             className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
               viewMode === 'overlapped'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-white text-ink bg-surface-elevated font-bold'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             aria-label={viewMode === 'overlapped' ? 'Overlapped layout, active' : 'Overlapped layout'}
           >
@@ -492,15 +492,15 @@ export default function TopBottomDiffViewer({
             <span className="hidden sm:inline">Overlapped</span>
           </button>
 
-          <div className="h-4 w-px bg-[#262626] mx-1" />
+          <div className="h-4 w-px bg-hairline mx-1" />
 
-          <span className="text-[10px] font-mono text-[#999999] uppercase tracking-wider hidden md:inline">VIEW:</span>
+          <span className="text-[10px] font-mono text-muted uppercase tracking-wider hidden md:inline">VIEW:</span>
           <button
             onClick={() => setViewTab('both')}
             className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
               viewTab === 'both'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-white text-ink bg-surface-elevated font-bold'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             aria-label={viewTab === 'both' ? 'Both files view, active' : 'Both files view'}
           >
@@ -511,8 +511,8 @@ export default function TopBottomDiffViewer({
             onClick={() => setViewTab('original')}
             className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
               viewTab === 'original'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-white text-ink bg-surface-elevated font-bold'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
           >
             Original (Top)
@@ -521,41 +521,21 @@ export default function TopBottomDiffViewer({
             onClick={() => setViewTab('changed')}
             className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
               viewTab === 'changed'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
-            }`}
-          >
-            Changed (Bottom)
-          </button>
-          <button
-            onClick={() => setViewTab('original')}
-            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
-              viewTab === 'original'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
-            }`}
-          >
-            Original (Top)
-          </button>
-          <button
-            onClick={() => setViewTab('changed')}
-            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
-              viewTab === 'changed'
-                ? 'border-white text-white bg-[#1f1f1f] font-bold'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-white text-ink bg-surface-elevated font-bold'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
           >
             Changed (Bottom)
           </button>
 
-          <div className="h-4 w-px bg-[#262626] mx-1" />
+          <div className="h-4 w-px bg-hairline mx-1" />
 
-          <label className="flex items-center gap-2 cursor-pointer text-xs font-mono text-[#999999] hover:text-white">
+          <label className="flex items-center gap-2 cursor-pointer text-xs font-mono text-muted hover:text-ink">
             <input
               type="checkbox"
               checked={syncScroll}
               onChange={(e) => setSyncScroll(e.target.checked)}
-              className="w-4 h-4 accent-[#5fa657]"
+              className="w-4 h-4 accent-success"
             />
             Sync Scroll
           </label>
@@ -563,13 +543,13 @@ export default function TopBottomDiffViewer({
 
         <div className="flex items-center gap-3 shrink-0">
           <div className="relative shrink-0">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#666666]" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-muted-soft" />
             <input
               type="text"
               placeholder="Filter cells..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#000000] border border-[#3a3a3a] pl-8 pr-3 py-1 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white w-full sm:w-56 max-w-xs sm:max-w-none shrink-0"
+              className="bg-canvas border border-hairline-strong pl-8 pr-3 py-1 text-xs font-mono text-ink placeholder-muted-soft focus:outline-none focus:border-ink w-full sm:w-56 max-w-xs sm:max-w-none shrink-0"
             />
           </div>
         </div>
@@ -577,7 +557,7 @@ export default function TopBottomDiffViewer({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowAppearanceModal(true)}
-            className="p-1.5 text-xs font-mono border border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white rounded"
+            className="p-1.5 text-xs font-mono border border-hairline-strong text-muted hover:border-white hover:text-ink rounded"
             title="Appearance Settings"
             aria-label="Appearance Settings"
           >
@@ -588,8 +568,8 @@ export default function TopBottomDiffViewer({
             onClick={toggleFullView}
             className={`p-1.5 text-xs font-mono border rounded transition-all ${
               isFullView
-                ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-success text-success bg-diff-added-bg'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             title={isFullView ? 'Exit Full View' : 'Enter Full View'}
             aria-pressed={isFullView}
@@ -609,18 +589,18 @@ export default function TopBottomDiffViewer({
             onClick={() => { if (onShare) onShare(); setCopiedLink(true); setTimeout(() => setCopiedLink(false), 2000); }}
             className="btn-secondary py-1.5 px-3 text-xs h-8 tracking-[1px]"
           >
-            {copiedLink ? <Check className="w-3.5 h-3.5 inline mr-1 text-[#5fa657]" /> : <Share2 className="w-3.5 h-3.5 inline mr-1" />}
+            {copiedLink ? <Check className="w-3.5 h-3.5 inline mr-1 text-success" /> : <Share2 className="w-3.5 h-3.5 inline mr-1" />}
             {copiedLink ? 'Copied' : 'Share'}
           </button>
 
-          <div className="h-4 w-px bg-[#262626] mx-1" />
+          <div className="h-4 w-px bg-hairline mx-1" />
 
           <button
             onClick={() => { if (isDesktop) setShowRightSidebar(!showRightSidebar); else setMobileDrawer(mobileDrawer === 'audit' ? null : 'audit'); }}
             className={`p-1.5 text-xs font-mono border rounded transition-all ${
               showRightSidebar
-                ? 'border-[#c3d9f3] text-[#c3d9f3] bg-[#1e1b4b]'
-                : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                ? 'border-link text-link bg-diff-formula-bg'
+                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
             title={mobileDrawer === 'audit' && !isDesktop ? 'Close Audit Drawer' : 'Toggle Right Changes Sidebar'}
             aria-label={mobileDrawer === 'audit' && !isDesktop ? 'Close Changes Audit drawer' : (showRightSidebar ? 'Hide Changes Sidebar' : 'Show Changes Sidebar')}
@@ -635,7 +615,7 @@ export default function TopBottomDiffViewer({
 
       <div className={`grid grid-cols-1 lg:grid-cols-12 gap-4 ${isFullView ? 'flex-1 min-h-0 items-stretch h-full' : 'items-start'}`}>
         {!isDesktop && mobileDrawer === 'tools' ? null : showLeftSidebar && (
-          <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-6 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
+          <div className={`lg:col-span-3 bg-surface-card border border-hairline p-4 space-y-6 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
             <ToolsSidebar
               compareFormulas={compareFormulas}
               diffGranularity={diffGranularity}
@@ -661,18 +641,18 @@ export default function TopBottomDiffViewer({
         <div className={`${
           showLeftSidebar && showRightSidebar ? 'lg:col-span-6' :
           showLeftSidebar || showRightSidebar ? 'lg:col-span-9' : 'lg:col-span-12'
-        } bg-[#0d0d0d] border border-[#262626] space-y-0 transition-all min-w-0 ${isFullView ? 'min-h-0 flex flex-col' : ''}`}>
+        } bg-surface-soft border border-hairline space-y-0 transition-all min-w-0 ${isFullView ? 'min-h-0 flex flex-col' : ''}`}>
           
-          <div className="shrink-0 bg-[#141414] px-4 py-2 border-b border-[#262626] flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs font-mono uppercase text-white select-none">
+          <div className="shrink-0 bg-surface-card px-4 py-2 border-b border-hairline flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs font-mono uppercase text-ink select-none">
             <div className="flex items-center gap-4">
-              <span className="font-bold text-[#c3d9f3]">{sheetName}</span>
-              <span className="text-[10px] text-[#666666]">{displayRows.length} ROW(S) DISPLAYED</span>
+              <span className="font-bold text-link">{sheetName}</span>
+              <span className="text-[10px] text-muted-soft">{displayRows.length} ROW(S) DISPLAYED</span>
               {viewMode === 'overlapped' && (
-                <span className="px-2 py-0.5 text-[10px] font-mono bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca] rounded">OVERLAPPED VIEW</span>
+                <span className="px-2 py-0.5 text-[10px] font-mono bg-diff-formula-bg text-diff-formula-text border border-diff-formula-border rounded">OVERLAPPED VIEW</span>
               )}
             </div>
             {activeChange && (
-              <div className="text-[11px] text-[#fcd34d] font-mono animate-pulse hidden sm:block">
+              <div className="text-[11px] text-diff-modified-text font-mono animate-pulse hidden sm:block">
                 FOCUSED: CELL {activeChange.cellRef} (#{activeChange.id})
               </div>
             )}
@@ -681,14 +661,14 @@ export default function TopBottomDiffViewer({
           <div ref={registerBodyRef} className={isFullView ? 'flex-1 min-h-0 overflow-hidden' : ''}>
             {viewMode === 'stacked' ? (
               <div className="space-y-2 p-2 sm:p-4">
-              <div className="bg-[#141414] border border-[#262626] p-1 sm:p-2"
+              <div className="bg-surface-card border border-hairline p-1 sm:p-2"
                 onPointerDown={() => { activePaneRef.current = 'top'; }}
                 onWheel={() => { activePaneRef.current = 'top'; }}
                 onTouchStart={() => { activePaneRef.current = 'top'; }}
                 onFocus={() => { activePaneRef.current = 'top'; }}
                 onPointerLeave={() => { if (activePaneRef.current === 'top') activePaneRef.current = null; }}
               >
-                <div className="text-xs font-mono text-[#c3d9f3] mb-2">FILE 1 (ORIGINAL / BEFORE)</div>
+                <div className="text-xs font-mono text-link mb-2">FILE 1 (ORIGINAL / BEFORE)</div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualTopTableRef}
                   rows={displayRows}
@@ -702,10 +682,10 @@ export default function TopBottomDiffViewer({
                   fixedRowHeight={true}
                   onToggleCollapse={handleToggleCollapse}
                   renderCollapsedRow={(row) => (
-                    <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+                    <div className="flex items-center justify-center gap-2 py-1 text-link font-bold">
                       <span>↕</span>
                       <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
-                      <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+                      <span className="text-[10px] text-muted font-normal">(Click row to expand)</span>
                     </div>
                   )}
                   renderFirstColHeader={() => 'FILE 1'}
@@ -717,14 +697,14 @@ export default function TopBottomDiffViewer({
                   onScroll={syncScroll ? (e) => handleScrollSync('top') : undefined}
                 />
               </div>
-              <div className="bg-[#141414] border border-[#262626] p-1 sm:p-2"
+              <div className="bg-surface-card border border-hairline p-1 sm:p-2"
                 onPointerDown={() => { activePaneRef.current = 'bottom'; }}
                 onWheel={() => { activePaneRef.current = 'bottom'; }}
                 onTouchStart={() => { activePaneRef.current = 'bottom'; }}
                 onFocus={() => { activePaneRef.current = 'bottom'; }}
                 onPointerLeave={() => { if (activePaneRef.current === 'bottom') activePaneRef.current = null; }}
               >
-                <div className="text-xs font-mono text-[#fca5a5] mb-2">FILE 2 (MODIFIED / AFTER)</div>
+                <div className="text-xs font-mono text-diff-deleted-text mb-2">FILE 2 (MODIFIED / AFTER)</div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualBottomTableRef}
                   rows={displayRows}
@@ -738,10 +718,10 @@ export default function TopBottomDiffViewer({
                   fixedRowHeight={true}
                   onToggleCollapse={handleToggleCollapse}
                   renderCollapsedRow={(row) => (
-                    <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+                    <div className="flex items-center justify-center gap-2 py-1 text-link font-bold">
                       <span>↕</span>
                       <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
-                      <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+                      <span className="text-[10px] text-muted font-normal">(Click row to expand)</span>
                     </div>
                   )}
                   renderFirstColHeader={() => 'FILE 2'}
@@ -756,10 +736,10 @@ export default function TopBottomDiffViewer({
             </div>
             ) : (
               <div className="p-2 sm:p-4">
-                <div className="bg-[#141414] border border-[#262626] p-1 sm:p-2">
+                <div className="bg-surface-card border border-hairline p-1 sm:p-2">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono text-[#a5b4fc]">OVERLAPPED / MERGED VIEW</span>
-                  <span className="text-[10px] text-[#666666]">Green = Added, Red = Deleted, Yellow = Modified, Blue = Formula Changed</span>
+                  <span className="text-xs font-mono text-diff-formula-text">OVERLAPPED / MERGED VIEW</span>
+                  <span className="text-[10px] text-muted-soft">Green = Added, Red = Deleted, Yellow = Modified, Blue = Formula Changed</span>
                 </div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualOverlappedTableRef}
@@ -773,10 +753,10 @@ export default function TopBottomDiffViewer({
                   estimatedRowSize={() => 32}
                   onToggleCollapse={handleToggleCollapse}
                   renderCollapsedRow={(row) => (
-                    <div className="flex items-center justify-center gap-2 py-1 text-[#c3d9f3] font-bold">
+                    <div className="flex items-center justify-center gap-2 py-1 text-link font-bold">
                       <span>↕</span>
                       <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
-                      <span className="text-[10px] text-[#999999] font-normal">(Click row to expand)</span>
+                      <span className="text-[10px] text-muted font-normal">(Click row to expand)</span>
                     </div>
                   )}
                   renderFirstColHeader={() => 'FILE 1'}
@@ -793,7 +773,7 @@ export default function TopBottomDiffViewer({
         </div>
 
         {!isDesktop && mobileDrawer === 'audit' ? null : showRightSidebar && (
-          <div className={`lg:col-span-3 bg-[#141414] border border-[#262626] p-4 space-y-4 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
+          <div className={`lg:col-span-3 bg-surface-card border border-hairline p-4 space-y-4 select-none transition-all ${isFullView ? 'h-full min-h-0 overflow-y-auto' : ''}`}>
             <ChangesSidebar
               stats={stats}
               changesList={changesList}
@@ -809,11 +789,11 @@ export default function TopBottomDiffViewer({
 
       {/* Mobile bottom-sheet drawers for Tools & Options and Audit panels */}
       {!isDesktop && mobileDrawer === 'tools' && (
-        <div className="fixed left-0 top-0 right-0 bottom-0 z-[80] bg-[#000000]/60 backdrop-blur-sm pointer-events-auto" role="dialog" aria-modal="true" aria-label="Tools & Options">
-          <div className="absolute left-0 bottom-0 right-0 z-[85] bg-[#000000] border border-[#262626] border-t-0 flex flex-col max-h-[85vh] h-[85vh] shadow-2xl [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
-            <div className="shrink-0 bg-[#141414] border-b border-[#262626] px-4 py-3 flex items-center justify-between">
-              <h3 className="text-xs font-mono text-white font-bold uppercase tracking-wider">Tools & Options</h3>
-              <button onClick={() => setMobileDrawer(null)} className="text-[#666666] hover:text-white" title="Close drawer" aria-label="Close Tools & Options drawer">
+        <div className="fixed left-0 top-0 right-0 bottom-0 z-[80] bg-canvas/60 backdrop-blur-sm pointer-events-auto" role="dialog" aria-modal="true" aria-label="Tools & Options">
+          <div className="absolute left-0 bottom-0 right-0 z-[85] bg-canvas border border-hairline border-t-0 flex flex-col max-h-[85vh] h-[85vh] shadow-2xl [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+            <div className="shrink-0 bg-surface-card border-b border-hairline px-4 py-3 flex items-center justify-between">
+              <h3 className="text-xs font-mono text-ink font-bold uppercase tracking-wider">Tools & Options</h3>
+              <button onClick={() => setMobileDrawer(null)} className="text-muted-soft hover:text-ink" title="Close drawer" aria-label="Close Tools & Options drawer">
                 <span className="text-[14px]">✕</span>
               </button>
             </div>
@@ -843,11 +823,11 @@ export default function TopBottomDiffViewer({
       )}
 
       {!isDesktop && mobileDrawer === 'audit' && (
-        <div className="fixed left-0 top-0 right-0 bottom-0 z-[80] bg-[#000000]/60 backdrop-blur-sm pointer-events-auto" role="dialog" aria-modal="true" aria-label="Changes Audit">
-          <div className="absolute left-0 bottom-0 right-0 z-[85] bg-[#000000] border border-[#262626] border-t-0 flex flex-col max-h-[85vh] h-[85vh] shadow-2xl [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
-            <div className="shrink-0 bg-[#141414] border-b border-[#262626] px-4 py-3 flex items-center justify-between">
-              <h3 className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes Audit</h3>
-              <button onClick={() => setMobileDrawer(null)} className="text-[#666666] hover:text-white" title="Close drawer" aria-label="Close Changes Audit drawer">
+        <div className="fixed left-0 top-0 right-0 bottom-0 z-[80] bg-canvas/60 backdrop-blur-sm pointer-events-auto" role="dialog" aria-modal="true" aria-label="Changes Audit">
+          <div className="absolute left-0 bottom-0 right-0 z-[85] bg-canvas border border-hairline border-t-0 flex flex-col max-h-[85vh] h-[85vh] shadow-2xl [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+            <div className="shrink-0 bg-surface-card border-b border-hairline px-4 py-3 flex items-center justify-between">
+              <h3 className="text-xs font-mono text-ink font-bold uppercase tracking-wider">Changes Audit</h3>
+              <button onClick={() => setMobileDrawer(null)} className="text-muted-soft hover:text-ink" title="Close drawer" aria-label="Close Changes Audit drawer">
                 <span className="text-[14px]">✕</span>
               </button>
             </div>
@@ -867,16 +847,16 @@ export default function TopBottomDiffViewer({
 
       {showAppearanceModal && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
-          <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
-            <div className="flex justify-between items-center border-b border-[#262626] pb-3">
-              <h3 className="text-title-sm text-white flex items-center gap-2"><Settings className="w-4 h-4 text-[#c3d9f3]" />APPEARANCE & THEME SETTINGS</h3>
-              <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-[#999999] hover:text-white" aria-label="Close appearance settings">✕</button>
+          <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
+            <div className="flex justify-between items-center border-b border-hairline pb-3">
+              <h3 className="text-title-sm text-ink flex items-center gap-2"><Settings className="w-4 h-4 text-link" />APPEARANCE & THEME SETTINGS</h3>
+              <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close appearance settings">✕</button>
             </div>
             <div className="space-y-3">
-              <div className="text-xs font-mono text-[#999999] uppercase">Grid Theme Preset</div>
+              <div className="text-xs font-mono text-muted uppercase">Grid Theme Preset</div>
               <div className="grid grid-cols-2 gap-2">
-                <button onClick={() => setAppearanceTheme('dark')} className={`p-3 border text-xs font-mono text-left ${appearanceTheme === 'dark' ? 'border-white bg-[#1f1f1f] text-white' : 'border-[#262626] text-[#999999]'}`}>Sleek Dark Mode</button>
-                <button onClick={() => setAppearanceTheme('highContrast')} className={`p-3 border text-xs font-mono text-left ${appearanceTheme === 'highContrast' ? 'border-white bg-[#1f1f1f] text-white' : 'border-[#262626] text-[#999999]'}`}>High Contrast</button>
+                <button onClick={() => setAppearanceTheme('dark')} className={`p-3 border text-xs font-mono text-left ${appearanceTheme === 'dark' ? 'border-white bg-surface-elevated text-ink' : 'border-hairline text-muted'}`}>Sleek Dark Mode</button>
+                <button onClick={() => setAppearanceTheme('highContrast')} className={`p-3 border text-xs font-mono text-left ${appearanceTheme === 'highContrast' ? 'border-white bg-surface-elevated text-ink' : 'border-hairline text-muted'}`}>High Contrast</button>
               </div>
             </div>
             <div className="flex justify-end pt-2"><button onClick={() => setShowAppearanceModal(false)} className="btn-primary text-xs h-8 py-1 px-4">APPLY & CLOSE</button></div>
@@ -886,16 +866,16 @@ export default function TopBottomDiffViewer({
 
       {showAnnotationModal && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
-          <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4">
-            <div className="flex justify-between items-center border-b border-[#262626] pb-3">
-              <h3 className="text-title-sm text-white flex items-center gap-2"><MessageSquare className="w-4 h-4 text-[#c3d9f3]" />CELL ANNOTATION & AUDIT NOTE</h3>
-              <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-[#999999] hover:text-white" aria-label="Close annotation editor">✕</button>
+          <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4">
+            <div className="flex justify-between items-center border-b border-hairline pb-3">
+              <h3 className="text-title-sm text-ink flex items-center gap-2"><MessageSquare className="w-4 h-4 text-link" />CELL ANNOTATION & AUDIT NOTE</h3>
+              <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close annotation editor">✕</button>
             </div>
-            <div className="text-xs font-mono text-[#999999] space-y-1">
+            <div className="text-xs font-mono text-muted space-y-1">
               <div>POSITION: Row {selectedCell?.rIdx + 1}, Col {getColumnLetter(selectedCell?.cIdx)}</div>
-              <div>VALUE: <span className="text-white font-semibold">{selectedCell?.cell?.val || '(empty)'}</span></div>
+              <div>VALUE: <span className="text-ink font-semibold">{selectedCell?.cell?.val || '(empty)'}</span></div>
             </div>
-            <textarea rows={3} placeholder="Add your note or audit flag here..." value={annotationText} onChange={(e) => setAnnotationText(e.target.value)} className="w-full bg-[#000000] border border-[#3a3a3a] p-3 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white" />
+            <textarea rows={3} placeholder="Add your note or audit flag here..." value={annotationText} onChange={(e) => setAnnotationText(e.target.value)} className="w-full bg-canvas border border-hairline-strong p-3 text-xs font-mono text-ink placeholder-muted-soft focus:outline-none focus:border-ink" />
             <div className="flex justify-end gap-3 pt-2">
               <button onClick={() => setShowAnnotationModal(false)} className="btn-secondary text-xs h-8 py-1 px-4">CANCEL</button>
               <button onClick={saveAnnotation} className="btn-primary text-xs h-8 py-1 px-4">SAVE NOTE</button>
@@ -929,32 +909,32 @@ function ToolsSidebar({
   return (
     <>
       {!isDrawer && (
-        <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+        <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-[#c3d9f3]" />
-            <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Tools & Options</span>
+            <Sliders className="w-4 h-4 text-link" />
+            <span className="text-xs font-mono text-ink font-bold uppercase tracking-wider">Tools & Options</span>
           </div>
-          <button onClick={onClose} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar" aria-label="Collapse Tools & Options">
+          <button onClick={onClose} className="text-muted-soft hover:text-ink transition-colors" title="Collapse Sidebar" aria-label="Collapse Tools & Options">
             <ChevronLeft className="w-4 h-4" />
           </button>
         </div>
       )}
       <div className="space-y-3">
-        <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Comparison options</div>
+        <div className="text-[11px] font-mono text-muted uppercase tracking-wider font-semibold">Comparison options</div>
 
-        <div className="grid grid-cols-2 gap-1 bg-[#000000] p-1 border border-[#262626]">
-          <button onClick={() => updateOption('compareFormulas', false)} className={`py-1.5 text-xs font-mono text-center transition-all ${!compareFormulas ? 'bg-white text-black font-bold' : 'text-[#999999] hover:text-white'}`}>Standard</button>
-          <button onClick={() => updateOption('compareFormulas', true)} className={`py-1.5 text-xs font-mono text-center transition-all ${compareFormulas ? 'bg-white text-black font-bold' : 'text-[#999999] hover:text-white'}`}>Formulas</button>
+        <div className="grid grid-cols-2 gap-1 bg-canvas p-1 border border-hairline">
+          <button onClick={() => updateOption('compareFormulas', false)} className={`py-1.5 text-xs font-mono text-center transition-all ${!compareFormulas ? 'bg-white text-black font-bold' : 'text-muted hover:text-ink'}`}>Standard</button>
+          <button onClick={() => updateOption('compareFormulas', true)} className={`py-1.5 text-xs font-mono text-center transition-all ${compareFormulas ? 'bg-white text-black font-bold' : 'text-muted hover:text-ink'}`}>Formulas</button>
         </div>
 
-        <div className="grid grid-cols-3 gap-1 bg-[#000000] p-1 border border-[#262626]">
+        <div className="grid grid-cols-3 gap-1 bg-canvas p-1 border border-hairline">
           {['smart', 'word', 'char'].map((mode) => (
-            <button key={mode} onClick={() => updateOption('diffGranularity', mode)} className={`py-1.5 text-xs font-mono text-center capitalize transition-all ${diffGranularity === mode ? 'bg-[#1e1b4b] text-[#c3d9f3] font-bold border border-[#4338ca]' : 'text-[#999999] hover:text-white'}`}>{mode}</button>
+            <button key={mode} onClick={() => updateOption('diffGranularity', mode)} className={`py-1.5 text-xs font-mono text-center capitalize transition-all ${diffGranularity === mode ? 'bg-diff-formula-bg text-link font-bold border border-diff-formula-border' : 'text-muted hover:text-ink'}`}>{mode}</button>
           ))}
         </div>
       </div>
 
-      <div className="space-y-3 border-t border-[#262626] pt-4">
+      <div className="space-y-3 border-t border-hairline pt-4">
         <ToggleRow label="Match columns by headers" checked={matchColumnsByHeaders} onChange={(val) => updateOption('matchColumnsByHeaders', val)} />
         <ToggleRow label="Ignore white space" checked={ignoreWhitespace} onChange={(val) => updateOption('ignoreWhitespace', val)} />
         <ToggleRow label="Ignore case changes" checked={ignoreCase} onChange={(val) => updateOption('ignoreCase', val)} />
@@ -963,20 +943,20 @@ function ToolsSidebar({
         <ToggleRow label="Hide unchanged columns" checked={hideUnchangedColumns} onChange={(val) => updateOption('hideUnchangedColumns', val)} />
       </div>
 
-      <div className="space-y-3 border-t border-[#262626] pt-4">
-        <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Appearance</div>
+      <div className="space-y-3 border-t border-hairline pt-4">
+        <div className="text-[11px] font-mono text-muted uppercase tracking-wider font-semibold">Appearance</div>
         <ToggleRow label="Preserve formatting" checked={preserveFormatting} onChange={(val) => updateOption('preserveFormatting', val)} />
-        <button onClick={onOpenAppearance} className="w-full py-2 px-3 border border-[#3a3a3a] text-xs font-mono text-[#cccccc] hover:border-white hover:text-white text-left flex items-center justify-between transition-all">
+        <button onClick={onOpenAppearance} className="w-full py-2 px-3 border border-hairline-strong text-xs font-mono text-body hover:border-white hover:text-ink text-left flex items-center justify-between transition-all">
           <span>🎨 Change appearance</span>
-          <ChevronRight className="w-3.5 h-3.5 text-[#666666]" />
+          <ChevronRight className="w-3.5 h-3.5 text-muted-soft" />
         </button>
       </div>
 
-      <div className="space-y-3 border-t border-[#262626] pt-4">
-        <div className="text-[11px] font-mono text-[#999999] uppercase tracking-wider font-semibold">Tools & Normalization</div>
+      <div className="space-y-3 border-t border-hairline pt-4">
+        <div className="text-[11px] font-mono text-muted uppercase tracking-wider font-semibold">Tools & Normalization</div>
         <div className="space-y-1">
-          <label className="text-[10px] font-mono text-[#666666] uppercase">Sort rows</label>
-          <select value={sortRows} onChange={(e) => updateOption('sortRows', e.target.value)} className="w-full bg-[#000000] border border-[#3a3a3a] px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-white">
+          <label className="text-[10px] font-mono text-muted-soft uppercase">Sort rows</label>
+          <select value={sortRows} onChange={(e) => updateOption('sortRows', e.target.value)} className="w-full bg-canvas border border-hairline-strong px-3 py-1.5 text-xs font-mono text-ink focus:outline-none focus:border-ink">
             <option value="none">Original Order</option>
             {headersA.map((header, idx) => (
               <option key={idx} value={`col${idx}`}>
@@ -986,8 +966,8 @@ function ToolsSidebar({
           </select>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <button onClick={() => { updateOption('normalizeDatesUS', !normalizeDatesUS); if (!normalizeDatesUS) updateOption('normalizeDatesEU', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesUS ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (US)</button>
-          <button onClick={() => { updateOption('normalizeDatesEU', !normalizeDatesEU); if (!normalizeDatesEU) updateOption('normalizeDatesUS', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesEU ? 'border-[#5fa657] text-[#6ee7b7] bg-[#062c19]' : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'}`}>Dates (EU)</button>
+          <button onClick={() => { updateOption('normalizeDatesUS', !normalizeDatesUS); if (!normalizeDatesUS) updateOption('normalizeDatesEU', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesUS ? 'border-success text-diff-added-text bg-diff-added-bg' : 'border-hairline-strong text-muted hover:border-ink hover:text-ink'}`}>Dates (US)</button>
+          <button onClick={() => { updateOption('normalizeDatesEU', !normalizeDatesEU); if (!normalizeDatesEU) updateOption('normalizeDatesUS', false); }} className={`py-1.5 px-2 text-[11px] font-mono border text-center transition-all ${normalizeDatesEU ? 'border-success text-diff-added-text bg-diff-added-bg' : 'border-hairline-strong text-muted hover:border-ink hover:text-ink'}`}>Dates (EU)</button>
         </div>
       </div>
     </>
@@ -998,44 +978,44 @@ function ChangesSidebar({ stats, changesList, activeChangeIndex, jumpToChange, o
   return (
     <>
       {!isDrawer && (
-        <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+        <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-white font-bold uppercase tracking-wider">Changes</span>
+            <span className="text-xs font-mono text-ink font-bold uppercase tracking-wider">Changes</span>
           </div>
-          <button onClick={onClose} className="text-[#666666] hover:text-white transition-colors" title="Collapse Sidebar" aria-label="Collapse Changes Sidebar">
+          <button onClick={onClose} className="text-muted-soft hover:text-ink transition-colors" title="Collapse Sidebar" aria-label="Collapse Changes Sidebar">
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       )}
-      <div className="flex items-center justify-between bg-[#000000] p-2 border border-[#262626] text-xs font-mono">
+      <div className="flex items-center justify-between bg-canvas p-2 border border-hairline text-xs font-mono">
         <div className="flex items-center gap-3">
-          <span className="text-[#fca5a5] font-bold" title="Deletions">- {stats.totalDeleted || 0}</span>
-          <span className="text-[#6ee7b7] font-bold" title="Additions">+ {stats.totalAdded || 0}</span>
-          <span className="text-[#fcd34d] font-bold" title="Modifications">~ {stats.totalModified || 0}</span>
-          <span className="text-[#a5b4fc] font-bold" title="Formula Changes">ƒ {stats.totalFormulaChanges || 0}</span>
+          <span className="text-diff-deleted-text font-bold" title="Deletions">- {stats.totalDeleted || 0}</span>
+          <span className="text-diff-added-text font-bold" title="Additions">+ {stats.totalAdded || 0}</span>
+          <span className="text-diff-modified-text font-bold" title="Modifications">~ {stats.totalModified || 0}</span>
+          <span className="text-diff-formula-text font-bold" title="Formula Changes">ƒ {stats.totalFormulaChanges || 0}</span>
         </div>
-        <div className="text-[10px] text-[#999999] font-bold">TOTAL: {changesList.length}</div>
+        <div className="text-[10px] text-muted font-bold">TOTAL: {changesList.length}</div>
       </div>
 
-      <div className="flex items-center justify-between bg-[#1f1f1f] p-2 border border-[#3a3a3a]">
-        <span className="text-xs font-mono text-[#cccccc]">{changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}</span>
+      <div className="flex items-center justify-between bg-surface-elevated p-2 border border-hairline-strong">
+        <span className="text-xs font-mono text-body">{changesList.length > 0 ? `${activeChangeIndex + 1} of ${changesList.length}` : '0 of 0'}</span>
         <div className="flex items-center gap-1">
-          <button onClick={() => jumpToChange(activeChangeIndex - 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Previous Change (Up Arrow)"><ChevronUp className="w-4 h-4" /></button>
-          <button onClick={() => jumpToChange(activeChangeIndex + 1)} disabled={changesList.length === 0} className="p-1 text-[#cccccc] hover:text-white border border-[#3a3a3a] hover:border-white disabled:opacity-30 rounded transition-colors" title="Next Change (Down Arrow)"><ChevronDown className="w-4 h-4" /></button>
+          <button onClick={() => jumpToChange(activeChangeIndex - 1)} disabled={changesList.length === 0} className="p-1 text-body hover:text-ink border border-hairline-strong hover:border-white disabled:opacity-30 rounded transition-colors" title="Previous Change (Up Arrow)"><ChevronUp className="w-4 h-4" /></button>
+          <button onClick={() => jumpToChange(activeChangeIndex + 1)} disabled={changesList.length === 0} className="p-1 text-body hover:text-ink border border-hairline-strong hover:border-white disabled:opacity-30 rounded transition-colors" title="Next Change (Down Arrow)"><ChevronDown className="w-4 h-4" /></button>
         </div>
       </div>
 
       <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin">
         {changesList.length === 0 ? (
-          <div className="text-center py-8 text-xs font-mono text-[#666666]">No changes detected in current view.</div>
+          <div className="text-center py-8 text-xs font-mono text-muted-soft">No changes detected in current view.</div>
         ) : (
           changesList.map((item, idx) => {
             const isActive = activeChangeIndex === idx;
             return (
-              <div key={item.id} onClick={() => jumpToChange(idx)} className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${isActive ? 'border-white bg-[#1f1f1f] shadow-md transform translate-x-0.5' : 'border-[#262626] bg-[#0d0d0d] hover:border-[#3a3a3a] hover:bg-[#141414]'}`}>
+              <div key={item.id} onClick={() => jumpToChange(idx)} className={`p-3 border text-xs font-mono transition-all cursor-pointer space-y-1.5 ${isActive ? 'border-white bg-surface-elevated shadow-md transform translate-x-0.5' : 'border-hairline bg-surface-soft hover:border-hairline-strong hover:bg-surface-card'}`}>
                 <div className="flex items-center justify-between">
-                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${item.type === 'MODIFIED' ? 'bg-[#2d2208] text-[#fcd34d] border border-[#78350f]' : item.type === 'ADDED' ? 'bg-[#062c19] text-[#6ee7b7] border border-[#047857]' : item.type === 'DELETED' ? 'bg-[#3b1219] text-[#fca5a5] border border-[#b91c1c]' : 'bg-[#1e1b4b] text-[#a5b4fc] border border-[#4338ca]'}`}>{item.type}</span>
-                  <div className="flex items-center gap-2"><span className="font-bold text-white">{item.cellRef}</span><span className="text-[10px] text-[#666666]">#{item.id}</span></div>
+                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${item.type === 'MODIFIED' ? 'bg-diff-modified-bg text-diff-modified-text border border-diff-modified-border' : item.type === 'ADDED' ? 'bg-diff-added-bg text-diff-added-text border border-diff-added-border' : item.type === 'DELETED' ? 'bg-diff-deleted-bg text-diff-deleted-text border border-diff-deleted-border' : 'bg-diff-formula-bg text-diff-formula-text border border-diff-formula-border'}`}>{item.type}</span>
+                  <div className="flex items-center gap-2"><span className="font-bold text-ink">{item.cellRef}</span><span className="text-[10px] text-muted-soft">#{item.id}</span></div>
                 </div>
                 <div className="pt-1 text-[11px] leading-relaxed break-words font-mono"><FormattedCardDiff item={item} /></div>
               </div>
@@ -1049,22 +1029,22 @@ function ChangesSidebar({ stats, changesList, activeChangeIndex, jumpToChange, o
 
 function ToggleRow({ label, checked, onChange }) {
   return (
-    <label className="flex items-center justify-between text-xs font-mono text-[#cccccc] cursor-pointer hover:text-white transition-colors">
+    <label className="flex items-center justify-between text-xs font-mono text-body cursor-pointer hover:text-ink transition-colors">
       <span>{label}</span>
       <div className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="sr-only peer" />
-        <div className="w-8 h-4 bg-[#262626] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-[#5fa657]"></div>
+        <div className="w-8 h-4 bg-hairline peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-ink after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-ink after:border-ink after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-success"></div>
       </div>
     </label>
   );
 }
 
 function getCellStyle(status, viewTab, preserveFormatting, viewMode) {
-  if (status === 'MODIFIED') return 'bg-[#2d2208]/90 text-[#fcd34d] border-[#78350f] font-medium';
-  if (status === 'ADDED') return 'bg-[#062c19]/90 text-[#6ee7b7] border-[#047857] font-medium';
-  if (status === 'DELETED') return 'bg-[#3b1219]/90 text-[#fca5a5] border-[#b91c1c] font-medium';
-  if (status === 'FORMULA_CHANGED') return 'bg-[#1e1b4b]/90 text-[#a5b4fc] border-[#4338ca] font-medium underline';
-  return 'bg-[#000000] text-[#cccccc] hover:bg-[#141414]';
+  if (status === 'MODIFIED') return 'bg-diff-modified-bg/90 text-diff-modified-text border-diff-modified-border font-medium';
+  if (status === 'ADDED') return 'bg-diff-added-bg/90 text-diff-added-text border-diff-added-border font-medium';
+  if (status === 'DELETED') return 'bg-diff-deleted-bg/90 text-diff-deleted-text border-diff-deleted-border font-medium';
+  if (status === 'FORMULA_CHANGED') return 'bg-diff-formula-bg/90 text-diff-formula-text border-diff-formula-border font-medium underline';
+  return 'bg-canvas text-body hover:bg-surface-card';
 }
 
 function OverlappedCellContent({ cellA, cellB, status, granularity, compareFormulas }) {
@@ -1072,16 +1052,16 @@ function OverlappedCellContent({ cellA, cellB, status, granularity, compareFormu
     return <span className="cell-text">{cellB.val || cellA.val || '-'}</span>;
   }
   if (status === 'ADDED') {
-    return <span className="cell-text text-[#6ee7b7] underline font-bold">+{cellB.val}</span>;
+    return <span className="cell-text text-diff-added-text underline font-bold">+{cellB.val}</span>;
   }
   if (status === 'DELETED') {
-    return <span className="cell-text line-through text-[#fca5a5]">-{cellA.val}</span>;
+    return <span className="cell-text line-through text-diff-deleted-text">-{cellA.val}</span>;
   }
   if (status === 'FORMULA_CHANGED') {
     return (
       <div className="redline-cell-content">
-        <span className="line-through text-[#fca5a5] opacity-80 block truncate">{cellA.formula || cellA.val}</span>
-        <span className="text-[#a5b4fc] font-bold underline block truncate">ƒ{cellB.formula || cellB.val}</span>
+        <span className="line-through text-diff-deleted-text opacity-80 block truncate">{cellA.formula || cellA.val}</span>
+        <span className="text-diff-formula-text font-bold underline block truncate">ƒ{cellB.formula || cellB.val}</span>
       </div>
     );
   }
@@ -1089,21 +1069,21 @@ function OverlappedCellContent({ cellA, cellB, status, granularity, compareFormu
   const valB = cellB.val || '';
   return (
     <div className="redline-cell-content">
-      <span className="line-through text-[#fca5a5] opacity-80 block truncate">{valA}</span>
-      <span className="text-[#6ee7b7] font-bold block truncate">{valB}</span>
+      <span className="line-through text-diff-deleted-text opacity-80 block truncate">{valA}</span>
+      <span className="text-diff-added-text font-bold block truncate">{valB}</span>
     </div>
   );
 }
 
 function FormattedCardDiff({ item }) {
   const { charDiff, valA, valB, type } = item;
-  if (type === 'ADDED') return <span className="text-[#6ee7b7] font-bold">+{valB}</span>;
-  if (type === 'DELETED') return <span className="line-through text-[#fca5a5]">{valA}</span>;
+  if (type === 'ADDED') return <span className="text-diff-added-text font-bold">+{valB}</span>;
+  if (type === 'DELETED') return <span className="line-through text-diff-deleted-text">{valA}</span>;
   if (type === 'FORMULA_CHANGED') {
     return (
       <div className="flex flex-wrap items-center gap-1">
-        <span className="line-through text-[#fca5a5] bg-[#3b1219] px-0.5 rounded">ƒ{item.formulaA}</span>
-        <span className="text-[#a5b4fc] underline bg-[#1e1b4b] px-0.5 rounded font-bold">ƒ{item.formulaB}</span>
+        <span className="line-through text-diff-deleted-text bg-diff-deleted-bg px-0.5 rounded">ƒ{item.formulaA}</span>
+        <span className="text-diff-formula-text underline bg-diff-formula-bg px-0.5 rounded font-bold">ƒ{item.formulaB}</span>
       </div>
     );
   }
@@ -1111,12 +1091,12 @@ function FormattedCardDiff({ item }) {
     return (
       <div className="flex flex-wrap items-center gap-1">
         {charDiff.map((chunk, i) => {
-          if (chunk.type === 'del') return <span key={i} className="line-through text-[#fca5a5] bg-[#3b1219] px-0.5 rounded">{chunk.text}</span>;
-          if (chunk.type === 'add') return <span key={i} className="text-[#6ee7b7] underline bg-[#062c19] px-0.5 rounded font-bold">{chunk.text}</span>;
-          return <span key={i} className="text-[#cccccc]">{chunk.text}</span>;
+          if (chunk.type === 'del') return <span key={i} className="line-through text-diff-deleted-text bg-diff-deleted-bg px-0.5 rounded">{chunk.text}</span>;
+          if (chunk.type === 'add') return <span key={i} className="text-diff-added-text underline bg-diff-added-bg px-0.5 rounded font-bold">{chunk.text}</span>;
+          return <span key={i} className="text-body">{chunk.text}</span>;
         })}
       </div>
     );
   }
-  return <div><span className="line-through text-[#fca5a5] mr-2">{valA}</span><span className="text-[#6ee7b7] font-bold">{valB}</span></div>;
+  return <div><span className="line-through text-diff-deleted-text mr-2">{valA}</span><span className="text-diff-added-text font-bold">{valB}</span></div>;
 }

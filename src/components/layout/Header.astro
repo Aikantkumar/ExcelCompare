@@ -1,5 +1,6 @@
 ---
 import Wordmark from '../shared/Wordmark.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 const pathname = new URL(Astro.request.url).pathname;
 
@@ -13,7 +14,7 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-[#000000]/90 backdrop-blur-md border-b border-[#262626] transition-colors">
+<header class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline transition-colors">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
     <!-- Brand Wordmark -->
     <Wordmark />
@@ -27,8 +28,8 @@ const navItems = [
             href={item.href}
             class={`text-nav transition-colors ${
               isActive 
-                ? 'text-white border-b border-white pb-1 font-semibold' 
-                : 'text-[#999999] hover:text-white'
+                ? 'text-ink border-b border-ink pb-1 font-semibold' 
+                : 'text-muted hover:text-ink'
             }`}
           >
             {item.name}
@@ -39,6 +40,7 @@ const navItems = [
 
     <!-- Header Actions -->
     <div class="flex items-center gap-3 sm:gap-4">
+      <ThemeToggle />
       <a href="/compare" class="btn-primary px-3 sm:px-5 text-xs h-9 tracking-[1px] sm:tracking-[2px] min-h-[40px] sm:h-auto sm:min-h-auto">
         LAUNCH TOOL
       </a>
@@ -46,13 +48,13 @@ const navItems = [
   </div>
 
   <!-- Mobile Sub-nav -->
-  <div class="md:hidden flex items-center gap-2 border-t border-[#262626] bg-[#0d0d0d] px-2 py-2 overflow-x-auto scrollbar-hide text-[11px] font-mono tracking-wider text-[#cccccc] whitespace-nowrap">
-    <a href="/compare" class={pathname === '/compare' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">FILES</a>
-    <a href="/compare-columns" class={pathname === '/compare-columns' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">COLUMNS</a>
-    <a href="/reconcile" class={pathname === '/reconcile' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">RECONCILE</a>
-    <a href="/batch" class={pathname === '/batch' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">BATCH</a>
-    <a href="/features" class={pathname === '/features' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">FEATURES</a>
-    <a href="/help" class={pathname === '/help' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">HELP</a>
-    <a href="/faq" class={pathname === '/faq' ? 'text-white font-bold underline' : 'hover:text-white'} style="white-space: nowrap">FAQ</a>
+  <div class="md:hidden flex items-center gap-2 border-t border-hairline bg-surface-soft px-2 py-2 overflow-x-auto scrollbar-hide text-[11px] font-mono tracking-wider text-body whitespace-nowrap">
+    <a href="/compare" class={pathname === '/compare' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">FILES</a>
+    <a href="/compare-columns" class={pathname === '/compare-columns' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">COLUMNS</a>
+    <a href="/reconcile" class={pathname === '/reconcile' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">RECONCILE</a>
+    <a href="/batch" class={pathname === '/batch' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">BATCH</a>
+    <a href="/features" class={pathname === '/features' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">FEATURES</a>
+    <a href="/help" class={pathname === '/help' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">HELP</a>
+    <a href="/faq" class={pathname === '/faq' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">FAQ</a>
   </div>
 </header>

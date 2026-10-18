@@ -1,0 +1,147 @@
+---
+---
+<button
+  id="theme-toggle"
+  type="button"
+  class="btn-icon theme-toggle"
+  aria-label="Switch to light mode"
+  aria-pressed="false"
+  title="Switch to light mode"
+>
+  <span class="sr-only">Theme</span>
+  <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5" />
+    <path d="M12 1v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+  </svg>
+  <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79" />
+  </svg>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  const metaColor = document.querySelector('meta[name="theme-color"]');
+  const sunIcon = toggle?.querySelector('.sun-icon');
+  const moonIcon = toggle?.querySelector('.moon-icon');
+
+  const ICON_SIZE = '18px';
+
+  function updateIcons(theme) {
+    if (!sunIcon || !moonIcon) return;
+    if (theme === 'light') {
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'block';
+      toggle.setAttribute('aria-label', 'Switch to dark mode');
+      toggle.setAttribute('title', 'Switch to dark mode');
+      toggle.setAttribute('aria-pressed', 'true');
+      if (metaColor) metaColor.setAttribute('content', '#ffffff');
+    } else {
+      sunIcon.style.display = 'block';
+      moonIcon.style.display = 'none';
+      toggle.setAttribute('aria-label', 'Switch to light mode');
+      toggle.setAttribute('title', 'Switch to light mode');
+      toggle.setAttribute('aria-pressed', 'false');
+      if (metaColor) metaColor.setAttribute('content', '#000000');
+    }
+  }
+
+  function setTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    updateIcons(theme);
+
+    // Briefly disable transitions to avoid flash during switch
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const className = 'theme-transition-off';
+      html.classList.add(className);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          html.classList.remove(className);
+        });
+      });
+    }
+  }
+
+  function toggleTheme() {
+    const current = html.getAttribute('data-theme') || 'dark';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', toggleTheme);
+  }
+
+  // Sync across tabs
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'theme' && (e.newValue === 'light' || e.newValue === 'dark')) {
+      setTheme(e.newValue);
+    }
+  });
+
+  // Initialize icons based on current theme
+  const currentTheme = html.getAttribute('data-theme') || 'dark';
+  updateIcons(currentTheme);
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: 9999px;
+    color: var(--color-ink);
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--color-ink);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-ink);
+  }
+
+  .sun-icon,
+  .moon-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .moon-icon {
+    display: none;
+  }
+
+  [data-theme="light"] .sun-icon {
+    display: none;
+  }
+
+  [data-theme="light"] .moon-icon {
+    display: block;
+  }
+
+  .theme-transition-off,
+  .theme-transition-off * {
+    transition: none !important;
+    animation: none !important;
+  }
+</style>

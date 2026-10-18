@@ -45,7 +45,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
   }, []);
 
   const rootClassName = isFullView
-    ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-[#000000] h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]'
+    ? 'fixed left-0 top-0 right-0 bottom-0 z-[60] bg-canvas h-[100dvh] flex flex-col gap-4 p-4 overflow-y-auto [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]'
     : 'space-y-6';
 
   const panelClassName = isFullView ? 'shrink-0' : '';
@@ -55,16 +55,16 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
   return (
     <div className={rootClassName}>
       {/* Column Pickers Header */}
-      <div className={`bg-[#141414] border border-[#262626] p-3 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 ${panelClassName}`}>
+      <div className={`bg-surface-card border border-hairline p-3 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 ${panelClassName}`}>
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="text-caption text-white mb-0 block">SELECT COLUMN FROM LEFT FILE:</label>
+            <label className="text-caption text-ink mb-0 block">SELECT COLUMN FROM LEFT FILE:</label>
             <button
               onClick={toggleFullView}
               className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded transition-all flex items-center gap-1 ${
                 isFullView
-                  ? 'border-[#5fa657] text-[#5fa657] bg-[#062c19]'
-                  : 'border-[#3a3a3a] text-[#999999] hover:border-white hover:text-white'
+                  ? 'border-success text-success bg-diff-added-bg'
+                  : 'border-hairline-strong text-muted hover:border-ink hover:text-ink'
               }`}
               title={isFullView ? 'Exit Full View' : 'Enter Full View'}
               aria-pressed={isFullView}
@@ -79,7 +79,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
           <select
             value={colAIndex}
             onChange={(e) => setColAIndex(Number(e.target.value))}
-            className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-3 font-mono text-sm focus:border-white focus:outline-none"
+            className="w-full bg-canvas border border-hairline-strong text-ink p-3 font-mono text-sm focus:border-ink focus:outline-none"
           >
             {headersA.map((h, i) => (
               <option key={i} value={i}>
@@ -87,17 +87,17 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
               </option>
             ))}
           </select>
-          <div className="text-xs font-mono text-[#999999] mt-2">
+          <div className="text-xs font-mono text-muted mt-2">
             Total Items: {valuesA.length} | Unique: {result.stats.totalA}
           </div>
         </div>
 
         <div>
-          <label className="text-caption text-white mb-2 block">SELECT COLUMN FROM RIGHT FILE:</label>
+          <label className="text-caption text-ink mb-2 block">SELECT COLUMN FROM RIGHT FILE:</label>
           <select
             value={colBIndex}
             onChange={(e) => setColBIndex(Number(e.target.value))}
-            className="w-full bg-[#000000] border border-[#3a3a3a] text-white p-3 font-mono text-sm focus:border-white focus:outline-none"
+            className="w-full bg-canvas border border-hairline-strong text-ink p-3 font-mono text-sm focus:border-ink focus:outline-none"
           >
             {headersB.map((h, i) => (
               <option key={i} value={i}>
@@ -105,7 +105,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
               </option>
             ))}
           </select>
-          <div className="text-xs font-mono text-[#999999] mt-2">
+          <div className="text-xs font-mono text-muted mt-2">
             Total Items: {valuesB.length} | Unique: {result.stats.totalB}
           </div>
         </div>
@@ -113,104 +113,104 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
 
       {/* Summary Cards */}
       <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 ${panelClassName}`}>
-        <div className="bg-[#062c19] border border-[#047857] p-3 sm:p-5 space-y-1">
-          <div className="text-caption text-[#6ee7b7]">INTERSECTION (EXISTS IN BOTH)</div>
-          <div className="text-3xl font-display text-[#6ee7b7]">{result.stats.intersectionCount}</div>
-          <div className="text-xs font-mono text-[#999999]">Matching unique items</div>
+        <div className="bg-diff-added-bg border border-diff-added-border p-3 sm:p-5 space-y-1">
+          <div className="text-caption text-diff-added-text">INTERSECTION (EXISTS IN BOTH)</div>
+          <div className="text-3xl font-display text-diff-added-text">{result.stats.intersectionCount}</div>
+          <div className="text-xs font-mono text-muted">Matching unique items</div>
         </div>
 
-        <div className="bg-[#3b1219] border border-[#b91c1c] p-3 sm:p-5 space-y-1">
-          <div className="text-caption text-[#fca5a5]">ONLY IN LEFT COLUMN</div>
-          <div className="text-3xl font-display text-[#fca5a5]">{result.stats.onlyInACount}</div>
-          <div className="text-xs font-mono text-[#999999]">Missing from right file</div>
+        <div className="bg-diff-deleted-bg border border-diff-deleted-border p-3 sm:p-5 space-y-1">
+          <div className="text-caption text-diff-deleted-text">ONLY IN LEFT COLUMN</div>
+          <div className="text-3xl font-display text-diff-deleted-text">{result.stats.onlyInACount}</div>
+          <div className="text-xs font-mono text-muted">Missing from right file</div>
         </div>
 
-        <div className="bg-[#2d2208] border border-[#78350f] p-3 sm:p-5 space-y-1">
-          <div className="text-caption text-[#fcd34d]">ONLY IN RIGHT COLUMN</div>
-          <div className="text-3xl font-display text-[#fcd34d]">{result.stats.onlyInBCount}</div>
-          <div className="text-xs font-mono text-[#999999]">Missing from left file</div>
+        <div className="bg-diff-modified-bg border border-diff-modified-border p-3 sm:p-5 space-y-1">
+          <div className="text-caption text-diff-modified-text">ONLY IN RIGHT COLUMN</div>
+          <div className="text-3xl font-display text-diff-modified-text">{result.stats.onlyInBCount}</div>
+          <div className="text-xs font-mono text-muted">Missing from left file</div>
         </div>
       </div>
 
       {/* Search Filter */}
       <div className={`relative ${panelClassName}`}>
-        <Search className="w-4 h-4 absolute left-3 top-3.5 text-[#666666]" />
+        <Search className="w-4 h-4 absolute left-3 top-3.5 text-muted-soft" />
         <input
           type="text"
           placeholder="SEARCH VALUES ACROSS SETS..."
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}
-          className="w-full bg-[#0d0d0d] border border-[#262626] pl-10 pr-4 py-3 font-mono text-xs text-white placeholder-[#666666] focus:border-white focus:outline-none"
+          className="w-full bg-surface-soft border border-hairline pl-10 pr-4 py-3 font-mono text-xs text-ink placeholder-muted-soft focus:border-ink focus:outline-none"
         />
       </div>
 
       {/* 3-Column Breakdown Grids */}
       <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${resultsAreaClassName}`}>
         {/* Column 1: Intersection */}
-        <div className="border border-[#262626] bg-[#0d0d0d] flex flex-col">
-          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between shrink-0">
-            <span className="text-xs font-mono uppercase text-[#6ee7b7]">INTERSECTION ({result.intersection.length})</span>
+        <div className="border border-hairline bg-surface-soft flex flex-col">
+          <div className="bg-surface-card p-3 border-b border-hairline flex items-center justify-between shrink-0">
+            <span className="text-xs font-mono uppercase text-diff-added-text">INTERSECTION ({result.intersection.length})</span>
             <button
               onClick={() => exportSetCsv('intersection.csv', result.intersection)}
-              className="text-[10px] font-mono text-[#999999] hover:text-white flex items-center gap-1"
+              className="text-[10px] font-mono text-muted hover:text-ink flex items-center gap-1"
             >
               <Download className="w-3 h-3" /> CSV
             </button>
           </div>
           <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
             {filterList(result.intersection).map((val, idx) => (
-              <div key={idx} className="bg-[#062c19]/50 text-[#6ee7b7] p-2 border-l-2 border-[#047857]">
+              <div key={idx} className="bg-diff-added-bg/50 text-diff-added-text p-2 border-l-2 border-diff-added-border">
                 {val}
               </div>
             ))}
             {result.intersection.length === 0 && (
-              <div className="text-[#666666] p-4 text-center">No common items found</div>
+              <div className="text-muted-soft p-4 text-center">No common items found</div>
             )}
           </div>
         </div>
 
         {/* Column 2: Only Left */}
-        <div className="border border-[#262626] bg-[#0d0d0d] flex flex-col">
-          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between shrink-0">
-            <span className="text-xs font-mono uppercase text-[#fca5a5]">ONLY LEFT ({result.onlyInA.length})</span>
+        <div className="border border-hairline bg-surface-soft flex flex-col">
+          <div className="bg-surface-card p-3 border-b border-hairline flex items-center justify-between shrink-0">
+            <span className="text-xs font-mono uppercase text-diff-deleted-text">ONLY LEFT ({result.onlyInA.length})</span>
             <button
               onClick={() => exportSetCsv('only_left.csv', result.onlyInA)}
-              className="text-[10px] font-mono text-[#999999] hover:text-white flex items-center gap-1"
+              className="text-[10px] font-mono text-muted hover:text-ink flex items-center gap-1"
             >
               <Download className="w-3 h-3" /> CSV
             </button>
           </div>
           <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
             {filterList(result.onlyInA).map((val, idx) => (
-              <div key={idx} className="bg-[#3b1219]/50 text-[#fca5a5] p-2 border-l-2 border-[#b91c1c]">
+              <div key={idx} className="bg-diff-deleted-bg/50 text-diff-deleted-text p-2 border-l-2 border-diff-deleted-border">
                 {val}
               </div>
             ))}
             {result.onlyInA.length === 0 && (
-              <div className="text-[#666666] p-4 text-center">No unique left items</div>
+              <div className="text-muted-soft p-4 text-center">No unique left items</div>
             )}
           </div>
         </div>
 
         {/* Column 3: Only Right */}
-        <div className="border border-[#262626] bg-[#0d0d0d] flex flex-col">
-          <div className="bg-[#141414] p-3 border-b border-[#262626] flex items-center justify-between shrink-0">
-            <span className="text-xs font-mono uppercase text-[#fcd34d]">ONLY RIGHT ({result.onlyInB.length})</span>
+        <div className="border border-hairline bg-surface-soft flex flex-col">
+          <div className="bg-surface-card p-3 border-b border-hairline flex items-center justify-between shrink-0">
+            <span className="text-xs font-mono uppercase text-diff-modified-text">ONLY RIGHT ({result.onlyInB.length})</span>
             <button
               onClick={() => exportSetCsv('only_right.csv', result.onlyInB)}
-              className="text-[10px] font-mono text-[#999999] hover:text-white flex items-center gap-1"
+              className="text-[10px] font-mono text-muted hover:text-ink flex items-center gap-1"
             >
               <Download className="w-3 h-3" /> CSV
             </button>
           </div>
           <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
             {filterList(result.onlyInB).map((val, idx) => (
-              <div key={idx} className="bg-[#2d2208]/50 text-[#fcd34d] p-2 border-l-2 border-[#78350f]">
+              <div key={idx} className="bg-diff-modified-bg/50 text-diff-modified-text p-2 border-l-2 border-diff-modified-border">
                 {val}
               </div>
             ))}
             {result.onlyInB.length === 0 && (
-              <div className="text-[#666666] p-4 text-center">No unique right items</div>
+              <div className="text-muted-soft p-4 text-center">No unique right items</div>
             )}
           </div>
         </div>

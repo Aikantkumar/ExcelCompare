@@ -2,61 +2,65 @@
 import Wordmark from '../shared/Wordmark.astro';
 ---
 
-<footer class="bg-[#000000] border-t border-[#262626] text-[#999999] py-16 px-4 sm:px-6 lg:px-8 mt-24">
+<footer class="bg-canvas border-t border-hairline text-muted py-16 px-4 sm:px-6 lg:px-8 mt-24">
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
     <!-- Column 1: Brand overview -->
     <div class="space-y-4">
       <Wordmark />
-      <p class="font-serif text-sm text-[#999999] leading-relaxed">
+      <p class="font-serif text-sm text-muted leading-relaxed">
         High-precision client-side spreadsheet diff engine built for zero data compromise, formula awareness, and instant visual reconciliation.
       </p>
-      <div class="text-caption text-[#666666]">
+      <div class="text-caption text-muted-soft">
         DOMAIN: COMPAREEXCEL.COM
       </div>
     </div>
 
     <!-- Column 2: Tools -->
     <div class="space-y-3">
-      <h3 class="text-caption text-white tracking-[2px]">COMPARISON MODES</h3>
+      <h3 class="text-caption text-ink tracking-[2px]">COMPARISON MODES</h3>
       <ul class="space-y-2 text-sm font-mono uppercase tracking-wider">
-        <li><a href="/compare" class="hover:text-white transition-colors">Visual File Diff</a></li>
-        <li><a href="/compare-columns" class="hover:text-white transition-colors">Set Column Compare</a></li>
-        <li><a href="/reconcile" class="hover:text-white transition-colors">ID Reconciliation</a></li>
-        <li><a href="/batch" class="hover:text-white transition-colors">Batch File Processing</a></li>
+        <li><a href="/compare" class="hover:text-ink transition-colors">Visual File Diff</a></li>
+        <li><a href="/compare-columns" class="hover:text-ink transition-colors">Set Column Compare</a></li>
+        <li><a href="/reconcile" class="hover:text-ink transition-colors">ID Reconciliation</a></li>
+        <li><a href="/batch" class="hover:text-ink transition-colors">Batch File Processing</a></li>
       </ul>
     </div>
 
     <!-- Column 3: Differentials -->
     <div class="space-y-3">
-      <h3 class="text-caption text-white tracking-[2px]">ADVANCED CAPABILITIES</h3>
+      <h3 class="text-caption text-ink tracking-[2px]">ADVANCED CAPABILITIES</h3>
       <ul class="space-y-2 text-sm font-mono uppercase tracking-wider">
-        <li><span class="text-[#c3d9f3]">★ Formula Inspection</span></li>
-        <li><span class="text-[#c3d9f3]">★ Smart Fuzzy Row Match</span></li>
-        <li><span class="text-[#c3d9f3]">★ Cell Annotations</span></li>
-        <li><span class="text-[#c3d9f3]">★ PDF & HTML Export</span></li>
-        <li><span class="text-[#c3d9f3]">★ 100% Offline Browser Diff</span></li>
+        <li><span class="text-link">★ Formula Inspection</span></li>
+        <li><span class="text-link">★ Smart Fuzzy Row Match</span></li>
+        <li><span class="text-link">★ Cell Annotations</span></li>
+        <li><span class="text-link">★ PDF & HTML Export</span></li>
+        <li><span class="text-link">★ 100% Offline Browser Diff</span></li>
       </ul>
     </div>
 
     <!-- Column 4: Trust & Security -->
     <div class="space-y-3">
       <h3 class="text-caption text-white tracking-[2px]">PRIVACY GUARANTEE</h3>
-      <p class="font-serif text-sm text-[#999999] leading-relaxed">
+      <p class="font-serif text-sm text-muted leading-relaxed">
         Your files never leave your computer. Parsing and comparison run entirely inside Web Workers in your local browser window.
       </p>
-      <div class="inline-flex items-center gap-2 border border-[#262626] px-3 py-1.5 text-xs font-mono text-[#c3d9f3]">
-        <span class="w-2 h-2 bg-[#5fa657] rounded-full"></span>
+      <div class="inline-flex items-center gap-2 border border-hairline px-3 py-1.5 text-xs font-mono text-link">
+        <span class="w-2 h-2 bg-success rounded-full"></span>
         ZERO SERVER UPLOADS
       </div>
     </div>
   </div>
 
-  <div class="max-w-7xl mx-auto pt-8 border-t border-[#262626] flex flex-col md:flex-row items-center justify-between text-xs font-serif text-[#666666] gap-4">
+  <div class="max-w-7xl mx-auto pt-8 border-t border-hairline flex flex-col md:flex-row items-center justify-between text-xs font-serif text-muted-soft gap-4">
     <p>© 2026 CompareExcel. Engineered for privacy & extreme accuracy.</p>
-    <div class="flex space-x-6 font-mono text-[11px] uppercase tracking-wider">
-      <a href="/privacy" class="hover:text-white">Privacy Policy</a>
-      <a href="/help" class="hover:text-white">Documentation</a>
-      <a href="/features" class="hover:text-white">Feature Matrix</a>
+    <div class="flex space-x-6 font-mono text-[11px] uppercase tracking-wider flex-wrap">
+      <a href="/about" class="hover:text-ink">About Us</a>
+      <a href="/privacy" class="hover:text-ink">Privacy Policy</a>
+      <a href="/terms" class="hover:text-ink">Terms & Conditions</a>
+      <a href="/contact" class="hover:text-ink">Contact Us</a>
+      <a href="/faq" class="hover:text-ink">FAQ</a>
+      <a href="/help" class="hover:text-ink">Documentation</a>
+      <a href="/features" class="hover:text-ink">Feature Matrix</a>
     </div>
   </div>
 </footer>

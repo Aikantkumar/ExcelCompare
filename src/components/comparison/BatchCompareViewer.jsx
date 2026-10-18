@@ -86,13 +86,13 @@ export default function BatchCompareViewer() {
   return (
     <div className="space-y-6">
       {/* Batch Header */}
-      <div className="bg-[#141414] border border-[#262626] p-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-surface-card border border-hairline p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h3 className="text-title-md text-white flex items-center gap-2">
-            <Layers className="w-5 h-5 text-[#c3d9f3]" />
+          <h3 className="text-title-md text-ink flex items-center gap-2">
+            <Layers className="w-5 h-5 text-link" />
             BATCH FILE COMPARISON QUEUE
           </h3>
-          <p className="font-serif text-sm text-[#999999] mt-1">
+          <p className="font-serif text-sm text-muted mt-1">
             Compare multiple pairs of spreadsheets simultaneously in a single automated batch run.
           </p>
         </div>
@@ -117,41 +117,41 @@ export default function BatchCompareViewer() {
       {/* Pairs Queue List */}
       <div className="space-y-4">
         {pairs.map((p, idx) => (
-          <div key={p.id} className="bg-[#0d0d0d] border border-[#262626] p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-2 items-center">
-            <div className="lg:col-span-1 text-caption text-[#999999]">PAIR #{idx + 1}</div>
+          <div key={p.id} className="bg-surface-soft border border-hairline p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-2 items-center">
+            <div className="lg:col-span-1 text-caption text-muted">PAIR #{idx + 1}</div>
 
             {/* File A Upload */}
             <div className="lg:col-span-4">
-              <label className="text-[10px] font-mono text-[#666666] uppercase block mb-1">FILE 1 (LEFT)</label>
+              <label className="text-[10px] font-mono text-muted-soft uppercase block mb-1">FILE 1 (LEFT)</label>
               <input
                 type="file"
                 accept=".xlsx,.xls,.csv"
                 onChange={(e) => e.target.files[0] && handleFileUpload(p.id, 'A', e.target.files[0])}
-                className="w-full bg-[#000000] border border-[#3a3a3a] text-xs font-mono text-[#cccccc] p-2 file:bg-[#1f1f1f] file:border-0 file:text-white file:font-mono file:text-xs file:px-2 file:py-1 file:mr-2 cursor-pointer"
+                className="w-full bg-canvas border border-hairline-strong text-xs font-mono text-body p-2 file:bg-surface-elevated file:border-0 file:text-ink file:font-mono file:text-xs file:px-2 file:py-1 file:mr-2 cursor-pointer"
               />
-              {p.nameA && <div className="text-xs font-mono text-[#c3d9f3] truncate mt-1">✓ {p.nameA}</div>}
+              {p.nameA && <div className="text-xs font-mono text-link truncate mt-1">✓ {p.nameA}</div>}
             </div>
 
             {/* File B Upload */}
             <div className="lg:col-span-4">
-              <label className="text-[10px] font-mono text-[#666666] uppercase block mb-1">FILE 2 (RIGHT)</label>
+              <label className="text-[10px] font-mono text-muted-soft uppercase block mb-1">FILE 2 (RIGHT)</label>
               <input
                 type="file"
                 accept=".xlsx,.xls,.csv"
                 onChange={(e) => e.target.files[0] && handleFileUpload(p.id, 'B', e.target.files[0])}
-                className="w-full bg-[#000000] border border-[#3a3a3a] text-xs font-mono text-[#cccccc] p-2 file:bg-[#1f1f1f] file:border-0 file:text-white file:font-mono file:text-xs file:px-2 file:py-1 file:mr-2 cursor-pointer"
+                className="w-full bg-canvas border border-hairline-strong text-xs font-mono text-body p-2 file:bg-surface-elevated file:border-0 file:text-ink file:font-mono file:text-xs file:px-2 file:py-1 file:mr-2 cursor-pointer"
               />
-              {p.nameB && <div className="text-xs font-mono text-[#c3d9f3] truncate mt-1">✓ {p.nameB}</div>}
+              {p.nameB && <div className="text-xs font-mono text-link truncate mt-1">✓ {p.nameB}</div>}
             </div>
 
             {/* Results Status */}
             <div className="lg:col-span-2 text-xs font-mono">
-              {p.status === 'PENDING' && <span className="text-[#999999]">READY TO RUN</span>}
-              {p.status === 'PROCESSING' && <span className="text-[#fcd34d]">PARSING & DIFFING...</span>}
+              {p.status === 'PENDING' && <span className="text-muted">READY TO RUN</span>}
+              {p.status === 'PROCESSING' && <span className="text-diff-modified-text">PARSING & DIFFING...</span>}
               {p.status === 'DONE' && (
-                <div className="text-[#6ee7b7] space-y-0.5">
+                <div className="text-diff-added-text space-y-0.5">
                   <div className="font-bold">✓ DONE</div>
-                  <div className="text-[10px] text-[#999999]">
+                  <div className="text-[10px] text-muted">
                     {p.result?.totalChanges || 0} changes found
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export default function BatchCompareViewer() {
 
             {/* Remove Action */}
             <div className="lg:col-span-1 text-right">
-              <button onClick={() => removePair(p.id)} className="text-[#666666] hover:text-[#fca5a5] p-2">
+              <button onClick={() => removePair(p.id)} className="text-muted-soft hover:text-diff-deleted-text p-2">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>

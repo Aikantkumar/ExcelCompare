@@ -1,37 +1,77 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const faqs = [
+const generalFaqs = [
   {
-    question: "How to compare two columns in excel",
-    answer: "Use the Compare Columns tool. Select the column from File 1 and File 2, then run the comparison. The engine computes set intersection, unique left values, and unique right values, with instant CSV download of matching and non-matching rows."
+    question: "Is CompareExcel free to use?",
+    answer: "Yes. CompareExcel is a browser-based spreadsheet comparison tool available at no cost. All features run locally in your browser with no account required.",
   },
   {
-    question: "How to compare two excel sheets",
-    answer: "Upload both files into File 1 and File 2 in the File Comparison mode. The engine parses all worksheets locally using Web Workers and presents a side-by-side view with synchronized scrolling. Modified cells render in soft amber, added rows in emerald green, deleted rows in rose red, and formula changes in deep indigo."
+    question: "Does CompareExcel upload my files to a server?",
+    answer: "No. All parsing, comparison, and rendering runs 100% locally in your browser using Web Workers and SheetJS. Your spreadsheets never leave your device, and the tool works offline once loaded.",
   },
   {
-    question: "How to compare two lists in excel",
-    answer: "Use Compare Columns mode for list-based comparison. Pick the column from each file containing your lists (e.g. email subscriber lists, part numbers, or product SKUs). The tool computes intersection, unique left values, and unique right values instantly."
+    question: "What file formats are supported?",
+    answer: "CompareExcel supports Excel workbooks (.xlsx) and comma-separated values (.csv). You can load two files at a time for side-by-side visual diffing.",
   },
   {
-    question: "How to compare two excel sheets for differences and matches",
-    answer: "Use File Comparison mode. Drop both sheets into File 1 and File 2. The comparison engine highlights cell-level differences and matches side-by-side. Click “Export Diff” to generate a high-density, printable HTML report summarizing all differences and matches."
+    question: "Do I need to create an account?",
+    answer: "No account is required. Open the site, drop in your files, and start comparing immediately.",
+  },
+];
+
+const comparisonFaqs = [
+  {
+    question: "How do I compare two Excel sheets?",
+    answer: "Use File Comparison mode. Drop both files into File 1 and File 2. The engine parses all worksheets locally and presents a side-by-side view with synchronized scrolling. Modified cells render in soft amber, added rows in emerald green, deleted rows in rose red, and formula changes in deep indigo.",
+  },
+  {
+    question: "How do I compare two columns in Excel?",
+    answer: "Use the Compare Columns tool. Select the column from File 1 and File 2, then run the comparison. The engine computes set intersection, unique left values, and unique right values, with instant CSV download of matching and non-matching rows.",
+  },
+  {
+    question: "How do I compare two lists in Excel?",
+    answer: "Use Compare Columns mode for list-based comparison. Pick the column from each file containing your lists (e.g. email subscriber lists, part numbers, or product SKUs). The tool computes intersection, unique left values, and unique right values instantly.",
+  },
+  {
+    question: "How do I compare two Excel sheets for differences and matches?",
+    answer: "Use File Comparison mode. Drop both sheets into File 1 and File 2. The comparison engine highlights cell-level differences and matches side-by-side. Click “Export Diff” to generate a high-density, printable HTML report summarizing all differences and matches.",
   },
   {
     question: "How can I match two columns and output a third column?",
-    answer: "Use Reconciliation Mode. Pick the Primary Key column (e.g. Account Code or SKU) from both files and the Value column to compare. Records are matched by key ID across both sheets. Export the reconciled result as CSV to output matched values into a third column."
+    answer: "Use Reconciliation Mode. Pick the Primary Key column (e.g. Account Code or SKU) from both files and the Value column to compare. Records are matched by key ID across both sheets. Export the reconciled result as CSV to output matched values into a third column.",
   },
   {
     question: "How do I compare two sets of data?",
-    answer: "Choose the comparison mode that fits your data: File Comparison for full sheet diffs, Compare Columns for two-list set operations, or Reconciliation for ID-based matching across unordered rows. All processing happens locally in your browser — no files are uploaded to a server."
-  }
+    answer: "Choose the comparison mode that fits your data: File Comparison for full sheet diffs, Compare Columns for two-list set operations, or Reconciliation for ID-based matching across unordered rows. All processing happens locally in your browser — no files are uploaded to a server.",
+  },
 ];
+
+const technicalFaqs = [
+  {
+    question: "Does CompareExcel inspect formulas or only displayed values?",
+    answer: "CompareExcel inspects underlying formulas (e.g. `=SUM(A1:A100)` vs `=SUM(A1:A99)`), highlighting subtle calculation errors before they reach production. Standard tools often only read calculated display numbers.",
+  },
+  {
+    question: "What happens if a row is added or sorted differently?",
+    answer: "Conventional diff tools mark all subsequent rows as deleted/added. CompareExcel uses smart fuzzy row alignment to compute row signatures and keep matching data aligned seamlessly.",
+  },
+  {
+    question: "Can I export the comparison results?",
+    answer: "Yes. Click “Export Diff” in the toolbar to generate a high-density, printable HTML report suitable for PDF conversion. Column and reconciliation results can be downloaded as CSV.",
+  },
+  {
+    question: "Does it work offline?",
+    answer: "Yes. Once the page has loaded, you can disconnect your internet entirely and continue diffing files offline.",
+  },
+];
+
+const allFaqs = [...generalFaqs, ...comparisonFaqs, ...technicalFaqs];
 
 const faqJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": faqs.map(({ question, answer }) => ({
+  "mainEntity": allFaqs.map(({ question, answer }) => ({
     "@type": "Question",
     "name": question,
     "acceptedAnswer": {
@@ -43,31 +83,38 @@ const faqJsonLd = JSON.stringify({
 ---
 
 <Layout
-  title="Excel Compare FAQ — Compare Columns, Sheets & Lists"
+  title="Excel Compare FAQ — Columns, Sheets, Lists & Reconciliation"
   description="Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with CompareExcel."
   keywords="excel compare faq, how to compare two columns in excel, how to compare two excel sheets, how to compare two lists in excel, compare excel sheets differences matches, match two columns output third column, compare two sets of data"
   ogImage="/og-image.png"
 >
-  <div class="py-16 bg-[#000000] border-b border-[#262626]">
+  <div class="py-16 bg-canvas border-b border-hairline">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       <div class="text-center space-y-4">
-        <div class="text-caption text-[#c3d9f3]">FREQUENTLY ASKED QUESTIONS</div>
-        <h1 class="text-display-lg text-white">COMMON QUESTIONS ABOUT EXCEL COMPARISON</h1>
-        <a href="/" class="inline-block px-6 py-3 border border-[#ffffff] text-[#ffffff] rounded-full text-mono text-xs tracking-widest uppercase hover:bg-[#ffffff] hover:text-[#000000] transition-colors">START COMPARING</a>
+        <div class="text-caption text-link">FREQUENTLY ASKED QUESTIONS</div>
+        <h1 class="text-display-lg text-ink">COMMON QUESTIONS ABOUT EXCEL COMPARISON</h1>
+        <a href="/" class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors">START COMPARING</a>
       </div>
 
-      <div class="space-y-6 font-serif text-[#cccccc] leading-relaxed">
-        {faqs.map(({ question, answer }) => (
-          <div class="border border-[#262626] bg-[#0d0d0d] p-8 space-y-4">
-            <h2 class="text-title-md text-white font-mono">{question}</h2>
-            <p>{answer}</p>
-          </div>
-        ))}
-      </div>
+      {[
+        { label: "GENERAL", faqs: generalFaqs },
+        { label: "COMPARISON MODES", faqs: comparisonFaqs },
+        { label: "TECHNICAL", faqs: technicalFaqs },
+      ].map(({ label, faqs }) => (
+        <div class="space-y-6 font-serif text-body leading-relaxed">
+          <h2 class="text-title-md text-ink font-mono">{label}</h2>
+          {faqs.map(({ question, answer }) => (
+            <div key={question} class="border border-hairline bg-surface-soft p-8 space-y-4">
+              <h3 class="text-title-md text-ink font-mono">{question}</h3>
+              <p>{answer}</p>
+            </div>
+          ))}
+        </div>
+      ))}
 
       <div class="text-center">
-        <p class="text-caption text-[#c3d9f3]">NEED MORE HELP?</p>
-        <p class="text-title-sm text-white">Start a new comparison at CompareExcel — all processing runs locally in your browser.</p>
+        <p class="text-caption text-link">NEED MORE HELP?</p>
+        <p class="text-title-sm text-ink">Start a new comparison at CompareExcel — all processing runs locally in your browser.</p>
       </div>
     </div>
   </div>

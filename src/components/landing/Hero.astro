@@ -1,14 +1,14 @@
 ---
 ---
 
-<section class="relative bg-[#000000] text-white pt-12 pb-16 sm:pt-20 sm:pb-28 border-b border-[#262626]">
+<section class="relative bg-canvas text-ink pt-12 pb-16 sm:pt-20 sm:pb-28 border-b border-hairline">
   <!-- Subtle radial background lighting -->
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_-10%,rgba(195,217,243,0.1),transparent)] pointer-events-none"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_-10%,color-mix(in_srgb,var(--color-link)_10%,transparent),transparent)] pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
     <!-- Brand Tag -->
-    <div class="inline-flex items-center gap-2 border border-[#3a3a3a] px-4 py-1.5 rounded-full text-caption text-[#c3d9f3]">
-      <span class="w-2 h-2 bg-[#5fa657] rounded-full"></span>
+    <div class="inline-flex items-center gap-2 border border-hairline-strong px-4 py-1.5 rounded-full text-caption text-link">
+      <span class="w-2 h-2 bg-success rounded-full"></span>
       100% OFFLINE BROWSER DIFF ENGINE
     </div>
 
@@ -18,7 +18,7 @@
     </h1>
 
     <!-- Sub-headline in Cormorant Garamond serif -->
-    <p class="font-serif text-xl sm:text-2xl text-[#cccccc] max-w-3xl mx-auto leading-relaxed">
+    <p class="font-serif text-xl sm:text-2xl text-body max-w-3xl mx-auto leading-relaxed">
       Compare Excel files cell-by-cell with formula awareness, smart fuzzy row alignment, cell annotations, and instant audit exports — all processed strictly inside your local browser.
     </p>
 
@@ -33,21 +33,21 @@
     </div>
 
     <!-- Feature Quick Pills -->
-    <div class="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-caption text-[#999999]">
-      <div class="border border-[#262626] p-4 bg-[#0d0d0d]">
-        <div class="text-white font-mono text-sm mb-1">FORMULA DIFF</div>
+    <div class="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-caption text-muted">
+      <div class="border border-hairline p-4 bg-surface-soft">
+        <div class="text-ink font-mono text-sm mb-1">FORMULA DIFF</div>
         <div>Compares Excel formulas, not just values</div>
       </div>
-      <div class="border border-[#262626] p-4 bg-[#0d0d0d]">
-        <div class="text-white font-mono text-sm mb-1">SMART ROW MATCH</div>
+      <div class="border border-hairline p-4 bg-surface-soft">
+        <div class="text-ink font-mono text-sm mb-1">SMART ROW MATCH</div>
         <div>Fuzzy matches reordered rows</div>
       </div>
-      <div class="border border-[#262626] p-4 bg-[#0d0d0d]">
-        <div class="text-white font-mono text-sm mb-1">SYNC SCROLL</div>
+      <div class="border border-hairline p-4 bg-surface-soft">
+        <div class="text-ink font-mono text-sm mb-1">SYNC SCROLL</div>
         <div>Lockstep dual sheet scrolling</div>
       </div>
-      <div class="border border-[#262626] p-4 bg-[#0d0d0d]">
-        <div class="text-white font-mono text-sm mb-1">PDF & HTML EXPORT</div>
+      <div class="border border-hairline p-4 bg-surface-soft">
+        <div class="text-ink font-mono text-sm mb-1">PDF & HTML EXPORT</div>
         <div>Auditable report generation</div>
       </div>
     </div>

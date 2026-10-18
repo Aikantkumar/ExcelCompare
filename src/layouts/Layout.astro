@@ -25,10 +25,17 @@ const ogUrl = canonical;
 const siteName = "CompareExcel";
 ---
 <!DOCTYPE html>
-<html lang="en" class="bg-[#000000] text-[#cccccc] antialiased">
+<html lang="en" data-theme="dark" class="bg-canvas text-body antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <script is:inline>{`
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    `}</script>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -62,7 +69,7 @@ const siteName = "CompareExcel";
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={title} />
   </head>
-  <body class="min-h-screen flex flex-col bg-[#000000] selection:bg-[#c3d9f3] selection:text-[#000000]">
+  <body class="min-h-screen flex flex-col bg-canvas selection:bg-link selection:text-canvas">
     <Header />
     <main class="flex-1 w-full">
       <slot />
