@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CompareColumnsSection from '../../components/pages/CompareColumnsSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.compare-columns.title', "Excel Compare Two Columns — Set Match & Difference Tool");
+const description = t(localeLang, 'pages.compare-columns.description', "Compare two Excel columns online. Find matches, differences, intersection, and unique values for excel compare two columns for matches and differences. 100% private client-side processing.");
+const keywords = t(localeLang, 'pages.compare-columns.keywords', "excel compare columns, excel compare two columns, excel compare two columns for matches, excel compare two columns for differences, excel compare two lists, online excel compare");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <CompareColumnsSection lang={localeLang} />
+</Layout>

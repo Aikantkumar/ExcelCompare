@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CompareSection from '../../components/pages/CompareSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.compare.title', "Excel Compare Two Files — Online Spreadsheet Diff with Sync Scroll");
+const description = t(localeLang, 'pages.compare.description', "Compare two Excel files online. Cell-by-cell diff, formula inspection, synchronized scrolling, and annotations for excel compare two sheets, two columns, two cells, dates, and lists. 100% private.");
+const keywords = t(localeLang, 'pages.compare.keywords', "excel compare, excel compare two files, excel compare two sheets, excel compare two cells, excel compare dates, excel compare two lists, online excel compare");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <CompareSection lang={localeLang} />
+</Layout>

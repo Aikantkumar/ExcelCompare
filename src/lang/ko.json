@@ -1,0 +1,164 @@
+{
+  "lang": "ko",
+  "dir": "ltr",
+  "locale": "ko_KR",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "파일 비교",
+    "compareColumns": "열 비교",
+    "reconcile": "대조",
+    "batchDiff": "배치 차이",
+    "features": "기능",
+    "help": "도움말",
+    "launchTool": "도구 실행"
+  },
+  "hero": {
+    "offlineBadge": "100% 오프라인 브라우저 차이 엔진",
+    "headline": "고정밀 Excel 스프레드시트 차이 엔진",
+    "subheadline": "Excel 파일을 셀 단위로 비교하고 수식 인식, 스마트 퍼지 행 정렬, 셀 주석, 즉시 감사 내보내기를 로컬 브라우저에서만 엄격하게 처리합니다.",
+    "launchComparisonTool": "비교 도구 실행",
+    "exploreCompetitorAdvantage": "경쟁 우위 탐색",
+    "formulaDiff": "수식 차이",
+    "formulaDiffDesc": "값뿐만 아니라 Excel 수식 비교",
+    "smartRowMatch": "스마트 행 일치",
+    "smartRowMatchDesc": "재정렬된 행 퍼지 일치",
+    "syncScroll": "동기화 스크롤",
+    "syncScrollDesc": "이중 시트 동기화 스크롤",
+    "pdfHtmlExport": "PDF & HTML 내보내기",
+    "pdfHtmlExportDesc": "감사 가능한 보고서 생성"
+  },
+  "featureGrid": {
+    "archHeading": "아키텍처 및 모드",
+    "archTitle": "모든 스프레드시트 워크플로우를 위한 4가지 모드",
+    "archDesc": "재무 감사, 재고 대조, 목록 집합 로직 및 배치 처리를 위해 특별히 구축된 알고리즘입니다.",
+    "mode1Title": "시각적 파일 차이 및 동기화 스크롤",
+    "mode1Desc": "잠금 단계 동기화 스크롤을 사용한 전체 시트 비교. 변경된 셀, 삽입된 행, 삭제된 행, 변경된 수식을 다크 테마에 최적화된 고가시도 차이 하이라이트로 감지합니다.",
+    "mode1Btn": "파일 차이 시도 →",
+    "mode2Title": "열 집합 비교",
+    "mode2Desc": "목록 열에 대해 수학적 집합 연산을 수행합니다. 공통 교차값, 왼쪽 고유 값, 오른쪽 고유 값을 행 소음 없이 즉시 분리합니다.",
+    "mode2Btn": "열 비교 시도 →",
+    "mode3Title": "ID 기반 데이터 대조",
+    "mode3Desc": "기본 키 열(SKU, 사원 ID, 계정 코드 등)과 대상 값 열을 선택하세요. 행 순서나 정렬 차이와 관계없이 시트 간에 레코드를 대조합니다.",
+    "mode3Btn": "대조 시도 →",
+    "mode4Title": "배치 파일 큐 엔진",
+    "mode4Desc": "여러 스프레드시트 쌍을 큐에 넣고 단일 자동화된 배치 실행으로 모두 처리합니다. 통합 감사 요약 로그를 통합 통합적으로 생성합니다.",
+    "mode4Btn": "배치 큐 시도 →"
+  },
+  "competitor": {
+    "matrixHeading": "경쟁 매트릭스",
+    "title": "왜 CompareExcel이 범용 차이 도구를 능가하는가",
+    "desc": "표준 온라인 스프레드시트 차이 도구의 근본적인 한계를 해결하기 위해 처음부터 설계되었습니다.",
+    "colFeature": "기능 및 능력",
+    "colGeneric": "범용 도구(예: excelcompare.org)",
+    "colCompareExcel": "COMPAREEXCEL.COM(당사의 이점)",
+    "rows": [
+      ["수식 차이 검사", "표시된 값만", "기본 Excel 수식 비교(=SUM, =VLOOKUP)"],
+      ["스마트 퍼지 행 정렬", "엄격한 행 오프셋(삽입된 행에서 실패)", "내용 해시 및 퍼지 일치를 통한 재정렬 행 일치"],
+      ["셀 주석 및 감사 플래그", "메모 또는 주석 지원 없음", "임의의 셀을 클릭하여 주석 추가 및 차이와 함께 내보내기"],
+      ["내보내기 및 보고서 형식", "최소 CSV 내보내기", "인쇄 가능한 PDF, HTML 감사 보고서, CSV, 공유 링크"],
+      ["여러 시각적 차이 보기", "옆으로 나란히만", "옆으로 나란히, 오버레이(전→후), 통합 Git 차이"],
+      ["배치 다중 쌍 비교", "한 번에 하나의 파일 쌍", "자동화된 배치 실행에서 여러 쌍 대기열"],
+      ["삽입 가능한 웹 구성 요소", "통합 API 없음", "대시보드를 위한 <compare-excel> 웹 구성 요소"],
+      ["디자인 및 타이포그래피 시스템", "일반적인 밝은 템플릿", "고급 다크 테마(Saira Condensed 및 Cormorant Garamond)"]
+    ]
+  },
+  "common": {
+    "startComparing": "비교 시작",
+    "openComparisonWorkspace": "지금 비교 작업 영역 열기",
+    "documentation": "문서",
+    "faq": "자주 묻는 질문",
+    "featureMatrix": "기능 매트릭스",
+    "tryFileDiff": "파일 차이 시도 →",
+    "tryColumnComparison": "열 비교 시도 →",
+    "tryReconciliation": "대조 시도 →",
+    "tryBatchQueue": "배치 큐 시도 →"
+  },
+  "footer": {
+    "brandDesc": "데이터 타협 제로, 수식 인식, 즉각적인 시각적 대조를 위해 구축된 고정밀 클라이언트 사이드 스프레드시트 차이 엔진입니다.",
+    "domain": "도메인: COMPAREEXCEL.COM",
+    "comparisonModes": "비교 모드",
+    "visualFileDiff": "시각적 파일 차이",
+    "setColumnCompare": "집합 열 비교",
+    "idReconciliation": "ID 대조",
+    "batchFileProcessing": "배치 파일 처리",
+    "advancedCapabilities": "고급 기능",
+    "formulaInspection": "수식 검사",
+    "smartFuzzyRowMatch": "스마트 퍼지 행 일치",
+    "cellAnnotations": "셀 주석",
+    "pdfHtmlExport": "PDF 및 HTML 내보내기",
+    "offlineBrowserDiff": "100% 오프라인 브라우저 차이",
+    "privacyGuarantee": "개인정보 보호 보증",
+    "privacyDesc": "파일은 컴퓨터를 떠나지 않습니다. 파싱 및 비교는 로컬 브라우저 창 내 Web Worker에서 완전히 실행됩니다.",
+    "zeroServerUploads": "제로 서버 업로드",
+    "copyright": "© 2026 CompareExcel. 개인정보 보호 및 극도의 정확성을 위해 설계되었습니다.",
+    "aboutUs": "회사 소개",
+    "privacyPolicy": "개인정보처리방침",
+    "termsConditions": "이용 약관",
+    "contactUs": "문의하기",
+    "faq": "자주 묻는 질문",
+    "documentation": "문서",
+    "featureMatrix": "기능 매트릭스"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — 온라인 Excel 열 비교 및 스프레드시트 차이 도구",
+      "description": "Excel 스프레드시트를 온라인으로 무료로 비교하세요. 두 열, 두 시트, 두 파일, 날짜, 셀 단위 차이를 100% 개인 클라이언트 사이드 처리로 비교합니다.",
+      "keywords": "excel 열 비교, excel 비교, excel 두 열 비교, excel 두 시트 비교, excel 두 파일 비교, 온라인 excel 비교"
+    },
+    "about": {
+      "title": "CompareExcel 소개 — 고정밀 클라이언트 사이드 스프레드시트 차이 엔진",
+      "description": "CompareExcel에 대해 알아보세요: Excel 파일, 열, 시트, 목록을 차이 비교하는 클라이언트 사이드 스프레드시트 비교 도구입니다. 서버 업로드 제로, 수식 검사, 완전한 개인정보 보호.",
+      "keywords": "compareexcel 소개, excel 비교, 스프레드시트 차이, 클라이언트 사이드 비교, compareexcel 팀"
+    },
+    "features": {
+      "title": "CompareExcel 기능 — Excel 열 비교 및 시트 차이 매트릭스",
+      "description": "CompareExcel 기능 매트릭스: 수식 검사, 퍼지 행 일치, 셀 주석, 오프라인 차이, 내보내기. excel 열 비교, 두 시트, 두 파일, 날짜, 목록용.",
+      "keywords": "excel 열 비교, excel 두 시트 비교, excel 두 파일 비교, excel 날짜 비교, excel 두 목록 비교, excel 비교, 온라인 excel 비교, 기능 매트릭스"
+    },
+    "help": {
+      "title": "Excel Compare 도움말 — 열, 시트, 파일 비교 방법",
+      "description": "CompareExcel을 사용하여 열, 시트, 파일, 날짜, 목록을 비교하는 방법을 알아보세요. 온라인 스프레드시트 차이에 대한 단계별 문서입니다.",
+      "keywords": "excel 열 비교, excel 두 시트 비교, excel 두 파일 비교, excel 날짜 비교, excel 두 목록 비교, 온라인 excel 비교, excel 비교 도움말, 문서"
+    },
+    "faq": {
+      "title": "Excel Compare FAQ — 열, 시트, 목록 및 대조",
+      "description": "Excel 스프레드시트, 열, 시트, 목록 비교에 대한 자주 묻는 질문입니다. 두 열 비교, 두 Excel 시트 비교, 목록 대조, CompareExcel로 차이 및 일치 찾기 방법을 알아보세요.",
+      "keywords": "excel 비교 FAQ, excel에서 두 열 비교하는 방법, 두 Excel 시트 비교하는 방법, 두 목록 비교하는 방법, Excel 시트 차이 일치, 두 열 세 번째 열 출력, 두 데이터 세트 비교"
+    },
+    "privacy": {
+      "title": "Excel Compare 개인정보 — 100% 클라이언트 사이드 브라우저 처리",
+      "description": "CompareExcel 개인정보 보호 보증: excel 열, 시트, 파일 처리가 모두 브라우저에서 100% 로컬로 실행됩니다. 서버 업로드 제로.",
+      "keywords": "excel 열 비교, excel 비교, excel 두 파일 비교, 온라인 excel 비교, excel 비교 개인정보"
+    },
+    "terms": {
+      "title": "이용 약관 — CompareExcel",
+      "description": "CompareExcel(클라이언트 사이드 스프레드시트 비교 도구) 사용을 위한 이용 약관입니다.",
+      "keywords": "약관 compareexcel, compareexcel 이용 약관"
+    },
+    "contact": {
+      "title": "문의하기 — CompareExcel",
+      "description": "스프레드시트 비교에 대한 지원, 피드백 또는 질문은 CompareExcel로 문의하세요.",
+      "keywords": "compareexcel 연락, compareexcel 지원, compareexcel 문의"
+    },
+    "compare": {
+      "title": "Excel 두 파일 비교 — 동기화 스크롤이 있는 온라인 스프레드시트 차이",
+      "description": "두 Excel 파일을 온라인으로 비교하세요. 셀 단위 차이, 수식 검사, 동기화 스크롤, 주석. excel 두 시트 비교, 두 열, 두 셀, 날짜, 목록용. 100% 개인정보 보호.",
+      "keywords": "excel 비교, excel 두 파일 비교, excel 두 시트 비교, excel 두 셀 비교, excel 날짜 비교, excel 두 목록 비교, 온라인 excel 비교"
+    },
+    "compare-columns": {
+      "title": "Excel 두 열 비교 — 집합 일치 및 차이 도구",
+      "description": "두 Excel 열을 온라인으로 비교하세요. 일치, 차이, 교집합, 고유 값을 찾습니다. excel 두 열 비교의 일치 및 차이용. 100% 개인 클라이언트 사이드 처리.",
+      "keywords": "excel 열 비교, excel 두 열 비교, excel 두 열 비교 일치, excel 두 열 비교 차이, excel 두 목록 비교, 온라인 excel 비교"
+    },
+    "batch": {
+      "title": "Excel 여러 파일 배치 비교 — 큐 처리 도구",
+      "description": "여러 Excel 파일 쌍을 한 번에 배치 비교하세요. 스프레드시트를 큐에 넣고 통합 감사 보고서를 생성합니다. 100% 개인 클라이언트 사이드 배치 차이 엔진입니다.",
+      "keywords": "excel 두 파일 비교, excel 비교, 온라인 excel 비교, excel 두 시트 비교, excel 배치 비교"
+    },
+    "reconcile": {
+      "title": "Excel 두 목록 대조 — 기본 키 기반 키/값 일치 엔진",
+      "description": "기본 키로 두 Excel 목록을 대조하세요. SKU, 계정 코드, ID를 시트 간에 일치시킵니다. excel 두 목록 비교, 날짜, 값용. 100% 개인정보 보호.",
+      "keywords": "excel 두 목록 비교, excel 날짜 비교, excel 두 시트 비교, excel 두 열 비교, 온라인 excel 비교"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ReconcileSection from '../../components/pages/ReconcileSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.reconcile.title', "Excel Reconcile Two Lists — ID-Based Key/Value Match Engine");
+const description = t(localeLang, 'pages.reconcile.description', "Reconcile two Excel lists by primary key. Match SKUs, account codes, and IDs across sheets for excel compare two lists, dates, and values. 100% private.");
+const keywords = t(localeLang, 'pages.reconcile.keywords', "excel compare two lists, excel compare dates, excel compare two sheets, excel compare two columns, online excel compare");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <ReconcileSection lang={localeLang} />
+</Layout>

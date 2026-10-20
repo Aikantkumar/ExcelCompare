@@ -1,0 +1,52 @@
+---
+import { locales, defaultLocale, localeConfig, getLocalizedPathname } from '../../config';
+import { t } from '../../utils/translations';
+import type { Locale } from '../../config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = defaultLocale } = Astro.props;
+const currentLang = propLang as Locale;
+const pathname = Astro.url.pathname;
+const currentLabel = localeConfig[currentLang].nativeName;
+
+const flags: Record<Locale, string> = {
+  en: '🇺🇸',
+  es: '🇪🇸',
+  zh: '🇨🇳',
+  ja: '🇯🇵',
+  fr: '🇫🇷',
+  de: '🇩🇪',
+  pt: '🇵🇹',
+  ko: '🇰🇷',
+  it: '🇮🇹',
+};
+---
+
+<div class="relative inline-block text-xs font-mono uppercase tracking-wider text-muted">
+  <details class="inline-block">
+    <summary
+      class="flex items-center gap-2 list-none cursor-pointer text-muted hover:text-ink transition-colors focus:outline-none"
+      aria-label={t(currentLang, 'common.featureMatrix', 'Language')}
+    >
+      <span>{flags[currentLang]} {currentLabel}</span>
+      <svg class="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path></svg>
+    </summary>
+    <div class="absolute right-0 mt-1 w-32 bg-surface-soft border border-hairline rounded shadow-lg py-1 z-20">
+      {locales.map((l) => {
+        const href = getLocalizedPathname(l, pathname);
+        const active = l === currentLang;
+        return (
+          <a
+            href={href}
+            class={`block px-3 py-1.5 text-xs font-mono ${active ? 'text-ink bg-surface-elevated/50' : 'text-muted hover:text-ink hover:bg-surface-elevated/20'} transition-colors`}
+          >
+            {flags[l]} {localeConfig[l].nativeName}
+          </a>
+        );
+      })}
+    </div>
+  </details>
+</div>

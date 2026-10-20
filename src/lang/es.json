@@ -1,0 +1,164 @@
+{
+  "lang": "es",
+  "dir": "ltr",
+  "locale": "es_ES",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "Comparar archivos",
+    "compareColumns": "Comparar columnas",
+    "reconcile": "Reconciliar",
+    "batchDiff": "Diff por lotes",
+    "features": "Características",
+    "help": "Ayuda",
+    "launchTool": "Iniciar herramienta"
+  },
+  "hero": {
+    "offlineBadge": "MOTOR DE DIF DE NAVEGADOR 100% FUERA DE LÍNEA",
+    "headline": "MOTOR DIFERENCIAL DE HOJAS DE CÁLCULO DE EXCEL DE ALTA PRECISIÓN",
+    "subheadline": "Compare archivos de Excel celda por celda con conciencia de fórmulas, alineación inteligente de filas difusas, anotaciones de celdas y exportaciones de auditoría instantáneas, todo procesado estrictamente dentro de su navegador local.",
+    "launchComparisonTool": "LANZAR HERRAMIENTA DE COMPARACIÓN",
+    "exploreCompetitorAdvantage": "EXPLORAR VENTAJA COMPETITIVA",
+    "formulaDiff": "DIFERENCIA DE FÓRMULAS",
+    "formulaDiffDesc": "Compara fórmulas de Excel, no solo valores",
+    "smartRowMatch": "COINCIDENCIA INTELIGENTE DE FILAS",
+    "smartRowMatchDesc": "Coincidencias difusas de filas reordenadas",
+    "syncScroll": "SCROLL SINCRONIZADO",
+    "syncScrollDesc": "Desplazamiento de hojas duales sincronizado",
+    "pdfHtmlExport": "EXPORTAR PDF Y HTML",
+    "pdfHtmlExportDesc": "Generación de informes auditables"
+  },
+  "featureGrid": {
+    "archHeading": "ARQUITECTURA Y MODOS",
+    "archTitle": "CUATRO MODOS PARA CUALQUIER FLUJO DE TRABAJO DE HOJA DE CÁLCULO",
+    "archDesc": "Algoritmos diseñados específicamente para auditorías financieras, reconciliación de inventarios, lógica de conjuntos de listas y procesamiento por lotes.",
+    "mode1Title": "DIF DE ARCHIVO VISUAL Y SCROLL SINCRONIZADO",
+    "mode1Desc": "Comparación completa de hojas con desplazamiento sincronizado bloqueado. Detecta celdas modificadas, filas insertadas, filas eliminadas y fórmulas alteradas con resaltados de alta visibilidad diseñados para modo oscuro.",
+    "mode1Btn": "PROBAR DIF DE ARCHIVO →",
+    "mode2Title": "COMPARACIÓN DE CONJUNTOS DE COLUMNAS",
+    "mode2Desc": "Realiza operaciones matemáticas de conjuntos en columnas de lista. Aísla al instante valores de intersección comunes, valores únicos a la izquierda y valores únicos a la derecha sin ruido de filas.",
+    "mode2Btn": "PROBAR COMPARACIÓN DE COLUMNAS →",
+    "mode3Title": "RECONCILIACIÓN DE DATOS BASADA EN ID",
+    "mode3Desc": "Seleccione columnas de clave principal (por ejemplo, SKU, ID de empleado, Código de cuenta) y columnas de valor objetivo. Concilie registros entre hojas sin importar el orden o las diferencias de clasificación de las filas.",
+    "mode3Btn": "PROBAR RECONCILIACIÓN →",
+    "mode4Title": "MOTOR DE COLA DE ARCHIVOS POR LOTES",
+    "mode4Desc": "Encola varios pares de hojas de cálculo y procese todos en una sola ejecución automatizada por lotes. Genere registros de resumen de auditoría consolidados en libros completos.",
+    "mode4Btn": "PROBAR COLA DE LOTES →"
+  },
+  "competitor": {
+    "matrixHeading": "MATRIZ COMPETITIVA",
+    "title": "POR QUÉ COMPAREEXCEL SUPERA LAS HERRAMIENTAS DIF GENÉRICAS",
+    "desc": "Diseñado desde cero para resolver las limitaciones principales de la comparación de hojas de cálculo en línea estándar.",
+    "colFeature": "CARACTERÍSTICA Y CAPACIDAD",
+    "colGeneric": "HERRAMIENTAS GENÉRICAS (p. ej. excelcompare.org)",
+    "colCompareExcel": "COMPAREEXCEL.COM (VENTAJA NUESTRA)",
+    "rows": [
+      ["Inspección de diferencia de fórmulas", "Solo valores mostrados", "Compara fórmulas subyacentes de Excel (=SUM, =VLOOKUP)"],
+      ["Alineación inteligente difusa de filas", "Desplazamiento de línea estricto (falló en filas insertadas)", "Coincidencia de hash de contenido y difusa para filas reordenadas"],
+      ["Anotaciones de celdas y marcas de auditoría", "Sin soporte para tomar notas o anotaciones", "Haga clic en cualquier celda para agregar notas y exportar con diferencia"],
+      ["Formatos de exportación e informes", "Exportación CSV mínima", "Informes PDF imprimibles, informes de auditoría HTML, CSV, Enlaces compartidos"],
+      ["Múltiples vistas de diferencia visual", "Solo lado a lado", "Lado a lado, Superposición (Antes→Después), Diferencia Git unificada"],
+      ["Comparación multipar por lotes", "Un par de archivos a la vez", "Encola varios pares en ejecución automatizada por lotes"],
+      ["Componente web incrustable", "Sin API de integración", "<compare-excel> componente web para paneles"],
+      ["Sistema de diseño y tipografía", "Plantilla brillante genérica", "Tema oscuro de lujo (Saira Condensed y Cormorant Garamond)"]
+    ]
+  },
+  "common": {
+    "startComparing": "EMPEZAR A COMPARAR",
+    "openComparisonWorkspace": "ABRIR ESPACIO DE TRABAJO DE COMPARACIÓN AHORA",
+    "documentation": "Documentación",
+    "faq": "Preguntas frecuentes",
+    "featureMatrix": "Matriz de características",
+    "tryFileDiff": "PROBAR DIF DE ARCHIVO →",
+    "tryColumnComparison": "PROBAR COMPARACIÓN DE COLUMNAS →",
+    "tryReconciliation": "PROBAR RECONCILIACIÓN →",
+    "tryBatchQueue": "PROBAR COLA DE LOTES →"
+  },
+  "footer": {
+    "brandDesc": "Motor diferencial de hojas de cálculo del lado del cliente de alta precisión construido para compromiso cero de datos, conciencia de fórmulas y reconciliación visual instantánea.",
+    "domain": "DOMINIO: COMPAREEXCEL.COM",
+    "comparisonModes": "MODOS DE COMPARACIÓN",
+    "visualFileDiff": "Dif de archivo visual",
+    "setColumnCompare": "Comparar columnas de conjunto",
+    "idReconciliation": "Reconciliación por ID",
+    "batchFileProcessing": "Procesamiento de archivos por lotes",
+    "advancedCapabilities": "CAPACIDADES AVANZADAS",
+    "formulaInspection": "Inspección de fórmulas",
+    "smartFuzzyRowMatch": "Coincidencia difusa inteligente de filas",
+    "cellAnnotations": "Anotaciones de celdas",
+    "pdfHtmlExport": "Exportar PDF y HTML",
+    "offlineBrowserDiff": "Dif de navegador 100 % fuera de línea",
+    "privacyGuarantee": "GARANTÍA DE PRIVACIDAD",
+    "privacyDesc": "Sus archivos nunca salen de su computadora. El análisis y la comparación se ejecutan completamente dentro de Web Workers en su ventana de navegador local.",
+    "zeroServerUploads": "CERO SUBIDAS AL SERVIDOR",
+    "copyright": "© 2026 CompareExcel. Diseñado para privacidad y precisión extrema.",
+    "aboutUs": "Nosotros",
+    "privacyPolicy": "Política de privacidad",
+    "termsConditions": "Términos y Condiciones",
+    "contactUs": "Contáctenos",
+    "faq": "Preguntas frecuentes",
+    "documentation": "Documentación",
+    "featureMatrix": "Matriz de características"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — Herramienta en línea para comparar columnas de Excel y diferenciar hojas de cálculo",
+      "description": "Compare hojas de cálculo de Excel en línea de forma gratuita. Compare dos columnas, dos hojas, dos archivos, fechas y diferencias celda por celda con procesamiento del lado del cliente 100% privado.",
+      "keywords": "excel comparar columnas, excel comparar, excel comparar dos columnas, excel comparar dos hojas, excel comparar dos archivos, comparador de excel en línea"
+    },
+    "about": {
+      "title": "Acerca de CompareExcel — Motor diferencial de hojas de cálculo del lado del cliente de alta precisión",
+      "description": "Conozca CompareExcel: una herramienta de comparación de hojas de cálculo del lado del cliente para diferenciar archivos, columnas, hojas y listas de Excel con cero subidas al servidor, inspección de fórmulas y privacidad total.",
+      "keywords": "acerca de compareexcel, excel comparar, diferencia de hoja de cálculo, comparación del lado del cliente, equipo compareexcel"
+    },
+    "features": {
+      "title": "CompareExcel Características — Matriz de diferencia de columnas y hojas de Excel",
+      "description": "Matriz de características de CompareExcel: inspección de fórmulas, coincidencia difusa de filas, anotaciones de celdas, diferencia fuera de línea y exportación para comparar columnas de excel, dos hojas, dos archivos, fechas y listas.",
+      "keywords": "excel comparar columnas, excel comparar dos hojas, excel comparar dos archivos, excel comparar fechas, excel comparar dos listas, excel comparar, comparador de excel en línea, matriz de características"
+    },
+    "help": {
+      "title": "Ayuda de Excel Compare — Cómo comparar columnas, hojas y archivos",
+      "description": "Aprenda a comparar columnas, hojas, archivos, fechas y listas con CompareExcel. Documentación paso a paso para la comparación en línea de hojas de cálculo.",
+      "keywords": "excel comparar columnas, excel comparar dos hojas, excel comparar dos archivos, excel comparar fechas, excel comparar dos listas, comparador de excel en línea, ayuda de excel comparar, documentación"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes de Excel Compare — Columnas, hojas, listas y reconciliación",
+      "description": "Preguntas frecuentes sobre comparar hojas de cálculo, columnas, hojas y listas de Excel. Aprenda a comparar dos columnas, comparar dos hojas de Excel, hacer coincidir listas y encontrar diferencias y coincidencias con CompareExcel.",
+      "keywords": "preguntas frecuentes excel comparar, cómo comparar dos columnas en excel, cómo comparar dos hojas de excel, cómo comparar dos listas en excel, comparar hojas de excel diferencias coincidencias, hacer coincidir dos columnas salida tercera columna, comparar dos conjuntos de datos"
+    },
+    "privacy": {
+      "title": "Privacidad de Excel Compare — Procesamiento del navegador 100% del lado del cliente",
+      "description": "Garantía de privacidad de CompareExcel: todo el procesamiento de comparar columnas, hojas y archivos de Excel se ejecuta 100% localmente en su navegador. Cero subidas al servidor.",
+      "keywords": "excel comparar columnas, excel comparar, excel comparar dos archivos, comparador de excel en línea, privacidad de excel comparar"
+    },
+    "terms": {
+      "title": "Términos y Condiciones — CompareExcel",
+      "description": "Términos y condiciones para usar CompareExcel, la herramienta de comparación de hojas de cálculo del lado del cliente.",
+      "keywords": "términos condiciones compareexcel, términos de uso compareexcel"
+    },
+    "contact": {
+      "title": "Contáctenos — CompareExcel",
+      "description": "Contáctenos con CompareExcel para soporte, comentarios o preguntas sobre la comparación de hojas de cálculo.",
+      "keywords": "contacto compareexcel, soporte compareexcel, contacto compareexcel"
+    },
+    "compare": {
+      "title": "Excel Compare Dos Archivos — Diferencia de hojas de cálculo en línea con desplazamiento sincronizado",
+      "description": "Compare dos archivos de Excel en línea. Diferencia celda por celda, inspección de fórmulas, desplazamiento sincronizado y anotaciones para excel comparar dos hojas, dos columnas, dos celdas, fechas y listas. 100% privado.",
+      "keywords": "excel comparar, excel comparar dos archivos, excel comparar dos hojas, excel comparar dos celdas, excel comparar fechas, excel comparar dos listas, comparador de excel en línea"
+    },
+    "compare-columns": {
+      "title": "Excel Comparar Dos Columnas — Herramienta de coincidencia y diferencia de conjuntos",
+      "description": "Compare dos columnas de Excel en línea. Encuentre coincidencias, diferencias, intersección y valores únicos para excel comparar dos columnas para coincidencias y diferencias. 100% procesamiento del lado del cliente privado.",
+      "keywords": "excel comparar columnas, excel comparar dos columnas, excel comparar dos columnas para coincidencias, excel comparar dos columnas para diferencias, excel comparar dos listas, comparador de excel en línea"
+    },
+    "batch": {
+      "title": "Excel Comparar en lote múltiples archivos — Herramienta de procesamiento de cola",
+      "description": "Compare en lote varios pares de archivos de Excel a la vez. Encole hojas de cálculo y genere informes de auditoría consolidados. Motor de diferencia por lote del lado del cliente 100% privado.",
+      "keywords": "excel comparar dos archivos, excel comparar, comparador de excel en línea, excel comparar dos hojas, excel comparar en lote"
+    },
+    "reconcile": {
+      "title": "Excel Reconciliar Dos Listas — Motor de coincidencia clave/valor basado en ID",
+      "description": "Reconcilie dos listas de Excel por clave principal. Haga coincidir SKU, códigos de cuenta e IDs entre hojas para excel comparar dos listas, fechas y valores. 100% privado.",
+      "keywords": "excel comparar dos listas, excel comparar fechas, excel comparar dos hojas, excel comparar dos columnas, comparador de excel en línea"
+    }
+  }
+}

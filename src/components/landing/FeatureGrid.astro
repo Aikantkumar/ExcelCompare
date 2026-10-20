@@ -1,13 +1,24 @@
 ---
+import { t } from '../../utils/translations';
+import type { Locale } from '../../config';
+import { getLocalizedPathname } from '../../config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = 'en' } = Astro.props;
+const lang = propLang as Locale;
+const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 ---
 
 <section class="py-24 bg-canvas border-b border-hairline">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center space-y-4 mb-16">
-      <div class="text-caption text-link">ARCHITECTURE & MODES</div>
-      <h2 class="text-display-lg">FOUR MODES FOR EVERY SPREADSHEET WORKFLOW</h2>
+      <div class="text-caption text-link">{t(lang, 'featureGrid.archHeading', 'ARCHITECTURE & MODES')}</div>
+      <h2 class="text-display-lg">{t(lang, 'featureGrid.archTitle', 'FOUR MODES FOR EVERY SPREADSHEET WORKFLOW')}</h2>
       <p class="font-serif text-lg text-muted max-w-2xl mx-auto">
-        Tailored algorithms built specifically for financial audits, inventory reconciliation, list set logic, and batch processing.
+        {t(lang, 'featureGrid.archDesc', 'Tailored algorithms built specifically for financial audits, inventory reconciliation, list set logic, and batch processing.')}
       </p>
     </div>
 
@@ -18,9 +29,9 @@
           <span class="text-caption text-link">MODE 01</span>
           <span class="text-xs font-mono text-success">★ FEATURED</span>
         </div>
-        <h3 class="text-display-sm text-ink">VISUAL FILE DIFF & SYNC SCROLL</h3>
+        <h3 class="text-display-sm text-ink">{t(lang, 'featureGrid.mode1Title', 'VISUAL FILE DIFF & SYNC SCROLL')}</h3>
         <p class="font-serif text-body text-base leading-relaxed">
-          Full sheet comparison with lockstep synchronized scrolling. Detect modified cells, inserted rows, deleted rows, and altered formulas with dark-tailored high-visibility diff highlights.
+          {t(lang, 'featureGrid.mode1Desc', 'Full sheet comparison with lockstep synchronized scrolling. Detect modified cells, inserted rows, deleted rows, and altered formulas with dark-tailored high-visibility diff highlights.')}
         </p>
         <ul class="space-y-2 font-mono text-xs text-muted">
           <li class="flex items-center gap-2">✓ Side-by-Side, Overlay, & Unified Diff Views</li>
@@ -28,7 +39,9 @@
           <li class="flex items-center gap-2">✓ Click cell to add custom notes & audit flags</li>
         </ul>
         <div>
-          <a href="/compare" class="btn-secondary text-xs py-2 px-6">TRY FILE DIFF →</a>
+          <a href={localizedHref('/compare')} class="btn-secondary text-xs py-2 px-6">
+            {t(lang, 'featureGrid.mode1Btn', 'TRY FILE DIFF →')}
+          </a>
         </div>
       </div>
 
@@ -38,9 +51,9 @@
           <span class="text-caption text-link">MODE 02</span>
           <span class="text-xs font-mono text-muted">SET LOGIC</span>
         </div>
-        <h3 class="text-display-sm text-ink">COLUMN SET COMPARISON</h3>
+        <h3 class="text-display-sm text-ink">{t(lang, 'featureGrid.mode2Title', 'COLUMN SET COMPARISON')}</h3>
         <p class="font-serif text-body text-base leading-relaxed">
-          Perform mathematical set operations on list columns. Instantly isolate common intersection values, unique left values, and unique right values without row noise.
+          {t(lang, 'featureGrid.mode2Desc', 'Perform mathematical set operations on list columns. Instantly isolate common intersection values, unique left values, and unique right values without row noise.')}
         </p>
         <ul class="space-y-2 font-mono text-xs text-muted">
           <li class="flex items-center gap-2">✓ Instant set intersection calculation</li>
@@ -48,7 +61,9 @@
           <li class="flex items-center gap-2">✓ Quick search & filter across datasets</li>
         </ul>
         <div>
-          <a href="/compare-columns" class="btn-secondary text-xs py-2 px-6">TRY COLUMN COMPARISON →</a>
+          <a href={localizedHref('/compare-columns')} class="btn-secondary text-xs py-2 px-6">
+            {t(lang, 'featureGrid.mode2Btn', 'TRY COLUMN COMPARISON →')}
+          </a>
         </div>
       </div>
 
@@ -58,9 +73,9 @@
           <span class="text-caption text-link">MODE 03</span>
           <span class="text-xs font-mono text-muted">KEY-VALUE AUDIT</span>
         </div>
-        <h3 class="text-display-sm text-ink">ID-BASED DATA RECONCILIATION</h3>
+        <h3 class="text-display-sm text-ink">{t(lang, 'featureGrid.mode3Title', 'ID-BASED DATA RECONCILIATION')}</h3>
         <p class="font-serif text-body text-base leading-relaxed">
-          Select primary key columns (e.g. SKU, Employee ID, Account Code) and target value columns. Reconcile records across sheets regardless of row order or sorting differences.
+          {t(lang, 'featureGrid.mode3Desc', 'Select primary key columns (e.g. SKU, Employee ID, Account Code) and target value columns. Reconcile records across sheets regardless of row order or sorting differences.')}
         </p>
         <ul class="space-y-2 font-mono text-xs text-muted">
           <li class="flex items-center gap-2">✓ Key-based mismatch detection</li>
@@ -68,7 +83,9 @@
           <li class="flex items-center gap-2">✓ Audit-ready reconciliation report CSV</li>
         </ul>
         <div>
-          <a href="/reconcile" class="btn-secondary text-xs py-2 px-6">TRY RECONCILIATION →</a>
+          <a href={localizedHref('/reconcile')} class="btn-secondary text-xs py-2 px-6">
+            {t(lang, 'featureGrid.mode3Btn', 'TRY RECONCILIATION →')}
+          </a>
         </div>
       </div>
 
@@ -78,9 +95,9 @@
           <span class="text-caption text-link">MODE 04</span>
           <span class="text-xs font-mono text-link">POWER TOOL</span>
         </div>
-        <h3 class="text-display-sm text-ink">BATCH FILE QUEUE ENGINE</h3>
+        <h3 class="text-display-sm text-ink">{t(lang, 'featureGrid.mode4Title', 'BATCH FILE QUEUE ENGINE')}</h3>
         <p class="font-serif text-body text-base leading-relaxed">
-          Queue multiple pairs of spreadsheets and process them all in a single automated batch run. Generate consolidated audit summary logs across entire workbooks.
+          {t(lang, 'featureGrid.mode4Desc', 'Queue multiple pairs of spreadsheets and process them all in a single automated batch run. Generate consolidated audit summary logs across entire workbooks.')}
         </p>
         <ul class="space-y-2 font-mono text-xs text-muted">
           <li class="flex items-center gap-2">✓ Multi-file pair queueing</li>
@@ -88,7 +105,9 @@
           <li class="flex items-center gap-2">✓ Download aggregated batch report CSV</li>
         </ul>
         <div>
-          <a href="/batch" class="btn-secondary text-xs py-2 px-6">TRY BATCH QUEUE →</a>
+          <a href={localizedHref('/batch')} class="btn-secondary text-xs py-2 px-6">
+            {t(lang, 'featureGrid.mode4Btn', 'TRY BATCH QUEUE →')}
+          </a>
         </div>
       </div>
     </div>

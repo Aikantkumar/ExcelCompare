@@ -1,5 +1,12 @@
 ---
 import Wordmark from '../shared/Wordmark.astro';
+import { getLocaleFromPathname } from '../../config';
+import { t } from '../../utils/translations';
+import { getLocalizedPathname } from '../../config';
+
+const pathname = new URL(Astro.request.url).pathname;
+const lang = getLocaleFromPathname(pathname);
+const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 ---
 
 <footer class="bg-canvas border-t border-hairline text-muted py-16 px-4 sm:px-6 lg:px-8 mt-24">
@@ -8,59 +15,59 @@ import Wordmark from '../shared/Wordmark.astro';
     <div class="space-y-4">
       <Wordmark />
       <p class="font-serif text-sm text-muted leading-relaxed">
-        High-precision client-side spreadsheet diff engine built for zero data compromise, formula awareness, and instant visual reconciliation.
+        {t(lang, 'footer.brandDesc', 'High-precision client-side spreadsheet diff engine built for zero data compromise, formula awareness, and instant visual reconciliation.')}
       </p>
       <div class="text-caption text-muted-soft">
-        DOMAIN: COMPAREEXCEL.COM
+        {t(lang, 'footer.domain', 'DOMAIN: COMPAREEXCEL.COM')}
       </div>
     </div>
 
     <!-- Column 2: Tools -->
     <div class="space-y-3">
-      <h3 class="text-caption text-ink tracking-[2px]">COMPARISON MODES</h3>
+      <h3 class="text-caption text-ink tracking-[2px]">{t(lang, 'footer.comparisonModes', 'COMPARISON MODES')}</h3>
       <ul class="space-y-2 text-sm font-mono uppercase tracking-wider">
-        <li><a href="/compare" class="hover:text-ink transition-colors">Visual File Diff</a></li>
-        <li><a href="/compare-columns" class="hover:text-ink transition-colors">Set Column Compare</a></li>
-        <li><a href="/reconcile" class="hover:text-ink transition-colors">ID Reconciliation</a></li>
-        <li><a href="/batch" class="hover:text-ink transition-colors">Batch File Processing</a></li>
+        <li><a href={localizedHref('/compare')} class="hover:text-ink transition-colors">{t(lang, 'footer.visualFileDiff', 'Visual File Diff')}</a></li>
+        <li><a href={localizedHref('/compare-columns')} class="hover:text-ink transition-colors">{t(lang, 'footer.setColumnCompare', 'Set Column Compare')}</a></li>
+        <li><a href={localizedHref('/reconcile')} class="hover:text-ink transition-colors">{t(lang, 'footer.idReconciliation', 'ID Reconciliation')}</a></li>
+        <li><a href={localizedHref('/batch')} class="hover:text-ink transition-colors">{t(lang, 'footer.batchFileProcessing', 'Batch File Processing')}</a></li>
       </ul>
     </div>
 
     <!-- Column 3: Differentials -->
     <div class="space-y-3">
-      <h3 class="text-caption text-ink tracking-[2px]">ADVANCED CAPABILITIES</h3>
+      <h3 class="text-caption text-ink tracking-[2px]">{t(lang, 'footer.advancedCapabilities', 'ADVANCED CAPABILITIES')}</h3>
       <ul class="space-y-2 text-sm font-mono uppercase tracking-wider">
-        <li><span class="text-link">★ Formula Inspection</span></li>
-        <li><span class="text-link">★ Smart Fuzzy Row Match</span></li>
-        <li><span class="text-link">★ Cell Annotations</span></li>
-        <li><span class="text-link">★ PDF & HTML Export</span></li>
-        <li><span class="text-link">★ 100% Offline Browser Diff</span></li>
+        <li><span class="text-link">★ {t(lang, 'footer.formulaInspection', 'Formula Inspection')}</span></li>
+        <li><span class="text-link">★ {t(lang, 'footer.smartFuzzyRowMatch', 'Smart Fuzzy Row Match')}</span></li>
+        <li><span class="text-link">★ {t(lang, 'footer.cellAnnotations', 'Cell Annotations')}</span></li>
+        <li><span class="text-link">★ {t(lang, 'footer.pdfHtmlExport', 'PDF & HTML Export')}</span></li>
+        <li><span class="text-link">★ {t(lang, 'footer.offlineBrowserDiff', '100% Offline Browser Diff')}</span></li>
       </ul>
     </div>
 
     <!-- Column 4: Trust & Security -->
     <div class="space-y-3">
-      <h3 class="text-caption text-white tracking-[2px]">PRIVACY GUARANTEE</h3>
+      <h3 class="text-caption text-white tracking-[2px]">{t(lang, 'footer.privacyGuarantee', 'PRIVACY GUARANTEE')}</h3>
       <p class="font-serif text-sm text-muted leading-relaxed">
-        Your files never leave your computer. Parsing and comparison run entirely inside Web Workers in your local browser window.
+        {t(lang, 'footer.privacyDesc', 'Your files never leave your computer. Parsing and comparison run entirely inside Web Workers in your local browser window.')}
       </p>
       <div class="inline-flex items-center gap-2 border border-hairline px-3 py-1.5 text-xs font-mono text-link">
         <span class="w-2 h-2 bg-success rounded-full"></span>
-        ZERO SERVER UPLOADS
+        {t(lang, 'footer.zeroServerUploads', 'ZERO SERVER UPLOADS')}
       </div>
     </div>
   </div>
 
   <div class="max-w-7xl mx-auto pt-8 border-t border-hairline flex flex-col md:flex-row items-center justify-between text-xs font-serif text-muted-soft gap-4">
-    <p>© 2026 CompareExcel. Engineered for privacy & extreme accuracy.</p>
+    <p>{t(lang, 'footer.copyright', '© 2026 CompareExcel. Engineered for privacy & extreme accuracy.')}</p>
     <div class="flex space-x-6 font-mono text-[11px] uppercase tracking-wider flex-wrap">
-      <a href="/about" class="hover:text-ink">About Us</a>
-      <a href="/privacy" class="hover:text-ink">Privacy Policy</a>
-      <a href="/terms" class="hover:text-ink">Terms & Conditions</a>
-      <a href="/contact" class="hover:text-ink">Contact Us</a>
-      <a href="/faq" class="hover:text-ink">FAQ</a>
-      <a href="/help" class="hover:text-ink">Documentation</a>
-      <a href="/features" class="hover:text-ink">Feature Matrix</a>
+      <a href={localizedHref('/about')} class="hover:text-ink">{t(lang, 'footer.aboutUs', 'About Us')}</a>
+      <a href={localizedHref('/privacy')} class="hover:text-ink">{t(lang, 'footer.privacyPolicy', 'Privacy Policy')}</a>
+      <a href={localizedHref('/terms')} class="hover:text-ink">{t(lang, 'footer.termsConditions', 'Terms & Conditions')}</a>
+      <a href={localizedHref('/contact')} class="hover:text-ink">{t(lang, 'footer.contactUs', 'Contact Us')}</a>
+      <a href={localizedHref('/faq')} class="hover:text-ink">{t(lang, 'footer.faq', 'FAQ')}</a>
+      <a href={localizedHref('/help')} class="hover:text-ink">{t(lang, 'footer.documentation', 'Documentation')}</a>
+      <a href={localizedHref('/features')} class="hover:text-ink">{t(lang, 'footer.featureMatrix', 'Feature Matrix')}</a>
     </div>
   </div>
 </footer>

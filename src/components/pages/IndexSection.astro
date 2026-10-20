@@ -1,0 +1,107 @@
+---
+import Hero from '../landing/Hero.astro';
+import FeatureGrid from '../landing/FeatureGrid.astro';
+import CompetitorComparison from '../landing/CompetitorComparison.astro';
+import CompareToolContainer from '../comparison/CompareToolContainer.jsx';
+import { getLocalizedPathname } from '../../config';
+import { t } from '../../utils/translations';
+import type { Locale } from '../../config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = 'en' } = Astro.props;
+const lang = propLang as Locale;
+const localizedHref = (href: string) => getLocalizedPathname(lang, href);
+---
+
+<!-- Hero Section -->
+<Hero lang={lang} />
+
+<!-- Main Interactive Comparison Tool Workspace -->
+<section class="py-12 bg-canvas border-b border-hairline">
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 mb-4 text-center">
+    <div class="text-caption text-link">INTERACTIVE WORKSPACE</div>
+    <h2 class="text-display-md text-ink mt-1">TEST LIVE SPREADSHEET DIFFERENTIAL ENGINE</h2>
+  </div>
+  <CompareToolContainer client:only="react" initialMode="files" />
+</section>
+
+<!-- Feature Grid Section -->
+<FeatureGrid lang={lang} />
+
+<!-- Competitor Advantage Matrix Section -->
+<CompetitorComparison lang={lang} />
+
+<!-- CTA Band -->
+<section class="py-24 bg-canvas text-center border-b border-hairline">
+  <div class="max-w-4xl mx-auto px-4 space-y-6">
+    <div class="text-caption text-link">ENGINEERED FOR ACCURACY & PRIVACY</div>
+    <h2 class="text-display-lg text-ink">READY TO RUN YOUR SPREADSHEET AUDIT?</h2>
+    <p class="font-serif text-lg text-muted max-w-xl mx-auto leading-relaxed">
+      No sign up, no credit card, no software installation required. Drop your files and get instant visual diffs inside your local browser.
+    </p>
+    <div class="pt-4">
+      <a href={localizedHref('/compare')} class="btn-primary">
+        {t(lang, 'common.openComparisonWorkspace', 'OPEN COMPARISON WORKSPACE NOW')}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SEO Content: Comprehensive Tool Guide -->
+<section class="py-24 bg-canvas border-b border-hairline">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-caption text-link text-center mb-6">ABOUT THE TOOL</div>
+    <h2 class="text-display-lg text-ink text-center mb-12">CompareExcel — The Online Excel Compare Columns & Spreadsheet Comparison Solution</h2>
+
+    <div class="prose prose-invert max-w-none text-body font-serif leading-relaxed text-base space-y-8">
+      <p>
+        When you need to <strong>excel compare columns</strong> across two workbooks, find matching values, or spot differences between sheets, CompareExcel gives you a fast, private, browser-based engine that runs entirely on your device. Whether you are a finance analyst reconciling ledgers, an operations manager checking inventory SKUs, or a data auditor validating customer lists, our online Excel compare tool lets you upload two files, run a cell-by-cell diff, and review every change — all without sending your data to a remote server.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">What Does It Mean to Excel Compare Columns?</h3>
+      <p>
+        To <strong>excel compare columns</strong> means taking one column from File A and one column from File B and determining which values exist in both, which appear only on the left, and which appear only on the right. CompareExcel performs this set logic instantly. You can isolate the <strong>excel compare two columns for matches</strong> (the intersection), the <strong>excel compare two columns for differences</strong> (unique values), and export each result as a clean CSV for downstream reporting.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Excel Compare Two Columns for Matches and Differences</h3>
+      <p>
+        Many users arrive looking to <strong>excel compare two columns for matches</strong> — for example, verifying that a new subscriber list overlaps with a master CRM export. Others need to <strong>excel compare two columns for differences</strong>, such as identifying product SKUs that were removed from a price sheet. Our column set comparison mode handles both cases with a single click, showing intersection, left-only, and right-only values side by side.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Excel Compare Two Sheets, Two Files, and Two Cells</h3>
+      <p>
+        Beyond columns, CompareExcel supports <strong>excel compare two sheets</strong> within the same workbook or across separate files. Our <strong>excel compare two files</strong> mode parses both spreadsheets locally using SheetJS Web Workers, then renders a synchronized, color-coded diff grid. If you only need to <strong>excel compare two cells</strong> — for example, confirming that a single calculated value did not drift between versions — the cell-level inspector highlights exact value and formula changes at the individual cell level.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Excel Compare Dates and Two Lists</h3>
+      <p>
+        Working with time-series data? Our engine treats date cells as first-class values, so you can <strong>excel compare dates</strong> across columns and flag shifted or mismatched timestamps. Likewise, if you are reconciling mailing lists, part numbers, or account codes, the <strong>excel compare two lists</strong> workflow uses fuzzy row matching to align records even when sort order differs between files.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Why Choose an Online Excel Compare Tool?</h3>
+      <p>
+        Traditional desktop methods require complex formulas, VLOOKUP helper columns, or manual sorting. An <strong>online excel compare</strong> utility like CompareExcel removes that friction. There is no software to install, no account to create, and no file size limit that blocks your audit. Because processing happens client-side, sensitive financial records, payroll sheets, and supplier pricing never leave your browser — a critical advantage over cloud diff services that upload your .xlsx files to third-party servers.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Key Capabilities of the Excel Comparison Engine</h3>
+      <ul class="list-disc pl-6 space-y-3 text-body font-serif">
+        <li><strong>Cell-by-cell diff</strong> — Every changed, added, or deleted cell is color-coded (amber for modified, green for added, red for deleted).</li>
+        <li><strong>Formula inspection</strong> — We compare underlying Excel formulas, not just displayed values, so <code>=SUM(A1:A10)</code> vs <code>=SUM(A1:A9)</code> is caught immediately.</li>
+        <li><strong>Smart fuzzy row matching</strong> — Inserted or reordered rows do not cascade into false positives; our algorithm aligns rows by content signature.</li>
+        <li><strong>Synchronized scrolling</strong> — Lockstep navigation across both sheets keeps related rows in view simultaneously.</li>
+        <li><strong>Cell annotations</strong> — Click any diff cell to add audit notes, then export the annotated report.</li>
+        <li><strong>Export options</strong> — Download printable HTML reports, CSV breakdowns, or generate shareable links.</li>
+        <li><strong>Batch queue</strong> — Process multiple file pairs in one automated run with a consolidated summary log.</li>
+      </ul>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Common Use Cases for Excel Compare Columns</h3>
+      <p>
+        Finance teams use CompareExcel to <strong>excel compare two columns</strong> in monthly close workbooks, catching variance before it hits the general ledger. Supply chain analysts run <strong>excel compare two sheets</strong> to confirm inbound purchase orders against received goods. HR professionals <strong>excel compare two lists</strong> of employee IDs across systems to surface headcount discrepancies. IT auditors use <strong>excel compare dates</strong> to verify change logs and system timestamps. Whatever your scenario, if your task involves <strong>excel compare columns</strong> or broader spreadsheet diffing, this tool is built for it.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Privacy-First Online Excel Compare</h3>
+      <p>
+        Unlike many <strong>online excel compare</strong> services, CompareExcel does not store your files. Parsing, diff calculation, and rendering all occur inside Web Workers on your machine. You can disconnect from the internet after loading the page and continue comparing spreadsheets offline. Network DevTools confirms zero HTTP upload requests when you load or diff workbooks, making this suitable for confidential business data.
+      </p>
+      <h3 class="text-title-md text-ink mt-8 mb-4">Get Started with CompareExcel Today</h3>
+      <p>
+        Ready to <strong>excel compare columns</strong>, <strong>excel compare two sheets</strong>, or run a full <strong>excel compare two files</strong> audit? Open the comparison workspace, drop your workbooks, and review instant visual diffs in your local browser. No sign-up, no credit card, and no installation required — just accurate, private spreadsheet comparison whenever you need it.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,164 @@
+{
+  "lang": "it",
+  "dir": "ltr",
+  "locale": "it_IT",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "Confronta file",
+    "compareColumns": "Confronta colonne",
+    "reconcile": "Riconcilia",
+    "batchDiff": "Diff batch",
+    "features": "Caratteristiche",
+    "help": "Aiuto",
+    "launchTool": "Avvia strumento"
+  },
+  "hero": {
+    "offlineBadge": "MOTORE DIFF BROWSER 100% OFFLINE",
+    "headline": "MOTORE DIFFERENZIALE FOGLIO DI CALCOLO EXCEL AD ALTA PRECISIONE",
+    "subheadline": "Confronta file Excel cella per cella con consapevolezza delle formule, allineamento righe fuzzy intelligente, annotazioni celle ed esportazioni di controllo istantanee, il tutto elaborato strettamente all'interno del tuo browser locale.",
+    "launchComparisonTool": "AVVIA STRUMENTO DI CONFRONTO",
+    "exploreCompetitorAdvantage": "ESPLORA VANTAGGIO COMPETITIVO",
+    "formulaDiff": "DIFFERENZA FORMULE",
+    "formulaDiffDesc": "Confronta formule Excel, non solo valori",
+    "smartRowMatch": "CORRISPONDENZA RIGHE INTELLIGENTE",
+    "smartRowMatchDesc": "Corrispondenza fuzzy per righe riordinate",
+    "syncScroll": "SCROLL SINCRONIZZATO",
+    "syncScrollDesc": "Scorrimento sincronizzato di due fogli",
+    "pdfHtmlExport": "ESPORTAZIONE PDF E HTML",
+    "pdfHtmlExportDesc": "Generazione di report controllabili"
+  },
+  "featureGrid": {
+    "archHeading": "ARCHITETTURA E MODALITÀ",
+    "archTitle": "QUATTRO MODALITÀ PER OGNI FLUSSO DI LAVORO DEL FOGLIO DI CALCOLO",
+    "archDesc": "Algoritmi progettati specificamente per controlli finanziari, riconciliazione inventari, logica di insieme di liste ed elaborazione batch.",
+    "mode1Title": "DIFF FILE VISUAL E SCROLL SINCRONIZZATO",
+    "mode1Desc": "Confronto completo di foglio con scorrimento sincronizzato in passo bloccato. Rileva celle modificate, righe inserite, righe eliminate e formule alterate con highlight di diff ad alta visibilità ottimizzati per tema scuro.",
+    "mode1Btn": "PROVA DIFF FILE →",
+    "mode2Title": "CONFRONTO INSIEME DI COLONNE",
+    "mode2Desc": "Esegui operazioni matematiche di insieme su colonne di lista. Isola istantaneamente valori di intersezione comuni, valori unici a sinistra e valori unici a destra senza rumore di righe.",
+    "mode2Btn": "PROVA CONFRONTO COLONNE →",
+    "mode3Title": "RICONCILIAZIONE DATI BASATA SU ID",
+    "mode3Desc": "Seleziona colonne di chiave primaria (es. SKU, ID dipendente, Codice conto) e colonne di valore target. Riconcilia record tra fogli indipendentemente dall'ordine delle righe o dalle differenze di ordinamento.",
+    "mode3Btn": "PROVA RICONCILIAZIONE →",
+    "mode4Title": "MOTORE DI CODA FILE BATCH",
+    "mode4Desc": "Metti in coda più coppie di fogli di calcolo ed elabora tutte in un'unica esecuzione batch automatizzata. Genera log di riepilogo di controllo consolidati su intere cartelle di lavoro.",
+    "mode4Btn": "PROVA CODA BATCH →"
+  },
+  "competitor": {
+    "matrixHeading": "MATRICE COMPETITIVA",
+    "title": "PERCHÉ COMPAREEXCEL SUPERA GLI STRUMENTI DI DIFF GNERICI",
+    "desc": "Progettato da zero per risolvere le limitazioni fondamentali del diff standard di fogli di calcolo online.",
+    "colFeature": "FUNZIONALITÀ E CAPACITÀ",
+    "colGeneric": "STRUMENTI GENERICI (es. excelcompare.org)",
+    "colCompareExcel": "COMPAREEXCEL.COM (IL NOSTRO VANTAGGIO)",
+    "rows": [
+      ["Ispezione differenza formule", "Solo valori visualizzati", "Confronta le formule Excel sottostanti (=SOMMA, =CERCA.VERT)"],
+      ["Allineamento righe fuzzy intelligente", "Offset riga rigoroso (fallisce su righe inserite)", "Corrispondenza hash di contenuto e fuzzy per righe riordinate"],
+      ["Annotazioni celle e flag di controllo", "Nessun supporto per note o annotazioni", "Fai clic su qualsiasi cella per aggiungere note ed esportare con diff"],
+      ["Formati di esportazione e report", "Esportazione CSV minima", "Report di controllo PDF stampabili, HTML, CSV, link condivisi"],
+      ["Multiple viste di diff visivo", "Solo affiancamento", "Affiancamento, Sovrapposizione (Prima→Dopo), Diff Git unificato"],
+      ["Confronto multi-paia batch", "Una coppia di file alla volta", "Metti in coda più coppie in un'esecuzione batch automatizzata"],
+      ["Componente Web integrabile", "Nessuna API di integrazione", "<compare-excel> componente Web per dashboard"],
+      ["Sistema di design e tipografia", "Modello generico luminoso", "Tema scuro di lusso (Saira Condensed e Cormorant Garamond)"]
+    ]
+  },
+  "common": {
+    "startComparing": "INIZIA A CONFRONTARE",
+    "openComparisonWorkspace": "APRI ORA L'AREA DI CONFRONTO",
+    "documentation": "Documentazione",
+    "faq": "Domande frequenti",
+    "featureMatrix": "Matrice funzionalità",
+    "tryFileDiff": "PROVA DIFF FILE →",
+    "tryColumnComparison": "PROVA CONFRONTO COLONNE →",
+    "tryReconciliation": "PROVA RICONCILIAZIONE →",
+    "tryBatchQueue": "PROVA CODA BATCH →"
+  },
+  "footer": {
+    "brandDesc": "Motore di diff foglio di calcolo lato client di alta precisione costruito per zero compromesso dati, consapevolezza delle formule e riconciliazione visuale istantanea.",
+    "domain": "DOMINIO: COMPAREEXCEL.COM",
+    "comparisonModes": "MODALITÀ DI CONFRONTO",
+    "visualFileDiff": "Diff file visuale",
+    "setColumnCompare": "Confronta colonne per insieme",
+    "idReconciliation": "Riconciliazione per ID",
+    "batchFileProcessing": "Elaborazione file batch",
+    "advancedCapabilities": "FUNZIONALITÀ AVANZATE",
+    "formulaInspection": "Ispezione formule",
+    "smartFuzzyRowMatch": "Corrispondenza fuzzy righe intelligente",
+    "cellAnnotations": "Annotazioni celle",
+    "pdfHtmlExport": "Esporta PDF e HTML",
+    "offlineBrowserDiff": "Diff browser 100% offline",
+    "privacyGuarantee": "GARANZIA PRIVACY",
+    "privacyDesc": "I tuoi file non lasciano mai il tuo computer. L'analisi e il confronto sono eseguiti interamente all'interno di Web Workers nella tua finestra del browser locale.",
+    "zeroServerUploads": "ZERO CARICHI SERVER",
+    "copyright": "© 2026 CompareExcel. Progettato per privacy ed estrema accuratezza.",
+    "aboutUs": "Chi siamo",
+    "privacyPolicy": "Informativa sulla privacy",
+    "termsConditions": "Termini e Condizioni",
+    "contactUs": "Contattaci",
+    "faq": "Domande frequenti",
+    "documentation": "Documentazione",
+    "featureMatrix": "Matrice funzionalità"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — Strumento online per confrontare colonne Excel e differenza fogli di calcolo",
+      "description": "Confronta fogli di calcolo Excel online gratuitamente. Confronta due colonne, due fogli, due file, date e differenze cella per cella con elaborazione lato client 100% privata.",
+      "keywords": "excel confronta colonne, excel confronta, excel confronta due colonne, excel confronta due fogli, excel confronta due file, confronta excel online"
+    },
+    "about": {
+      "title": "Informazioni su CompareExcel — Motore differenziale foglio di calcolo lato client ad alta precisione",
+      "description": "Scopri CompareExcel: uno strumento di confronto foglio di calcolo lato client per diff di file, colonne, fogli e liste Excel con zero caricamenti su server, ispezione delle formule e privacy totale.",
+      "keywords": "informazioni su compareexcel, excel confronta, differenza foglio di calcolo, confronto lato client, team compareexcel"
+    },
+    "features": {
+      "title": "CompareExcel Caratteristiche — Matrice di differenza colonne e fogli Excel",
+      "description": "Matrice di funzionalità CompareExcel: ispezione formule, corrispondenza righe fuzzy, annotazioni celle, diff offline ed esportazione per confrontare colonne excel, due fogli, due file, date e liste.",
+      "keywords": "excel confronta colonne, excel confronta due fogli, excel confronta due file, excel confronta date, excel confronta due liste, excel confronta, confronta excel online, matrice funzionalità"
+    },
+    "help": {
+      "title": "Aiuto Excel Compare — Come confrontare colonne, fogli e file",
+      "description": "Impara a confrontare colonne, fogli, file, date e liste con CompareExcel. Documentazione passo passo per il diff di fogli di calcolo online.",
+      "keywords": "excel confronta colonne, excel confronta due fogli, excel confronta due file, excel confronta date, excel confronta due liste, confronta excel online, aiuto excel confronta, documentazione"
+    },
+    "faq": {
+      "title": "FAQ Excel Compare — Colonne, fogli, liste e riconciliazione",
+      "description": "Domande frequenti su come confrontare fogli di calcolo, colonne, fogli e liste Excel. Impara a confrontare due colonne, confrontare due fogli Excel, abbinare liste e trovare differenze e corrispondenze con CompareExcel.",
+      "keywords": "faq excel confronta, come confrontare due colonne in excel, come confrontare due fogli excel, come confrontare due liste in excel, confronta fogli excel differenze corrispondenze, abbina due colonne output terza colonna, confronta due set di dati"
+    },
+    "privacy": {
+      "title": "Privacy Excel Compare — Elaborazione 100% lato client nel browser",
+      "description": "Garanzia di privacy CompareExcel: tutta l'elaborazione di colonne, fogli e file excel avviene 100% localmente nel tuo browser. Zero caricamenti su server.",
+      "keywords": "excel confronta colonne, excel confronta, excel confronta due file, confronta excel online, privacy excel confronta"
+    },
+    "terms": {
+      "title": "Termini e Condizioni — CompareExcel",
+      "description": "Termini e condizioni per l'uso di CompareExcel, lo strumento di confronto foglio di calcolo lato client.",
+      "keywords": "termini condizioni compareexcel, termini di utilizzo compareexcel"
+    },
+    "contact": {
+      "title": "Contattaci — CompareExcel",
+      "description": "Contatta CompareExcel per supporto, feedback o domande sul confronto di fogli di calcolo.",
+      "keywords": "contatto compareexcel, supporto compareexcel, contatto compareexcel"
+    },
+    "compare": {
+      "title": "Excel Confronta Due File — Differenza foglio di calcolo online con scroll sincronizzato",
+      "description": "Confronta due file Excel online. Differenza cella per cella, ispezione formule, scroll sincronizzato e annotazioni per excel confronta due fogli, due colonne, due celle, date e liste. 100% privato.",
+      "keywords": "excel confronta, excel confronta due file, excel confronta due fogli, excel confronta due celle, excel confronta date, excel confronta due liste, confronta excel online"
+    },
+    "compare-columns": {
+      "title": "Excel Confronta Due Colonne — Strumento di corrispondenza e differenza di insieme",
+      "description": "Confronta due colonne Excel online. Trova corrispondenze, differenze, intersezione e valori unici per excel confronta due colonne per corrispondenze e differenze. 100% elaborazione lato client privata.",
+      "keywords": "excel confronta colonne, excel confronta due colonne, excel confronta due colonne per corrispondenze, excel confronta due colonne per differenze, excel confronta due liste, confronta excel online"
+    },
+    "batch": {
+      "title": "Excel Confronta in Batch Più File — Strumento di elaborazione coda",
+      "description": "Confronta più coppie di file Excel in una volta. Metti in coda i fogli di calcolo e genera report di controllo consolidati. Motore di diff batch lato client 100% privato.",
+      "keywords": "excel confronta due file, excel confronta, confronta excel online, excel confronta due fogli, excel confronta in batch"
+    },
+    "reconcile": {
+      "title": "Excel Riconcilia Due Liste — Motore di corrispondenza chiave/valore basato su ID",
+      "description": "Riconcilia due liste Excel per chiave primaria. Abbina SKU, codici conto e ID tra i fogli per excel confronta due liste, date e valori. 100% privato.",
+      "keywords": "excel confronta due liste, excel confronta date, excel confronta due fogli, excel confronta due colonne, confronta excel online"
+    }
+  }
+}

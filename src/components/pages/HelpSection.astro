@@ -1,0 +1,105 @@
+---
+import { getLocalizedPathname } from '../../config';
+import type { Locale } from '../../config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = 'en' } = Astro.props;
+const lang = propLang as Locale;
+const localizedHref = (href: string) => getLocalizedPathname(lang, href);
+---
+
+<div class="py-16 bg-canvas border-b border-hairline">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div class="text-center space-y-4">
+      <div class="text-caption text-link">DOCUMENTATION & KNOWLEDGE BASE</div>
+      <h1 class="text-display-lg text-ink">HOW TO COMPARE SPREADSHEETS LIKE A PRO</h1>
+      <p class="font-serif text-muted max-w-2xl mx-auto">
+        Step-by-step guides for every comparison mode: visual file diff, column set operations, ID-based reconciliation, and report export.
+      </p>
+    </div>
+
+    <div class="space-y-8 font-serif text-body leading-relaxed">
+      <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+        <h2 class="text-title-md text-ink font-mono">1. VISUAL FILE COMPARISON (COMPARE FILES)</h2>
+        <p>
+          Drop two files into File 1 and File 2. The engine parses all worksheets locally using Web Workers. Side-by-Side view presents both spreadsheets aligned with synchronized scrolling. Modified cells render in soft amber, added rows in emerald green, deleted rows in rose red, and formula changes in deep indigo.
+        </p>
+      </div>
+
+      <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+        <h2 class="text-title-md text-ink font-mono">2. COLUMN SET OPERATIONS (COMPARE COLUMNS)</h2>
+        <p>
+          When you only need to compare two lists (e.g. email subscriber lists, part numbers, or product SKUs), select "Compare Columns". Pick the column from File 1 and File 2. The tool computes set intersection, unique left values, and unique right values with instant CSV download.
+        </p>
+      </div>
+
+      <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+        <h2 class="text-title-md text-ink font-mono">3. ID-BASED RECONCILIATION (RECONCILE)</h2>
+        <p>
+          For financial ledgers or inventory audits where rows are not in identical order, use Reconciliation Mode. Pick the Primary Key column (e.g. Account Code or SKU) and target Value column. Records are matched by key ID across both sheets, highlighting mismatches instantly.
+        </p>
+      </div>
+
+      <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+        <h2 class="text-title-md text-ink font-mono">4. EXPORTING REPORTS & SHARING</h2>
+        <p>
+          Click "Export Diff" in the toolbar to generate a high-density, printable HTML report suitable for PDF conversion. You can also generate shareable links or grab the compare-excel web component snippet for intranet dashboards.
+        </p>
+      </div>
+
+      <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+        <h2 class="text-title-md text-ink font-mono">5. PRIVACY & OFFLINE USE</h2>
+        <p>
+          CompareExcel performs 100% of parsing, diff calculation, set matching, and report rendering locally inside your web browser using JavaScript Web Workers and SheetJS. No files are uploaded to a server. Once loaded, the tool works offline — open Network DevTools and confirm no HTTP POST or file upload requests occur.
+        </p>
+      </div>
+    </div>
+
+    <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+      <h2 class="text-title-md text-ink font-mono">MODE SELECTION GUIDE</h2>
+      <table class="w-full text-left text-sm font-mono text-muted border-collapse">
+        <thead>
+          <tr class="border-b border-hairline">
+            <th class="pb-3 text-ink font-mono uppercase tracking-wider">Use case</th>
+            <th class="pb-3 text-ink font-mono uppercase tracking-wider">Mode</th>
+            <th class="pb-3 text-ink font-mono uppercase tracking-wider">Best for</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="py-3">Full sheet diff, cell-level changes</td>
+            <td class="py-3">Visual File Diff</td>
+            <td class="py-3">Auditing two workbooks side by side</td>
+          </tr>
+          <tr>
+            <td class="py-3">Two single-column lists</td>
+            <td class="py-3">Compare Columns</td>
+            <td class="py-3">Subscriber lists, part numbers, SKUs</td>
+          </tr>
+          <tr>
+            <td class="py-3">Unordered rows matched by ID</td>
+            <td class="py-3">Reconciliation</td>
+            <td class="py-3">Financial ledgers, inventory audits</td>
+          </tr>
+          <tr>
+            <td class="py-3">Many files at once</td>
+            <td class="py-3">Batch Diff</td>
+            <td class="py-3">Bulk spreadsheet processing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-center">
+      <a
+        href={localizedHref('/compare')}
+        class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors"
+      >
+        START COMPARING
+      </a>
+    </div>
+  </div>
+</div>

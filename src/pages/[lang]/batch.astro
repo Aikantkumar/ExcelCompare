@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BatchSection from '../../components/pages/BatchSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.batch.title', "Batch Excel Compare Multiple Files — Queue Processing Tool");
+const description = t(localeLang, 'pages.batch.description', "Batch excel compare multiple file pairs at once. Queue spreadsheets and generate consolidated audit reports. 100% private client-side batch diff engine.");
+const keywords = t(localeLang, 'pages.batch.keywords', "excel compare two files, excel compare, online excel compare, excel compare two sheets, batch excel compare");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <BatchSection lang={localeLang} />
+</Layout>

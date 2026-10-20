@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactSection from '../../components/pages/ContactSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.contact.title', "Contact Us — CompareExcel");
+const description = t(localeLang, 'pages.contact.description', "Contact CompareExcel for support, feedback, or questions about spreadsheet comparison.");
+const keywords = t(localeLang, 'pages.contact.keywords', "contact compareexcel, support compareexcel, compareexcel contact");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <ContactSection lang={localeLang} />
+</Layout>

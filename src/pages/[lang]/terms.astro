@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TermsSection from '../../components/pages/TermsSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.terms.title', "Terms & Conditions — CompareExcel");
+const description = t(localeLang, 'pages.terms.description', "Terms and conditions for using CompareExcel, the client-side spreadsheet comparison tool.");
+const keywords = t(localeLang, 'pages.terms.keywords', "terms conditions compareexcel, compareexcel terms of use");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <TermsSection lang={localeLang} />
+</Layout>

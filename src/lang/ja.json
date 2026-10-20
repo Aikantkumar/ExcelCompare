@@ -1,0 +1,164 @@
+{
+  "lang": "ja",
+  "dir": "ltr",
+  "locale": "ja_JP",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "ファイルを比較",
+    "compareColumns": "列を比較",
+    "reconcile": "照合",
+    "batchDiff": "バッチ差分",
+    "features": "機能",
+    "help": "ヘルプ",
+    "launchTool": "ツールを起動"
+  },
+  "hero": {
+    "offlineBadge": "100% オフラインブラウザ差分エンジン",
+    "headline": "高精度 Excel スプレッドシート差分エンジン",
+    "subheadline": "Excel ファイルをセル単位で比較。数式認識、スマートなファジィ行整列、セル注釈、即時監査エクスポートをすべてローカルブラウザ内で厳密に処理します。",
+    "launchComparisonTool": "比較ツールを起動",
+    "exploreCompetitorAdvantage": "競合優位性を探る",
+    "formulaDiff": "数式差分",
+    "formulaDiffDesc": "値だけでなく Excel 数式を比較",
+    "smartRowMatch": "スマート行一致",
+    "smartRowMatchDesc": "並べ替えられた行をファジィ一致",
+    "syncScroll": "同期スクロール",
+    "syncScrollDesc": "二重シートの同期スクロール",
+    "pdfHtmlExport": "PDF & HTML エクスポート",
+    "pdfHtmlExportDesc": "監査可能なレポート生成"
+  },
+  "featureGrid": {
+    "archHeading": "アーキテクチャとモード",
+    "archTitle": "あらゆるスプレッドシートワークフローに適した 4 つのモード",
+    "archDesc": "財務監査、在庫照合、リスト集合ロジック、バッチ処理のために特別に構築されたアルゴリズム。",
+    "mode1Title": "ビジュアルファイル差分と同期スクロール",
+    "mode1Desc": "同期ロックステップスクロールによるシート全体の比較。変更されたセル、挿入行、削除行、変更された数式を、ダークテーマ向けの高視認性差分ハイライトで検出します。",
+    "mode1Btn": "ファイル差分を試す →",
+    "mode2Title": "列集合比較",
+    "mode2Desc": "リスト列に対して数学的集合操作を実行。共通の交差値、左側のみの値、右側のみの値を行ノイズなしで即時に分離します。",
+    "mode2Btn": "列比較を試す →",
+    "mode3Title": "ID ベースのデータ照合",
+    "mode3Desc": "主キー列（SKU、従業員 ID、勘定コードなど）と対象値列を選択。行の順序やソートの違いに関係なく、シート間でレコードを照合します。",
+    "mode3Btn": "照合を試す →",
+    "mode4Title": "バッチファイルキューエンジン",
+    "mode4Desc": "複数のスプレッドシートペアをキューに入れ、単一の自動バッチ実行ですべて処理します。ワークブック全体で統合監査サマリーログを生成します。",
+    "mode4Btn": "バッチキューを試す →"
+  },
+  "competitor": {
+    "matrixHeading": "競合マトリックス",
+    "title": "なぜ CompareExcel が汎用差分ツールを凌駕するか",
+    "desc": "標準的なオンラインスプレッドシート差分ツールの根本的な制限を解決するためにゼロから設計されています。",
+    "colFeature": "機能と能力",
+    "colGeneric": "汎用ツール（例: excelcompare.org）",
+    "colCompareExcel": "COMPAREEXCEL.COM（当社の優位性）",
+    "rows": [
+      ["数式差分検査", "表示値のみ", "基盤となる Excel 数式（=SUM、=VLOOKUP）を比較"],
+      ["スマートファジィ行整列", "厳密な行オフセット（挿入行時に失敗）", "再順序行のためのコンテンツハッシュとファジィ一致"],
+      ["セル注釈と監査フラグ", "注釈や注釈サポートなし", "任意のセルをクリックして注釈を追加し、差分とともにエクスポート"],
+      ["エクスポートとレポート形式", "最小限の CSV エクスポート", "印刷可能な PDF、HTML 監査レポート、CSV、共有リンク"],
+      ["複数のビジュアル差分ビュー", "サイドバイサイドのみ", "サイドバイサイド、オーバーレイ（前→後）、統一 Git 差分"],
+      ["バッチマルチペア比較", "一度に 1 つのファイルペア", "自動バッチ実行で複数のペアをキュー"],
+      ["埋め込み可能 Web コンポーネント", "統合 API なし", "ダッシュボード用 <compare-excel> Web コンポーネント"],
+      ["デザインとタイポグラフィ システム", "汎用の明るいテンプレート", "ラグジュアリーなダークテーマ（Saira Condensed と Cormorant Garamond）"]
+    ]
+  },
+  "common": {
+    "startComparing": "比較を開始",
+    "openComparisonWorkspace": "今すぐ比較ワークスペースを開く",
+    "documentation": "ドキュメント",
+    "faq": "よくある質問",
+    "featureMatrix": "機能マトリックス",
+    "tryFileDiff": "ファイル差分を試す →",
+    "tryColumnComparison": "列比較を試す →",
+    "tryReconciliation": "照合を試す →",
+    "tryBatchQueue": "バッチキューを試す →"
+  },
+  "footer": {
+    "brandDesc": "データ妥協ゼロ、数式認識、即時の視覚的照合のために構築された、高精度なクライアントサイド スプレッドシート差分エンジン。",
+    "domain": "ドメイン: COMPAREEXCEL.COM",
+    "comparisonModes": "比較モード",
+    "visualFileDiff": "ビジュアルファイル差分",
+    "setColumnCompare": "セット列比較",
+    "idReconciliation": "ID 照合",
+    "batchFileProcessing": "バッチファイル処理",
+    "advancedCapabilities": "高度な機能",
+    "formulaInspection": "数式検査",
+    "smartFuzzyRowMatch": "スマートファジィ行一致",
+    "cellAnnotations": "セル注釈",
+    "pdfHtmlExport": "PDF と HTML エクスポート",
+    "offlineBrowserDiff": "100% オフラインブラウザ差分",
+    "privacyGuarantee": "プライバシー保証",
+    "privacyDesc": "ファイルはコンピュータから決して外に出ません。解析と比較はすべて、ローカルブラウザウィンドウ内の Web Worker で完全に実行されます。",
+    "zeroServerUploads": "ゼロサーバーアップロード",
+    "copyright": "© 2026 CompareExcel. プライバシーと極限の精度のために設計。",
+    "aboutUs": "会社概要",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsConditions": "利用規約",
+    "contactUs": "お問い合わせ",
+    "faq": "よくある質問",
+    "documentation": "ドキュメント",
+    "featureMatrix": "機能マトリックス"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — オンライン Excel 列比較とスプレッドシート差分ツール",
+      "description": "Excel スプレッドシートをオンラインで無料比較。2 列、2 シート、2 ファイル、日付、セル単位の差分を 100% プライベートなクライアントサイド処理で比較。",
+      "keywords": "excel 列比較, excel 比較, excel 2 列比較, excel 2 シート比較, excel 2 ファイル比較, オンライン excel 比較"
+    },
+    "about": {
+      "title": "CompareExcel について — 高精度クライアントサイド スプレッドシート差分エンジン",
+      "description": "CompareExcel について学ぶ：Excel ファイル、列、シート、リストを差分比較するクライアントサイド スプレッドシート比較ツール。ゼロサーバーアップロード、数式検査、完全プライバシー。",
+      "keywords": "compareexcel について, excel 比較, スプレッドシート差分, クライアントサイド比較, compareexcel チーム"
+    },
+    "features": {
+      "title": "CompareExcel 機能 — Excel 列比較とシート差分マトリックス",
+      "description": "CompareExcel 機能マトリックス：数式検査、ファジィ行整列、セル注釈、オフライン差分、エクスポート。excel 列比較、2 シート、2 ファイル、日付、リスト向け。",
+      "keywords": "excel 列比較, excel 2 シート比較, excel 2 ファイル比較, excel 日付比較, excel 2 リスト比較, excel 比較, オンライン excel 比較, 機能マトリックス"
+    },
+    "help": {
+      "title": "Excel Compare ヘルプ — 列、シート、ファイルの比較方法",
+      "description": "CompareExcel を使用して列、シート、ファイル、日付、リストを比較する方法を学ぶ。オンラインスプレッドシート差分のステップバイステップドキュメント。",
+      "keywords": "excel 列比較, excel 2 シート比較, excel 2 ファイル比較, excel 日付比較, excel 2 リスト比較, オンライン excel 比較, excel 比較 ヘルプ, ドキュメント"
+    },
+    "faq": {
+      "title": "Excel Compare FAQ — 列、シート、リスト、照合",
+      "description": "Excel スプレッドシート、列、シート、リストの比較に関するよくある質問。2 列の比較、2 つの Excel シートの比較、リストの照合、CompareExcel での差分と一致の検出方法を学ぶ。",
+      "keywords": "excel 比較 FAQ, excel で 2 列を比較する方法, 2 つの Excel シートを比較する方法, 2 つのリストを比較する方法, Excel シート差分一致, 2 列を 3 列目に出力, 2 つのデータセットを比較"
+    },
+    "privacy": {
+      "title": "Excel Compare プライバシー — 100% クライアントサイド ブラウザ処理",
+      "description": "CompareExcel プライバシー保証：excel 列、シート、ファイルのすべての処理はブラウザ内で 100% ローカル実行。ゼロサーバーアップロード。",
+      "keywords": "excel 列比較, excel 比較, excel 2 ファイル比較, オンライン excel 比較, excel 比較 プライバシー"
+    },
+    "terms": {
+      "title": "利用規約 — CompareExcel",
+      "description": "CompareExcel（クライアントサイド スプレッドシート比較ツール）を使用するための利用規約。",
+      "keywords": "利用規約 compareexcel, compareexcel 利用規約"
+    },
+    "contact": {
+      "title": "お問い合わせ — CompareExcel",
+      "description": "スプレッドシート比較に関するサポート、フィードバック、ご質問は CompareExcel まで。",
+      "keywords": "compareexcel お問い合わせ, compareexcel サポート, compareexcel 連絡先"
+    },
+    "compare": {
+      "title": "Excel ファイル 2 つを比較 — 同期スクロール付きオンラインスプレッドシート差分",
+      "description": "2 つの Excel ファイルをオンラインで比較。セル単位の差分、数式検査、同期スクロール、注釈。excel 2 シート比較、2 列、2 セル、日付、リスト向け。100% プライベート。",
+      "keywords": "excel 比較, excel 2 ファイル比較, excel 2 シート比較, excel 2 セル比較, excel 日付比較, excel 2 リスト比較, オンライン excel 比較"
+    },
+    "compare-columns": {
+      "title": "Excel 2 列を比較 — セット一致と差分ツール",
+      "description": "2 つの Excel 列をオンラインで比較。一致、差分、交差、一意値を検索。excel 2 列比較の一致と差分向け。100% プライベートクライアントサイド処理。",
+      "keywords": "excel 列比較, excel 2 列比較, excel 2 列比較 一致, excel 2 列比較 差分, excel 2 リスト比較, オンライン excel 比較"
+    },
+    "batch": {
+      "title": "Excel 複数ファイル バッチ比較 — キュー処理ツール",
+      "description": "複数の Excel ファイルペアを一度にバッチ比較。スプレッドシートをキューに入れ、統合監査レポートを生成。100% プライベートクライアントサイド バッチ差分エンジン。",
+      "keywords": "excel 2 ファイル比較, excel 比較, オンライン excel 比較, excel 2 シート比較, excel バッチ比較"
+    },
+    "reconcile": {
+      "title": "Excel リスト 2 つを対照 — 主キー ベースのキー値一致エンジン",
+      "description": "主キーで 2 つの Excel リストを対照。SKU、勘定コード、ID をシート間で一致。excel 2 リスト比較、日付、値向け。100% プライベート。",
+      "keywords": "excel 2 リスト比較, excel 日付比較, excel 2 シート比較, excel 2 列比較, オンライン excel 比較"
+    }
+  }
+}

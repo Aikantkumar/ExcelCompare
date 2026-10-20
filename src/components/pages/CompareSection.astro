@@ -1,0 +1,23 @@
+---
+import CompareToolContainer from '../comparison/CompareToolContainer.jsx';
+import type { Locale } from '../../config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = 'en' } = Astro.props;
+const lang = propLang as Locale;
+---
+
+<div class="py-8 bg-canvas">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+    <div class="text-caption text-link">MODE 01</div>
+    <h1 class="text-display-md text-ink">VISUAL FILE COMPARISON ENGINE</h1>
+    <p class="font-serif text-muted text-base mt-1">
+      Top-bottom stacked & side-by-side synchronized scrolling Excel spreadsheet comparison with formula detection, overlapped merge view & annotations.
+    </p>
+  </div>
+
+  <CompareToolContainer client:only="react" initialMode="stacked" />
+</div>

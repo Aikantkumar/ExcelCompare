@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.error404.title', "Page Not Found — CompareExcel");
+const description = t(localeLang, 'pages.error404.description', "The page you're looking for doesn't exist. Return to CompareExcel and compare spreadsheets online, 100% client-side.");
+const keywords = t(localeLang, 'pages.error404.keywords', "compareexcel, page not found, 404, excel compare, spreadsheet diff");
+const heading = t(localeLang, 'pages.error404.heading', "404");
+const message = t(localeLang, 'pages.error404.message', "This page could not be found. The URL may be mistyped or the page may have moved.");
+const button = t(localeLang, 'pages.error404.button', "START COMPARING");
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+  robots="noindex"
+>
+  <div class="py-24 bg-canvas border-b border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="text-center space-y-4">
+        <div class="text-caption text-muted">PAGE NOT FOUND</div>
+        <h1 class="text-display-xl text-ink">{heading}</h1>
+        <p class="font-serif text-muted max-w-2xl mx-auto">{message}</p>
+      </div>
+      <div class="text-center">
+        <a
+          href="/compare"
+          class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors"
+        >
+          {button}
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

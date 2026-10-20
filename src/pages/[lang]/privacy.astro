@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PrivacySection from '../../components/pages/PrivacySection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.privacy.title', "Excel Compare Privacy — 100% Client-Side Browser Processing");
+const description = t(localeLang, 'pages.privacy.description', "CompareExcel privacy guarantee: all excel compare columns, sheets, and files processing runs 100% locally in your browser. Zero server uploads.");
+const keywords = t(localeLang, 'pages.privacy.keywords', "excel compare columns, excel compare, excel compare two files, online excel compare, excel compare privacy");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <PrivacySection lang={localeLang} />
+</Layout>

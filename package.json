@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
+    "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-virtual": "^3.14.13",
     "astro": "^7.3.5",

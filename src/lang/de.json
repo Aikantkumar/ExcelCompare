@@ -1,0 +1,164 @@
+{
+  "lang": "de",
+  "dir": "ltr",
+  "locale": "de_DE",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "Dateien vergleichen",
+    "compareColumns": "Spalten vergleichen",
+    "reconcile": "Abgleichen",
+    "batchDiff": "Stapel-Diff",
+    "features": "Funktionen",
+    "help": "Hilfe",
+    "launchTool": "Tool starten"
+  },
+  "hero": {
+    "offlineBadge": "100% OFFLINE-BROWSER-DIFF-ENGINE",
+    "headline": "HOCHPRÄZISE EXCEL-TABELLEN-DIFFERENZ-ENGINE",
+    "subheadline": "Vergleichen Sie Excel-Dateien zellgenau mit Formelbewusstsein, intelligenter fuzzy-Zeilenausrichtung, Zellannotations und sofortigen Audit-Exporten – alles wird strikt in Ihrem lokalen Browser verarbeitet.",
+    "launchComparisonTool": "VERGLEICHSTOOL STARTEN",
+    "exploreCompetitorAdvantage": "WETTBEWERBSVORTEIL ERKUNDEN",
+    "formulaDiff": "FORMEL-DIFF",
+    "formulaDiffDesc": "Vergleicht Excel-Formeln, nicht nur Werte",
+    "smartRowMatch": "SMART ZEILEN-MATCH",
+    "smartRowMatchDesc": "Fuzzy-Vergleich neu sortierter Zeilen",
+    "syncScroll": "SYNCHRON-SCROLL",
+    "syncScrollDesc": "Schrittweise synchrones Scrollen zweier Tabellenblätter",
+    "pdfHtmlExport": "PDF & HTML-EXPORT",
+    "pdfHtmlExportDesc": "Prüfbarer Berichtsgenerierung"
+  },
+  "featureGrid": {
+    "archHeading": "ARCHITEKTUR & MODI",
+    "archTitle": "VIER MODI FÜR JEDE TABELLEN-ARBEITSVORGANG",
+    "archDesc": "Speziell entwickelte Algorithmen für Finanzprüfungen, Bestandsabgleich, Listenmengen-Logik und Stapelverarbeitung.",
+    "mode1Title": "VISUELLER DATEI-DIFF & SYNCHRON-SCROLL",
+    "mode1Desc": "Vollständiger Tabellenblattvergleich mit schrittweisem synchronisiertem Scrollen. Erkennt geänderte Zellen, eingefügte Zeilen, gelöschte Zeilen und veränderte Formeln mit dunkel optimierten hochsichtbaren Diff-Highlights.",
+    "mode1Btn": "DATEI-DIFF TESTEN →",
+    "mode2Title": "SPALTENMENGEN-VERGLEICH",
+    "mode2Desc": "Führen Sie mathematische Mengenoperationen auf Listenspalten durch. Isolieren Sie sofort gemeinsame Durchschnittswerte, eindeutige linke Werte und eindeutige rechte Werte ohne Zeilenlärm.",
+    "mode2Btn": "SPALTENVERGLEICH TESTEN →",
+    "mode3Title": "ID-BASIERTE DATEN-ABGLICHUNG",
+    "mode3Desc": "Wählen Sie Primärschlüssel-Spalten (z. B. SKU, Mitarbeiter-ID, Kontonummer) und Zielwertspalten. Stimmen Sie Datensätze über Tabellenblätter hinweg unabhängig von Zeilenfolge oder Sortierungsunterschieden ab.",
+    "mode3Btn": "ABGLEICHUNG TESTEN →",
+    "mode4Title": "STAPELDATEI-WARTESCHLANGE-ENGINE",
+    "mode4Desc": "Reihen Sie mehrere Tabellenblattpaare ein und verarbeiten Sie diese alle in einem einzigen automatisierten Stapelvorgang. Generieren Sie konsolidierte Prüfzusammenfassungsprotokolle über gesamte Arbeitsmappen hinweg.",
+    "mode4Btn": "STAPELWARTESCHLANGE TESTEN →"
+  },
+  "competitor": {
+    "matrixHeading": "WETTBEWERBSMATRIX",
+    "title": "WARUM COMPAREEXCEL GENERISCHE DIFF-TOOLS ÜBERTRIFFT",
+    "desc": "Von Grund auf entwickelt, um die Kernbeschränkungen standardmäßiger Online-Tabellendifferenzierung zu lösen.",
+    "colFeature": "FUNKTION & FÄHIGKEIT",
+    "colGeneric": "GENERISCHE TOOLS (z. B. excelcompare.org)",
+    "colCompareExcel": "COMPAREEXCEL.COM (UNSER VORTEIL)",
+    "rows": [
+      ["Formeldifferenzprüfung", "Nur angezeigte Werte", "Vergleicht zugrunde liegende Excel-Formeln (=SUMME, =SVERWEIS)"],
+      ["Intelligente unscharfe Zeilenausrichtung", "Strenge Zeilenoffset (schlägt bei eingefügten Zeilen fehl)", "Inhalts-Hash- und unschaulicher Vergleich für neu sortierte Zeilen"],
+      ["Zell-Annotations und Prüfmarkierungen", "Keine Notizen- oder Annotationsunterstützung", "Klicken Sie auf jede Zelle, um Notizen hinzuzufügen und mit Diff zu exportieren"],
+      ["Export- und Berichtformate", "Minimaler CSV-Export", "Druckbare PDF-Berichte, HTML-Prüfberichte, CSV, Teilen-Links"],
+      ["Mehrere visuelle Diff-Ansichten", "Nur nebeneinander", "Nebeneinander, Überlagerung (Vor→Nachher), Einheitlicher Git-Diff"],
+      ["Stapel-Multipaar-Vergleich", "Ein Dateipaar gleichzeitig", "Reihen Sie mehrere Paare in einem automatisierten Stapelvorgang ein"],
+      ["Einbettbares Web-Komponente", "Keine Integrations-API", "<compare-excel> Web-Komponente für Dashboards"],
+      ["Design- und Typografie-System", "Generische helle Vorlage", "Luxuriöses Dark Theme (Saira Condensed & Cormorant Garamond)"]
+    ]
+  },
+  "common": {
+    "startComparing": "JETZT VERGLEICHEN",
+    "openComparisonWorkspace": "VERGLEICHSARBEITSBEREICH JETZT ÖFFNEN",
+    "documentation": "Dokumentation",
+    "faq": "Häufige Fragen",
+    "featureMatrix": "Funktionsmatrix",
+    "tryFileDiff": "DATEI-DIFF TESTEN →",
+    "tryColumnComparison": "SPALTENVERGLEICH TESTEN →",
+    "tryReconciliation": "ABGLEICHUNG TESTEN →",
+    "tryBatchQueue": "STAPELWARTESCHLANGE TESTEN →"
+  },
+  "footer": {
+    "brandDesc": "Hochpräzise clientseitige Tabellendifferenz-Engine für null Datenkompromisse, Formelbewusstsein und sofortige visuelle Abgleichung.",
+    "domain": "DOMAIN: COMPAREEXCEL.COM",
+    "comparisonModes": "VERGLEICHSMODI",
+    "visualFileDiff": "Visueller Datei-Diff",
+    "setColumnCompare": "Spaltenvergleich nach Set",
+    "idReconciliation": "ID-Abgleich",
+    "batchFileProcessing": "Stapeldateiverarbeitung",
+    "advancedCapabilities": "ERWEITERTE FUNKTIONEN",
+    "formulaInspection": "Formelprüfung",
+    "smartFuzzyRowMatch": "Intelligenter unscharfer Zeilenabgleich",
+    "cellAnnotations": "Zellkommentare",
+    "pdfHtmlExport": "PDF & HTML-Export",
+    "offlineBrowserDiff": "100% Offline-Browser-Diff",
+    "privacyGuarantee": "DATENSCHUTZGARANTIE",
+    "privacyDesc": "Ihre Dateien verlassen Ihren Computer nie. Parsing und Vergleich laufen vollständig innerhalb von Web Workers in Ihrem lokalen Browserfenster.",
+    "zeroServerUploads": "NULL SERVER-UPLOADS",
+    "copyright": "© 2026 CompareExcel. Entwickelt für Privatsphäre und äußerste Genauigkeit.",
+    "aboutUs": "Über uns",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "termsConditions": "Nutzungsbedingungen",
+    "contactUs": "Kontaktieren Sie uns",
+    "faq": "Häufige Fragen",
+    "documentation": "Dokumentation",
+    "featureMatrix": "Funktionsmatrix"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — Online Excel Spaltenvergleich und Tabellendifferenz-Tool",
+      "description": "Vergleichen Sie Excel-Tabellen online kostenlos. Vergleichen Sie zwei Spalten, zwei Tabellenblätter, zwei Dateien, Daten und zellgenaue Differenzen mit 100% privater clientseitiger Verarbeitung.",
+      "keywords": "excel spalten vergleichen, excel vergleichen, excel zwei spalten vergleichen, excel zwei tabellenblätter vergleichen, excel zwei dateien vergleichen, online excel vergleichen"
+    },
+    "about": {
+      "title": "Über CompareExcel — Hochpräzise clientseitige Tabellendifferenz-Engine",
+      "description": "Erfahren Sie mehr über CompareExcel: ein clientseitiges Tabellenvergleichstool zum Diffen von Excel-Dateien, Spalten, Tabellenblättern und Listen mit null Server-Uploads, Formelprüfung und voller Privatsphäre.",
+      "keywords": "über compareexcel, excel vergleichen, tabellendifferenz, clientseitiger Vergleich, compareexcel team"
+    },
+    "features": {
+      "title": "CompareExcel Funktionen — Excel Spaltenvergleich und Tabellenblatt-Diff-Matrix",
+      "description": "CompareExcel Funktionsmatrix: Formelprüfung, unscharfe Zeilenübereinstimmung, Zellannotations, Offline-Diff und Export für excel spalten vergleichen, zwei Tabellenblätter, zwei Dateien, Daten und Listen.",
+      "keywords": "excel spalten vergleichen, excel zwei tabellenblätter vergleichen, excel zwei dateien vergleichen, excel daten vergleichen, excel zwei listen vergleichen, excel vergleichen, online excel vergleichen, funktionsmatrix"
+    },
+    "help": {
+      "title": "Excel Compare Hilfe — Wie man Spalten, Tabellenblätter und Dateien vergleicht",
+      "description": "Erfahren Sie, wie Sie mit CompareExcel Spalten, Tabellenblätter, Dateien, Daten und Listen vergleichen. Schritt-für-Schritt-Dokumentation für Online-Tabellendifferenzierung.",
+      "keywords": "excel spalten vergleichen, excel zwei tabellenblätter vergleichen, excel zwei dateien vergleichen, excel daten vergleichen, excel zwei listen vergleichen, online excel vergleichen, excel compare hilfe, dokumentation"
+    },
+    "faq": {
+      "title": "Excel Compare FAQ — Spalten, Tabellenblätter, Listen und Abgleich",
+      "description": "Häufig gestellte Fragen zum Vergleichen von Excel-Tabellen, Spalten, Tabellenblättern und Listen. Erfahren Sie, wie Sie zwei Spalten vergleichen, zwei Excel-Tabellen vergleichen, Listen abgleichen und Differenzen und Übereinstimmungen mit CompareExcel finden.",
+      "keywords": "excel compare faq, wie vergleiche ich zwei spalten in excel, wie vergleiche ich zwei excel tabellen, wie vergleiche ich zwei listen in excel, excel tabellen differenzen übereinstimmungen, zwei spalten ausgabe dritte spalte, zwei datensätze vergleichen"
+    },
+    "privacy": {
+      "title": "Excel Compare Datenschutz — 100% clientseitige Browserverarbeitung",
+      "description": "CompareExcel Datenschutzgarantie: alle excel spalten, tabellenblätter und dateien Verarbeitung läuft 100% lokal in Ihrem Browser. Null Server-Uploads.",
+      "keywords": "excel spalten vergleichen, excel vergleichen, excel zwei dateien vergleichen, online excel vergleichen, excel vergleichen datenschutz"
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen — CompareExcel",
+      "description": "Nutzungsbedingungen für die Verwendung von CompareExcel, dem clientseitigen Tabellenvergleichstool.",
+      "keywords": "bedingungen compareexcel, compareexcel nutzungsbedingungen"
+    },
+    "contact": {
+      "title": "Kontakt — CompareExcel",
+      "description": "Kontaktieren Sie CompareExcel für Support, Feedback oder Fragen zum Tabellenvergleich.",
+      "keywords": "kontakt compareexcel, support compareexcel, compareexcel kontakt"
+    },
+    "compare": {
+      "title": "Excel Zwei Dateien vergleichen — Online Tabellendifferenz mit Sync-Scroll",
+      "description": "Vergleichen Sie zwei Excel-Dateien online. Zellgenauer Diff, Formelprüfung, synchrones Scrollen und Annotationen für excel zwei tabellenblätter vergleichen, zwei spalten, zwei zellen, daten und listen. 100% privat.",
+      "keywords": "excel vergleichen, excel zwei dateien vergleichen, excel zwei tabellenblätter vergleichen, excel zwei zellen vergleichen, excel daten vergleichen, excel zwei listen vergleichen, online excel vergleichen"
+    },
+    "compare-columns": {
+      "title": "Excel Zwei Spalten vergleichen — Set-Match und Differenz-Tool",
+      "description": "Vergleichen Sie zwei Excel-Spalten online. Finden Sie Übereinstimmungen, Differenzen, Durchschnitt und eindeutige Werte für excel zwei spalten vergleichen für übereinstimmungen und differenzen. 100% private clientseitige Verarbeitung.",
+      "keywords": "excel spalten vergleichen, excel zwei spalten vergleichen, excel zwei spalten übereinstimmungen, excel zwei spalten differenzen, excel zwei listen vergleichen, online excel vergleichen"
+    },
+    "batch": {
+      "title": "Excel Mehrere Dateien Stapelvergleich — Warteschlange-Verarbeitungstool",
+      "description": "Vergleichen Sie mehrere Dateipaare auf einmal Stapelweise. Stellen Sie Tabellenblätter ein und generieren Sie konsolidierte Prüfberichte. 100% privater clientseitiger Stapel-Diff-Engine.",
+      "keywords": "excel zwei dateien vergleichen, excel vergleichen, online excel vergleichen, excel zwei tabellenblätter vergleichen, excel stapelvergleich"
+    },
+    "reconcile": {
+      "title": "Excel Zwei Listen abgleichen — ID-basierte Schlüssel/Wert-Match-Engine",
+      "description": "Gleichen Sie zwei Excel-Listen nach Primärschlüssel ab. Stimmen Sie SKUs, Kontonummern und IDs über Tabellenblätter ab für excel zwei listen vergleichen, daten und werte. 100% privat.",
+      "keywords": "excel zwei listen vergleichen, excel daten vergleichen, excel zwei tabellenblätter vergleichen, excel zwei spalten vergleichen, online excel vergleichen"
+    }
+  }
+}

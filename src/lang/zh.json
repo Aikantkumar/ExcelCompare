@@ -1,0 +1,164 @@
+{
+  "lang": "zh",
+  "dir": "ltr",
+  "locale": "zh_CN",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "比较文件",
+    "compareColumns": "比较列",
+    "reconcile": "对账",
+    "batchDiff": "批量差异",
+    "features": "功能",
+    "help": "帮助",
+    "launchTool": "启动工具"
+  },
+  "hero": {
+    "offlineBadge": "100% 离线浏览器差异引擎",
+    "headline": "高精度 Excel 电子表格差异引擎",
+    "subheadline": "在本地浏览器中逐单元格比较 Excel 文件，具有公式感知、智能模糊行对齐、单元格注释和即时审计导出，全部严格在本地处理。",
+    "launchComparisonTool": "启动比较工具",
+    "exploreCompetitorAdvantage": "探索竞争优势",
+    "formulaDiff": "公式差异",
+    "formulaDiffDesc": "比较 Excel 公式，而不仅仅是值",
+    "smartRowMatch": "智能行匹配",
+    "smartRowMatchDesc": "模糊匹配重新排序的行",
+    "syncScroll": "同步滚动",
+    "syncScrollDesc": "双表格同步滚动",
+    "pdfHtmlExport": "PDF & HTML 导出",
+    "pdfHtmlExportDesc": "可审计的报告生成"
+  },
+  "featureGrid": {
+    "archHeading": "架构与模式",
+    "archTitle": "四种模式适用于每种电子表格工作流程",
+    "archDesc": "专为财务审计、库存对账、列表集合逻辑和批量处理构建的定制算法。",
+    "mode1Title": "可视文件差异与同步滚动",
+    "mode1Desc": "带有同步锁步滚动的完整表格比较。使用为深色模式定制的高可见性差异高亮显示，检测修改的单元格、插入的行、删除的行和更改的公式。",
+    "mode1Btn": "试用文件差异 →",
+    "mode2Title": "列集合比较",
+    "mode2Desc": "在列表列上执行数学集合操作。即时隔离常见交集值、左侧唯一值和右侧唯一值，无行干扰。",
+    "mode2Btn": "试用列比较 →",
+    "mode3Title": "基于 ID 的数据对账",
+    "mode3Desc": "选择主键列（例如 SKU、员工 ID、账户代码）和目标值列。无论行顺序或排序差异如何，跨表对账记录。",
+    "mode3Btn": "试用对账 →",
+    "mode4Title": "批量文件队列引擎",
+    "mode4Desc": "排队多个电子表格对，并在单个自动化批量运行中全部处理。在整个工作簿中生成综合审计摘要日志。",
+    "mode4Btn": "试用批量队列 →"
+  },
+  "competitor": {
+    "matrixHeading": "竞争矩阵",
+    "title": "为什么 CompareExcel 胜过通用差异工具",
+    "desc": "从零开始设计，旨在解决标准在线电子表格差异的核心限制。",
+    "colFeature": "功能与能力",
+    "colGeneric": "通用工具（例如 excelcompare.org）",
+    "colCompareExcel": "COMPAREEXCEL.COM（我们的优势）",
+    "rows": [
+      ["公式差异检查", "仅显示值", "比较底层 Excel 公式 (=SUM, =VLOOKUP)"],
+      ["智能模糊行对齐", "严格行偏移（插入行时失败）", "内容哈希与模糊匹配，用于重新排序的行"],
+      ["单元格注释与审计标记", "无注释或注释支持", "单击任意单元格添加注释并随差异导出"],
+      ["导出与报告格式", "最小 CSV 导出", "可打印 PDF、HTML 审计报告、CSV、共享链接"],
+      ["多种可视差异视图", "仅并排", "并排、覆盖（前→后）、统一 Git 差异"],
+      ["批量多对比较", "一次一个文件对", "在自动化批量运行中排队多个对"],
+      ["可嵌入 Web 组件", "无集成 API", "<compare-excel> 用于仪表板的 Web 组件"],
+      ["设计与排版系统", "通用亮色模板", "奢华深色主题（Saira Condensed 和 Cormorant Garamond）"]
+    ]
+  },
+  "common": {
+    "startComparing": "开始比较",
+    "openComparisonWorkspace": "立即打开比较工作区",
+    "documentation": "文档",
+    "faq": "常见问题",
+    "featureMatrix": "功能矩阵",
+    "tryFileDiff": "试用文件差异 →",
+    "tryColumnComparison": "试用列比较 →",
+    "tryReconciliation": "试用对账 →",
+    "tryBatchQueue": "试用批量队列 →"
+  },
+  "footer": {
+    "brandDesc": "为零数据妥协、公式感知和即时可视化对账构建的高精度客户端电子表格差异引擎。",
+    "domain": "域名: COMPAREEXCEL.COM",
+    "comparisonModes": "比较模式",
+    "visualFileDiff": "可视文件差异",
+    "setColumnCompare": "集合列比较",
+    "idReconciliation": "ID 对账",
+    "batchFileProcessing": "批量文件处理",
+    "advancedCapabilities": "高级功能",
+    "formulaInspection": "公式检查",
+    "smartFuzzyRowMatch": "智能模糊行匹配",
+    "cellAnnotations": "单元格注释",
+    "pdfHtmlExport": "PDF & HTML 导出",
+    "offlineBrowserDiff": "100% 离线浏览器差异",
+    "privacyGuarantee": "隐私保障",
+    "privacyDesc": "您的文件永远不会离开您的计算机。分析和比较完全在本地浏览器窗口内的 Web Worker 中运行。",
+    "zeroServerUploads": "零服务器上传",
+    "copyright": "© 2026 CompareExcel. 为隐私和极致准确性而设计。",
+    "aboutUs": "关于我们",
+    "privacyPolicy": "隐私政策",
+    "termsConditions": "条款与条件",
+    "contactUs": "联系我们",
+    "faq": "常见问题",
+    "documentation": "文档",
+    "featureMatrix": "功能矩阵"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — 在线 Excel 列比较和电子表格差异工具",
+      "description": "免费在线比较 Excel 电子表格。比较两列、两张表、两个文件、日期和逐单元格差异，100% 私密客户端处理。",
+      "keywords": "excel 列比较, excel 比较, excel 比较两列, excel 比较两张表, excel 比较两个文件, 在线 excel 比较"
+    },
+    "about": {
+      "title": "关于 CompareExcel — 高精度客户端电子表格差异引擎",
+      "description": "了解 CompareExcel：用于差异比较 Excel 文件、列、表和列表的客户端电子表格比较工具，零服务器上传，公式检查，完全隐私。",
+      "keywords": "关于 compareexcel, excel 比较, 电子表格差异, 客户端比较, compareexcel 团队"
+    },
+    "features": {
+      "title": "CompareExcel 功能 — Excel 列比较和表差异矩阵",
+      "description": "CompareExcel 功能矩阵：公式检查、模糊行匹配、单元格注释、离线差异，以及用于 excel 列比较、两张表、两个文件、日期和列表的导出。",
+      "keywords": "excel 列比较, excel 比较两张表, excel 比较两个文件, excel 比较日期, excel 比较两个列表, excel 比较, 在线 excel 比较, 功能矩阵"
+    },
+    "help": {
+      "title": "Excel Compare 帮助 — 如何比较列、表和文件",
+      "description": "了解如何使用 CompareExcel 比较列、表、文件、日期和列表。在线电子表格差异的逐步文档。",
+      "keywords": "excel 列比较, excel 比较两张表, excel 比较两个文件, excel 比较日期, excel 比较两个列表, 在线 excel 比较, excel 比较帮助, 文档"
+    },
+    "faq": {
+      "title": "Excel Compare 常见问题 — 列、表、列表和对账",
+      "description": "关于比较 Excel 电子表格、列、表和列表的常见问题。了解如何比较两列、比较两个 Excel 表、匹配列表，并使用 CompareExcel 查找差异和匹配项。",
+      "keywords": "excel 比较常见问题, 如何在 excel 中比较两列, 如何比较两个 Excel 表, 如何比较两个列表, 比较 Excel 表差异匹配, 匹配两列输出第三列, 比较两组数据"
+    },
+    "privacy": {
+      "title": "Excel Compare 隐私 — 100% 客户端浏览器处理",
+      "description": "CompareExcel 隐私保证：所有 excel 列、表和文件处理在浏览器中 100% 本地运行。零服务器上传。",
+      "keywords": "excel 列比较, excel 比较, excel 比较两个文件, 在线 excel 比较, excel 比较隐私"
+    },
+    "terms": {
+      "title": "条款与条件 — CompareExcel",
+      "description": "使用 CompareExcel（客户端电子表格比较工具）的条款和条件。",
+      "keywords": "条款条件 compareexcel, compareexcel 使用条款"
+    },
+    "contact": {
+      "title": "联系我们 — CompareExcel",
+      "description": "联系 CompareExcel 以获取支持、反馈或关于电子表格比较的问题。",
+      "keywords": "联系 compareexcel, 支持 compareexcel, compareexcel 联系"
+    },
+    "compare": {
+      "title": "Excel 比较两个文件 — 带同步滚动的在线电子表格差异",
+      "description": "在线比较两个 Excel 文件。逐单元格差异、公式检查、同步滚动和注释，用于 excel 比较两张表、两列、两个单元格、日期和列表。100% 私密。",
+      "keywords": "excel 比较, excel 比较两个文件, excel 比较两张表, excel 比较两个单元格, excel 比较日期, excel 比较两个列表, 在线 excel 比较"
+    },
+    "compare-columns": {
+      "title": "Excel 比较两列 — 集合匹配与差异工具",
+      "description": "在线比较两个 Excel 列。查找匹配项、差异、交集和唯一值，用于 excel 比较两列的匹配和差异。100% 私密客户端处理。",
+      "keywords": "excel 比较列, excel 比较两列, excel 比较两列匹配, excel 比较两列差异, excel 比较两个列表, 在线 excel 比较"
+    },
+    "batch": {
+      "title": "Excel 批量比较多个文件 — 队列处理工具",
+      "description": "一次批量比较多个 Excel 文件对。排队电子表格并生成综合审计报告。100% 私密客户端批量差异引擎。",
+      "keywords": "excel 比较两个文件, excel 比较, 在线 excel 比较, excel 比较两张表, excel 批量比较"
+    },
+    "reconcile": {
+      "title": "Excel 对账两个列表 — 基于主键的键值匹配引擎",
+      "description": "按主键对账两个 Excel 列表。匹配 SKU、账户代码和跨表 ID，用于 excel 比较两个列表、日期和值。100% 私密。",
+      "keywords": "excel 比较两个列表, excel 比较日期, excel 比较两张表, excel 比较两列, 在线 excel 比较"
+    }
+  }
+}

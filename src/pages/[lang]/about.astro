@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AboutSection from '../../components/pages/AboutSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.about.title', "About CompareExcel — High-Precision Client-Side Spreadsheet Diff Engine");
+const description = t(localeLang, 'pages.about.description', "Learn about CompareExcel: a client-side spreadsheet comparison tool for diffing Excel files, columns, sheets, and lists with zero server uploads, formula inspection, and full privacy.");
+const keywords = t(localeLang, 'pages.about.keywords', "about compareexcel, excel compare, spreadsheet diff, client-side comparison, compareexcel team");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <AboutSection lang={localeLang} />
+</Layout>

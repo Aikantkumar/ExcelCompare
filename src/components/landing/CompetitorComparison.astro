@@ -1,13 +1,24 @@
 ---
+import { t } from '../../utils/translations';
+import { translations, type Locale } from '../../utils/translations';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = 'en' } = Astro.props;
+const lang = propLang as Locale;
+
+const matrix = (((translations[lang] as any)?.competitor?.rows) as Array<Array<string>>) ?? [];
 ---
 
 <section class="py-24 bg-surface-soft border-b border-hairline">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center space-y-4 mb-16">
-      <div class="text-caption text-link">COMPETITIVE MATRIX</div>
-      <h2 class="text-display-lg">WHY COMPAREEXCEL OUTPERFORMS GENERIC DIFF TOOLS</h2>
+      <div class="text-caption text-link">{t(lang, 'competitor.matrixHeading', 'COMPETITIVE MATRIX')}</div>
+      <h2 class="text-display-lg">{t(lang, 'competitor.title', 'WHY COMPAREEXCEL OUTPERFORMS GENERIC DIFF TOOLS')}</h2>
       <p class="font-serif text-lg text-muted max-w-2xl mx-auto">
-        Designed from the ground up to solve the core limitations of standard online spreadsheet diffing.
+        {t(lang, 'competitor.desc', 'Designed from the ground up to solve the core limitations of standard online spreadsheet diffing.')}
       </p>
     </div>
 
@@ -16,77 +27,23 @@
       <table class="w-full text-xs font-mono border-collapse" style="min-width: 720px">
         <thead>
           <tr class="bg-surface-card border-b border-hairline text-ink">
-            <th class="py-4 px-6 text-left text-title-sm font-normal">FEATURE & CAPABILITY</th>
-            <th class="py-4 px-6 text-center text-title-sm font-normal text-muted">GENERIC TOOLS (e.g. excelcompare.org)</th>
+            <th class="py-4 px-6 text-left text-title-sm font-normal">{t(lang, 'competitor.colFeature', 'FEATURE & CAPABILITY')}</th>
+            <th class="py-4 px-6 text-center text-title-sm font-normal text-muted">{t(lang, 'competitor.colGeneric', 'GENERIC TOOLS (e.g. excelcompare.org)')}</th>
             <th class="py-4 px-6 text-center text-title-sm font-normal text-link bg-diff-formula-bg/40 border-x border-diff-formula-border">
-              COMPAREEXCEL.COM (OUR ADVANTAGE)
+              {t(lang, 'competitor.colCompareExcel', 'COMPAREEXCEL.COM (OUR ADVANTAGE)')}
             </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-hairline text-body">
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Formula Difference Inspection</td>
-            <td class="py-4 px-6 text-center text-diff-deleted-text">❌ Displayed values only</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Compares underlying Excel formulas (`=SUM`, `=VLOOKUP`)
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Smart Fuzzy Row Alignment</td>
-            <td class="py-4 px-6 text-center text-diff-deleted-text">❌ Strict line offset (fails on inserted rows)</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Content-hash & fuzzy matching for reordered rows
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Cell Annotations & Audit Flags</td>
-            <td class="py-4 px-6 text-center text-diff-deleted-text">❌ No note taking or annotation support</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Click any cell to add notes & export with diff
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Export & Report Formats</td>
-            <td class="py-4 px-6 text-center text-diff-deleted-text">❌ Minimal CSV export</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Printable PDF, HTML Audit Reports, CSV, Share Links
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Multiple Visual Diff Views</td>
-            <td class="py-4 px-6 text-center text-muted">Side-by-side only</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Side-by-Side, Overlay (Before→After), Unified Git Diff
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Batch Multi-Pair Comparison</td>
-            <td class="py-4 px-6 text-center text-diff-deleted-text">❌ Single file pair at a time</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Queue multiple pairs in automated batch run
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Embeddable Web Component</td>
-            <td class="py-4 px-6 text-center text-diff-deleted-text">❌ No integration API</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ <code>&lt;compare-excel&gt;</code> web component for dashboards
-            </td>
-          </tr>
-
-          <tr class="hover:bg-surface-elevated/50">
-            <td class="py-4 px-6 font-semibold text-ink">Design & Typography System</td>
-            <td class="py-4 px-6 text-center text-muted">Generic bright template</td>
-            <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
-              ✓ Luxury dark theme (Saira Condensed & Cormorant Garamond)
-            </td>
-          </tr>
+          {matrix.map((row) => (
+            <tr class="hover:bg-surface-elevated/50">
+              <td class="py-4 px-6 font-semibold text-ink">{row[0]}</td>
+              <td class="py-4 px-6 text-center text-diff-deleted-text">❌ {row[1]}</td>
+              <td class="py-4 px-6 text-center text-diff-added-text bg-diff-formula-bg/20 font-bold border-x border-diff-formula-border/50">
+                ✓ {row[2]}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <!-- Scroll hint: fade edge indicating horizontal scrollability -->

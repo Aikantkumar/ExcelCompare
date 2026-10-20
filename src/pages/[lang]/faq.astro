@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FaqSection from '../../components/pages/FaqSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.faq.title', "Excel Compare FAQ — Columns, Sheets, Lists & Reconciliation");
+const description = t(localeLang, 'pages.faq.description', "Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with CompareExcel.");
+const keywords = t(localeLang, 'pages.faq.keywords', "excel compare faq, how to compare two columns in excel, how to compare two excel sheets, how to compare two lists in excel, compare excel sheets differences matches, match two columns output third column, compare two sets of data");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <FaqSection lang={localeLang} />
+</Layout>

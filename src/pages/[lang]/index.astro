@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import IndexSection from '../../components/pages/IndexSection.astro';
+import { t } from '../../utils/translations';
+import { locales, defaultLocale, type Locale } from '../../config';
+
+export function getStaticPaths() {
+  return locales
+    .filter((l) => l !== defaultLocale)
+    .map((l) => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params;
+const localeLang = (lang ?? defaultLocale) as Locale;
+const title = t(localeLang, 'pages.index.title', "CompareExcel — Online Excel Compare Columns & Spreadsheet Diff Tool");
+const description = t(localeLang, 'pages.index.description', "Compare Excel spreadsheets online for free. Compare two columns, two sheets, two files, dates, and cell-by-cell differences with 100% private client-side processing.");
+const keywords = t(localeLang, 'pages.index.keywords', "excel compare columns, excel compare, excel compare two columns, excel compare two sheets, excel compare two files, online excel compare");
+
+---
+
+<Layout
+  lang={localeLang}
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogImage="/og-image.png"
+>
+  <IndexSection lang={localeLang} />
+</Layout>

@@ -1,0 +1,180 @@
+{
+  "lang": "en",
+  "dir": "ltr",
+  "locale": "en_US",
+  "siteName": "CompareExcel",
+  "nav": {
+    "compareFiles": "Compare Files",
+    "compareColumns": "Compare Columns",
+    "reconcile": "Reconcile",
+    "batchDiff": "Batch Diff",
+    "features": "Features",
+    "help": "Help",
+    "launchTool": "Launch Tool"
+  },
+  "hero": {
+    "offlineBadge": "100% OFFLINE BROWSER DIFF ENGINE",
+    "headline": "HIGH PRECISE EXCEL SPREADSHEET DIFFERENTIAL ENGINE",
+    "subheadline": "Compare Excel files cell-by-cell with formula awareness, smart fuzzy row alignment, cell annotations, and instant audit exports — all processed strictly inside your local browser.",
+    "launchComparisonTool": "LAUNCH COMPARISON TOOL",
+    "exploreCompetitorAdvantage": "EXPLORE COMPETITOR ADVANTAGE",
+    "formulaDiff": "FORMULA DIFF",
+    "formulaDiffDesc": "Compares Excel formulas, not just values",
+    "smartRowMatch": "SMART ROW MATCH",
+    "smartRowMatchDesc": "Fuzzy matches reordered rows",
+    "syncScroll": "SYNC SCROLL",
+    "syncScrollDesc": "Lockstep dual sheet scrolling",
+    "pdfHtmlExport": "PDF & HTML EXPORT",
+    "pdfHtmlExportDesc": "Auditable report generation"
+  },
+  "featureGrid": {
+    "archHeading": "ARCHITECTURE & MODES",
+    "archTitle": "FOUR MODES FOR EVERY SPREADSHEET WORKFLOW",
+    "archDesc": "Tailored algorithms built specifically for financial audits, inventory reconciliation, list set logic, and batch processing.",
+    "mode1Title": "VISUAL FILE DIFF & SYNC SCROLL",
+    "mode1Desc": "Full sheet comparison with lockstep synchronized scrolling. Detect modified cells, inserted rows, deleted rows, and altered formulas with dark-tailored high-visibility diff highlights.",
+    "mode1Btn": "TRY FILE DIFF →",
+    "mode2Title": "COLUMN SET COMPARISON",
+    "mode2Desc": "Perform mathematical set operations on list columns. Instantly isolate common intersection values, unique left values, and unique right values without row noise.",
+    "mode2Btn": "TRY COLUMN COMPARISON →",
+    "mode3Title": "ID-BASED DATA RECONCILIATION",
+    "mode3Desc": "Select primary key columns (e.g. SKU, Employee ID, Account Code) and target value columns. Reconcile records across sheets regardless of row order or sorting differences.",
+    "mode3Btn": "TRY RECONCILIATION →",
+    "mode4Title": "BATCH FILE QUEUE ENGINE",
+    "mode4Desc": "Queue multiple pairs of spreadsheets and process them all in a single automated batch run. Generate consolidated audit summary logs across entire workbooks.",
+    "mode4Btn": "TRY BATCH QUEUE →"
+  },
+  "competitor": {
+    "matrixHeading": "COMPETITIVE MATRIX",
+    "title": "WHY COMPAREEXCEL OUTPERFORMS GENERIC DIFF TOOLS",
+    "desc": "Designed from the ground up to solve the core limitations of standard online spreadsheet diffing.",
+    "colFeature": "FEATURE & CAPABILITY",
+    "colGeneric": "GENERIC TOOLS (e.g. excelcompare.org)",
+    "colCompareExcel": "COMPAREEXCEL.COM (OUR ADVANTAGE)",
+    "rows": [
+      ["Formula Difference Inspection", "Displayed values only", "Compares underlying Excel formulas (=SUM, =VLOOKUP)"],
+      ["Smart Fuzzy Row Alignment", "Strict line offset (fails on inserted rows)", "Content-hash & fuzzy matching for reordered rows"],
+      ["Cell Annotations & Audit Flags", "No note taking or annotation support", "Click any cell to add notes & export with diff"],
+      ["Export & Report Formats", "Minimal CSV export", "Printable PDF, HTML Audit Reports, CSV, Share Links"],
+      ["Multiple Visual Diff Views", "Side-by-side only", "Side-by-Side, Overlay (Before→After), Unified Git Diff"],
+      ["Batch Multi-Pair Comparison", "Single file pair at a time", "Queue multiple pairs in automated batch run"],
+      ["Embeddable Web Component", "No integration API", "<compare-excel> web component for dashboards"],
+      ["Design & Typography System", "Generic bright template", "Luxury dark theme (Saira Condensed & Cormorant Garamond)"]
+    ]
+  },
+  "common": {
+    "startComparing": "START COMPARING",
+    "openComparisonWorkspace": "OPEN COMPARISON WORKSPACE NOW",
+    "documentation": "Documentation",
+    "faq": "FAQ",
+    "featureMatrix": "Feature Matrix",
+    "tryFileDiff": "TRY FILE DIFF →",
+    "tryColumnComparison": "TRY COLUMN COMPARISON →",
+    "tryReconciliation": "TRY RECONCILIATION →",
+    "tryBatchQueue": "TRY BATCH QUEUE →"
+  },
+  "footer": {
+    "brandDesc": "High-precision client-side spreadsheet diff engine built for zero data compromise, formula awareness, and instant visual reconciliation.",
+    "domain": "DOMAIN: COMPAREEXCEL.COM",
+    "comparisonModes": "COMPARISON MODES",
+    "visualFileDiff": "Visual File Diff",
+    "setColumnCompare": "Set Column Compare",
+    "idReconciliation": "ID Reconciliation",
+    "batchFileProcessing": "Batch File Processing",
+    "advancedCapabilities": "ADVANCED CAPABILITIES",
+    "formulaInspection": "Formula Inspection",
+    "smartFuzzyRowMatch": "Smart Fuzzy Row Match",
+    "cellAnnotations": "Cell Annotations",
+    "pdfHtmlExport": "PDF & HTML Export",
+    "offlineBrowserDiff": "100% Offline Browser Diff",
+    "privacyGuarantee": "PRIVACY GUARANTEE",
+    "privacyDesc": "Your files never leave your computer. Parsing and comparison run entirely inside Web Workers in your local browser window.",
+    "zeroServerUploads": "ZERO SERVER UPLOADS",
+    "copyright": "© 2026 CompareExcel. Engineered for privacy & extreme accuracy.",
+    "aboutUs": "About Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms & Conditions",
+    "contactUs": "Contact Us",
+    "faq": "FAQ",
+    "documentation": "Documentation",
+    "featureMatrix": "Feature Matrix"
+  },
+  "pages": {
+    "index": {
+      "title": "CompareExcel — Online Excel Compare Columns & Spreadsheet Diff Tool",
+      "description": "Compare Excel spreadsheets online for free. Compare two columns, two sheets, two files, dates, and cell-by-cell differences with 100% private client-side processing.",
+      "keywords": "excel compare columns, excel compare, excel compare two columns, excel compare two sheets, excel compare two files, online excel compare"
+    },
+    "about": {
+      "title": "About CompareExcel — High-Precision Client-Side Spreadsheet Diff Engine",
+      "description": "Learn about CompareExcel: a client-side spreadsheet comparison tool for diffing Excel files, columns, sheets, and lists with zero server uploads, formula inspection, and full privacy.",
+      "keywords": "about compareexcel, excel compare, spreadsheet diff, client-side comparison, compareexcel team"
+    },
+    "features": {
+      "title": "CompareExcel Features — Excel Compare Columns & Sheet Diff Matrix",
+      "description": "CompareExcel feature matrix: formula inspection, fuzzy row matching, cell annotations, offline diff, and export for excel compare columns, two sheets, two files, dates, and lists.",
+      "keywords": "excel compare columns, excel compare two sheets, excel compare two files, excel compare dates, excel compare two lists, excel compare, online excel compare, feature matrix"
+    },
+    "help": {
+      "title": "Excel Compare Help — How to Compare Columns, Sheets & Files",
+      "description": "Learn how to excel compare columns, sheets, files, dates, and lists with CompareExcel. Step-by-step documentation for online spreadsheet diffing.",
+      "keywords": "excel compare columns, excel compare two sheets, excel compare two files, excel compare dates, excel compare two lists, online excel compare, excel compare help, documentation"
+    },
+    "faq": {
+      "title": "Excel Compare FAQ — Columns, Sheets, Lists & Reconciliation",
+      "description": "Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with CompareExcel.",
+      "keywords": "excel compare faq, how to compare two columns in excel, how to compare two excel sheets, how to compare two lists in excel, compare excel sheets differences matches, match two columns output third column, compare two sets of data"
+    },
+    "privacy": {
+      "title": "Excel Compare Privacy — 100% Client-Side Browser Processing",
+      "description": "CompareExcel privacy guarantee: all excel compare columns, sheets, and files processing runs 100% locally in your browser. Zero server uploads.",
+      "keywords": "excel compare columns, excel compare, excel compare two files, online excel compare, excel compare privacy"
+    },
+    "terms": {
+      "title": "Terms & Conditions — CompareExcel",
+      "description": "Terms and conditions for using CompareExcel, the client-side spreadsheet comparison tool.",
+      "keywords": "terms conditions compareexcel, compareexcel terms of use"
+    },
+    "contact": {
+      "title": "Contact Us — CompareExcel",
+      "description": "Contact CompareExcel for support, feedback, or questions about spreadsheet comparison.",
+      "keywords": "contact compareexcel, support compareexcel, compareexcel contact"
+    },
+    "compare": {
+      "title": "Excel Compare Two Files — Online Spreadsheet Diff with Sync Scroll",
+      "description": "Compare two Excel files online. Cell-by-cell diff, formula inspection, synchronized scrolling, and annotations for excel compare two sheets, two columns, two cells, dates, and lists. 100% private.",
+      "keywords": "excel compare, excel compare two files, excel compare two sheets, excel compare two cells, excel compare dates, excel compare two lists, online excel compare"
+    },
+    "compare-columns": {
+      "title": "Excel Compare Two Columns — Set Match & Difference Tool",
+      "description": "Compare two Excel columns online. Find matches, differences, intersection, and unique values for excel compare two columns for matches and differences. 100% private client-side processing.",
+      "keywords": "excel compare columns, excel compare two columns, excel compare two columns for matches, excel compare two columns for differences, excel compare two lists, online excel compare"
+    },
+    "batch": {
+      "title": "Batch Excel Compare Multiple Files — Queue Processing Tool",
+      "description": "Batch excel compare multiple file pairs at once. Queue spreadsheets and generate consolidated audit reports. 100% private client-side batch diff engine.",
+      "keywords": "excel compare two files, excel compare, online excel compare, excel compare two sheets, batch excel compare"
+    },
+    "reconcile": {
+      "title": "Excel Reconcile Two Lists — ID-Based Key/Value Match Engine",
+      "description": "Reconcile two Excel lists by primary key. Match SKUs, account codes, and IDs across sheets for excel compare two lists, dates, and values. 100% private.",
+      "keywords": "excel compare two lists, excel compare dates, excel compare two sheets, excel compare two columns, online excel compare"
+    },
+    "error404": {
+      "title": "Page Not Found — CompareExcel",
+      "description": "The page you're looking for doesn't exist. Return to CompareExcel and compare spreadsheets online, 100% client-side.",
+      "keywords": "compareexcel, page not found, 404, excel compare, spreadsheet diff",
+      "heading": "404",
+      "message": "This page could not be found. The URL may be mistyped or the page may have moved.",
+      "button": "START COMPARING"
+    },
+    "error500": {
+      "title": "Server Error — CompareExcel",
+      "description": "Something went wrong on our end. Please try again or return to CompareExcel to compare spreadsheets online.",
+      "keywords": "compareexcel, server error, 500, excel compare",
+      "heading": "500",
+      "message": "We're sorry, but something went wrong on our end. Please try refreshing the page.",
+      "button": "TRY AGAIN"
+    }
+  }
+}

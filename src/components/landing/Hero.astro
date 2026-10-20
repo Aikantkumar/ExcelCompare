@@ -1,4 +1,15 @@
 ---
+import { t } from '../../utils/translations';
+import type { Locale } from '../../config';
+import { getLocalizedPathname } from '../../config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang = 'en' } = Astro.props;
+const lang = propLang as Locale;
+const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 ---
 
 <section class="relative bg-canvas text-ink pt-12 pb-16 sm:pt-20 sm:pb-28 border-b border-hairline">
@@ -9,46 +20,46 @@
     <!-- Brand Tag -->
     <div class="inline-flex items-center gap-2 border border-hairline-strong px-4 py-1.5 rounded-full text-caption text-link">
       <span class="w-2 h-2 bg-success rounded-full"></span>
-      100% OFFLINE BROWSER DIFF ENGINE
+      {t(lang, 'hero.offlineBadge', '100% OFFLINE BROWSER DIFF ENGINE')}
     </div>
 
     <!-- Main Headline in Saira Condensed display letterspaced uppercase -->
     <h1 class="text-display-xl max-w-5xl mx-auto leading-tight">
-      HIGH PRECISE EXCEL SPREADSHEET DIFFERENTIAL ENGINE
+      {t(lang, 'hero.headline', 'HIGH PRECISE EXCEL SPREADSHEET DIFFERENTIAL ENGINE')}
     </h1>
 
     <!-- Sub-headline in Cormorant Garamond serif -->
     <p class="font-serif text-xl sm:text-2xl text-body max-w-3xl mx-auto leading-relaxed">
-      Compare Excel files cell-by-cell with formula awareness, smart fuzzy row alignment, cell annotations, and instant audit exports — all processed strictly inside your local browser.
+      {t(lang, 'hero.subheadline', 'Compare Excel files cell-by-cell with formula awareness, smart fuzzy row alignment, cell annotations, and instant audit exports — all processed strictly inside your local browser.')}
     </p>
 
     <!-- CTAs in Bugatti transparent pill buttons -->
     <div class="flex flex-wrap items-center justify-center gap-6 pt-4">
-      <a href="/compare" class="btn-primary">
-        LAUNCH COMPARISON TOOL
+      <a href={localizedHref('/compare')} class="btn-primary">
+        {t(lang, 'hero.launchComparisonTool', 'LAUNCH COMPARISON TOOL')}
       </a>
-      <a href="/features" class="btn-secondary">
-        EXPLORE COMPETITOR ADVANTAGE
+      <a href={localizedHref('/features')} class="btn-secondary">
+        {t(lang, 'hero.exploreCompetitorAdvantage', 'EXPLORE COMPETITOR ADVANTAGE')}
       </a>
     </div>
 
     <!-- Feature Quick Pills -->
     <div class="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-caption text-muted">
       <div class="border border-hairline p-4 bg-surface-soft">
-        <div class="text-ink font-mono text-sm mb-1">FORMULA DIFF</div>
-        <div>Compares Excel formulas, not just values</div>
+        <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.formulaDiff', 'FORMULA DIFF')}</div>
+        <div>{t(lang, 'hero.formulaDiffDesc', 'Compares Excel formulas, not just values')}</div>
       </div>
       <div class="border border-hairline p-4 bg-surface-soft">
-        <div class="text-ink font-mono text-sm mb-1">SMART ROW MATCH</div>
-        <div>Fuzzy matches reordered rows</div>
+        <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.smartRowMatch', 'SMART ROW MATCH')}</div>
+        <div>{t(lang, 'hero.smartRowMatchDesc', 'Fuzzy matches reordered rows')}</div>
       </div>
       <div class="border border-hairline p-4 bg-surface-soft">
-        <div class="text-ink font-mono text-sm mb-1">SYNC SCROLL</div>
-        <div>Lockstep dual sheet scrolling</div>
+        <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.syncScroll', 'SYNC SCROLL')}</div>
+        <div>{t(lang, 'hero.syncScrollDesc', 'Lockstep dual sheet scrolling')}</div>
       </div>
       <div class="border border-hairline p-4 bg-surface-soft">
-        <div class="text-ink font-mono text-sm mb-1">PDF & HTML EXPORT</div>
-        <div>Auditable report generation</div>
+        <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.pdfHtmlExport', 'PDF & HTML EXPORT')}</div>
+        <div>{t(lang, 'hero.pdfHtmlExportDesc', 'Auditable report generation')}</div>
       </div>
     </div>
   </div>
