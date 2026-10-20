@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Layers, Plus, Trash2, Play, CheckCircle2, Download, AlertCircle } from 'lucide-react';
 import { parseExcelFile } from './excelParser';
 import { compareSheets } from './diffEngine';
+import { t } from '../../utils/translations';
 
-export default function BatchCompareViewer() {
+export default function BatchCompareViewer({ locale = 'en' }) {
   const [pairs, setPairs] = useState([
     { id: 1, fileA: null, fileB: null, nameA: '', nameB: '', status: 'PENDING', result: null }
   ]);
@@ -118,11 +119,11 @@ export default function BatchCompareViewer() {
       <div className="space-y-4">
         {pairs.map((p, idx) => (
           <div key={p.id} className="bg-surface-soft border border-hairline p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-2 items-center">
-            <div className="lg:col-span-1 text-caption text-muted">PAIR #{idx + 1}</div>
+            <div className="lg:col-span-1 text-caption text-muted">{t(locale, 'comparison.pairLabel', 'PAIR #')}{idx + 1}</div>
 
             {/* File A Upload */}
             <div className="lg:col-span-4">
-              <label className="text-[10px] font-mono text-muted-soft uppercase block mb-1">FILE 1 (LEFT)</label>
+              <label className="text-[10px] font-mono text-muted-soft uppercase block mb-1">{t(locale, 'comparison.file1Left', 'FILE 1 (LEFT)')}</label>
               <input
                 type="file"
                 accept=".xlsx,.xls,.csv"
@@ -134,7 +135,7 @@ export default function BatchCompareViewer() {
 
             {/* File B Upload */}
             <div className="lg:col-span-4">
-              <label className="text-[10px] font-mono text-muted-soft uppercase block mb-1">FILE 2 (RIGHT)</label>
+              <label className="text-[10px] font-mono text-muted-soft uppercase block mb-1">{t(locale, 'comparison.file2Right', 'FILE 2 (RIGHT)')}</label>
               <input
                 type="file"
                 accept=".xlsx,.xls,.csv"
@@ -146,13 +147,13 @@ export default function BatchCompareViewer() {
 
             {/* Results Status */}
             <div className="lg:col-span-2 text-xs font-mono">
-              {p.status === 'PENDING' && <span className="text-muted">READY TO RUN</span>}
-              {p.status === 'PROCESSING' && <span className="text-diff-modified-text">PARSING & DIFFING...</span>}
+              {p.status === 'PENDING' && <span className="text-muted">{t(locale, 'comparison.readyToRun', 'READY TO RUN')}</span>}
+              {p.status === 'PROCESSING' && <span className="text-diff-modified-text">{t(locale, 'comparison.parsingDiffing', 'PARSING & DIFFING...')}</span>}
               {p.status === 'DONE' && (
                 <div className="text-diff-added-text space-y-0.5">
-                  <div className="font-bold">✓ DONE</div>
+                  <div className="font-bold">✓ {t(locale, 'comparison.done', 'DONE')}</div>
                   <div className="text-[10px] text-muted">
-                    {p.result?.totalChanges || 0} changes found
+                    {p.result?.totalChanges || 0} {t(locale, 'comparison.changesFound', 'changes found')}
                   </div>
                 </div>
               )}
@@ -173,7 +174,7 @@ export default function BatchCompareViewer() {
         <div className="flex justify-end">
           <button onClick={exportBatchSummary} className="btn-primary text-xs h-9 px-5">
             <Download className="w-3.5 h-3.5 inline mr-2" />
-            EXPORT BATCH AUDIT REPORT (CSV)
+            {t(locale, 'comparison.exportBatchAuditReport', 'EXPORT BATCH AUDIT REPORT (CSV)')}
           </button>
         </div>
       )}

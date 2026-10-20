@@ -1,5 +1,6 @@
 ---
 import CompareToolContainer from '../comparison/CompareToolContainer.jsx';
+import { t } from '../../utils/translations';
 import type { Locale } from '../../config';
 
 interface Props {
@@ -12,12 +13,12 @@ const lang = propLang as Locale;
 
 <div class="py-8 bg-canvas">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-    <div class="text-caption text-link">MODE 04</div>
-    <h1 class="text-display-md text-ink">BATCH COMPARISON QUEUE</h1>
+    <div class="text-caption text-link">{t(lang, 'sections.batch.mode', 'MODE 04')}</div>
+    <h1 class="text-display-md text-ink">{t(lang, 'sections.batch.title', 'BATCH COMPARISON QUEUE')}</h1>
     <p class="font-serif text-muted text-base mt-1">
-      Queue and execute multiple spreadsheet comparisons simultaneously.
+      {t(lang, 'sections.batch.desc', 'Queue and execute multiple spreadsheet comparisons simultaneously.')}
     </p>
   </div>
 
-  <CompareToolContainer client:only="react" initialMode="batch" />
+  <CompareToolContainer client:only="react" initialMode="batch" locale={lang} />
 </div>

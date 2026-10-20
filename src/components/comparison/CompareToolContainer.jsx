@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useCallback, Component, lazy, Suspense } from 'react';
+import { 
+  useState, 
+  useEffect, 
+  useCallback, 
+  Component, 
+  lazy, 
+  Suspense 
+} from 'react';
 import { 
   FileSpreadsheet, 
   Upload, 
@@ -12,6 +19,7 @@ import { useDiffWorker } from './useDiffWorker';
 import { isWorkerSupported } from './workerClient.js';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback';
 import ViewerLoadingSkeleton from './ViewerLoadingSkeleton';
+import { t } from '../../utils/translations';
 
 const TopBottomDiffViewer = lazy(() => import('./TopBottomDiffViewer'));
 const ColumnCompareViewer = lazy(() => import('./ColumnCompareViewer'));
@@ -23,6 +31,7 @@ class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
+    this.locale = props.locale || 'en';
   }
 
   static getDerivedStateFromError(error) {
@@ -39,9 +48,9 @@ class ErrorBoundary extends Component {
         <div className="bg-diff-deleted-bg border border-diff-deleted-border text-diff-deleted-text p-6 space-y-3 my-4 font-mono text-xs">
           <div className="flex items-center gap-2 text-ink font-bold uppercase text-sm">
             <AlertTriangle className="w-5 h-5 text-diff-deleted-text" />
-            ERROR RENDERING SPREADSHEET DIFFERENTIAL VIEW
+            {t(this.locale, 'comparison.errorTitle', 'ERROR RENDERING SPREADSHEET DIFFERENTIAL VIEW')}
           </div>
-          <p>{this.state.error?.message || 'An unexpected runtime error occurred while diffing or rendering.'}</p>
+          <p>{this.state.error?.message || t(this.locale, 'comparison.errorMsg', 'An unexpected runtime error occurred while diffing or rendering.')}</p>
           <button
             onClick={() => {
               this.setState({ hasError: false, error: null });
@@ -49,7 +58,7 @@ class ErrorBoundary extends Component {
             }}
             className="px-4 py-2 bg-[#b91c1c] text-ink hover:bg-red-700 font-bold uppercase transition-colors"
           >
-            RESET WORKSPACE
+            {t(this.locale, 'comparison.resetWorkspace', 'RESET WORKSPACE')}
           </button>
         </div>
       );
@@ -64,7 +73,7 @@ const initialSheetNameB = initialSample.fileB.sheetNames[0];
 const initialSheetA = initialSample.fileA.sheets[initialSheetNameA];
 const initialSheetB = initialSample.fileB.sheets[initialSheetNameB];
 
-export default function CompareToolContainer({ initialMode = 'stacked' }) {
+export default function CompareToolContainer({ initialMode = 'stacked', locale = 'en' }) {
   const [errorMsg, setErrorMsg] = useState('');
   const [isParsing, setIsParsing] = useState(false);
   
@@ -253,39 +262,39 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
       {/* Top Toolbar with Sample Loaders & Controls */}
       <div className="bg-surface-soft border border-hairline p-3 flex flex-col sm:flex-row gap-3 items-start sm:items-center w-full">
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          <span className="text-[10px] font-mono text-muted-soft uppercase hidden lg:inline">TRY DEMO SAMPLES:</span>
+          <span className="text-[10px] font-mono text-muted-soft uppercase hidden lg:inline">{t(locale, 'comparison.demoSamples', 'TRY DEMO SAMPLES:')}</span>
           <button
             onClick={() => loadSample('register')}
             className="px-3 py-1.5 text-[11px] font-mono border border-success text-diff-added-text bg-diff-added-bg font-bold hover:brightness-125"
           >
-            REGISTER V1/V2
+            {t(locale, 'comparison.sampleRegister', 'REGISTER V1/V2')}
           </button>
           <button
             onClick={() => loadSample('financial')}
             className="px-3 py-1.5 text-[11px] font-mono border border-hairline-strong text-link hover:border-link"
           >
-            FINANCIAL Q3/Q4
+            {t(locale, 'comparison.sampleFinancial', 'FINANCIAL Q3/Q4')}
           </button>
           <button
             onClick={() => loadSample('inventory')}
             className="px-3 py-1.5 text-[11px] font-mono border border-hairline-strong text-link hover:border-link"
           >
-            INVENTORY SKU
+            {t(locale, 'comparison.sampleInventory', 'INVENTORY SKU')}
           </button>
 
           {(sheetNamesA.length > 0 || sheetNamesB.length > 0) && (
             <button
               onClick={handleClearAll}
               className="px-3 py-1.5 text-[11px] font-mono border border-hairline-strong text-muted hover:text-ink hover:border-ink transition-all flex items-center gap-1"
-              title="Clear current files and show blank dropzones"
+              title={t(locale, 'comparison.clearAll', 'Clear current files and show blank dropzones')}
             >
               <RotateCcw className="w-3 h-3" />
-              CLEAR ALL
+              {t(locale, 'comparison.clearAll', 'CLEAR ALL')}
             </button>
           )}
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto border-l border-hairline-strong pl-3 sm:pl-0 sm:border-l-0 ml-0 sm:ml-2">
-            <span className="text-[10px] font-mono text-muted-soft uppercase hidden lg:inline">WORKER:</span>
+            <span className="text-[10px] font-mono text-muted-soft uppercase hidden lg:inline">{t(locale, 'comparison.worker', 'WORKER:')}</span>
             <button
               onClick={() => setUseWorker(!useWorker)}
               disabled={!isWorkerSupported()}
@@ -294,10 +303,10 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                   ? 'border-success text-diff-added-text bg-diff-added-bg'
                   : 'border-hairline-strong text-muted hover:border-ink hover:text-ink'
               }`}
-              title={useWorker ? 'Using Web Worker (click to disable)' : 'Using Main Thread (click to enable Web Worker)'}
+              title={useWorker ? t(locale, 'comparison.workerTooltipOn', 'Using Web Worker (click to disable)') : t(locale, 'comparison.workerTooltipOff', 'Using Main Thread (click to enable Web Worker)')}
             >
               <Cpu className="w-3.5 h-3.5" />
-              {useWorker ? 'WORKER' : 'MAIN'}
+              {useWorker ? t(locale, 'comparison.workerOn', 'WORKER') : t(locale, 'comparison.workerOff', 'MAIN')}
             </button>
           </div>
         </div>
@@ -314,16 +323,16 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
             onDrop={(e) => handleDrop(e, 'A')}
           >
             <div className="flex items-center justify-between border-b border-hairline pb-2">
-              <span className="text-caption text-link">FILE 1 (ORIGINAL / BEFORE)</span>
+              <span className="text-caption text-link">{t(locale, 'comparison.file1', 'FILE 1 (ORIGINAL / BEFORE)')}</span>
               {sheetNamesA.length > 0 && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono text-muted">
-                    {sheetNamesA.length} SHEET(S)
+                    {sheetNamesA.length} {t(locale, 'comparison.sheets', 'SHEET(S)')}
                   </span>
                   <button 
                     onClick={() => handleRemoveFile('A')}
                     className="text-muted hover:text-ink p-1"
-                    title="Remove File 1"
+                    title={t(locale, 'comparison.removeFile1', 'Remove File 1')}
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -339,7 +348,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                     <span className="min-w-0 text-xs font-mono text-ink truncate">{fileNameA}</span>
                   </div>
                   <label className="text-[10px] font-mono text-link hover:underline cursor-pointer shrink-0 ml-2">
-                    CHANGE
+                    {t(locale, 'comparison.change', 'CHANGE')}
                     <input
                       type="file"
                       accept=".xlsx,.xls,.csv"
@@ -368,8 +377,8 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                 isDragActiveA ? 'border-ink bg-surface-elevated' : 'border-hairline-strong hover:border-ink'
               }`}>
                 <Upload className="w-6 h-6 text-muted mx-auto mb-2" />
-                <span className="text-xs font-mono text-ink block uppercase tracking-wider">DROP FILE 1 HERE OR CLICK TO UPLOAD</span>
-                <span className="text-[10px] font-mono text-muted-soft block mt-1">.xlsx, .xls, .csv</span>
+                <span className="text-xs font-mono text-ink block uppercase tracking-wider">{t(locale, 'comparison.dropFile1', 'DROP FILE 1 HERE OR CLICK TO UPLOAD')}</span>
+                <span className="text-[10px] font-mono text-muted-soft block mt-1">{t(locale, 'comparison.fileFormats', '.xlsx, .xls, .csv')}</span>
                 <input
                   type="file"
                   accept=".xlsx,.xls,.csv"
@@ -390,16 +399,16 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
             onDrop={(e) => handleDrop(e, 'B')}
           >
             <div className="flex items-center justify-between border-b border-hairline pb-2">
-              <span className="text-caption text-link">FILE 2 (MODIFIED / AFTER)</span>
+              <span className="text-caption text-link">{t(locale, 'comparison.file2', 'FILE 2 (MODIFIED / AFTER)')}</span>
               {sheetNamesB.length > 0 && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono text-muted">
-                    {sheetNamesB.length} SHEET(S)
+                    {sheetNamesB.length} {t(locale, 'comparison.sheets', 'SHEET(S)')}
                   </span>
                   <button 
                     onClick={() => handleRemoveFile('B')}
                     className="text-muted hover:text-ink p-1"
-                    title="Remove File 2"
+                    title={t(locale, 'comparison.removeFile2', 'Remove File 2')}
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -415,7 +424,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                     <span className="min-w-0 text-xs font-mono text-ink truncate">{fileNameB}</span>
                   </div>
                   <label className="text-[10px] font-mono text-link hover:underline cursor-pointer shrink-0 ml-2">
-                    CHANGE
+                    {t(locale, 'comparison.change', 'CHANGE')}
                     <input
                       type="file"
                       accept=".xlsx,.xls,.csv"
@@ -444,8 +453,8 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
                 isDragActiveB ? 'border-ink bg-surface-elevated' : 'border-hairline-strong hover:border-ink'
               }`}>
                 <Upload className="w-6 h-6 text-muted mx-auto mb-2" />
-                <span className="text-xs font-mono text-ink block uppercase tracking-wider">DROP FILE 2 HERE OR CLICK TO UPLOAD</span>
-                <span className="text-[10px] font-mono text-muted-soft block mt-1">.xlsx, .xls, .csv</span>
+                <span className="text-xs font-mono text-ink block uppercase tracking-wider">{t(locale, 'comparison.dropFile2', 'DROP FILE 2 HERE OR CLICK TO UPLOAD')}</span>
+                <span className="text-[10px] font-mono text-muted-soft block mt-1">{t(locale, 'comparison.fileFormats', '.xlsx, .xls, .csv')}</span>
                 <input
                   type="file"
                   accept=".xlsx,.xls,.csv"
@@ -461,7 +470,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
       {isLoading && (
         <div className="text-center py-12 space-y-3">
           <div className="w-8 h-8 border-2 border-ink border-t-transparent animate-spin mx-auto"></div>
-          <p className="text-xs font-mono text-ink tracking-widest uppercase">PARSING SPREADSHEETS & COMPUTING DIFF...</p>
+          <p className="text-xs font-mono text-ink tracking-widest uppercase">{t(locale, 'comparison.parsing', 'PARSING SPREADSHEETS & COMPUTING DIFF...')}</p>
         </div>
       )}
 
@@ -480,10 +489,10 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
         <div className="bg-surface-card border border-hairline p-12 text-center space-y-4">
           <FileSpreadsheet className="w-10 h-10 text-link mx-auto" />
           <h3 className="text-ink font-mono text-sm uppercase tracking-wider">
-            {sheetNamesA.length > 0 ? `FILE 1 (${fileNameA}) LOADED` : `FILE 2 (${fileNameB}) LOADED`}
+            {sheetNamesA.length > 0 ? t(locale, 'comparison.file1Loaded', 'FILE 1 ({name}) LOADED').replace('{name}', fileNameA) : t(locale, 'comparison.file2Loaded', 'FILE 2 ({name}) LOADED').replace('{name}', fileNameB)}
           </h3>
           <p className="font-serif text-muted text-sm max-w-md mx-auto">
-            Please upload or drop {sheetNamesA.length > 0 ? 'File 2 (Modified / After)' : 'File 1 (Original / Before)'} in the dropzone above to generate visual cell diffs.
+            {sheetNamesA.length > 0 ? t(locale, 'comparison.needFile2', 'Please upload or drop {file2} in the dropzone above to generate visual cell diffs.').replace('{file2}', t(locale, 'comparison.file2', 'FILE 2 (MODIFIED / AFTER)')) : t(locale, 'comparison.needFile1', 'Please upload or drop {file1} in the dropzone above to generate visual cell diffs.').replace('{file1}', t(locale, 'comparison.file1', 'FILE 1 (ORIGINAL / BEFORE)'))}
           </p>
         </div>
       )}
@@ -492,15 +501,15 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
       {!isLoading && sheetNamesA.length === 0 && sheetNamesB.length === 0 && (
         <div className="bg-surface-soft border border-hairline p-12 text-center space-y-4">
           <Upload className="w-10 h-10 text-muted-soft mx-auto" />
-          <h3 className="text-ink font-mono text-sm uppercase tracking-wider">DROP TWO EXCEL FILES ABOVE TO START</h3>
+          <h3 className="text-ink font-mono text-sm uppercase tracking-wider">{t(locale, 'comparison.dropTwo', 'DROP TWO EXCEL FILES ABOVE TO START')}</h3>
           <p className="font-serif text-sm text-muted max-w-md mx-auto">
-            Or select one of the demo samples at the top right to instantly test formula differences, row reordering, and set comparisons.
+            {t(locale, 'comparison.dropTwoDesc', 'Or select one of the demo samples at the top right to instantly test formula differences, row reordering, and set comparisons.')}
           </p>
         </div>
       )}
 
       {/* Tool View Rendering wrapped in ErrorBoundary */}
-      <ErrorBoundary onReset={handleClearAll}>
+      <ErrorBoundary onReset={handleClearAll} locale={locale}>
         <Suspense fallback={<ViewerLoadingSkeleton />}>
           {needsDiffData && !isLoading && !isParsing && diffData && (
             <TopBottomDiffViewer
@@ -510,6 +519,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
               onShare={() => setIsExportOpen(true)}
               options={diffOptions}
               onOptionsChange={setDiffOptions}
+              locale={locale}
               headersA={sheetA?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
               headersB={sheetB?.rows?.[0]?.map((c, cIdx) => String(c?.val || `Column ${cIdx + 1}`)) || []}
               colWidthsA={sheetA?.colWidths || []}
@@ -518,15 +528,15 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
           )}
           
           {showColumnViewer && hasDataForColumnReconcile && (
-            <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} />
+            <ColumnCompareViewer sheetA={sheetA} sheetB={sheetB} locale={locale} />
           )}
           
           {showReconcileViewer && hasDataForColumnReconcile && (
-            <ReconcileViewer sheetA={sheetA} sheetB={sheetB} />
+            <ReconcileViewer sheetA={sheetA} sheetB={sheetB} locale={locale} />
           )}
           
           {showBatchViewer && (
-            <BatchCompareViewer />
+            <BatchCompareViewer locale={locale} />
           )}
         </Suspense>
       </ErrorBoundary>
@@ -551,6 +561,7 @@ export default function CompareToolContainer({ initialMode = 'stacked' }) {
             sheetName={selectedSheetA}
             fileAName={fileNameA}
             fileBName={fileNameB}
+            locale={locale}
           />
         </Suspense>
       )}

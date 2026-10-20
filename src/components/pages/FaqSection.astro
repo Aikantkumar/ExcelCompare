@@ -1,5 +1,6 @@
 ---
 import { getLocalizedPathname } from '../../config';
+import { t } from '../../utils/translations';
 import type { Locale } from '../../config';
 
 interface Props {
@@ -14,14 +15,14 @@ const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 <div class="py-16 bg-canvas border-b border-hairline">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
     <div class="text-center space-y-4">
-      <div class="text-caption text-link">FREQUENTLY ASKED QUESTIONS</div>
-      <h1 class="text-display-lg text-ink">COMMON QUESTIONS ABOUT EXCEL COMPARISON</h1>
-      <a href={localizedHref('/')} class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors">START COMPARING</a>
+      <div class="text-caption text-link">{t(lang, 'sections.faq.caption', 'FREQUENTLY ASKED QUESTIONS')}</div>
+      <h1 class="text-display-lg text-ink">{t(lang, 'sections.faq.title', 'COMMON QUESTIONS ABOUT EXCEL COMPARISON')}</h1>
+      <a href={localizedHref('/')} class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors">{t(lang, 'sections.faq.startBtn', 'START COMPARING')}</a>
     </div>
 
     <div class="text-center">
-      <p class="text-caption text-link">NEED MORE HELP?</p>
-      <p class="text-title-sm text-ink">Start a new comparison at CompareExcel — all processing runs locally in your browser.</p>
+      <p class="text-caption text-link">{t(lang, 'sections.faq.needHelp', 'NEED MORE HELP?')}</p>
+      <p class="text-title-sm text-ink">{t(lang, 'sections.faq.helpDesc', 'Start a new comparison at CompareExcel — all processing runs locally in your browser.')}</p>
     </div>
   </div>
 </div>

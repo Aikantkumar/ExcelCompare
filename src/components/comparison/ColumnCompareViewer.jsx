@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Columns3, CheckCircle2, AlertTriangle, ArrowRight, Download, Search, Maximize, Minimize } from 'lucide-react';
 import { compareColumns } from './diffEngine';
 import { useFullView } from './useFullView';
+import { t } from '../../utils/translations';
 
-export default function ColumnCompareViewer({ sheetA, sheetB }) {
+export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
   const [colAIndex, setColAIndex] = useState(0);
   const [colBIndex, setColBIndex] = useState(0);
   const [searchFilter, setSearchFilter] = useState('');
@@ -58,7 +59,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
       <div className={`bg-surface-card border border-hairline p-3 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 ${panelClassName}`}>
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="text-caption text-ink mb-0 block">SELECT COLUMN FROM LEFT FILE:</label>
+            <label className="text-caption text-ink mb-0 block">{t(locale, 'comparison.selectColumnLeft', 'SELECT COLUMN FROM LEFT FILE:')}</label>
             <button
               onClick={toggleFullView}
               className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded transition-all flex items-center gap-1 ${
@@ -66,13 +67,13 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
                   ? 'border-success text-success bg-diff-added-bg'
                   : 'border-hairline-strong text-muted hover:border-ink hover:text-ink'
               }`}
-              title={isFullView ? 'Exit Full View' : 'Enter Full View'}
+              title={isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.fullView', 'ENTER FULL VIEW')}
               aria-pressed={isFullView}
-              aria-label={isFullView ? 'Exit Full View' : 'Enter Full View'}
+              aria-label={isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.fullView', 'ENTER FULL VIEW')}
             >
               {isFullView ? <Minimize className="w-3.5 h-3.5 inline" /> : <Maximize className="w-3.5 h-3.5 inline" />}
               <span className="ml-1 text-[11px] font-bold hidden sm:inline">
-                {isFullView ? 'EXIT FULL VIEW' : 'FULL VIEW'}
+                {isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.fullView', 'FULL VIEW')}
               </span>
             </button>
           </div>
@@ -87,13 +88,13 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
               </option>
             ))}
           </select>
-          <div className="text-xs font-mono text-muted mt-2">
-            Total Items: {valuesA.length} | Unique: {result.stats.totalA}
-          </div>
+            <div className="text-xs font-mono text-muted mt-2">
+              {t(locale, 'comparison.totalItems', 'Total Items:')} {valuesA.length} | {t(locale, 'comparison.unique', 'Unique:')} {result.stats.totalA}
+            </div>
         </div>
 
         <div>
-          <label className="text-caption text-ink mb-2 block">SELECT COLUMN FROM RIGHT FILE:</label>
+          <label className="text-caption text-ink mb-2 block">{t(locale, 'comparison.selectColumnRight', 'SELECT COLUMN FROM RIGHT FILE:')}</label>
           <select
             value={colBIndex}
             onChange={(e) => setColBIndex(Number(e.target.value))}
@@ -106,7 +107,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
             ))}
           </select>
           <div className="text-xs font-mono text-muted mt-2">
-            Total Items: {valuesB.length} | Unique: {result.stats.totalB}
+            {t(locale, 'comparison.totalItems', 'Total Items:')} {valuesB.length} | {t(locale, 'comparison.unique', 'Unique:')} {result.stats.totalB}
           </div>
         </div>
       </div>
@@ -114,21 +115,21 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
       {/* Summary Cards */}
       <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 ${panelClassName}`}>
         <div className="bg-diff-added-bg border border-diff-added-border p-3 sm:p-5 space-y-1">
-          <div className="text-caption text-diff-added-text">INTERSECTION (EXISTS IN BOTH)</div>
+          <div className="text-caption text-diff-added-text">{t(locale, 'comparison.intersectionExistsInBoth', 'INTERSECTION (EXISTS IN BOTH)')}</div>
           <div className="text-3xl font-display text-diff-added-text">{result.stats.intersectionCount}</div>
-          <div className="text-xs font-mono text-muted">Matching unique items</div>
+          <div className="text-xs font-mono text-muted">{t(locale, 'comparison.matchingUniqueItems', 'Matching unique items')}</div>
         </div>
 
         <div className="bg-diff-deleted-bg border border-diff-deleted-border p-3 sm:p-5 space-y-1">
-          <div className="text-caption text-diff-deleted-text">ONLY IN LEFT COLUMN</div>
+          <div className="text-caption text-diff-deleted-text">{t(locale, 'comparison.onlyInLeftColumn', 'ONLY IN LEFT COLUMN')}</div>
           <div className="text-3xl font-display text-diff-deleted-text">{result.stats.onlyInACount}</div>
-          <div className="text-xs font-mono text-muted">Missing from right file</div>
+          <div className="text-xs font-mono text-muted">{t(locale, 'comparison.missingFromRight', 'Missing from right file')}</div>
         </div>
 
         <div className="bg-diff-modified-bg border border-diff-modified-border p-3 sm:p-5 space-y-1">
-          <div className="text-caption text-diff-modified-text">ONLY IN RIGHT COLUMN</div>
+          <div className="text-caption text-diff-modified-text">{t(locale, 'comparison.onlyInRightColumn', 'ONLY IN RIGHT COLUMN')}</div>
           <div className="text-3xl font-display text-diff-modified-text">{result.stats.onlyInBCount}</div>
-          <div className="text-xs font-mono text-muted">Missing from left file</div>
+          <div className="text-xs font-mono text-muted">{t(locale, 'comparison.missingFromLeft', 'Missing from left file')}</div>
         </div>
       </div>
 
@@ -137,7 +138,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB }) {
         <Search className="w-4 h-4 absolute left-3 top-3.5 text-muted-soft" />
         <input
           type="text"
-          placeholder="SEARCH VALUES ACROSS SETS..."
+          placeholder={t(locale, 'comparison.searchValuesAcrossSets', 'SEARCH VALUES ACROSS SETS...')}
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}
           className="w-full bg-surface-soft border border-hairline pl-10 pr-4 py-3 font-mono text-xs text-ink placeholder-muted-soft focus:border-ink focus:outline-none"

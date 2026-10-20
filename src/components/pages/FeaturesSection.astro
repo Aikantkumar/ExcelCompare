@@ -1,5 +1,6 @@
 ---
 import CompetitorComparison from '../landing/CompetitorComparison.astro';
+import { t } from '../../utils/translations';
 import type { Locale } from '../../config';
 
 interface Props {
@@ -12,10 +13,10 @@ const lang = propLang as Locale;
 
 <div class="py-16 bg-canvas">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center space-y-4">
-    <div class="text-caption text-link">FEATURE MATRIX & ARCHITECTURE</div>
-    <h1 class="text-display-lg text-ink">ENGINEERED FOR SPREADSHEET SUPREMACY</h1>
+    <div class="text-caption text-link">{t(lang, 'sections.features.caption', 'FEATURE MATRIX & ARCHITECTURE')}</div>
+    <h1 class="text-display-lg text-ink">{t(lang, 'sections.features.title', 'ENGINEERED FOR SPREADSHEET SUPREMACY')}</h1>
     <p class="font-serif text-lg text-muted max-w-2xl mx-auto">
-      Discover how formula awareness, smart fuzzy row matching, cell annotations, and export tools revolutionize Excel auditing — all with zero server uploads.
+      {t(lang, 'sections.features.desc', 'Discover how formula awareness, smart fuzzy row matching, cell annotations, and export tools revolutionize Excel auditing — all with zero server uploads.')}
     </p>
   </div>
 
@@ -23,51 +24,51 @@ const lang = propLang as Locale;
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-xs font-mono">
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">01. FORMULA INSPECTION</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f1Title', '01. FORMULA INSPECTION')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        Standard tools only read calculated display numbers. CompareExcel inspects underlying formulas (`=SUM(A1:A100)` vs `=SUM(A1:A99)`), highlighting subtle calculation errors before they reach production.
+        {t(lang, 'sections.features.f1Desc', 'Standard tools only read calculated display numbers. CompareExcel inspects underlying formulas (=SUM(A1:A100) vs =SUM(A1:A99)), highlighting subtle calculation errors before they reach production.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">02. FUZZY ROW ALIGNMENT</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f2Title', '02. FUZZY ROW ALIGNMENT')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        If a row is added or sorted differently, conventional diff tools mark all subsequent rows as deleted/added. Our smart algorithm computes row signatures to keep matching data aligned seamlessly.
+        {t(lang, 'sections.features.f2Desc', 'If a row is added or sorted differently, conventional diff tools mark all subsequent rows as deleted/added. Our smart algorithm computes row signatures to keep matching data aligned seamlessly.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">03. CELL ANNOTATIONS</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f3Title', '03. CELL ANNOTATIONS')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        Audit with precision. Click any cell in the diff grid to flag items, leave reviewer notes, and export comprehensive audit summaries for compliance sign-off.
+        {t(lang, 'sections.features.f3Desc', 'Audit with precision. Click any cell in the diff grid to flag items, leave reviewer notes, and export comprehensive audit summaries for compliance sign-off.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">04. ZERO SERVER UPLOADS</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f4Title', '04. ZERO SERVER UPLOADS')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        100% client-side processing. No files ever leave your browser. Works offline once loaded, with no third-party analytics on spreadsheet contents.
+        {t(lang, 'sections.features.f4Desc', '100% client-side processing. No files ever leave your browser. Works offline once loaded, with no third-party analytics on spreadsheet contents.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">05. COLUMN SET OPERATIONS</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f5Title', '05. COLUMN SET OPERATIONS')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        Compare two lists with set logic: intersection, unique left values, and unique right values. Instant CSV download of matching and non-matching rows.
+        {t(lang, 'sections.features.f5Desc', 'Compare two lists with set logic: intersection, unique left values, and unique right values. Instant CSV download of matching and non-matching rows.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">06. ID-BASED RECONCILIATION</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f6Title', '06. ID-BASED RECONCILIATION')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        Match records by primary key (Account Code, SKU) across unordered rows. Highlights mismatches instantly for financial ledgers and inventory audits.
+        {t(lang, 'sections.features.f6Desc', 'Match records by primary key (Account Code, SKU) across unordered rows. Highlights mismatches instantly for financial ledgers and inventory audits.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">07. SYNCHRONIZED SIDE-BY-SIDE</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f7Title', '07. SYNCHRONIZED SIDE-BY-SIDE')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        Visual file-to-file diff with aligned spreadsheets and synchronized scrolling. Modified cells in amber, added rows in emerald green, deleted rows in rose red, formula changes in indigo.
+        {t(lang, 'sections.features.f7Desc', 'Visual file-to-file diff with aligned spreadsheets and synchronized scrolling. Modified cells in amber, added rows in emerald green, deleted rows in rose red, and formula changes in indigo.')}
       </p>
     </div>
     <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-      <h3 class="text-title-sm text-ink">08. HTML & CSV EXPORT</h3>
+      <h3 class="text-title-sm text-ink">{t(lang, 'sections.features.f8Title', '08. HTML & CSV EXPORT')}</h3>
       <p class="font-serif text-body text-sm leading-relaxed">
-        Generate a high-density, printable HTML report for PDF conversion. Download reconciliation and column comparison results as CSV for downstream workflows.
+        {t(lang, 'sections.features.f8Desc', 'Generate a high-density, printable HTML report for PDF conversion. Download reconciliation and column comparison results as CSV for downstream workflows.')}
       </p>
     </div>
   </div>

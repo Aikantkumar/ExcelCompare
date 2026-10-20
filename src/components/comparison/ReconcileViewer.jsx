@@ -10,6 +10,7 @@ import {
   parseNumber 
 } from './statusStyles';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { t } from '../../utils/translations';
 
 const GRID_COLUMNS_BASE = 'minmax(180px, 1.4fr) minmax(140px, 1fr) minmax(140px, 1fr) minmax(150px, 0.9fr)';
 const GRID_COLUMNS_WITH_DIFF = 'minmax(180px, 1.4fr) minmax(140px, 1fr) minmax(140px, 1fr) minmax(150px, 0.9fr) minmax(110px, 0.7fr)';
@@ -18,7 +19,7 @@ const ROW_HEIGHT = 40;
 const TABLE_MIN_HEIGHT = 320;
 const TABLE_DEFAULT_HEIGHT = 560;
 
-export default function ReconcileViewer({ sheetA, sheetB }) {
+export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
   const [keyColIndex, setKeyColIndex] = useState(0);
   const [valColIndex, setValColIndex] = useState(1);
   const [filterType, setFilterType] = useState('ALL');
@@ -164,7 +165,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
           >
             {isFullView ? <Minimize className="w-3.5 h-3.5 inline" /> : <Maximize className="w-3.5 h-3.5 inline" />}
             <span className="ml-1 text-[11px] font-bold hidden sm:inline">
-              {isFullView ? 'EXIT FULL VIEW' : 'FULL VIEW'}
+              {isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.fullView', 'FULL VIEW')}
             </span>
           </button>
         </div>
@@ -303,7 +304,7 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
           <Search className="w-4 h-4 absolute left-3 top-3 text-muted-soft" />
           <input
             type="text"
-            placeholder="SEARCH BY KEY OR VALUE..."
+            placeholder={t(locale, 'comparison.searchByKeyOrValue', 'SEARCH BY KEY OR VALUE...')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-canvas border border-hairline-strong pl-10 pr-4 py-2 font-mono text-xs text-ink placeholder-muted-soft focus:border-ink focus:outline-none"
@@ -312,8 +313,8 @@ export default function ReconcileViewer({ sheetA, sheetB }) {
 
         <button onClick={exportReconciliationReport} className="btn-primary text-xs whitespace-normal text-center sm:text-left sm:h-9 min-h-[40px] h-auto py-1.5 sm:py-1 px-4">
           <Download className="w-3.5 h-3.5 inline mr-2" />
-          <span className="block sm:hidden">EXPORT CSV</span>
-          <span className="hidden sm:block">EXPORT RECONCILIATION CSV</span>
+          <span className="block sm:hidden">{t(locale, 'comparison.exportCsv', 'EXPORT CSV')}</span>
+          <span className="hidden sm:block">{t(locale, 'comparison.exportReconciliationCsv', 'EXPORT RECONCILIATION CSV')}</span>
         </button>
       </div>
 

@@ -22,6 +22,7 @@ import {
 import { getColumnLetter } from './diffEngine';
 import { SpreadsheetVirtualizedTable } from './VirtualizedTable';
 import { useFullView } from './useFullView';
+import { t } from '../../utils/translations';
 
 export default function TopBottomDiffViewer({ 
   diffData, 
@@ -33,7 +34,8 @@ export default function TopBottomDiffViewer({
   headersA = [],
   headersB = [],
   colWidthsA = [],
-  colWidthsB = []
+  colWidthsB = [],
+  locale = 'en'
 }) {
   const [viewMode, setViewMode] = useState('stacked'); // 'stacked' | 'overlapped'
   const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
@@ -460,7 +462,7 @@ export default function TopBottomDiffViewer({
           >
             <Sliders className="w-4 h-4 inline" />
             <span className="ml-1 text-[11px] font-bold hidden sm:inline">
-              {showLeftSidebar ? 'HIDE TOOLS' : 'SHOW TOOLS'}
+              {showLeftSidebar ? t(locale, 'comparison.hideTools', 'HIDE TOOLS') : t(locale, 'comparison.showTools', 'SHOW TOOLS')}
             </span>
           </button>
 
@@ -577,7 +579,7 @@ export default function TopBottomDiffViewer({
           >
             {isFullView ? <Minimize className="w-4 h-4 inline" /> : <Maximize className="w-4 h-4 inline" />}
             <span className="ml-1 text-[11px] font-bold hidden sm:inline">
-              {isFullView ? 'EXIT FULL VIEW' : 'FULL VIEW'}
+              {isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.fullView', 'FULL VIEW')}
             </span>
           </button>
 
@@ -606,7 +608,7 @@ export default function TopBottomDiffViewer({
             aria-label={mobileDrawer === 'audit' && !isDesktop ? 'Close Changes Audit drawer' : (showRightSidebar ? 'Hide Changes Sidebar' : 'Show Changes Sidebar')}
           >
             <span className="mr-1 text-[11px] font-bold hidden sm:inline">
-              {showRightSidebar ? 'HIDE AUDIT' : 'SHOW AUDIT'}
+              {showRightSidebar ? t(locale, 'comparison.hideAudit', 'HIDE AUDIT') : t(locale, 'comparison.showAudit', 'SHOW AUDIT')}
             </span>
             <Layers className="w-4 h-4 inline" />
           </button>
@@ -648,7 +650,7 @@ export default function TopBottomDiffViewer({
               <span className="font-bold text-link">{sheetName}</span>
               <span className="text-[10px] text-muted-soft">{displayRows.length} ROW(S) DISPLAYED</span>
               {viewMode === 'overlapped' && (
-                <span className="px-2 py-0.5 text-[10px] font-mono bg-diff-formula-bg text-diff-formula-text border border-diff-formula-border rounded">OVERLAPPED VIEW</span>
+                <span className="px-2 py-0.5 text-[10px] font-mono bg-diff-formula-bg text-diff-formula-text border border-diff-formula-border rounded">{t(locale, 'comparison.overlappedView', 'OVERLAPPED VIEW')}</span>
               )}
             </div>
             {activeChange && (
@@ -668,7 +670,7 @@ export default function TopBottomDiffViewer({
                 onFocus={() => { activePaneRef.current = 'top'; }}
                 onPointerLeave={() => { if (activePaneRef.current === 'top') activePaneRef.current = null; }}
               >
-                <div className="text-xs font-mono text-link mb-2">FILE 1 (ORIGINAL / BEFORE)</div>
+                <div className="text-xs font-mono text-link mb-2">{t(locale, 'comparison.file1', 'FILE 1 (ORIGINAL / BEFORE)')}</div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualTopTableRef}
                   rows={displayRows}
@@ -684,7 +686,7 @@ export default function TopBottomDiffViewer({
                   renderCollapsedRow={(row) => (
                     <div className="flex items-center justify-center gap-2 py-1 text-link font-bold">
                       <span>↕</span>
-                      <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+                      <span>{t(locale, 'comparison.unchangedRowsCollapsed', '{count} UNCHANGED ROWS COLLAPSED').replace('{count}', row.count)}</span>
                       <span className="text-[10px] text-muted font-normal">(Click row to expand)</span>
                     </div>
                   )}
@@ -704,7 +706,7 @@ export default function TopBottomDiffViewer({
                 onFocus={() => { activePaneRef.current = 'bottom'; }}
                 onPointerLeave={() => { if (activePaneRef.current === 'bottom') activePaneRef.current = null; }}
               >
-                <div className="text-xs font-mono text-diff-deleted-text mb-2">FILE 2 (MODIFIED / AFTER)</div>
+                <div className="text-xs font-mono text-diff-deleted-text mb-2">{t(locale, 'comparison.file2', 'FILE 2 (MODIFIED / AFTER)')}</div>
                 <SpreadsheetVirtualizedTable
                   ref={virtualBottomTableRef}
                   rows={displayRows}
@@ -720,7 +722,7 @@ export default function TopBottomDiffViewer({
                   renderCollapsedRow={(row) => (
                     <div className="flex items-center justify-center gap-2 py-1 text-link font-bold">
                       <span>↕</span>
-                      <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+                      <span>{t(locale, 'comparison.unchangedRowsCollapsed', '{count} UNCHANGED ROWS COLLAPSED').replace('{count}', row.count)}</span>
                       <span className="text-[10px] text-muted font-normal">(Click row to expand)</span>
                     </div>
                   )}
@@ -738,7 +740,7 @@ export default function TopBottomDiffViewer({
               <div className="p-2 sm:p-4">
                 <div className="bg-surface-card border border-hairline p-1 sm:p-2">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono text-diff-formula-text">OVERLAPPED / MERGED VIEW</span>
+                  <span className="text-xs font-mono text-diff-formula-text">{t(locale, 'comparison.overlappedMergedView', 'OVERLAPPED / MERGED VIEW')}</span>
                   <span className="text-[10px] text-muted-soft">Green = Added, Red = Deleted, Yellow = Modified, Blue = Formula Changed</span>
                 </div>
                 <SpreadsheetVirtualizedTable
@@ -755,7 +757,7 @@ export default function TopBottomDiffViewer({
                   renderCollapsedRow={(row) => (
                     <div className="flex items-center justify-center gap-2 py-1 text-link font-bold">
                       <span>↕</span>
-                      <span>{row.count} UNCHANGED ROWS COLLAPSED</span>
+                      <span>{t(locale, 'comparison.unchangedRowsCollapsed', '{count} UNCHANGED ROWS COLLAPSED').replace('{count}', row.count)}</span>
                       <span className="text-[10px] text-muted font-normal">(Click row to expand)</span>
                     </div>
                   )}
@@ -849,7 +851,7 @@ export default function TopBottomDiffViewer({
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
           <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
             <div className="flex justify-between items-center border-b border-hairline pb-3">
-              <h3 className="text-title-sm text-ink flex items-center gap-2"><Settings className="w-4 h-4 text-link" />APPEARANCE & THEME SETTINGS</h3>
+              <h3 className="text-title-sm text-ink flex items-center gap-2"><Settings className="w-4 h-4 text-link" />{t(locale, 'comparison.appearanceThemeSettings', 'APPEARANCE & THEME SETTINGS')}</h3>
               <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close appearance settings">✕</button>
             </div>
             <div className="space-y-3">
@@ -868,7 +870,7 @@ export default function TopBottomDiffViewer({
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
           <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4">
             <div className="flex justify-between items-center border-b border-hairline pb-3">
-              <h3 className="text-title-sm text-ink flex items-center gap-2"><MessageSquare className="w-4 h-4 text-link" />CELL ANNOTATION & AUDIT NOTE</h3>
+              <h3 className="text-title-sm text-ink flex items-center gap-2"><MessageSquare className="w-4 h-4 text-link" />{t(locale, 'comparison.cellAnnotationAuditNote', 'CELL ANNOTATION & AUDIT NOTE')}</h3>
               <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close annotation editor">✕</button>
             </div>
             <div className="text-xs font-mono text-muted space-y-1">

@@ -1,5 +1,6 @@
 ---
 import CompareToolContainer from '../comparison/CompareToolContainer.jsx';
+import { t } from '../../utils/translations';
 import type { Locale } from '../../config';
 
 interface Props {
@@ -12,12 +13,12 @@ const lang = propLang as Locale;
 
 <div class="py-8 bg-canvas">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-    <div class="text-caption text-link">MODE 03</div>
-    <h1 class="text-display-md text-ink">ID-BASED DATA RECONCILIATION ENGINE</h1>
+    <div class="text-caption text-link">{t(lang, 'sections.reconcile.mode', 'MODE 03')}</div>
+    <h1 class="text-display-md text-ink">{t(lang, 'sections.reconcile.title', 'ID-BASED DATA RECONCILIATION ENGINE')}</h1>
     <p class="font-serif text-muted text-base mt-1">
-      Match rows across spreadsheets by primary key ID and flag value mismatches regardless of row order.
+      {t(lang, 'sections.reconcile.desc', 'Match rows across spreadsheets by primary key ID and flag value mismatches regardless of row order.')}
     </p>
   </div>
 
-  <CompareToolContainer client:only="react" initialMode="reconcile" />
+  <CompareToolContainer client:only="react" initialMode="reconcile" locale={lang} />
 </div>

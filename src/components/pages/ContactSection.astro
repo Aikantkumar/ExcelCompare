@@ -1,5 +1,6 @@
 ---
 import { getLocalizedPathname } from '../../config';
+import { t } from '../../utils/translations';
 import type { Locale } from '../../config';
 
 interface Props {
@@ -14,43 +15,43 @@ const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 <div class="py-20 bg-canvas border-b border-hairline">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
     <div class="text-center space-y-4">
-      <div class="text-caption text-link">CONTACT US</div>
-      <h1 class="text-display-lg text-ink">GET IN TOUCH</h1>
+      <div class="text-caption text-link">{t(lang, 'sections.contact.caption', 'CONTACT US')}</div>
+      <h1 class="text-display-lg text-ink">{t(lang, 'sections.contact.title', 'GET IN TOUCH')}</h1>
       <p class="font-serif text-muted text-sm max-w-2xl mx-auto leading-relaxed">
-        Questions about comparing Excel sheets, columns, or lists? Reach out and we’ll get back to you.
+        {t(lang, 'sections.contact.intro', 'Questions about comparing Excel sheets, columns, or lists? Reach out and we’ll get back to you.')}
       </p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div class="space-y-8">
         <div class="border border-hairline bg-surface-soft p-8 space-y-5">
-          <div class="text-caption text-link uppercase tracking-wider text-xs">SUPPORT</div>
-          <h2 class="text-title-md text-ink font-mono">Email</h2>
+          <div class="text-caption text-link uppercase tracking-wider text-xs">{t(lang, 'sections.contact.support', 'SUPPORT')}</div>
+          <h2 class="text-title-md text-ink font-mono">{t(lang, 'sections.contact.email', 'Email')}</h2>
           <p class="font-serif text-body leading-relaxed">
-            For support, bug reports, or feature requests, write to our support address.
+            {t(lang, 'sections.contact.supportDesc', 'For support, bug reports, or feature requests, write to our support address.')}
           </p>
-          <p class="font-mono text-xs text-success">support@compareexcel.com</p>
+          <p class="font-mono text-xs text-success">{t(lang, 'sections.contact.supportAddr', 'support@compareexcel.com')}</p>
         </div>
         <div class="border border-hairline bg-surface-soft p-8 space-y-5">
-          <div class="text-caption text-link uppercase tracking-wider text-xs">GENERAL</div>
-          <h2 class="text-title-md text-ink font-mono">Press & Partnerships</h2>
+          <div class="text-caption text-link uppercase tracking-wider text-xs">{t(lang, 'sections.contact.general', 'GENERAL')}</div>
+          <h2 class="text-title-md text-ink font-mono">{t(lang, 'sections.contact.press', 'Press & Partnerships')}</h2>
           <p class="font-serif text-body leading-relaxed">
-            Media inquiries, partnership opportunities, and questions about the CompareExcel diff engine.
+            {t(lang, 'sections.contact.pressDesc', 'Media inquiries, partnership opportunities, and questions about the CompareExcel diff engine.')}
           </p>
-          <p class="font-mono text-xs text-success">hello@compareexcel.com</p>
+          <p class="font-mono text-xs text-success">{t(lang, 'sections.contact.pressAddr', 'hello@compareexcel.com')}</p>
         </div>
       </div>
 
       <div class="space-y-8">
         <div class="border border-hairline bg-surface-soft p-8 space-y-5">
-          <div class="text-caption text-link uppercase tracking-wider text-xs">SELF-HELP</div>
-          <h2 class="text-title-md text-ink font-mono">Documentation & FAQ</h2>
+          <div class="text-caption text-link uppercase tracking-wider text-xs">{t(lang, 'sections.contact.selfHelp', 'SELF-HELP')}</div>
+          <h2 class="text-title-md text-ink font-mono">{t(lang, 'sections.contact.docsFaq', 'Documentation & FAQ')}</h2>
           <p class="font-serif text-body leading-relaxed">
-            Step-by-step guides for comparing columns, sheets, files, dates, and lists, plus answers to common questions.
+            {t(lang, 'sections.contact.docsDesc', 'Step-by-step guides for comparing columns, sheets, files, dates, and lists, plus answers to common questions.')}
           </p>
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href={localizedHref('/help')} class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">Documentation</a>
-            <a href={localizedHref('/faq')} class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">FAQ</a>
+            <a href={localizedHref('/help')} class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">{t(lang, 'sections.contact.docsLink', 'Documentation')}</a>
+            <a href={localizedHref('/faq')} class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">{t(lang, 'sections.contact.faqLink', 'FAQ')}</a>
           </div>
         </div>
       </div>
@@ -58,7 +59,7 @@ const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 
     <div class="border-t border-hairline pt-12 text-center">
       <p class="font-serif text-muted-soft text-xs leading-relaxed">
-        CompareExcel processes all comparisons locally in your browser. We never see, store, or transmit your spreadsheet data.
+        {t(lang, 'sections.contact.privacyNote', 'CompareExcel processes all comparisons locally in your browser. We never see, store, or transmit your spreadsheet data.')}
       </p>
     </div>
   </div>
