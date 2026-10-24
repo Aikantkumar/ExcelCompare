@@ -14,52 +14,52 @@ const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 
 <div class="py-20 bg-canvas border-b border-hairline">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-    <div class="text-center space-y-4">
-      <div class="text-caption text-link">ABOUT COMPAREEXCEL</div>
-      <h1 class="text-display-lg text-ink">HIGH-PRECISION SPREADSHEET DIFF ENGINE</h1>
-      <p class="font-serif text-muted text-sm max-w-2xl mx-auto leading-relaxed">
-        Built for analysts, accountants, and engineers who need to diff Excel files without uploading sensitive data to a server.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 font-serif text-body leading-relaxed text-sm">
-      <div class="space-y-6">
-        <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-          <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">OUR STANCE ON PRIVACY</h2>
-          <p>
-            CompareExcel is a client-side spreadsheet comparison tool. All parsing, comparison, and rendering runs locally in your browser using Web Workers and SheetJS. No files ever leave your device, nothing is stored on a server, and no spreadsheet content is sent to third-party analytics.
-          </p>
-        </div>
-        <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-          <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">WHY CLIENT-SIDE ONLY</h2>
-          <ul class="list-disc pl-6 space-y-3 font-mono text-xs text-muted">
-            <li>No file uploads — your spreadsheets never leave your browser.</li>
-            <li>Works offline once the page has loaded.</li>
-            <li>No third-party analytics on spreadsheet contents.</li>
-            <li>You retain full ownership and control of your data.</li>
-          </ul>
-        </div>
+      <div class="text-center space-y-4">
+        <div class="text-caption text-link">{t(lang, 'sections.about.eyebrow', 'ABOUT COMPAREEXCEL')}</div>
+        <h1 class="text-display-lg text-ink">{t(lang, 'sections.about.title', 'HIGH-PRECISION SPREADSHEET DIFF ENGINE')}</h1>
+        <p class="font-serif text-muted text-sm max-w-2xl mx-auto leading-relaxed">
+          {t(lang, 'sections.about.subtitle', 'Built for analysts, accountants, and engineers who need to diff Excel files without uploading sensitive data to a server.')}
+        </p>
       </div>
 
-      <div class="space-y-6">
-        <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-          <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">CORE CAPABILITIES</h2>
-          <ul class="list-disc pl-6 space-y-3 font-mono text-xs text-muted">
-            <li>Visual file-to-file diff with synchronized side-by-side scrolling.</li>
-            <li>Formula inspection — compare underlying formulas, not just displayed values.</li>
-            <li>Smart fuzzy row alignment for sorted or shifted data.</li>
-            <li>Column set operations: intersection, unique left, unique right.</li>
-            <li>ID-based reconciliation for unordered ledgers and inventories.</li>
-            <li>High-density printable HTML and CSV export.</li>
-          </ul>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 font-serif text-body leading-relaxed text-sm">
+        <div class="space-y-6">
+          <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+            <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">{t(lang, 'sections.about.privacyTitle', 'OUR STANCE ON PRIVACY')}</h2>
+            <p>
+              {t(lang, 'sections.about.privacyBody', 'CompareExcel is a client-side spreadsheet comparison tool. All parsing, comparison, and rendering runs locally in your browser using Web Workers and SheetJS. No files ever leave your device, nothing is stored on a server, and no spreadsheet content is sent to third-party analytics.')}
+            </p>
+          </div>
+          <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+            <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">{t(lang, 'sections.about.whyClientSideTitle', 'WHY CLIENT-SIDE ONLY')}</h2>
+            <ul class="list-disc pl-6 space-y-3 font-mono text-xs text-muted">
+              <li>{t(lang, 'sections.about.whyClientSide1', 'No file uploads — your spreadsheets never leave your browser.')}</li>
+              <li>{t(lang, 'sections.about.whyClientSide2', 'Works offline once the page has loaded.')}</li>
+              <li>{t(lang, 'sections.about.whyClientSide3', 'No third-party analytics on spreadsheet contents.')}</li>
+              <li>{t(lang, 'sections.about.whyClientSide4', 'You retain full ownership and control of your data.')}</li>
+            </ul>
+          </div>
         </div>
-        <div class="border border-hairline bg-surface-soft p-8 space-y-4">
-          <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">HOW IT WORKS</h2>
-          <p class="font-mono text-xs text-muted leading-relaxed">
-            Drop two files into File 1 and File 2. The engine parses every worksheet locally, aligns rows with a fuzzy signature algorithm, and highlights cell-level changes: added rows in emerald green, deletions in rose red, modifications in amber, and formula changes in indigo. Use Compare Columns for two-list set operations or Reconciliation for ID-based matching across unordered rows.
-          </p>
+
+        <div class="space-y-6">
+          <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+            <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">{t(lang, 'sections.about.capabilitiesTitle', 'CORE CAPABILITIES')}</h2>
+            <ul class="list-disc pl-6 space-y-3 font-mono text-xs text-muted">
+              <li>{t(lang, 'sections.about.capabilities1', 'Visual file-to-file diff with synchronized side-by-side scrolling.')}</li>
+              <li>{t(lang, 'sections.about.capabilities2', 'Formula inspection — compare underlying formulas, not just displayed values.')}</li>
+              <li>{t(lang, 'sections.about.capabilities3', 'Smart fuzzy row alignment for sorted or shifted data.')}</li>
+              <li>{t(lang, 'sections.about.capabilities4', 'Column set operations: intersection, unique left, unique right.')}</li>
+              <li>{t(lang, 'sections.about.capabilities5', 'ID-based reconciliation for unordered ledgers and inventories.')}</li>
+              <li>{t(lang, 'sections.about.capabilities6', 'High-density printable HTML and CSV export.')}</li>
+            </ul>
+          </div>
+          <div class="border border-hairline bg-surface-soft p-8 space-y-4">
+            <h2 class="text-title-md text-ink font-mono uppercase tracking-wider">{t(lang, 'sections.about.howItWorksTitle', 'HOW IT WORKS')}</h2>
+            <p class="font-mono text-xs text-muted leading-relaxed">
+              {t(lang, 'sections.about.howItWorksBody', 'Drop two files into File 1 and File 2. The engine parses every worksheet locally, aligns rows with a fuzzy signature algorithm, and highlights cell-level changes: added rows in emerald green, deletions in rose red, modifications in amber, and formula changes in indigo. Use Compare Columns for two-list set operations or Reconciliation for ID-based matching across unordered rows.')}
+            </p>
+          </div>
         </div>
-      </div>
     </div>
 
     <div class="text-center">

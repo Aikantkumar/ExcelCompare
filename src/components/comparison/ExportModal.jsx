@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Download, FileText, Code, Share2, Check, Printer, X } from 'lucide-react';
 import { t } from '../../utils/translations';
+import { localeConfig } from '../../config';
 
 export default function ExportModal({ isOpen, onClose, diffData, sheetName, fileAName, fileBName, locale = 'en' }) {
   const [activeTab, setActiveTab] = useState('html'); // 'html' | 'pdf' | 'embed' | 'csv'
@@ -47,7 +48,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
             ${t(locale, 'comparison.leftFile', 'LEFT FILE')}: ${escapeHtml(fileAName || 'File A')}<br/>
             ${t(locale, 'comparison.rightFile', 'RIGHT FILE')}: ${escapeHtml(fileBName || 'File B')}<br/>
             ${t(locale, 'comparison.sheet', 'SHEET')}: ${escapeHtml(sheetName || 'Sheet 1')}<br/>
-            ${t(locale, 'comparison.generated', 'GENERATED')}: ${new Date().toLocaleString()}
+            ${t(locale, 'comparison.generated', 'GENERATED')}: ${new Date().toLocaleString(localeConfig[locale].locale.replace('_', '-'))}
           </div>
 
           <div class="stats">

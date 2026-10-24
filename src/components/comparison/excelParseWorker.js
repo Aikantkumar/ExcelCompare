@@ -13,7 +13,7 @@ self.onmessage = (e) => {
     });
 
     if (!workbook || !workbook.SheetNames || workbook.SheetNames.length === 0) {
-      throw new Error('The uploaded file does not contain any valid worksheets.');
+      throw new Error('NO_VALID_SHEETS');
     }
 
     const resultSheets = {};
@@ -82,7 +82,7 @@ self.onmessage = (e) => {
   } catch (err) {
     self.postMessage({
       type: 'ERROR',
-      payload: { message: err.message || 'Error parsing Excel file' },
+      payload: { message: err.message || 'PARSE_FAILED' },
     });
   }
 };

@@ -1,6 +1,7 @@
 ---
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import { localeConfig, type Locale, defaultLocale } from '../config';
 import '../styles/global.css';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
   canonical?: string;
   robots?: string;
   keywords?: string;
+  lang?: Locale;
 }
 
 const {
@@ -18,14 +20,18 @@ const {
   ogImage = "/og-image.png",
   canonical = Astro.url.pathname === "/" ? "https://compareexcel.com/" : `https://compareexcel.com${Astro.url.pathname}`,
   robots = "index,follow",
-  keywords = ""
+  keywords = "",
+  lang = defaultLocale
 } = Astro.props;
+
+const htmlLang = lang;
+const htmlDir = localeConfig[lang].dir;
 
 const ogUrl = canonical;
 const siteName = "CompareExcel";
 ---
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" class="bg-canvas text-body antialiased">
+<html lang={htmlLang} dir={htmlDir} data-theme="dark" class="bg-canvas text-body antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

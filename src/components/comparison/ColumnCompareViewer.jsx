@@ -84,7 +84,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
           >
             {headersA.map((h, i) => (
               <option key={i} value={i}>
-                Col {String.fromCharCode(65 + i)}: {h}
+                {t(locale, 'comparison.colLabel', 'Col {letter}: {name}').replace('{letter}', String.fromCharCode(65 + i)).replace('{name}', h)}
               </option>
             ))}
           </select>
@@ -102,7 +102,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
           >
             {headersB.map((h, i) => (
               <option key={i} value={i}>
-                Col {String.fromCharCode(65 + i)}: {h}
+                {t(locale, 'comparison.colLabel', 'Col {letter}: {name}').replace('{letter}', String.fromCharCode(65 + i)).replace('{name}', h)}
               </option>
             ))}
           </select>
@@ -150,12 +150,12 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
         {/* Column 1: Intersection */}
         <div className="border border-hairline bg-surface-soft flex flex-col">
           <div className="bg-surface-card p-3 border-b border-hairline flex items-center justify-between shrink-0">
-            <span className="text-xs font-mono uppercase text-diff-added-text">INTERSECTION ({result.intersection.length})</span>
+            <span className="text-xs font-mono uppercase text-diff-added-text">{t(locale, 'comparison.intersectionHeader', 'INTERSECTION ({count})').replace('{count}', result.intersection.length)}</span>
             <button
               onClick={() => exportSetCsv('intersection.csv', result.intersection)}
               className="text-[10px] font-mono text-muted hover:text-ink flex items-center gap-1"
             >
-              <Download className="w-3 h-3" /> CSV
+              <Download className="w-3 h-3" /> {t(locale, 'comparison.csvBtn', 'CSV')}
             </button>
           </div>
           <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
@@ -165,7 +165,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
               </div>
             ))}
             {result.intersection.length === 0 && (
-              <div className="text-muted-soft p-4 text-center">No common items found</div>
+              <div className="text-muted-soft p-4 text-center">{t(locale, 'comparison.noCommonItems', 'No common items found')}</div>
             )}
           </div>
         </div>
@@ -173,12 +173,12 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
         {/* Column 2: Only Left */}
         <div className="border border-hairline bg-surface-soft flex flex-col">
           <div className="bg-surface-card p-3 border-b border-hairline flex items-center justify-between shrink-0">
-            <span className="text-xs font-mono uppercase text-diff-deleted-text">ONLY LEFT ({result.onlyInA.length})</span>
+            <span className="text-xs font-mono uppercase text-diff-deleted-text">{t(locale, 'comparison.onlyLeftHeader', 'ONLY LEFT ({count})').replace('{count}', result.onlyInA.length)}</span>
             <button
               onClick={() => exportSetCsv('only_left.csv', result.onlyInA)}
               className="text-[10px] font-mono text-muted hover:text-ink flex items-center gap-1"
             >
-              <Download className="w-3 h-3" /> CSV
+              <Download className="w-3 h-3" /> {t(locale, 'comparison.csvBtn', 'CSV')}
             </button>
           </div>
           <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
@@ -188,7 +188,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
               </div>
             ))}
             {result.onlyInA.length === 0 && (
-              <div className="text-muted-soft p-4 text-center">No unique left items</div>
+              <div className="text-muted-soft p-4 text-center">{t(locale, 'comparison.noUniqueLeftItems', 'No unique left items')}</div>
             )}
           </div>
         </div>
@@ -196,12 +196,12 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
         {/* Column 3: Only Right */}
         <div className="border border-hairline bg-surface-soft flex flex-col">
           <div className="bg-surface-card p-3 border-b border-hairline flex items-center justify-between shrink-0">
-            <span className="text-xs font-mono uppercase text-diff-modified-text">ONLY RIGHT ({result.onlyInB.length})</span>
+            <span className="text-xs font-mono uppercase text-diff-modified-text">{t(locale, 'comparison.onlyRightHeader', 'ONLY RIGHT ({count})').replace('{count}', result.onlyInB.length)}</span>
             <button
               onClick={() => exportSetCsv('only_right.csv', result.onlyInB)}
               className="text-[10px] font-mono text-muted hover:text-ink flex items-center gap-1"
             >
-              <Download className="w-3 h-3" /> CSV
+              <Download className="w-3 h-3" /> {t(locale, 'comparison.csvBtn', 'CSV')}
             </button>
           </div>
           <div className={`${listScrollClassName} p-2 font-mono text-xs space-y-1`}>
@@ -211,7 +211,7 @@ export default function ColumnCompareViewer({ sheetA, sheetB, locale = 'en' }) {
               </div>
             ))}
             {result.onlyInB.length === 0 && (
-              <div className="text-muted-soft p-4 text-center">No unique right items</div>
+              <div className="text-muted-soft p-4 text-center">{t(locale, 'comparison.noUniqueRightItems', 'No unique right items')}</div>
             )}
           </div>
         </div>

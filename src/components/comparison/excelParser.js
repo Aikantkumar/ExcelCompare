@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 export async function parseExcelFile(file) {
   return new Promise((resolve, reject) => {
     if (!file) {
-      return reject(new Error('No file provided'));
+      return reject(new Error('NO_FILE_PROVIDED'));
     }
 
     const reader = new FileReader();
@@ -28,7 +28,7 @@ export async function parseExcelFile(file) {
             if (type === 'PARSED') {
               resolve(payload);
             } else {
-              reject(new Error(payload?.message || 'Worker Excel parse error'));
+              reject(new Error(payload?.message || 'WORKER_PARSE_ERROR'));
             }
           };
 
@@ -51,7 +51,7 @@ export async function parseExcelFile(file) {
       parseMainThread(buffer, file.name, file.size, resolve, reject);
     };
 
-    reader.onerror = (error) => reject(error || new Error('Failed to read file'));
+    reader.onerror = (error) => reject(error || new Error('FAILED_TO_READ_FILE'));
     reader.readAsArrayBuffer(file);
   });
 }
@@ -68,7 +68,7 @@ function parseMainThread(buffer, fileName, fileSize, resolve, reject) {
     });
 
     if (!workbook || !workbook.SheetNames || workbook.SheetNames.length === 0) {
-      throw new Error('The uploaded file does not contain any valid worksheets.');
+      throw new Error('NO_VALID_SHEETS');
     }
 
     const resultSheets = {};

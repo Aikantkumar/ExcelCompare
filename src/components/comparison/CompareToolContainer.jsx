@@ -111,8 +111,9 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
   });
 
   const handleWorkerError = useCallback((err) => {
-    setErrorMsg(err.message || 'Diff computation failed');
-  }, []);
+    const code = err.message || 'PARSE_FAILED';
+    setErrorMsg(t(locale, `comparison.errors.${code}`, code));
+  }, [locale]);
 
   const { diffData, isLoading, error: workerError, computeDiff, abort, clear: clearDiff } = useDiffWorker({
     fallbackToMainThread: true,
@@ -182,8 +183,9 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
         setSelectedSheetB(parsed.sheetNames[0]);
       }
     } catch (err) {
-      const msg = err && err.message ? err.message : `Error parsing ${file.name}.`;
-      setErrorMsg(`Error parsing ${file.name}: ${msg}. Please ensure it is a valid .xlsx, .xls, or .csv file.`);
+      const code = err && err.message ? err.message : 'PARSE_FAILED';
+      const translated = t(locale, `comparison.errors.${code}`, code);
+      setErrorMsg(`${t(locale, 'comparison.errorParsingFile', 'Error parsing {file}').replace('{file}', file.name)}: ${translated}. Please ensure it is a valid .xlsx, .xls, or .csv file.`);
     } finally {
       setIsParsing(false);
     }

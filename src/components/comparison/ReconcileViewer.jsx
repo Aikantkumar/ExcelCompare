@@ -150,7 +150,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
         <div className="flex items-center justify-between gap-2 text-title-sm text-ink">
           <div className="flex items-center gap-2">
             <KeyRound className="w-5 h-5 text-link" />
-            ID-BASED RECONCILIATION CONFIGURATION
+            {t(locale, 'comparison.reconcileConfig', 'ID-BASED RECONCILIATION CONFIGURATION')}
           </div>
           <button
             onClick={toggleFullView}
@@ -159,9 +159,9 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
                 ? 'border-success text-success bg-diff-added-bg'
                 : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
             }`}
-            title={isFullView ? 'Exit Full View' : 'Enter Full View'}
+            title={isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.enterFullView', 'Enter Full View')}
             aria-pressed={isFullView}
-            aria-label={isFullView ? 'Exit Full View' : 'Enter Full View'}
+            aria-label={isFullView ? t(locale, 'comparison.exitFullView', 'EXIT FULL VIEW') : t(locale, 'comparison.enterFullView', 'Enter Full View')}
           >
             {isFullView ? <Minimize className="w-3.5 h-3.5 inline" /> : <Maximize className="w-3.5 h-3.5 inline" />}
             <span className="ml-1 text-[11px] font-bold hidden sm:inline">
@@ -172,7 +172,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           <div>
-            <label className="text-caption text-ink mb-2 block">PRIMARY KEY / ID COLUMN:</label>
+            <label className="text-caption text-ink mb-2 block">{t(locale, 'comparison.primaryKeyIdColumn', 'PRIMARY KEY / ID COLUMN:')}</label>
             <select
               value={keyColIndex}
               onChange={(e) => setKeyColIndex(Number(e.target.value))}
@@ -180,29 +180,29 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             >
               {headers.map((h, i) => (
                 <option key={i} value={i}>
-                  Col {String.fromCharCode(65 + i)}: {h}
+                  {t(locale, 'comparison.colLabel', 'Col {letter}: {name}').replace('{letter}', String.fromCharCode(65 + i)).replace('{name}', h)}
                 </option>
               ))}
             </select>
             <div className="text-xs font-mono mt-2 flex items-center gap-2">
-              <span className="text-muted">{totalRowsA} rows · {uniqueKeysA} unique keys</span>
+              <span className="text-muted">{totalRowsA} {t(locale, 'comparison.rowLabelShort', 'rows')} · {uniqueKeysA} unique keys</span>
               {hasDuplicateKeys && (
-                <span className="text-diff-modified-text flex items-center gap-1">
-                  <AlertTriangle className="w-3 h-3" />
-                  2+ duplicate keys. Pick a more unique column.
-                </span>
+                  <span className="text-diff-modified-text flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3" />
+                    {t(locale, 'comparison.duplicateKeysWarning', '2+ duplicate keys. Pick a more unique column.')}
+                  </span>
               )}
             </div>
             {sameColumnWarning && (
               <div className="text-xs font-mono text-diff-modified-text mt-1 flex items-center gap-1">
                 <AlertTriangle className="w-3 h-3" />
-                Key and value are the same column
+                {t(locale, 'comparison.sameColumnWarning', 'Key and value are the same column')}
               </div>
             )}
           </div>
 
           <div>
-            <label className="text-caption text-ink mb-2 block">VALUE COLUMN TO RECONCILE:</label>
+            <label className="text-caption text-ink mb-2 block">{t(locale, 'comparison.valueColumnToReconcile', 'VALUE COLUMN TO RECONCILE:')}</label>
             <select
               value={valColIndex}
               onChange={(e) => setValColIndex(Number(e.target.value))}
@@ -210,17 +210,17 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             >
               {headers.map((h, i) => (
                 <option key={i} value={i}>
-                  Col {String.fromCharCode(65 + i)}: {h}
+                  {t(locale, 'comparison.colLabel', 'Col {letter}: {name}').replace('{letter}', String.fromCharCode(65 + i)).replace('{name}', h)}
                 </option>
               ))}
             </select>
             <div className="text-xs font-mono text-muted mt-2">
-              {totalRowsB} rows · {uniqueKeysB} unique keys
+              {totalRowsB} {t(locale, 'comparison.rowLabelShort', 'rows')} · {uniqueKeysB} unique keys
             </div>
             {sameColumnWarning && (
               <div className="text-xs font-mono text-diff-modified-text mt-1 flex items-center gap-1">
                 <AlertTriangle className="w-3 h-3" />
-                Key and value are the same column
+                {t(locale, 'comparison.sameColumnWarning', 'Key and value are the same column')}
               </div>
             )}
           </div>
@@ -235,7 +235,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             filterType === 'ALL' ? 'border-ink bg-surface-elevated' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-muted uppercase">TOTAL RECORDS</div>
+          <div className="text-[10px] font-mono text-muted uppercase">{t(locale, 'comparison.totalRecordsLabel', 'TOTAL RECORDS')}</div>
           <div className="text-2xl font-display text-ink">{reconResult.all.length}</div>
         </button>
 
@@ -245,7 +245,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             filterType === 'MISMATCH' ? 'border-diff-modified-border bg-diff-modified-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-diff-modified-text uppercase">MISMATCHES</div>
+          <div className="text-[10px] font-mono text-diff-modified-text uppercase">{t(locale, 'comparison.mismatchesLabel', 'MISMATCHES')}</div>
           <div className="text-2xl font-display text-diff-modified-text">{reconResult.stats.mismatchedCount}</div>
         </button>
 
@@ -255,7 +255,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             filterType === 'MATCH' ? 'border-diff-added-border bg-diff-added-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-diff-added-text uppercase">EXACT MATCHES</div>
+          <div className="text-[10px] font-mono text-diff-added-text uppercase">{t(locale, 'comparison.exactMatchesLabel', 'EXACT MATCHES')}</div>
           <div className="text-2xl font-display text-diff-added-text">{reconResult.stats.matchedCount}</div>
         </button>
 
@@ -265,7 +265,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             filterType === 'ONLY_L' ? 'border-diff-deleted-border bg-diff-deleted-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-diff-deleted-text uppercase">LEFT ONLY</div>
+          <div className="text-[10px] font-mono text-diff-deleted-text uppercase">{t(locale, 'comparison.leftOnlyLabel', 'LEFT ONLY')}</div>
           <div className="text-2xl font-display text-diff-deleted-text">{reconResult.stats.onlyACount}</div>
         </button>
 
@@ -275,7 +275,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
             filterType === 'ONLY_R' ? 'border-link bg-diff-formula-bg' : 'border-hairline bg-surface-soft'
           }`}
         >
-          <div className="text-[10px] font-mono text-link uppercase">RIGHT ONLY</div>
+          <div className="text-[10px] font-mono text-link uppercase">{t(locale, 'comparison.rightOnlyLabel', 'RIGHT ONLY')}</div>
           <div className="text-2xl font-display text-link">{reconResult.stats.onlyBCount}</div>
         </button>
 
@@ -286,7 +286,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
               filterType === 'DUPLICATE' ? 'border-warning bg-surface-card' : 'border-hairline bg-surface-soft'
             }`}
           >
-            <div className="text-[10px] font-mono text-warning uppercase">DUPLICATE KEY</div>
+            <div className="text-[10px] font-mono text-warning uppercase">{t(locale, 'comparison.duplicateKeyLabel', 'DUPLICATE KEY')}</div>
             <div className="text-2xl font-display text-warning">{reconResult.stats.duplicateCount}</div>
           </button>
         )}
@@ -294,7 +294,7 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
 
       {reconResult.stats.skippedEmptyKey > 0 && (
         <div className={`text-xs font-mono text-diff-modified-text ${isFullView ? 'shrink-0' : ''}`}>
-          {reconResult.stats.skippedEmptyKey} rows skipped (empty key)
+          {t(locale, 'comparison.rowsSkippedEmptyKey', '{count} rows skipped (empty key)').replace('{count}', reconResult.stats.skippedEmptyKey)}
         </div>
       )}
 
@@ -340,12 +340,12 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
               className="sticky top-0 z-10 bg-canvas border-b border-hairline"
               style={{ height: HEADER_HEIGHT, display: 'grid', gridTemplateColumns: gridColumns }}
             >
-              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">PRIMARY KEY / ID</div>
-              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">LEFT FILE VALUE</div>
-              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">RIGHT FILE VALUE</div>
-              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">RECONCILIATION STATUS</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">{t(locale, 'comparison.primaryKeyIdHeader', 'PRIMARY KEY / ID')}</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">{t(locale, 'comparison.leftFileValueHeader', 'LEFT FILE VALUE')}</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">{t(locale, 'comparison.rightFileValueHeader', 'RIGHT FILE VALUE')}</div>
+              <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center">{t(locale, 'comparison.reconciliationStatusHeader', 'RECONCILIATION STATUS')}</div>
               {showDiffColumn && (
-                <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center justify-end">DIFFERENCE</div>
+                <div className="px-4 py-2 text-caption text-muted font-semibold truncate flex items-center justify-end">{t(locale, 'comparison.differenceHeader', 'DIFFERENCE')}</div>
               )}
             </div>
 
@@ -424,17 +424,17 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
           {filteredRecords.length === 0 ? (
             <div className="text-center py-8 text-xs font-mono text-muted-soft">
               {reconResult.all.length === 0 
-                ? 'No records to display. Check your key/value column selection.' 
+                ? t(locale, 'comparison.noRecordsSelectColumns', 'No records to display. Check your key/value column selection.') 
                 : searchTerm 
-                  ? 'No results match your search.' 
+                  ? t(locale, 'comparison.noResultsSearch', 'No results match your search.') 
                   : filterType !== 'ALL' 
-                    ? `No ${filterType.toLowerCase().replace('_', ' ')} records found.` 
-                    : 'No records to display.'}
+                    ? t(locale, 'comparison.noRecordsFilter', 'No {type} records found.').replace('{type}', filterType.toLowerCase().replace('_', ' ')) 
+                    : t(locale, 'comparison.noRecordsToDisplay', 'No records to display.')}
             </div>
           ) : (
-            <div className="text-[10px] font-mono text-muted text-right">
-              SHOWING {filteredRecords.length} OF {reconResult.all.length} RECORDS
-            </div>
+              <div className="text-[10px] font-mono text-muted text-right">
+                {t(locale, 'comparison.showingRecords', 'SHOWING {count} OF {total} RECORDS').replace('{count}', filteredRecords.length).replace('{total}', reconResult.all.length)}
+              </div>
           )}
         </div>
       </div>
