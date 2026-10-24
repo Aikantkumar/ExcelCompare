@@ -71,7 +71,7 @@
       [
         "내보내기 및 보고서 형식",
         "최소 CSV 내보내기",
-        "인쇄 가능한 PDF, HTML 감사 보고서, CSV, 공유 링크"
+        "인쇄 가능한 PDF, HTML 감사 보고서, CSV, Excel 통합 문서"
       ],
       [
         "여러 시각적 차이 보기",
@@ -261,7 +261,7 @@
     "changeType": "변경 유형",
     "original": "원본 (왼쪽 파일)",
     "modifiedFile": "수정본 (오른쪽 파일)",
-    "exportShare": "비교 보고서 내보내기 및 공유",
+    "exportShare": "비교 보고서 내보내기",
     "closeExport": "내보내기 창 닫기",
     "htmlPrintPdf": "HTML / PDF 인쇄",
     "embedWidget": "위젯 임베드",
@@ -288,6 +288,15 @@
     "exportBatchAuditReport": "일괄 감사 보고서 내보내기 (CSV)",
     "exportReconciliationCsv": "대사 결과 내보내기 (CSV)",
     "exportCsv": "CSV 내보내기",
+    "exportChangesCsv": "변경 사항 CSV 내보내기",
+    "exportMenu": "내보내기 형식 옵션",
+    "exportChangesOption": "변경 사항 (.csv)",
+    "exportWorkbookOption": "전체 보고서 통합 문서 (.xlsx)",
+    "exportAllCsv": "모두 내보내기 (CSV)",
+    "exportAllXlsx": "모두 내보내기 (.XLSX)",
+    "exportedN": "{count}개 변경 사항 내보내기 완료",
+    "noChangesToExport": "내보낼 변경 사항이 없습니다",
+    "exportColumnsSetTooltip": "세트별 CSV 버튼은 해당 결과 세트만 내보냅니다.",
     "loadDemoSamples": "데모 샘플 불러오기",
     "comparisonSettings": "비교 세부 설정",
     "smartFuzzyRowMatching": "스마트 퍼지 행 매칭",

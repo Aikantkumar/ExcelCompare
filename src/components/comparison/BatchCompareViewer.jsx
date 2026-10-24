@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Layers, Plus, Trash2, Play, CheckCircle2, Download, AlertCircle } from 'lucide-react';
 import { parseExcelFile } from './excelParser';
 import { compareSheets } from './diffEngine';
+import { buildBatchExport } from './exportBuilders';
+import { downloadBlob } from './exportUtils';
 import { t } from '../../utils/translations';
 
 export default function BatchCompareViewer({ locale = 'en' }) {
@@ -67,21 +69,8 @@ export default function BatchCompareViewer({ locale = 'en' }) {
   };
 
   const exportBatchSummary = () => {
-    const csvHeader = 'Pair #,Left File,Right File,Total Changes,Added Rows,Deleted Rows,Modified Cells,Formula Changes\n';
-    const csvRows = pairs
-      .map((p, i) => {
-        const s = p.result || {};
-        return `"${i + 1}","${p.nameA}","${p.nameB}","${s.totalChanges || 0}","${s.totalAdded || 0}","${s.totalDeleted || 0}","${s.totalModified || 0}","${s.totalFormulaChanges || 0}"`;
-      })
-      .join('\n');
-
-    const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvHeader + csvRows);
-    const link = document.createElement('a');
-    link.setAttribute('href', csvContent);
-    link.setAttribute('download', `batch_compare_summary.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const result = buildBatchExport(pairs);
+    downloadBlob(new Blob([result.csv.content], { type: 'text/csv;charset=utf-8;' }), result.csv.filename);
   };
 
   return (

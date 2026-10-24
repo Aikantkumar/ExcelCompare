@@ -71,7 +71,7 @@
       [
         "Formati di esportazione e report",
         "Esportazione CSV minima",
-        "Report di controllo PDF stampabili, HTML, CSV, link condivisi"
+        "Report di controllo PDF stampabili, HTML, CSV, cartelle di lavoro Excel"
       ],
       [
         "Multiple viste di diff visivo",
@@ -261,7 +261,7 @@
     "changeType": "TIPO DI MODIFICA",
     "original": "ORIGINALE (FILE SINISTRO)",
     "modifiedFile": "MODIFICATO (FILE DESTRO)",
-    "exportShare": "ESPORTA E CONDIVIDI REPORT DI CONFRONTO",
+    "exportShare": "ESPORTA REPORT DI CONFRONTO",
     "closeExport": "Chiudi finestra di esportazione",
     "htmlPrintPdf": "HTML / STAMPA PDF",
     "embedWidget": "INCORPORA WIDGET",
@@ -288,6 +288,15 @@
     "exportBatchAuditReport": "ESPORTA REPORT DI AUDIT IN BLOCCO (CSV)",
     "exportReconciliationCsv": "ESPORTA CSV DI RICONCILIAZIONE",
     "exportCsv": "ESPORTA CSV",
+    "exportChangesCsv": "ESPORTA MODIFICHE IN CSV",
+    "exportMenu": "Opzioni di formato esportazione",
+    "exportChangesOption": "Modifiche (.csv)",
+    "exportWorkbookOption": "Cartella di lavoro completa (.xlsx)",
+    "exportAllCsv": "ESPORTA TUTTO (CSV)",
+    "exportAllXlsx": "ESPORTA TUTTO (.XLSX)",
+    "exportedN": "{count} modifiche esportate",
+    "noChangesToExport": "Nessuna modifica da esportare",
+    "exportColumnsSetTooltip": "I pulsanti CSV per set esportano solo quel set di risultati.",
     "loadDemoSamples": "CARICA CAMPIONI DEMO",
     "comparisonSettings": "IMPOSTAZIONI DI CONFRONTO",
     "smartFuzzyRowMatching": "ALLINEAMENTO FUZZY INTELLIGENTE DELLE RIGHE",

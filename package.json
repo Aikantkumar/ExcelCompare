@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "i18n:audit": "node scripts/i18n-audit.mjs"
+    "i18n:audit": "node scripts/i18n-audit.mjs",
+    "test:export": "node scripts/test-export.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

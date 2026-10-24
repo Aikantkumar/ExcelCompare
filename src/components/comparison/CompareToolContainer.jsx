@@ -520,8 +520,9 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
             <TopBottomDiffViewer
               diffData={diffData}
               sheetName={selectedSheetA}
+              fileAName={fileNameA}
+              fileBName={fileNameB}
               onExport={() => setIsExportOpen(true)}
-              onShare={() => setIsExportOpen(true)}
               options={diffOptions}
               onOptionsChange={setDiffOptions}
               locale={locale}

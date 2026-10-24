@@ -61,6 +61,14 @@ export function compareSheets(sheetA, sheetB, options = {}) {
   const changesList = [];
   let changeCounter = 0;
 
+  const headerRowA = rawRowsA[0] || [];
+  const headerRowB = rawRowsB[0] || [];
+  const getHeader = (colIdx) => {
+    const ha = String(headerRowA[colIdx]?.val || '').trim();
+    const hb = String(headerRowB[colIdx]?.val || '').trim();
+    return ha || hb || getColumnLetter(colIdx);
+  };
+
   let diffRows = mappedRows.map((pair, rowIndex) => {
     const rowA = pair.rowA;
     let rowB = pair.rowB;
@@ -88,6 +96,9 @@ export function compareSheets(sheetA, sheetB, options = {}) {
             formulaA: '',
             formulaB: cell.formula || '',
             charDiff: computeCharDiff('', cell.val, diffGranularity),
+            rowNumA: null,
+            rowNumB: pair.origIndexB !== null ? pair.origIndexB + 1 : null,
+            header: getHeader(colIdx),
           });
         }
       });
@@ -121,6 +132,9 @@ export function compareSheets(sheetA, sheetB, options = {}) {
             formulaA: cell.formula || '',
             formulaB: '',
             charDiff: computeCharDiff(cell.val, '', diffGranularity),
+            rowNumA: pair.origIndexA !== null ? pair.origIndexA + 1 : null,
+            rowNumB: null,
+            header: getHeader(colIdx),
           });
         }
       });
@@ -197,6 +211,9 @@ export function compareSheets(sheetA, sheetB, options = {}) {
           formulaA: formA,
           formulaB: formB,
           charDiff: computeCharDiff(formA || valA, formB || valB, diffGranularity),
+          rowNumA: pair.origIndexA !== null ? pair.origIndexA + 1 : null,
+          rowNumB: pair.origIndexB !== null ? pair.origIndexB + 1 : null,
+          header: getHeader(c),
         });
       } else if (cleanValA !== cleanValB) {
         status = 'MODIFIED';
@@ -217,6 +234,9 @@ export function compareSheets(sheetA, sheetB, options = {}) {
           formulaA: formA,
           formulaB: formB,
           charDiff: computeCharDiff(valA, valB, diffGranularity),
+          rowNumA: pair.origIndexA !== null ? pair.origIndexA + 1 : null,
+          rowNumB: pair.origIndexB !== null ? pair.origIndexB + 1 : null,
+          header: getHeader(c),
         });
       }
 
@@ -593,6 +613,100 @@ export function compareColumns(colAValues, colBValues) {
   };
 }
 
+export function compareColumnsDetailed(rowsA, colA, rowsB, colB) {
+  const toVal = (cell) => {
+    const v = cell?.val;
+    if (v === null || v === undefined || v === '') return null;
+    return String(v).trim();
+  };
+
+  const colIdxA = typeof colA === 'number' ? colA : 0;
+  const colIdxB = typeof colB === 'number' ? colB : 0;
+
+  const blankSkippedA = [];
+  const blankSkippedB = [];
+  const order = [];
+  const seen = new Set();
+  const leftOccurrences = new Map();
+  const rightOccurrences = new Map();
+  const leftDups = new Map();
+  const rightDups = new Map();
+
+  rowsA.slice(1).forEach((row, idx) => {
+    const sheetRow = idx + 2;
+    const v = toVal(row[colIdxA]);
+    if (v === null) {
+      blankSkippedA.push(sheetRow);
+      return;
+    }
+    if (!seen.has(v)) {
+      seen.add(v);
+      order.push(v);
+    }
+    const list = leftOccurrences.get(v) || [];
+    list.push(sheetRow);
+    leftOccurrences.set(v, list);
+    if (list.length > 1) leftDups.set(v, (leftDups.get(v) || 0) + 1);
+  });
+
+  rowsB.slice(1).forEach((row, idx) => {
+    const sheetRow = idx + 2;
+    const v = toVal(row[colIdxB]);
+    if (v === null) {
+      blankSkippedB.push(sheetRow);
+      return;
+    }
+    if (!seen.has(v)) {
+      seen.add(v);
+      order.push(v);
+    }
+    const list = rightOccurrences.get(v) || [];
+    list.push(sheetRow);
+    rightOccurrences.set(v, list);
+    if (list.length > 1) rightDups.set(v, (rightDups.get(v) || 0) + 1);
+  });
+
+  const setA = new Map(leftOccurrences);
+  const setB = new Map(rightOccurrences);
+
+  const intersection = [];
+  const onlyInLeft = [];
+  const onlyInRight = [];
+
+  order.forEach((v) => {
+    const hasA = setA.has(v);
+    const hasB = setB.has(v);
+    if (hasA && hasB) intersection.push(v);
+    else if (hasA) onlyInLeft.push(v);
+    else if (hasB) onlyInRight.push(v);
+  });
+
+  const countDups = (m) => Array.from(m.values()).reduce((sum, c) => sum + c, 0);
+
+  return {
+    intersection,
+    onlyInLeft,
+    onlyInRight,
+    order,
+    leftOccurrences,
+    rightOccurrences,
+    stats: {
+      totalA: setA.size,
+      totalB: setB.size,
+      intersectionCount: intersection.length,
+      onlyInLeftCount: onlyInLeft.length,
+      onlyInRightCount: onlyInRight.length,
+      blankSkippedA: blankSkippedA.length,
+      blankSkippedB: blankSkippedB.length,
+      blankSkipped: blankSkippedA.length + blankSkippedB.length,
+      duplicateCountA: countDups(leftDups),
+      duplicateCountB: countDups(rightDups),
+      duplicateValuesA: leftDups.size,
+      duplicateValuesB: rightDups.size,
+    },
+  };
+}
+
 export function reconcileSheets(sheetA, sheetB, keyColIdx = 0, valColIdx = 1) {
   const rowsA = sheetA?.rows || [];
   const rowsB = sheetB?.rows || [];
@@ -606,7 +720,7 @@ export function reconcileSheets(sheetA, sheetB, keyColIdx = 0, valColIdx = 1) {
     const current = countA.get(key) || 0;
     countA.set(key, current + 1);
     if (!firstA.has(key)) {
-      firstA.set(key, { key, val, rowIdx: idx + 1, row });
+      firstA.set(key, { key, val, rowIdx: idx + 2, row });
     }
   });
 
@@ -619,7 +733,7 @@ export function reconcileSheets(sheetA, sheetB, keyColIdx = 0, valColIdx = 1) {
     const current = countB.get(key) || 0;
     countB.set(key, current + 1);
     if (!firstB.has(key)) {
-      firstB.set(key, { key, val, rowIdx: idx + 1, row });
+      firstB.set(key, { key, val, rowIdx: idx + 2, row });
     }
   });
 
@@ -645,6 +759,8 @@ export function reconcileSheets(sheetA, sheetB, keyColIdx = 0, valColIdx = 1) {
         countA: cA,
         countB: cB,
         status: 'DUPLICATE_KEY',
+        rowIdxA: firstA.get(key)?.rowIdx ?? null,
+        rowIdxB: firstB.get(key)?.rowIdx ?? null,
       });
       return;
     }
@@ -656,16 +772,16 @@ export function reconcileSheets(sheetA, sheetB, keyColIdx = 0, valColIdx = 1) {
       const itemA = firstA.get(key);
       const itemB = firstB.get(key);
       if (itemA.val === itemB.val) {
-        matched.push({ key, valA: itemA.val, valB: itemB.val, status: 'MATCH' });
+        matched.push({ key, valA: itemA.val, valB: itemB.val, status: 'MATCH', rowIdxA: itemA.rowIdx, rowIdxB: itemB.rowIdx });
       } else {
-        mismatched.push({ key, valA: itemA.val, valB: itemB.val, status: 'MISMATCH' });
+        mismatched.push({ key, valA: itemA.val, valB: itemB.val, status: 'MISMATCH', rowIdxA: itemA.rowIdx, rowIdxB: itemB.rowIdx });
       }
     } else if (hasA) {
       const itemA = firstA.get(key);
-      onlyA.push({ key, valA: itemA.val, valB: '-', status: 'ONLY_LEFT' });
+      onlyA.push({ key, valA: itemA.val, valB: '-', status: 'ONLY_LEFT', rowIdxA: itemA.rowIdx, rowIdxB: null });
     } else if (hasB) {
       const itemB = firstB.get(key);
-      onlyB.push({ key, valA: '-', valB: itemB.val, status: 'ONLY_RIGHT' });
+      onlyB.push({ key, valA: '-', valB: itemB.val, status: 'ONLY_RIGHT', rowIdxA: null, rowIdxB: itemB.rowIdx });
     }
   });
 

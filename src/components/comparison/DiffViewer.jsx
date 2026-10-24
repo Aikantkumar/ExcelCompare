@@ -4,9 +4,7 @@ import {
   Layers, 
   Search, 
   Download, 
-  Share2, 
   MessageSquare, 
-  Check, 
   ChevronLeft,
   ChevronRight,
   ChevronUp,
@@ -22,8 +20,7 @@ import { VirtualizedTable, SpreadsheetVirtualizedTable } from './VirtualizedTabl
 export default function DiffViewer({ 
   diffData, 
   sheetName, 
-  onExport, 
-  onShare,
+  onExport,
   options = {},
   onOptionsChange = () => {},
   headersA = [],
@@ -47,7 +44,6 @@ export default function DiffViewer({
   const [annotationText, setAnnotationText] = useState('');
   const [showAnnotationModal, setShowAnnotationModal] = useState(false);
   const [showAppearanceModal, setShowAppearanceModal] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [annotations, setAnnotations] = useState({});
 
@@ -546,17 +542,6 @@ export default function DiffViewer({
           >
             <Download className="w-3.5 h-3.5 inline mr-1" />
             Export
-          </button>
-          <button
-            onClick={() => {
-              if (onShare) onShare();
-              setCopiedLink(true);
-              setTimeout(() => setCopiedLink(false), 2000);
-            }}
-            className="btn-secondary py-1.5 px-3 text-xs h-8 tracking-[1px]"
-          >
-            {copiedLink ? <Check className="w-3.5 h-3.5 inline mr-1 text-[#5fa657]" /> : <Share2 className="w-3.5 h-3.5 inline mr-1" />}
-            {copiedLink ? 'Copied' : 'Share'}
           </button>
 
           <div className="h-4 w-px bg-[#262626] mx-1" />

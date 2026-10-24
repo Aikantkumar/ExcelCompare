@@ -4,7 +4,6 @@ import {
   Layers, 
   Search, 
   Download, 
-  Share2, 
   MessageSquare, 
   Check, 
   ChevronLeft,
@@ -21,15 +20,19 @@ import {
   X
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
+import { buildChangesExport } from './exportBuilders';
+import { downloadBlob, buildFilename } from './exportUtils';
 import { SpreadsheetVirtualizedTable } from './VirtualizedTable';
 import { useFullView } from './useFullView';
 import { t } from '../../utils/translations';
+import * as XLSX from 'xlsx';
 
 export default function TopBottomDiffViewer({ 
   diffData, 
   sheetName, 
-  onExport, 
-  onShare,
+  onExport,
+  fileAName = '',
+  fileBName = '',
   options = {},
   onOptionsChange = () => {},
   headersA = [],
@@ -49,10 +52,11 @@ export default function TopBottomDiffViewer({
   const [annotationText, setAnnotationText] = useState('');
   const [showAnnotationModal, setShowAnnotationModal] = useState(false);
   const [showAppearanceModal, setShowAppearanceModal] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [annotations, setAnnotations] = useState({});
   const [appearanceTheme, setAppearanceTheme] = useState('dark');
+  const [exportToast, setExportToast] = useState(null);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [syncScroll, setSyncScroll] = useState(true);
   const [tableHeight, setTableHeight] = useState(() => {
     if (typeof window === 'undefined') return 400;
@@ -270,6 +274,29 @@ export default function TopBottomDiffViewer({
   }, [isFullView, isDesktop, registerBodyHeight]);
 
   const activeChange = changesList[activeChangeIndex];
+
+  const runExport = useCallback((format) => {
+    const totalChanges = stats.totalChanges || 0;
+    if (totalChanges === 0) return;
+    const ctx = {
+      fileA: fileAName || 'File A',
+      fileB: fileBName || 'File B',
+      sheetA: sheetName || 'Sheet 1',
+      sheetB: sheetName || 'Sheet 1',
+      options,
+      annotations,
+      headersA,
+      headersB,
+    };
+    const result = buildChangesExport(diffData, ctx);
+    if (format === 'xlsx' && result.workbook) {
+      XLSX.writeFile(result.workbook, result.xlsxFilename);
+    } else {
+      downloadBlob(new Blob([result.csv.content], { type: 'text/csv;charset=utf-8;' }), result.csv.filename);
+    }
+    setExportToast({ count: totalChanges, format });
+    setTimeout(() => setExportToast(null), 2000);
+  }, [diffData, sheetName, fileAName, fileBName, options, annotations, headersA, headersB, stats.totalChanges]);
 
   // Scroll to active change when table heights change in full view
   useEffect(() => {
@@ -552,13 +579,49 @@ export default function TopBottomDiffViewer({
             <Download className="w-3 h-3 inline mr-1" />
             {t(locale, 'comparison.exportBtn', 'Export')}
           </button>
-          <button
-            onClick={() => { if (onShare) onShare(); setCopiedLink(true); setTimeout(() => setCopiedLink(false), 2000); }}
-            className="btn-secondary px-2 py-1.5 text-[10px] h-9 tracking-[1px]"
-          >
-            {copiedLink ? <Check className="w-3 h-3 inline mr-1 text-success" /> : <Share2 className="w-3 h-3 inline mr-1" />}
-            {copiedLink ? t(locale, 'comparison.copied', 'Copied') : t(locale, 'comparison.share', 'Share')}
-          </button>
+          <div className="relative shrink-0">
+            <button
+              onClick={() => runExport('csv')}
+              disabled={stats.totalChanges === 0}
+              className="btn-secondary px-2 py-1.5 text-[10px] h-9 tracking-[1px] flex items-center gap-1"
+              title={stats.totalChanges === 0 ? t(locale, 'comparison.noChangesToExport', 'No changes to export') : t(locale, 'comparison.exportChangesCsv', 'Export changes to CSV')}
+              aria-disabled={stats.totalChanges === 0}
+            >
+              <Download className="w-3 h-3 inline mr-1" />
+              <span className="hidden sm:inline">{t(locale, 'comparison.exportChangesCsv', 'EXPORT CSV')}</span>
+              <span className="block sm:hidden">CSV</span>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); setExportMenuOpen(!exportMenuOpen); }}
+              className="px-1.5 py-1.5 text-xs font-mono border border-hairline-strong text-muted rounded-l-none hover:border-white hover:text-ink"
+              aria-label={t(locale, 'comparison.exportMenu', 'Export format options')}
+              aria-haspopup="true"
+              aria-expanded={exportMenuOpen}
+            >
+              <ChevronDown className="w-3 h-3 inline" />
+            </button>
+            {exportMenuOpen && (
+              <div className="absolute right-0 mt-1 w-56 bg-surface-card border border-hairline rounded shadow-lg py-1 z-[50]">
+                <button
+                  onClick={() => { runExport('csv'); setExportMenuOpen(false); }}
+                  className="w-full text-left px-3 py-2 text-xs font-mono text-ink hover:bg-surface-elevated"
+                >
+                  {t(locale, 'comparison.exportChangesOption', 'Changes (.csv)')}
+                </button>
+                <button
+                  onClick={() => { runExport('xlsx'); setExportMenuOpen(false); }}
+                  className="w-full text-left px-3 py-2 text-xs font-mono text-ink hover:bg-surface-elevated"
+                >
+                  {t(locale, 'comparison.exportWorkbookOption', 'Full report workbook (.xlsx)')}
+                </button>
+              </div>
+            )}
+          </div>
+          {exportToast && (
+            <span className="text-xs font-mono text-success">
+              <Check className="w-3 h-3 inline mr-1" /> {t(locale, 'comparison.exportedN', 'Exported {count} changes').replace('{count}', exportToast.count)}
+            </span>
+          )}
 
           <div className="h-4 w-px bg-hairline mx-1" />
 

@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { KeyRound, ShieldCheck, Filter, Download, Search, AlertTriangle, Maximize, Minimize, ChevronDown } from 'lucide-react';
 import { reconcileSheets } from './diffEngine';
+import { buildReconcileExport } from './exportBuilders';
+import { downloadBlob } from './exportUtils';
 import { useFullView } from './useFullView';
 import { 
   getStatusStyle, 
@@ -121,23 +123,16 @@ export default function ReconcileViewer({ sheetA, sheetB, locale = 'en' }) {
   const virtualRows = virtualizer.getVirtualItems();
 
   const exportReconciliationReport = useCallback(() => {
-    const diffHeader = showDiffColumn ? ',Difference' : '';
-    const csvHeader = `Key / ID,Value (Left File),Value (Right File),Reconciliation Status${diffHeader}\n`;
-    const csvRows = filteredRecords
-      .map((r) => {
-        const diff = showDiffColumn ? `,"${getNumericDifference(r.valA, r.valB) ?? ''}"` : '';
-        return `"${r.key}","${r.valA}","${r.valB}","${r.status}"${diff}`;
-      })
-      .join('\n');
-
-    const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvHeader + csvRows);
-    const link = document.createElement('a');
-    link.setAttribute('href', csvContent);
-    link.setAttribute('download', `reconciliation_report.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, [filteredRecords, showDiffColumn]);
+    const result = buildReconcileExport(reconResult, {
+      fileA: 'File A',
+      fileB: 'File B',
+      sheetA: sheetA?.name || 'Sheet 1',
+      sheetB: sheetB?.name || 'Sheet 1',
+      keyColumn: headers[keyColIndex] || 'Key Column',
+      valueColumn: headers[valColIndex] || 'Value Column',
+    });
+    downloadBlob(new Blob([result.csv.content], { type: 'text/csv;charset=utf-8;' }), result.csv.filename);
+  }, [reconResult, sheetA?.name, sheetB?.name, headers, keyColIndex, valColIndex]);
 
   const tableContainerStyle = isFullView
     ? { flex: 1, minHeight: 0, overflow: 'hidden' }

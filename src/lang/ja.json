@@ -71,7 +71,7 @@
       [
         "エクスポートとレポート形式",
         "最小限の CSV エクスポート",
-        "印刷可能な PDF、HTML 監査レポート、CSV、共有リンク"
+        "印刷可能な PDF、HTML 監査レポート、CSV、Excel ワークブック"
       ],
       [
         "複数のビジュアル差分ビュー",
@@ -261,7 +261,7 @@
     "changeType": "変更の種類",
     "original": "元の値（左ファイル）",
     "modifiedFile": "変更後の値（右ファイル）",
-    "exportShare": "比較レポートのエクスポートと共有",
+    "exportShare": "比較レポートのエクスポート",
     "closeExport": "エクスポートモーダルを閉じる",
     "htmlPrintPdf": "HTML / PDF印刷",
     "embedWidget": "ウィジェットの埋め込み",
@@ -288,6 +288,15 @@
     "exportBatchAuditReport": "一括監査レポートをエクスポート (CSV)",
     "exportReconciliationCsv": "照合結果をエクスポート (CSV)",
     "exportCsv": "CSVエクスポート",
+    "exportChangesCsv": "変更をCSVでエクスポート",
+    "exportMenu": "エクスポート形式オプション",
+    "exportChangesOption": "変更 (.csv)",
+    "exportWorkbookOption": "フルレポートブック (.xlsx)",
+    "exportAllCsv": "すべてエクスポート (CSV)",
+    "exportAllXlsx": "すべてエクスポート (.XLSX)",
+    "exportedN": "{count} 件の変更をエクスポートしました",
+    "noChangesToExport": "エクスポートする変更はありません",
+    "exportColumnsSetTooltip": "各セットのCSVボタンは、その結果セットのみをエクスポートします。",
     "loadDemoSamples": "デモサンプルを読み込む",
     "comparisonSettings": "比較設定",
     "smartFuzzyRowMatching": "スマートあいまい行マッチング",
@@ -577,7 +586,7 @@
       "seoCaps3": "<strong>スマートなあいまい行アライメント</strong> — 挿入または並べ替えられた行が誤検知の連鎖を引き起こすことはありません。アルゴリズムがコンテンツの署名によって行を整列させます。",
       "seoCaps4": "<strong>同期スクロール</strong> — 両方のシートで連動したナビゲーションにより、関連する行が常に同時に表示されます。",
       "seoCaps5": "<strong>セルの注釈</strong> — 任意の差分セルをクリックして監査メモを追加し、注釈付きレポートをエクスポートできます。",
-      "seoCaps6": "<strong>エクスポートオプション</strong> — 印刷可能なHTMLレポート、CSV内訳をダウンロードしたり、共有可能なリンクを生成したりできます。",
+      "seoCaps6": "<strong>エクスポートオプション</strong> — 印刷可能なHTMLレポート、CSV内訳をダウンロードしたり、Excelワークブックを生成したりできます。",
       "seoCaps7": "<strong>バッチキュー</strong> — 統合されたサマリーログを使用して、1回の自動実行で複数のファイルペアを処理します。",
       "seoUseTitle": "Excel列比較の一般的な使用例",
       "seoUse": "財務チームは月次決算のワークブックで<strong>2つの列を比較</strong>し、総勘定元帳に反映される前に差異を検出します。サプライチェーンアナリストは<strong>2つのシートを比較</strong>して、受領品に対する入荷発注書を確認します。人事担当者はシステム間で従業員IDの<strong>2つのリストを比較</strong>して人員数の不一致を洗い出します。IT監査担当者は<strong>日付を比較</strong>して変更ログとシステムのタイムスタンプを検証します。",
