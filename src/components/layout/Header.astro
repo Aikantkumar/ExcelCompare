@@ -2,11 +2,29 @@
 import Wordmark from '../shared/Wordmark.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
-import { getLocaleFromPathname } from '../../config';
+import { getLocaleFromPathname, stripLocalePrefix, type Locale } from '../../config';
 import { t } from '../../utils/translations';
+import { localizeHref } from '../../utils/links';
 
-const pathname = new URL(Astro.request.url).pathname;
-const currentLang = getLocaleFromPathname(pathname);
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang } = Astro.props;
+const currentLang = (propLang ?? getLocaleFromPathname(Astro.url.pathname)) as Locale;
+const pathname = Astro.url.pathname;
+const currentBase = (() => {
+  const base = stripLocalePrefix(pathname);
+  return base.length > 1 && base.endsWith('/') ? base.slice(0, -1) : base;
+})();
+
+const localizedHref = (href: string) => localizeHref(currentLang, href);
+
+const isActive = (href: string): boolean => {
+  const base = href.length > 1 && href.endsWith('/') ? href.slice(0, -1) : href;
+  if (base === '/') return currentBase === '/';
+  return currentBase === base || currentBase.startsWith(base + '/');
+};
 
 const navItems = [
   { key: 'home', href: '/' },
@@ -15,28 +33,32 @@ const navItems = [
   { key: 'reconcile', href: '/reconcile' },
   { key: 'batchDiff', href: '/batch' },
   { key: 'help', href: '/help' },
+  { key: 'faq', href: '/faq' },
 ];
+
+const navLabel = (key: string): string =>
+  key === 'faq' ? t(currentLang, 'common.faq', 'FAQ') : t(currentLang, `nav.${key}`, key);
 ---
 
 <header class="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline transition-colors">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
     <!-- Brand Wordmark -->
-    <Wordmark />
+    <Wordmark lang={currentLang} />
 
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex items-center space-x-8" aria-label="Main Navigation">
       {navItems.map((item) => {
-        const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+        const active = isActive(item.href);
         return (
           <a
-            href={item.href}
+            href={localizedHref(item.href)}
             class={`text-nav transition-colors ${
-              isActive 
-                ? 'text-ink border-b border-ink pb-1 font-semibold' 
+              active
+                ? 'text-ink border-b border-ink pb-1 font-semibold'
                 : 'text-muted hover:text-ink'
             }`}
           >
-            {t(currentLang, `nav.${item.key}`, item.key)}
+            {navLabel(item.key)}
           </a>
         );
       })}
@@ -48,20 +70,29 @@ const navItems = [
         <ThemeToggle />
         <LanguageSwitcher lang={currentLang} />
       </div>
-      <a href="/compare" class="btn-primary text-nav tracking-[2px] min-w-[100px] text-center" style="font-size: 0.75rem; padding: 6px 16px; height: 34px; min-height: auto">
+      <a href={localizedHref('/compare')} class="btn-primary text-nav tracking-[2px] min-w-[100px] text-center" style="font-size: 0.75rem; padding: 6px 16px; height: 34px; min-height: auto">
         {t(currentLang, 'nav.launchTool', 'LAUNCH TOOL')}
       </a>
     </div>
   </div>
 
-    <!-- Mobile Sub-nav -->
-    <div class="md:hidden flex items-center gap-2 border-t border-hairline bg-surface-soft px-2 py-2 overflow-x-auto scrollbar-hide text-[11px] font-mono tracking-wider text-body whitespace-nowrap">
-      <a href="/" class={pathname === '/' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.home', 'HOME')}</a>
-      <a href="/compare" class={pathname === '/compare' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.compareFiles', 'FILES')}</a>
-      <a href="/compare-columns" class={pathname === '/compare-columns' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.compareColumns', 'COLUMNS')}</a>
-      <a href="/reconcile" class={pathname === '/reconcile' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.reconcile', 'RECONCILE')}</a>
-      <a href="/batch" class={pathname === '/batch' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.batchDiff', 'BATCH')}</a>
-      <a href="/help" class={pathname === '/help' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.help', 'HELP')}</a>
-      <a href="/faq" class={pathname === '/faq' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'common.faq', 'FAQ')}</a>
-    </div>
+  <!-- Mobile Sub-nav -->
+  <div class="md:hidden flex items-center gap-2 border-t border-hairline bg-surface-soft px-2 py-2 overflow-x-auto scrollbar-hide text-[11px] font-mono tracking-wider text-body whitespace-nowrap">
+    {navItems.map((item) => {
+      const active = isActive(item.href);
+      return (
+        <a
+          href={localizedHref(item.href)}
+          class={`text-nav transition-colors whitespace-nowrap ${
+            active
+              ? 'text-ink font-bold underline'
+              : 'text-muted hover:text-ink'
+          }`}
+          style="white-space: nowrap"
+        >
+          {navLabel(item.key)}
+        </a>
+      );
+    })}
+  </div>
 </header>

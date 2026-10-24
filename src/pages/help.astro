@@ -1,8 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { defaultLocale } from '../config';
+import { localizeHref } from '../utils/links';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Excel Compare Help — How to Compare Columns, Sheets & Files"
   description="Learn how to excel compare columns, sheets, files, dates, and lists with CompareExcel. Step-by-step documentation for online spreadsheet diffing."
   keywords="excel compare columns, excel compare two sheets, excel compare two files, excel compare dates, excel compare two lists, online excel compare, excel compare help, documentation"
@@ -91,8 +96,8 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="text-center">
-        <a
-          href="/compare"
+          <a
+            href={localizeHref(lang, '/compare')}
           class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors"
         >
           START COMPARING

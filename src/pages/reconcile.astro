@@ -1,9 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
+import { defaultLocale } from '../config';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Excel Reconcile Two Lists — ID-Based Key/Value Match Engine"
   description="Reconcile two Excel lists by primary key. Match SKUs, account codes, and IDs across sheets for excel compare two lists, dates, and values. 100% private."
   keywords="excel compare two lists, excel compare dates, excel compare two sheets, excel compare two columns, online excel compare"

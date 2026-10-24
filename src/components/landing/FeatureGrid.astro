@@ -1,7 +1,7 @@
 ---
 import { t } from '../../utils/translations';
 import type { Locale } from '../../config';
-import { getLocalizedPathname } from '../../config';
+import { localizeHref } from '../../utils/links';
 
 interface Props {
   lang?: Locale;
@@ -9,7 +9,7 @@ interface Props {
 
 const { lang: propLang = 'en' } = Astro.props;
 const lang = propLang as Locale;
-const localizedHref = (href: string) => getLocalizedPathname(lang, href);
+const localizedHref = (href: string) => localizeHref(lang, href);
 ---
 
 <section class="py-24 bg-canvas border-b border-hairline">

@@ -1,9 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
+import { defaultLocale } from '../config';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Excel Compare Two Columns — Set Match & Difference Tool"
   description="Compare two Excel columns online. Find matches, differences, intersection, and unique values for excel compare two columns for matches and differences. 100% private client-side processing."
   keywords="excel compare columns, excel compare two columns, excel compare two columns for matches, excel compare two columns for differences, excel compare two lists, online excel compare"

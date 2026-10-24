@@ -1,8 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { defaultLocale } from '../config';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Terms & Conditions — CompareExcel"
   description="Terms and conditions for using CompareExcel, the client-side spreadsheet comparison tool."
   keywords="terms conditions compareexcel, compareexcel terms of use"

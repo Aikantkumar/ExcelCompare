@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { t } from '../../utils/translations';
 import { locales, defaultLocale, type Locale } from '../../config';
+import { localizeHref } from '../../utils/links';
 
 export function getStaticPaths() {
   return locales
@@ -36,7 +37,7 @@ const button = t(localeLang, 'pages.error500.button', "TRY AGAIN");
       </div>
       <div class="text-center">
         <a
-          href="/compare"
+          href={localizeHref(localeLang, '/compare')}
           class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors"
         >
           {button}

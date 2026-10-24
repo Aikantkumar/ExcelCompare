@@ -1,8 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { defaultLocale } from '../config';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Excel Compare Privacy — 100% Client-Side Browser Processing"
   description="CompareExcel privacy guarantee: all excel compare columns, sheets, and files processing runs 100% locally in your browser. Zero server uploads."
   keywords="excel compare columns, excel compare, excel compare two files, online excel compare, excel compare privacy"

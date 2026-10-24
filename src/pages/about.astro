@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import AboutSection from '../components/pages/AboutSection.astro';
 import { t } from '../utils/translations';
-import { defaultLocale, type Locale } from '../config';
+import { defaultLocale } from '../config';
 
 const lang = defaultLocale;
 const title = t(lang, 'pages.about.title', "About CompareExcel — High-Precision Client-Side Spreadsheet Diff Engine");

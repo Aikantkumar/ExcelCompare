@@ -1,8 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { defaultLocale } from '../config';
+import { localizeHref } from '../utils/links';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Contact Us — CompareExcel"
   description="Contact CompareExcel for support, feedback, or questions about spreadsheet comparison."
   keywords="contact compareexcel, support compareexcel, compareexcel contact"
@@ -46,8 +51,8 @@ import Layout from '../layouts/Layout.astro';
               Step-by-step guides for comparing columns, sheets, files, dates, and lists, plus answers to common questions.
             </p>
             <div class="flex flex-col sm:flex-row gap-3">
-              <a href="/help" class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">Documentation</a>
-              <a href="/faq" class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">FAQ</a>
+              <a href={localizeHref(lang, '/help')} class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">Documentation</a>
+              <a href={localizeHref(lang, '/faq')} class="inline-block px-5 py-2 border border-hairline-strong text-muted rounded-full text-mono text-xs tracking-widest uppercase hover:border-ink hover:text-ink transition-colors">FAQ</a>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 ---
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { localeConfig, type Locale, defaultLocale } from '../config';
+import { localeConfig, type Locale, defaultLocale, locales, getLocaleFromPathname, buildCanonical } from '../config';
 import '../styles/global.css';
 
 interface Props {
@@ -18,20 +18,25 @@ const {
   title = "CompareExcel — High Precision Online Spreadsheet & Data Comparison",
   description = "Compare Excel spreadsheets (.xlsx, .csv) with full cell-by-cell diff, formula inspection, smart fuzzy row matching, and zero server upload privacy.",
   ogImage = "/og-image.png",
-  canonical = Astro.url.pathname === "/" ? "https://compareexcel.com/" : `https://compareexcel.com${Astro.url.pathname}`,
+  canonical: propCanonical,
   robots = "index,follow",
   keywords = "",
-  lang = defaultLocale
+  lang: propLang,
 } = Astro.props;
 
-const htmlLang = lang;
-const htmlDir = localeConfig[lang].dir;
+// Resolve language: explicit prop wins, otherwise derive from the URL pathname.
+const lang = (propLang ?? getLocaleFromPathname(Astro.url.pathname)) as Locale;
+const bcp47 = localeConfig[lang].locale.replace(/_/g, '-');
+const canonical = propCanonical ?? buildCanonical(lang, Astro.url.pathname);
 
 const ogUrl = canonical;
 const siteName = "CompareExcel";
+
+// Alternate hreflang URLs for every locale, plus x-default pointing at English.
+const alternates = [...locales, 'x-default'] as (Locale | 'x-default')[];
 ---
 <!DOCTYPE html>
-<html lang={htmlLang} dir={htmlDir} data-theme="dark" class="bg-canvas text-body antialiased">
+<html lang={bcp47} dir={localeConfig[lang].dir} data-theme="dark" class="bg-canvas text-body antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,19 +47,40 @@ const siteName = "CompareExcel";
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
       } catch (e) {}
     `}</script>
+    <script is:inline>{`
+      (function () {
+        try {
+          var pathname = window.location.pathname;
+          var prefixed = /^\/[a-z]{2}(\/|$)/.test(pathname);
+          if (prefixed) return;
+          var stored = localStorage.getItem('preferredLocale');
+          var locales = ['en', 'es', 'zh', 'ja', 'fr', 'de', 'pt', 'ko', 'it'];
+          if (!stored || stored === 'en' || locales.indexOf(stored) === -1) return;
+          if (/\/404($|\/)/.test(pathname) || /\/500($|\/)/.test(pathname)) return;
+          var target = '/' + stored + (pathname === '/' ? '' : pathname) + window.location.search + window.location.hash;
+          window.location.replace(target);
+        } catch (e) {}
+      })();
+    `}</script>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="excelcomparecolumns" />
     <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="excelcomparecolumns" />
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
     <meta name="robots" content={robots} />
-    <link rel="canonical" href={ogUrl} />
+    <link rel="canonical" href={canonical} />
+
+    {alternates.map((a) => {
+      const hreflang = a === 'x-default' ? 'x-default' : localeConfig[a as Locale].locale.replace(/_/g, '-');
+      const href = a === 'x-default' ? buildCanonical(defaultLocale, Astro.url.pathname) : buildCanonical(a as Locale, Astro.url.pathname);
+      return <link rel="alternate" hreflang={hreflang} href={href} />;
+    })}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -66,7 +92,7 @@ const siteName = "CompareExcel";
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={title} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={localeConfig[lang].locale} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -77,10 +103,10 @@ const siteName = "CompareExcel";
     <meta name="twitter:image:alt" content={title} />
   </head>
   <body class="min-h-screen flex flex-col bg-canvas selection:bg-link selection:text-canvas">
-    <Header />
+    <Header lang={lang} />
     <main class="flex-1 w-full">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

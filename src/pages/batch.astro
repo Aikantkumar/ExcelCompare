@@ -1,9 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
+import { defaultLocale } from '../config';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="Batch Excel Compare Multiple Files — Queue Processing Tool"
   description="Batch excel compare multiple file pairs at once. Queue spreadsheets and generate consolidated audit reports. 100% private client-side batch diff engine."
   keywords="excel compare two files, excel compare, online excel compare, excel compare two sheets, batch excel compare"

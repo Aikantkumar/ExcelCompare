@@ -11,7 +11,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "i18n:audit": "node scripts/i18n-audit.mjs",
-    "test:export": "node scripts/test-export.mjs"
+    "test:export": "node scripts/test-export.mjs",
+    "test:links": "node scripts/test-links.mjs",
+    "check:links": "node scripts/check-dist-links.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

@@ -1,7 +1,7 @@
 ---
-import { locales, defaultLocale, localeConfig, getLocalizedPathname } from '../../config';
+import { locales, defaultLocale, localeConfig, type Locale } from '../../config';
 import { t } from '../../utils/translations';
-import type { Locale } from '../../config';
+import { localizeHref } from '../../utils/links';
 
 interface Props {
   lang?: Locale;
@@ -10,7 +10,10 @@ interface Props {
 const { lang: propLang = defaultLocale } = Astro.props;
 const currentLang = propLang as Locale;
 const pathname = Astro.url.pathname;
+const search = Astro.url.search;
+const hash = Astro.url.hash;
 const currentLabel = localeConfig[currentLang].nativeName;
+const fullPath = pathname + search + hash;
 
 const flags: Record<Locale, string> = {
   en: '🇺🇸',
@@ -36,10 +39,11 @@ const flags: Record<Locale, string> = {
     </summary>
     <div class="absolute right-0 mt-1 w-32 bg-surface-soft border border-hairline rounded shadow-lg py-1 z-20">
       {locales.map((l) => {
-        const href = getLocalizedPathname(l, pathname);
+        const href = localizeHref(l, fullPath);
         const active = l === currentLang;
         return (
           <a
+            data-lang={l}
             href={href}
             class={`block px-3 py-1.5 text-xs font-mono ${active ? 'text-ink bg-surface-elevated/50' : 'text-muted hover:text-ink hover:bg-surface-elevated/20'} transition-colors`}
           >
@@ -50,3 +54,22 @@ const flags: Record<Locale, string> = {
     </div>
   </details>
 </div>
+
+<script is:inline>
+  (function () {
+    try {
+      document.querySelectorAll('a[data-lang]').forEach(function (anchor) {
+        anchor.addEventListener('click', function () {
+          var lang = anchor.getAttribute('data-lang');
+          if (!lang) return;
+          try {
+            localStorage.setItem('preferredLocale', lang);
+          } catch (e) {}
+          try {
+            document.cookie = 'preferredLocale=' + lang + '; path=/; max-age=31536000; SameSite=Lax';
+          } catch (e) {}
+        });
+      });
+    } catch (e) {}
+  })();
+</script>

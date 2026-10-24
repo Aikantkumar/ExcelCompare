@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { defaultLocale } from '../config';
+import { localizeHref } from '../utils/links';
 
 const generalFaqs = [
   {
@@ -68,6 +70,8 @@ const technicalFaqs = [
 
 const allFaqs = [...generalFaqs, ...comparisonFaqs, ...technicalFaqs];
 
+const lang = defaultLocale;
+
 const faqJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -83,6 +87,7 @@ const faqJsonLd = JSON.stringify({
 ---
 
 <Layout
+  lang={lang}
   title="Excel Compare FAQ — Columns, Sheets, Lists & Reconciliation"
   description="Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with CompareExcel."
   keywords="excel compare faq, how to compare two columns in excel, how to compare two excel sheets, how to compare two lists in excel, compare excel sheets differences matches, match two columns output third column, compare two sets of data"
@@ -93,7 +98,7 @@ const faqJsonLd = JSON.stringify({
       <div class="text-center space-y-4">
         <div class="text-caption text-link">FREQUENTLY ASKED QUESTIONS</div>
         <h1 class="text-display-lg text-ink">COMMON QUESTIONS ABOUT EXCEL COMPARISON</h1>
-        <a href="/" class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors">START COMPARING</a>
+        <a href={localizeHref(lang, '/')} class="inline-block px-6 py-3 border border-ink text-ink rounded-full text-mono text-xs tracking-widest uppercase hover:bg-ink hover:text-canvas transition-colors">START COMPARING</a>
       </div>
 
       {[

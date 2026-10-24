@@ -1,13 +1,18 @@
 ---
+import { getLocaleFromPathname, type Locale } from '../../config';
+import { localizeHref } from '../../utils/links';
+
 interface Props {
   class?: string;
   size?: 'sm' | 'md' | 'lg';
+  lang?: Locale;
 }
 
-const { class: className = '', size = 'md' } = Astro.props;
+const { class: className = '', size = 'md', lang: propLang } = Astro.props;
+const lang = (propLang ?? getLocaleFromPathname(Astro.url.pathname)) as Locale;
 ---
 
-<a href="/" class={`inline-flex items-center gap-3 no-underline group ${className}`}>
+<a href={localizeHref(lang, '/')} class={`inline-flex items-center gap-3 no-underline group ${className}`}>
   <div class="w-6 h-6 border border-ink flex items-center justify-center transition-transform group-hover:rotate-45 duration-300">
     <div class="w-2 h-2 bg-ink"></div>
   </div>

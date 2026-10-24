@@ -1,12 +1,16 @@
 ---
 import Wordmark from '../shared/Wordmark.astro';
-import { getLocaleFromPathname } from '../../config';
+import { getLocaleFromPathname, type Locale } from '../../config';
 import { t } from '../../utils/translations';
-import { getLocalizedPathname } from '../../config';
+import { localizeHref } from '../../utils/links';
 
-const pathname = new URL(Astro.request.url).pathname;
-const lang = getLocaleFromPathname(pathname);
-const localizedHref = (href: string) => getLocalizedPathname(lang, href);
+interface Props {
+  lang?: Locale;
+}
+
+const { lang: propLang } = Astro.props;
+const lang = (propLang ?? getLocaleFromPathname(Astro.url.pathname)) as Locale;
+const localizedHref = (href: string) => localizeHref(lang, href);
 ---
 
 <footer class="bg-canvas border-t border-hairline text-muted py-16 px-4 sm:px-6 lg:px-8 mt-24">

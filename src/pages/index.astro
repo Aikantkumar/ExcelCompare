@@ -3,9 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/landing/Hero.astro';
 import FeatureGrid from '../components/landing/FeatureGrid.astro';
 import CompareToolContainer from '../components/comparison/CompareToolContainer.jsx';
+import { defaultLocale } from '../config';
+import { localizeHref } from '../utils/links';
+
+const lang = defaultLocale;
 ---
 
 <Layout
+  lang={lang}
   title="CompareExcel — Online Excel Compare Columns & Spreadsheet Diff Tool"
   description="Compare Excel spreadsheets online for free. Compare two columns, two sheets, two files, dates, and cell-by-cell differences with 100% private client-side processing."
   keywords="excel compare columns, excel compare, excel compare two columns, excel compare two columns for matches, excel compare two columns for differences, excel compare two sheets, excel compare two cells, excel compare dates, excel compare two lists, excel compare two files, online excel compare"
@@ -35,7 +40,7 @@ import CompareToolContainer from '../components/comparison/CompareToolContainer.
         No sign up, no credit card, no software installation required. Drop your files and get instant visual diffs inside your local browser.
       </p>
       <div class="pt-4">
-        <a href="/compare" class="btn-primary">
+        <a href={localizeHref(lang, '/compare')} class="btn-primary">
           OPEN COMPARISON WORKSPACE NOW
         </a>
       </div>
