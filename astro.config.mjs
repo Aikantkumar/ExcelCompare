@@ -28,6 +28,9 @@ export default defineConfig({
     }),
   ],
   vite: {
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
     plugins: [
       tailwindcss(),
       visualizer({
@@ -39,7 +42,16 @@ export default defineConfig({
       }),
     ],
     optimizeDeps: {
-      include: ['xlsx', 'lucide-react'],
+      include: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'xlsx',
+        'lucide-react',
+        '@tanstack/react-virtual',
+      ],
     },
   },
 });

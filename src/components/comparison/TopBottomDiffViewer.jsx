@@ -460,10 +460,10 @@ export default function TopBottomDiffViewer({
             title={mobileDrawer === 'tools' && !isDesktop ? 'Close Tools Drawer' : 'Toggle Left Tools Sidebar'}
             aria-label={mobileDrawer === 'tools' && !isDesktop ? 'Close Tools & Options drawer' : (showLeftSidebar ? 'Hide Tools Sidebar' : 'Show Tools Sidebar')}
           >
-            <Sliders className="w-4 h-4 inline" />
-            <span className="ml-1 text-[11px] font-bold hidden sm:inline">
+            <span className="mr-1 text-[11px] font-bold hidden sm:inline">
               {showLeftSidebar ? t(locale, 'comparison.hideTools', 'HIDE TOOLS') : t(locale, 'comparison.showTools', 'SHOW TOOLS')}
             </span>
+            <Sliders className="w-4 h-4 inline" />
           </button>
 
           <div className="h-4 w-px bg-hairline mx-1" />
@@ -492,42 +492,6 @@ export default function TopBottomDiffViewer({
           >
             <Maximize2 className="w-3.5 h-3.5 inline mr-1" />
             <span className="hidden sm:inline">Overlapped</span>
-          </button>
-
-          <div className="h-4 w-px bg-hairline mx-1" />
-
-          <span className="text-[10px] font-mono text-muted uppercase tracking-wider hidden md:inline">VIEW:</span>
-          <button
-            onClick={() => setViewTab('both')}
-            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
-              viewTab === 'both'
-                ? 'border-white text-ink bg-surface-elevated font-bold'
-                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
-            }`}
-            aria-label={viewTab === 'both' ? 'Both files view, active' : 'Both files view'}
-          >
-            <Eye className="w-3.5 h-3.5 inline mr-1" />
-            <span className="hidden sm:inline">Both Files</span>
-          </button>
-          <button
-            onClick={() => setViewTab('original')}
-            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
-              viewTab === 'original'
-                ? 'border-white text-ink bg-surface-elevated font-bold'
-                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
-            }`}
-          >
-            Original (Top)
-          </button>
-          <button
-            onClick={() => setViewTab('changed')}
-            className={`px-3 py-1.5 text-xs font-mono tracking-wider uppercase border rounded-full transition-all ${
-              viewTab === 'changed'
-                ? 'border-white text-ink bg-surface-elevated font-bold'
-                : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
-            }`}
-          >
-            Changed (Bottom)
           </button>
 
           <div className="h-4 w-px bg-hairline mx-1" />
@@ -568,7 +532,7 @@ export default function TopBottomDiffViewer({
 
           <button
             onClick={toggleFullView}
-            className={`p-1.5 text-xs font-mono border rounded transition-all ${
+            className={`p-1.5 text-xs font-mono border rounded transition-all shadow-[0_0_14px_rgba(34,197,94,0.55)] ${
               isFullView
                 ? 'border-success text-success bg-diff-added-bg'
                 : 'border-hairline-strong text-muted hover:border-white hover:text-ink'
@@ -583,15 +547,15 @@ export default function TopBottomDiffViewer({
             </span>
           </button>
 
-          <button onClick={onExport} className="btn-primary py-1.5 px-3 text-xs h-8 tracking-[1px]">
-            <Download className="w-3.5 h-3.5 inline mr-1" />
+          <button onClick={onExport} className="btn-primary px-2 py-1.5 text-[10px] h-9 tracking-[1px]">
+            <Download className="w-3 h-3 inline mr-1" />
             Export
           </button>
           <button
             onClick={() => { if (onShare) onShare(); setCopiedLink(true); setTimeout(() => setCopiedLink(false), 2000); }}
-            className="btn-secondary py-1.5 px-3 text-xs h-8 tracking-[1px]"
+            className="btn-secondary px-2 py-1.5 text-[10px] h-9 tracking-[1px]"
           >
-            {copiedLink ? <Check className="w-3.5 h-3.5 inline mr-1 text-success" /> : <Share2 className="w-3.5 h-3.5 inline mr-1" />}
+            {copiedLink ? <Check className="w-3 h-3 inline mr-1 text-success" /> : <Share2 className="w-3 h-3 inline mr-1" />}
             {copiedLink ? 'Copied' : 'Share'}
           </button>
 

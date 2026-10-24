@@ -4,6 +4,7 @@
   "locale": "en_US",
   "siteName": "CompareExcel",
   "nav": {
+    "home": "Home",
     "compareFiles": "Compare Files",
     "compareColumns": "Compare Columns",
     "reconcile": "Reconcile",

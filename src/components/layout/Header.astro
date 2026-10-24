@@ -9,11 +9,11 @@ const pathname = new URL(Astro.request.url).pathname;
 const currentLang = getLocaleFromPathname(pathname);
 
 const navItems = [
+  { key: 'home', href: '/' },
   { key: 'compareFiles', href: '/compare' },
   { key: 'compareColumns', href: '/compare-columns' },
   { key: 'reconcile', href: '/reconcile' },
   { key: 'batchDiff', href: '/batch' },
-  { key: 'features', href: '/features' },
   { key: 'help', href: '/help' },
 ];
 ---
@@ -43,23 +43,25 @@ const navItems = [
     </nav>
 
     <!-- Header Actions -->
-    <div class="flex items-center gap-3 sm:gap-4">
-      <ThemeToggle />
-      <LanguageSwitcher lang={currentLang} />
-      <a href="/compare" class="btn-primary px-3 sm:px-5 text-xs h-9 tracking-[1px] sm:tracking-[2px] min-h-[40px] sm:h-auto sm:min-h-auto">
+    <div class="flex flex-col items-end gap-3 sm:flex-row sm:items-center sm:gap-6">
+      <div class="flex flex-col items-start gap-1.5 sm:items-end">
+        <ThemeToggle />
+        <LanguageSwitcher lang={currentLang} />
+      </div>
+      <a href="/compare" class="btn-primary text-nav tracking-[2px] min-w-[100px] text-center" style="font-size: 0.75rem; padding: 6px 16px; height: 34px; min-height: auto">
         {t(currentLang, 'nav.launchTool', 'LAUNCH TOOL')}
       </a>
     </div>
   </div>
 
-  <!-- Mobile Sub-nav -->
-  <div class="md:hidden flex items-center gap-2 border-t border-hairline bg-surface-soft px-2 py-2 overflow-x-auto scrollbar-hide text-[11px] font-mono tracking-wider text-body whitespace-nowrap">
-    <a href="/compare" class={pathname === '/compare' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.compareFiles', 'FILES')}</a>
-    <a href="/compare-columns" class={pathname === '/compare-columns' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.compareColumns', 'COLUMNS')}</a>
-    <a href="/reconcile" class={pathname === '/reconcile' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.reconcile', 'RECONCILE')}</a>
-    <a href="/batch" class={pathname === '/batch' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.batchDiff', 'BATCH')}</a>
-    <a href="/features" class={pathname === '/features' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.features', 'FEATURES')}</a>
-    <a href="/help" class={pathname === '/help' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.help', 'HELP')}</a>
-    <a href="/faq" class={pathname === '/faq' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'common.faq', 'FAQ')}</a>
-  </div>
+    <!-- Mobile Sub-nav -->
+    <div class="md:hidden flex items-center gap-2 border-t border-hairline bg-surface-soft px-2 py-2 overflow-x-auto scrollbar-hide text-[11px] font-mono tracking-wider text-body whitespace-nowrap">
+      <a href="/" class={pathname === '/' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.home', 'HOME')}</a>
+      <a href="/compare" class={pathname === '/compare' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.compareFiles', 'FILES')}</a>
+      <a href="/compare-columns" class={pathname === '/compare-columns' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.compareColumns', 'COLUMNS')}</a>
+      <a href="/reconcile" class={pathname === '/reconcile' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.reconcile', 'RECONCILE')}</a>
+      <a href="/batch" class={pathname === '/batch' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.batchDiff', 'BATCH')}</a>
+      <a href="/help" class={pathname === '/help' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'nav.help', 'HELP')}</a>
+      <a href="/faq" class={pathname === '/faq' ? 'text-ink font-bold underline' : 'hover:text-ink'} style="white-space: nowrap">{t(currentLang, 'common.faq', 'FAQ')}</a>
+    </div>
 </header>

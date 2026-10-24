@@ -268,7 +268,7 @@ export function compareSheetsCore(sheetA, sheetB, options = {}) {
   if (matchColumnsByHeaders && rawRowsA.length > 0 && rawRowsB.length > 0) {
     const headersA = rawRowsA[0].map(c => String(c.val || '').trim().toLowerCase());
     const headersB = rawRowsB[0].map(c => String(c.val || '').trim().toLowerCase());
-    colMappingB = headersA.map(h => headersB.indexOf(h));
+    colMappingB = headersB.map((h, bIdx) => headersA.indexOf(h));
   }
 
   if (sortRows && sortRows.startsWith('col')) {

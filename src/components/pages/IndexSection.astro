@@ -1,7 +1,6 @@
 ---
 import Hero from '../landing/Hero.astro';
 import FeatureGrid from '../landing/FeatureGrid.astro';
-import CompetitorComparison from '../landing/CompetitorComparison.astro';
 import CompareToolContainer from '../comparison/CompareToolContainer.jsx';
 import { getLocalizedPathname } from '../../config';
 import { t } from '../../utils/translations';
@@ -31,15 +30,12 @@ const localizedHref = (href: string) => getLocalizedPathname(lang, href);
 <!-- Feature Grid Section -->
 <FeatureGrid lang={lang} />
 
-<!-- Competitor Advantage Matrix Section -->
-<CompetitorComparison lang={lang} />
-
 <!-- CTA Band -->
 <section class="py-24 bg-canvas text-center border-b border-hairline">
   <div class="max-w-4xl mx-auto px-4 space-y-6">
     <div class="text-caption text-link">{t(lang, 'common.engineeredForAccuracy', 'ENGINEERED FOR ACCURACY & PRIVACY')}</div>
     <h2 class="text-display-lg text-ink">{t(lang, 'common.readyForAudit', 'READY TO RUN YOUR SPREADSHEET AUDIT?')}</h2>
-    <p class="font-serif text-lg text-muted max-w-xl mx-auto leading-relaxed">
+    <p class="font-serif text-xl sm:text-2xl text-body max-w-3xl mx-auto leading-relaxed">
       {t(lang, 'common.noSignUp', 'No sign up, no credit card, no software installation required. Drop your files and get instant visual diffs inside your local browser.')}
     </p>
     <div class="pt-4">

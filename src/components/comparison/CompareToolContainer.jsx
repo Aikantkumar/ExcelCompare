@@ -2,6 +2,7 @@ import {
   useState, 
   useEffect, 
   useCallback, 
+  useRef,
   Component, 
   lazy, 
   Suspense 
@@ -79,13 +80,15 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
   
   const [sheetNamesA, setSheetNamesA] = useState(initialSample.fileA.sheetNames);
   const [sheetNamesB, setSheetNamesB] = useState(initialSample.fileB.sheetNames);
-  const [sheetDataA, setSheetDataA] = useState(initialSheetA);
-  const [sheetDataB, setSheetDataB] = useState(initialSheetB);
+  const [sheetsA, setSheetsA] = useState(initialSample.fileA.sheets);
+  const [sheetsB, setSheetsB] = useState(initialSample.fileB.sheets);
   const [fileNameA, setFileNameA] = useState(initialSample.fileA.fileName);
   const [fileNameB, setFileNameB] = useState(initialSample.fileB.fileName);
   
   const [selectedSheetA, setSelectedSheetA] = useState(initialSheetNameA);
   const [selectedSheetB, setSelectedSheetB] = useState(initialSheetNameB);
+  const sheetDataA = sheetsA?.[selectedSheetA] ?? null;
+  const sheetDataB = sheetsB?.[selectedSheetB] ?? null;
   const [useWorker, setUseWorker] = useState(true);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isDragActiveA, setIsDragActiveA] = useState(false);
@@ -130,8 +133,8 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
       const sample = SAMPLE_DATASETS[sampleKey];
       setSheetNamesA(sample.fileA.sheetNames);
       setSheetNamesB(sample.fileB.sheetNames);
-      setSheetDataA(sample.fileA.sheets[sample.fileA.sheetNames[0]]);
-      setSheetDataB(sample.fileB.sheets[sample.fileB.sheetNames[0]]);
+      setSheetsA(sample.fileA.sheets);
+      setSheetsB(sample.fileB.sheets);
       setFileNameA(sample.fileA.fileName);
       setFileNameB(sample.fileB.fileName);
       setSelectedSheetA(sample.fileA.sheetNames[0]);
@@ -147,8 +150,8 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
   const handleClearAll = () => {
     setSheetNamesA([]);
     setSheetNamesB([]);
-    setSheetDataA(null);
-    setSheetDataB(null);
+    setSheetsA({});
+    setSheetsB({});
     setFileNameA('');
     setFileNameB('');
     setSelectedSheetA('');
@@ -169,12 +172,12 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
       }
       if (side === 'A') {
         setSheetNamesA(parsed.sheetNames);
-        setSheetDataA(parsed.sheets[parsed.sheetNames[0]]);
+        setSheetsA(parsed.sheets);
         setFileNameA(parsed.fileName);
         setSelectedSheetA(parsed.sheetNames[0]);
       } else {
         setSheetNamesB(parsed.sheetNames);
-        setSheetDataB(parsed.sheets[parsed.sheetNames[0]]);
+        setSheetsB(parsed.sheets);
         setFileNameB(parsed.fileName);
         setSelectedSheetB(parsed.sheetNames[0]);
       }
@@ -221,19 +224,19 @@ export default function CompareToolContainer({ initialMode = 'stacked', locale =
   const handleRemoveFile = (side) => {
     if (side === 'A') {
       setSheetNamesA([]);
-      setSheetDataA(null);
+      setSheetsA({});
       setFileNameA('');
       setSelectedSheetA('');
     } else {
       setSheetNamesB([]);
-      setSheetDataB(null);
+      setSheetsB({});
       setFileNameB('');
       setSelectedSheetB('');
     }
     clearDiff();
   };
 
-  const isInitialMount = React.useRef(true);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     if (sheetDataA && sheetDataB && selectedSheetA && selectedSheetB) {

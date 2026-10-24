@@ -10,13 +10,23 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
 
   const stats = diffData?.stats || {};
 
+  const escapeHtml = (text) => String(text ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
   const generatePrintableReport = () => {
     const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      return;
+    }
     const html = `
       <!DOCTYPE html>
       <html>
         <head>
-          <title>${t(locale, 'comparison.exportTitle', 'CompareExcel Diff Audit Report')} - ${fileAName} vs ${fileBName}</title>
+          <title>${t(locale, 'comparison.exportTitle', 'CompareExcel Diff Audit Report')} - ${escapeHtml(fileAName || 'File A')} vs ${escapeHtml(fileBName || 'File B')}</title>
           <style>
             body { font-family: -apple-system, sans-serif; background: #fff; color: #111; padding: 40px; }
             h1 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #000; padding-bottom: 10px; }
@@ -34,9 +44,9 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
         <body>
           <h1>${t(locale, 'comparison.exportReportTitle', 'COMPAREEXCEL AUDIT REPORT')}</h1>
           <div class="meta">
-            ${t(locale, 'comparison.leftFile', 'LEFT FILE')}: ${fileAName || 'File A'}<br/>
-            ${t(locale, 'comparison.rightFile', 'RIGHT FILE')}: ${fileBName || 'File B'}<br/>
-            ${t(locale, 'comparison.sheet', 'SHEET')}: ${sheetName || 'Sheet 1'}<br/>
+            ${t(locale, 'comparison.leftFile', 'LEFT FILE')}: ${escapeHtml(fileAName || 'File A')}<br/>
+            ${t(locale, 'comparison.rightFile', 'RIGHT FILE')}: ${escapeHtml(fileBName || 'File B')}<br/>
+            ${t(locale, 'comparison.sheet', 'SHEET')}: ${escapeHtml(sheetName || 'Sheet 1')}<br/>
             ${t(locale, 'comparison.generated', 'GENERATED')}: ${new Date().toLocaleString()}
           </div>
 
@@ -59,14 +69,14 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
             </thead>
             <tbody>
               ${(diffData?.rows || [])
-                .filter((r) => r.type !== 'SAME')
+                .filter((r) => r.type !== 'SAME' && r.type !== 'COLLAPSED')
                 .map(
                   (r) => `
-                <tr class="${r.type.toLowerCase()}">
+                <tr class="${escapeHtml(r.type.toLowerCase())}">
                   <td>${r.indexA !== null ? r.indexA + 1 : '-'}/${r.indexB !== null ? r.indexB + 1 : '-'}</td>
-                  <td><strong>${r.type}</strong></td>
-                  <td>${Array.isArray(r.cellsA) ? r.cellsA.map((c) => c.val).join(' | ') : '-'}</td>
-                  <td>${Array.isArray(r.cellsB) ? r.cellsB.map((c) => c.val).join(' | ') : '-'}</td>
+                  <td><strong>${escapeHtml(r.type)}</strong></td>
+                  <td>${Array.isArray(r.cellsA) ? r.cellsA.map((c) => escapeHtml(c?.val)).join(' | ') : '-'}</td>
+                  <td>${Array.isArray(r.cellsB) ? r.cellsB.map((c) => escapeHtml(c?.val)).join(' | ') : '-'}</td>
                 </tr>
               `
                 )
