@@ -43,14 +43,14 @@
   --font-serif: var(--font-body);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  --spacing-section: 120px;
-  --spacing-xxl: 64px;
-  --spacing-xl: 40px;
-  --spacing-lg: 24px;
-  --spacing-md: 16px;
-  --spacing-sm: 12px;
-  --spacing-xs: 8px;
-  --spacing-xxs: 4px;
+  --space-section: 120px;
+  --space-xxl: 64px;
+  --space-xl: 40px;
+  --space-lg: 24px;
+  --space-md: 16px;
+  --space-sm: 12px;
+  --space-xs: 8px;
+  --space-xxs: 4px;
 
   --radius-none: 0px;
   --radius-pill: 9999px;
