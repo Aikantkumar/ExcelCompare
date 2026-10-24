@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, FileText, Code, Share2, Check, Printer } from 'lucide-react';
+import { Download, FileText, Code, Share2, Check, Printer, X } from 'lucide-react';
 import { t } from '../../utils/translations';
 
 export default function ExportModal({ isOpen, onClose, diffData, sheetName, fileAName, fileBName, locale = 'en' }) {
@@ -100,14 +100,16 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
   };
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]" data-export-modal>
+      <div className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]" data-export-modal>
       <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-6">
         <div className="flex justify-between items-center border-b border-hairline pb-4 sm:pb-3">
           <h3 className="text-title-md text-ink flex items-center gap-2">
             <Download className="w-5 h-5 text-link" />
             {t(locale, 'comparison.exportShare', 'EXPORT & SHARE COMPARISON REPORT')}
           </h3>
-          <button onClick={onClose} className="p-2 text-muted hover:text-ink" aria-label={t(locale, 'comparison.closeExport', 'Close export modal')}>✕</button>
+          <button onClick={onClose} className="p-2 text-muted hover:text-ink" aria-label={t(locale, 'comparison.closeExport', 'Close export modal')}>
+            <X className="w-4 h-4" aria-hidden="true" />
+          </button>
         </div>
 
         {/* Tab Selection */}

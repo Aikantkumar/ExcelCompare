@@ -40,6 +40,7 @@
 
   --font-display: 'Saira Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+  --font-serif: var(--font-body);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
   --spacing-section: 120px;
@@ -230,54 +231,56 @@ body {
 }
 
 /* Components matching DESIGN.md */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: var(--color-ink);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  border: 1px solid var(--color-ink);
-  border-radius: 9999px; /* Pill radius for buttons */
-  padding: 14px 32px;
-  height: 44px;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  text-decoration: none;
-}
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    border: 1px solid var(--color-ink);
+    border-radius: 9999px; /* Pill radius for buttons */
+    padding: 14px 32px;
+    height: 44px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
-.btn-primary:hover {
-  background-color: var(--color-ink);
-  color: var(--color-canvas);
-}
+  .btn-primary:hover {
+    background-color: var(--color-ink);
+    color: var(--color-canvas);
+  }
 
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border: 1px solid var(--color-hairline-strong);
-  border-radius: 9999px;
-  padding: 10px 24px;
-  height: 40px;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  text-decoration: none;
-}
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: 9999px;
+    padding: 10px 24px;
+    height: 40px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
-.btn-secondary:hover {
-  border-color: var(--color-ink);
-  color: var(--color-ink);
+  .btn-secondary:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
 }
 
 .btn-icon {
@@ -370,17 +373,6 @@ body {
   }
 }
 
-/* Touch targets: at least 40x40px for interactive controls on touch devices */
-@media (pointer: coarse) {
-  button,
-  [role="button"],
-  input[type="button"],
-  input[type="submit"],
-  label.cursor-pointer {
-    min-width: 40px;
-    min-height: 40px;
-  }
-}
 
 /* Spreadsheet Cell Content Styles */
 .cell-content-wrapper {

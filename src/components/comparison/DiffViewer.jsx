@@ -13,7 +13,8 @@ import {
   ChevronDown,
   Sliders,
   Settings,
-  Columns
+  Columns,
+  X
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
 import { VirtualizedTable, SpreadsheetVirtualizedTable } from './VirtualizedTable';
@@ -901,14 +902,14 @@ export default function DiffViewer({
 
       {/* Modal: Appearance Options */}
       {showAppearanceModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#141414] border border-[#262626] p-6 max-w-md w-full space-y-4 select-none">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+          <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
             <div className="flex justify-between items-center border-b border-[#262626] pb-3">
               <h3 className="text-title-sm text-white flex items-center gap-2">
                 <Settings className="w-4 h-4 text-[#c3d9f3]" />
                 APPEARANCE & THEME SETTINGS
               </h3>
-              <button onClick={() => setShowAppearanceModal(false)} className="text-[#999999] hover:text-white">✕</button>
+              <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-[#999999] hover:text-white" aria-label="Close"><X className="w-4 h-4" aria-hidden="true" /></button>
             </div>
 
             <div className="space-y-3">
@@ -944,14 +945,14 @@ export default function DiffViewer({
 
       {/* Modal: Cell Annotation Note */}
       {showAnnotationModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#141414] border border-[#262626] p-6 max-w-md w-full space-y-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+          <div className="bg-[#141414] border border-[#262626] p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-4">
             <div className="flex justify-between items-center border-b border-[#262626] pb-3">
               <h3 className="text-title-sm text-white flex items-center gap-2">
                 <MessageSquare className="w-4 h-4 text-[#c3d9f3]" />
                 CELL ANNOTATION & AUDIT NOTE
               </h3>
-              <button onClick={() => setShowAnnotationModal(false)} className="text-[#999999] hover:text-white">✕</button>
+              <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-[#999999] hover:text-white" aria-label="Close"><X className="w-4 h-4" aria-hidden="true" /></button>
             </div>
 
             <div className="text-xs font-mono text-[#999999] space-y-1">

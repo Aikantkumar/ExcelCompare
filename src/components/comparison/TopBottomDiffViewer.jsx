@@ -17,7 +17,8 @@ import {
   Minimize2,
   Maximize,
   Minimize,
-  Layers as LayersIcon
+  Layers as LayersIcon,
+  X
 } from 'lucide-react';
 import { getColumnLetter } from './diffEngine';
 import { SpreadsheetVirtualizedTable } from './VirtualizedTable';
@@ -760,7 +761,7 @@ export default function TopBottomDiffViewer({
             <div className="shrink-0 bg-surface-card border-b border-hairline px-4 py-3 flex items-center justify-between">
               <h3 className="text-xs font-mono text-ink font-bold uppercase tracking-wider">Tools & Options</h3>
               <button onClick={() => setMobileDrawer(null)} className="text-muted-soft hover:text-ink" title="Close drawer" aria-label="Close Tools & Options drawer">
-                <span className="text-[14px]">✕</span>
+                <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-4">
@@ -794,7 +795,7 @@ export default function TopBottomDiffViewer({
             <div className="shrink-0 bg-surface-card border-b border-hairline px-4 py-3 flex items-center justify-between">
               <h3 className="text-xs font-mono text-ink font-bold uppercase tracking-wider">Changes Audit</h3>
               <button onClick={() => setMobileDrawer(null)} className="text-muted-soft hover:text-ink" title="Close drawer" aria-label="Close Changes Audit drawer">
-                <span className="text-[14px]">✕</span>
+                <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-4">
@@ -812,11 +813,11 @@ export default function TopBottomDiffViewer({
       )}
 
       {showAppearanceModal && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
-          <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
+        <div className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+          <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-4 select-none">
             <div className="flex justify-between items-center border-b border-hairline pb-3">
               <h3 className="text-title-sm text-ink flex items-center gap-2"><Settings className="w-4 h-4 text-link" />{t(locale, 'comparison.appearanceThemeSettings', 'APPEARANCE & THEME SETTINGS')}</h3>
-              <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close appearance settings">✕</button>
+              <button onClick={() => setShowAppearanceModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close appearance settings"><X className="w-4 h-4" aria-hidden="true" /></button>
             </div>
             <div className="space-y-3">
               <div className="text-xs font-mono text-muted uppercase">Grid Theme Preset</div>
@@ -831,11 +832,11 @@ export default function TopBottomDiffViewer({
       )}
 
       {showAnnotationModal && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
-          <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4">
+        <div className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 [padding-bottom:env(safe-area-inset-bottom)] [padding-top:env(safe-area-inset-top)]">
+          <div className="bg-surface-card border border-hairline p-4 sm:p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-4">
             <div className="flex justify-between items-center border-b border-hairline pb-3">
               <h3 className="text-title-sm text-ink flex items-center gap-2"><MessageSquare className="w-4 h-4 text-link" />{t(locale, 'comparison.cellAnnotationAuditNote', 'CELL ANNOTATION & AUDIT NOTE')}</h3>
-              <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close annotation editor">✕</button>
+              <button onClick={() => setShowAnnotationModal(false)} className="p-2 text-muted hover:text-ink" aria-label="Close annotation editor"><X className="w-4 h-4" aria-hidden="true" /></button>
             </div>
             <div className="text-xs font-mono text-muted space-y-1">
               <div>POSITION: Row {selectedCell?.rIdx + 1}, Col {getColumnLetter(selectedCell?.cIdx)}</div>
