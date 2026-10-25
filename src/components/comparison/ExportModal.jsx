@@ -30,7 +30,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
       <!DOCTYPE html>
       <html>
         <head>
-          <title>${t(locale, 'comparison.exportTitle', 'CompareExcel Diff Audit Report')} - ${escapeHtml(fileAName || 'File A')} vs ${escapeHtml(fileBName || 'File B')}</title>
+          <title>${t(locale, 'comparison.exportTitle', 'ExcelCompareColumns Diff Audit Report')} - ${escapeHtml(fileAName || 'File A')} vs ${escapeHtml(fileBName || 'File B')}</title>
           <style>
             body { font-family: -apple-system, sans-serif; background: #fff; color: #111; padding: 40px; }
             h1 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #000; padding-bottom: 10px; }
@@ -46,7 +46,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
           </style>
         </head>
         <body>
-          <h1>${t(locale, 'comparison.exportReportTitle', 'COMPAREEXCEL AUDIT REPORT')}</h1>
+          <h1>${t(locale, 'comparison.exportReportTitle', 'ExcelCompareColumns Audit Report')}</h1>
           <div class="meta">
             ${t(locale, 'comparison.leftFile', 'LEFT FILE')}: ${escapeHtml(fileAName || 'File A')}<br/>
             ${t(locale, 'comparison.rightFile', 'RIGHT FILE')}: ${escapeHtml(fileBName || 'File B')}<br/>
@@ -117,7 +117,7 @@ export default function ExportModal({ isOpen, onClose, diffData, sheetName, file
     }
   };
 
-  const embedSnippet = `<compare-excel \n  file-a="${fileAName || 'original.xlsx'}" \n  file-b="${fileBName || 'revised.xlsx'}" \n  theme="dark">\n</compare-excel>\n<script src="https://compareexcel.com/widget.js" async></script>`;
+  const embedSnippet = `<compare-excel \n  file-a="${fileAName || 'original.xlsx'}" \n  file-b="${fileBName || 'revised.xlsx'}" \n  theme="dark">\n</compare-excel>\n<script src="https://excelcomparecolumns.com/widget.js" async></script>`;
 
   const copyEmbed = () => {
     navigator.clipboard.writeText(embedSnippet);

@@ -5,16 +5,16 @@ import { localizeHref } from '../utils/links';
 
 const generalFaqs = [
   {
-    question: "Is CompareExcel free to use?",
-    answer: "Yes. CompareExcel is a browser-based spreadsheet comparison tool available at no cost. All features run locally in your browser with no account required.",
+    question: "Is ExcelCompareColumns free to use?",
+    answer: "Yes. ExcelCompareColumns is a browser-based spreadsheet comparison tool available at no cost. All features run locally in your browser with no account required.",
   },
   {
-    question: "Does CompareExcel upload my files to a server?",
+    question: "Does ExcelCompareColumns upload my files to a server?",
     answer: "No. All parsing, comparison, and rendering runs 100% locally in your browser using Web Workers and SheetJS. Your spreadsheets never leave your device, and the tool works offline once loaded.",
   },
   {
     question: "What file formats are supported?",
-    answer: "CompareExcel supports Excel workbooks (.xlsx) and comma-separated values (.csv). You can load two files at a time for side-by-side visual diffing.",
+    answer: "ExcelCompareColumns supports Excel workbooks (.xlsx) and comma-separated values (.csv). You can load two files at a time for side-by-side visual diffing.",
   },
   {
     question: "Do I need to create an account?",
@@ -51,12 +51,12 @@ const comparisonFaqs = [
 
 const technicalFaqs = [
   {
-    question: "Does CompareExcel inspect formulas or only displayed values?",
-    answer: "CompareExcel inspects underlying formulas (e.g. `=SUM(A1:A100)` vs `=SUM(A1:A99)`), highlighting subtle calculation errors before they reach production. Standard tools often only read calculated display numbers.",
+    question: "Does ExcelCompareColumns inspect formulas or only displayed values?",
+    answer: "ExcelCompareColumns inspects underlying formulas (e.g. `=SUM(A1:A100)` vs `=SUM(A1:A99)`), highlighting subtle calculation errors before they reach production. Standard tools often only read calculated display numbers.",
   },
   {
     question: "What happens if a row is added or sorted differently?",
-    answer: "Conventional diff tools mark all subsequent rows as deleted/added. CompareExcel uses smart fuzzy row alignment to compute row signatures and keep matching data aligned seamlessly.",
+    answer: "Conventional diff tools mark all subsequent rows as deleted/added. ExcelCompareColumns uses smart fuzzy row alignment to compute row signatures and keep matching data aligned seamlessly.",
   },
   {
     question: "Can I export the comparison results?",
@@ -88,8 +88,8 @@ const faqJsonLd = JSON.stringify({
 
 <Layout
   lang={lang}
-  title="Excel Compare FAQ — Columns, Sheets, Lists & Reconciliation"
-  description="Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with CompareExcel."
+  title="ExcelCompareColumns FAQ — Columns, Sheets, Lists & Reconciliation"
+  description="Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with ExcelCompareColumns."
   keywords="excel compare faq, how to compare two columns in excel, how to compare two excel sheets, how to compare two lists in excel, compare excel sheets differences matches, match two columns output third column, compare two sets of data"
   ogImage="/og-image.png"
 >
@@ -119,7 +119,7 @@ const faqJsonLd = JSON.stringify({
 
       <div class="text-center">
         <p class="text-caption text-link">NEED MORE HELP?</p>
-        <p class="text-title-sm text-ink">Start a new comparison at CompareExcel — all processing runs locally in your browser.</p>
+        <p class="text-title-sm text-ink">Start a new comparison at ExcelCompareColumns — all processing runs locally in your browser.</p>
       </div>
     </div>
   </div>

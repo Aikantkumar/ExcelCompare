@@ -15,7 +15,7 @@ interface Props {
 }
 
 const {
-  title = "CompareExcel — High Precision Online Spreadsheet & Data Comparison",
+  title = "ExcelCompareColumns — High Precision Online Spreadsheet & Data Comparison",
   description = "Compare Excel spreadsheets (.xlsx, .csv) with full cell-by-cell diff, formula inspection, smart fuzzy row matching, and zero server upload privacy.",
   ogImage = "/og-image.png",
   canonical: propCanonical,
@@ -30,7 +30,7 @@ const bcp47 = localeConfig[lang].locale.replace(/_/g, '-');
 const canonical = propCanonical ?? buildCanonical(lang, Astro.url.pathname);
 
 const ogUrl = canonical;
-const siteName = "CompareExcel";
+const siteName = "ExcelCompareColumns";
 
 // Alternate hreflang URLs for every locale, plus x-default pointing at English.
 const alternates = [...locales, 'x-default'] as (Locale | 'x-default')[];
@@ -96,7 +96,7 @@ const alternates = [...locales, 'x-default'] as (Locale | 'x-default')[];
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@compareexcel" />
+    <meta name="twitter:site" content="@ExcelColumns" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />

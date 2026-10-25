@@ -2,7 +2,7 @@
   "lang": "it",
   "dir": "ltr",
   "locale": "it_IT",
-  "siteName": "CompareExcel",
+  "siteName": "ExcelCompareColumns",
   "nav": {
     "home": "Home",
     "compareFiles": "Confronta file",
@@ -50,7 +50,7 @@
     "desc": "Progettato da zero per risolvere le limitazioni fondamentali del diff standard di fogli di calcolo online.",
     "colFeature": "FUNZIONALITÀ E CAPACITÀ",
     "colGeneric": "STRUMENTI GENERICI (es. excelcompare.org)",
-    "colCompareExcel": "COMPAREEXCEL.COM (IL NOSTRO VANTAGGIO)",
+    "colExcelCompareColumns": "EXCELCOMPARECOLUMNS.COM (IL NOSTRO VANTAGGIO)",
     "rows": [
       [
         "Ispezione differenza formule",
@@ -128,7 +128,7 @@
     "privacyGuarantee": "GARANZIA PRIVACY",
     "privacyDesc": "I tuoi file non lasciano mai il tuo computer. L'analisi e il confronto sono eseguiti interamente all'interno di Web Workers nella tua finestra del browser locale.",
     "zeroServerUploads": "ZERO CARICHI SERVER",
-    "copyright": "© 2026 CompareExcel. Progettato per privacy ed estrema accuratezza.",
+    "copyright": "© 2026 ExcelCompareColumns. Progettato per privacy ed estrema accuratezza.",
     "aboutUs": "Chi siamo",
     "privacyPolicy": "Informativa sulla privacy",
     "termsConditions": "Termini e Condizioni",
@@ -139,43 +139,43 @@
   },
   "pages": {
     "index": {
-      "title": "CompareExcel — Strumento online per confrontare colonne Excel e differenza fogli di calcolo",
+      "title": "ExcelCompareColumns — Strumento online per confrontare colonne Excel e differenza fogli di calcolo",
       "description": "Confronta fogli di calcolo Excel online gratuitamente. Confronta due colonne, due fogli, due file, date e differenze cella per cella con elaborazione lato client 100% privata.",
       "keywords": "excel confronta colonne, excel confronta, excel confronta due colonne, excel confronta due fogli, excel confronta due file, confronta excel online"
     },
     "about": {
-      "title": "Informazioni su CompareExcel — Motore differenziale foglio di calcolo lato client ad alta precisione",
-      "description": "Scopri CompareExcel: uno strumento di confronto foglio di calcolo lato client per diff di file, colonne, fogli e liste Excel con zero caricamenti su server, ispezione delle formule e privacy totale.",
+      "title": "Informazioni su ExcelCompareColumns — Motore differenziale foglio di calcolo lato client ad alta precisione",
+      "description": "Scopri ExcelCompareColumns: uno strumento di confronto foglio di calcolo lato client per diff di file, colonne, fogli e liste Excel con zero caricamenti su server, ispezione delle formule e privacy totale.",
       "keywords": "informazioni su compareexcel, excel confronta, differenza foglio di calcolo, confronto lato client, team compareexcel"
     },
     "features": {
-      "title": "CompareExcel Caratteristiche — Matrice di differenza colonne e fogli Excel",
-      "description": "Matrice di funzionalità CompareExcel: ispezione formule, corrispondenza righe fuzzy, annotazioni celle, diff offline ed esportazione per confrontare colonne excel, due fogli, due file, date e liste.",
+      "title": "ExcelCompareColumns Caratteristiche — Matrice di differenza colonne e fogli Excel",
+      "description": "Matrice di funzionalità ExcelCompareColumns: ispezione formule, corrispondenza righe fuzzy, annotazioni celle, diff offline ed esportazione per confrontare colonne excel, due fogli, due file, date e liste.",
       "keywords": "excel confronta colonne, excel confronta due fogli, excel confronta due file, excel confronta date, excel confronta due liste, excel confronta, confronta excel online, matrice funzionalità"
     },
     "help": {
       "title": "Aiuto Excel Compare — Come confrontare colonne, fogli e file",
-      "description": "Impara a confrontare colonne, fogli, file, date e liste con CompareExcel. Documentazione passo passo per il diff di fogli di calcolo online.",
+      "description": "Impara a confrontare colonne, fogli, file, date e liste con ExcelCompareColumns. Documentazione passo passo per il diff di fogli di calcolo online.",
       "keywords": "excel confronta colonne, excel confronta due fogli, excel confronta due file, excel confronta date, excel confronta due liste, confronta excel online, aiuto excel confronta, documentazione"
     },
     "faq": {
       "title": "FAQ Excel Compare — Colonne, fogli, liste e riconciliazione",
-      "description": "Domande frequenti su come confrontare fogli di calcolo, colonne, fogli e liste Excel. Impara a confrontare due colonne, confrontare due fogli Excel, abbinare liste e trovare differenze e corrispondenze con CompareExcel.",
+      "description": "Domande frequenti su come confrontare fogli di calcolo, colonne, fogli e liste Excel. Impara a confrontare due colonne, confrontare due fogli Excel, abbinare liste e trovare differenze e corrispondenze con ExcelCompareColumns.",
       "keywords": "faq excel confronta, come confrontare due colonne in excel, come confrontare due fogli excel, come confrontare due liste in excel, confronta fogli excel differenze corrispondenze, abbina due colonne output terza colonna, confronta due set di dati"
     },
     "privacy": {
       "title": "Privacy Excel Compare — Elaborazione 100% lato client nel browser",
-      "description": "Garanzia di privacy CompareExcel: tutta l'elaborazione di colonne, fogli e file excel avviene 100% localmente nel tuo browser. Zero caricamenti su server.",
+      "description": "Garanzia di privacy ExcelCompareColumns: tutta l'elaborazione di colonne, fogli e file excel avviene 100% localmente nel tuo browser. Zero caricamenti su server.",
       "keywords": "excel confronta colonne, excel confronta, excel confronta due file, confronta excel online, privacy excel confronta"
     },
     "terms": {
-      "title": "Termini e Condizioni — CompareExcel",
-      "description": "Termini e condizioni per l'uso di CompareExcel, lo strumento di confronto foglio di calcolo lato client.",
+      "title": "Termini e Condizioni — ExcelCompareColumns",
+      "description": "Termini e condizioni per l'uso di ExcelCompareColumns, lo strumento di confronto foglio di calcolo lato client.",
       "keywords": "termini condizioni compareexcel, termini di utilizzo compareexcel"
     },
     "contact": {
-      "title": "Contattaci — CompareExcel",
-      "description": "Contatta CompareExcel per supporto, feedback o domande sul confronto di fogli di calcolo.",
+      "title": "Contattaci — ExcelCompareColumns",
+      "description": "Contatta ExcelCompareColumns per supporto, feedback o domande sul confronto di fogli di calcolo.",
       "keywords": "contatto compareexcel, supporto compareexcel, contatto compareexcel"
     },
     "compare": {
@@ -199,16 +199,16 @@
       "keywords": "excel confronta due liste, excel confronta date, excel confronta due fogli, excel confronta due colonne, confronta excel online"
     },
     "error404": {
-      "title": "Pagina Non Trovata — CompareExcel",
-      "description": "La pagina cercata non esiste. Torna su CompareExcel e confronta fogli di calcolo online al 100% lato client.",
+      "title": "Pagina Non Trovata — ExcelCompareColumns",
+      "description": "La pagina cercata non esiste. Torna su ExcelCompareColumns e confronta fogli di calcolo online al 100% lato client.",
       "keywords": "compareexcel, pagina non trovata, 404, confronta excel, diff foglio di calcolo",
       "heading": "404",
       "message": "Questa pagina non è stata trovata. L’URL potrebbe essere errato o la pagina è stata spostata.",
       "button": "INIZIA A CONFRONTARE"
     },
     "error500": {
-      "title": "Errore del Server — CompareExcel",
-      "description": "Si è verificato un errore da parte nostra. Riprova o torna su CompareExcel per confrontare fogli di calcolo.",
+      "title": "Errore del Server — ExcelCompareColumns",
+      "description": "Si è verificato un errore da parte nostra. Riprova o torna su ExcelCompareColumns per confrontare fogli di calcolo.",
       "keywords": "compareexcel, errore del server, 500, confronta excel",
       "heading": "500",
       "message": "Siamo spiacenti, si è verificato un errore interno. Prova a ricaricare la pagina.",
@@ -245,7 +245,7 @@
     "needFile1": "Carica o rilascia {file1} nell’area sopra per generare le differenze visive.",
     "dropTwo": "TRASCINA DUE FILE EXCEL SOPRA PER INIZIARE",
     "dropTwoDesc": "Oppure scegli un campione demo in alto per testare differenze di formule e insiemi.",
-    "exportTitle": "Report di Audit Diff CompareExcel",
+    "exportTitle": "Report di Audit Diff ExcelCompareColumns",
     "exportReportTitle": "REPORT DI AUDIT COMPAREEXCEL",
     "leftFile": "FILE SINISTRO",
     "rightFile": "FILE DESTRO",
@@ -460,17 +460,17 @@
       "support": "SUPPORTO",
       "email": "E-mail",
       "supportDesc": "Domande tecniche, segnalazioni di bug e richieste di funzionalità.",
-      "supportAddr": "support@compareexcel.com",
+      "supportAddr": "support@excelcomparecolumns.com",
       "general": "GENERALE",
       "press": "Stampa & Partnership",
       "pressDesc": "Richieste media, progetti pilota aziendali e partnership commerciali.",
-      "pressAddr": "hello@compareexcel.com",
+      "pressAddr": "hello@excelcomparecolumns.com",
       "selfHelp": "RISORSE DI SUPPORTO",
       "docsFaq": "Documentazione & Domande Frequenti",
       "docsDesc": "Guide approfondite per confrontare colonne, fogli, file, date ed elenchi.",
       "docsLink": "Documentazione",
       "faqLink": "Domande Frequenti",
-      "privacyNote": "CompareExcel elabora tutti i confronti localmente nel tuo browser. Non visualizziamo né memorizziamo mai i tuoi dati."
+      "privacyNote": "ExcelCompareColumns elabora tutti i confronti localmente nel tuo browser. Non visualizziamo né memorizziamo mai i tuoi dati."
     },
     "faq": {
       "caption": "DOMANDE FREQUENTI",
@@ -484,7 +484,7 @@
       "title": "PROGETTATO PER L’ECCELLENZA NEI FOGLI DI CALCOLO",
       "desc": "Scopri come l’analisi delle formule, l’allineamento fuzzy e le annotazioni rivoluzionano l’audit di Excel.",
       "f1Title": "01. ISPEZIONE DELLE FORMULE",
-      "f1Desc": "CompareExcel controlla le formule sottostanti, non solo i valori visualizzati. Individua variazioni di formule che generano risultati apparentemente identici prima che causino errori a valle.",
+      "f1Desc": "ExcelCompareColumns controlla le formule sottostanti, non solo i valori visualizzati. Individua variazioni di formule che generano risultati apparentemente identici prima che causino errori a valle.",
       "f2Title": "02. ALLINEAMENTO FUZZY DELLE RIGHE",
       "f2Desc": "Righe inserite o riordinate non provocano falsi positivi a catena. Il nostro algoritmo a firma di contenuto mantiene i record corrispondenti perfettamente allineati.",
       "f3Title": "03. ANNOTAZIONI SU CELLE",
@@ -513,7 +513,7 @@
       "h4Title": "4. ESPORTAZIONE REPORT & CONDIVISIONE",
       "h4Desc": "Fai clic su \"Esporta\" in qualsiasi schermata per generare un report di audit HTML stampabile con dettagli delle modifiche, coordinate e annotazioni. Scarica dati CSV per successive analisi.",
       "h5Title": "5. PRIVACY E USO OFFLINE",
-      "h5Desc": "CompareExcel opera al 100% localmente nel tuo browser. Una volta caricata la pagina, puoi disconnetterti da Internet ed eseguire il controllo di file riservati con assoluta tranquillità.",
+      "h5Desc": "ExcelCompareColumns opera al 100% localmente nel tuo browser. Una volta caricata la pagina, puoi disconnetterti da Internet ed eseguire il controllo di file riservati con assoluta tranquillità.",
       "guideTitle": "GUIDA ALLA SCELTA DELLA MODALITÀ",
       "thUseCase": "Caso d’Uso",
       "thMode": "Modalità",
@@ -536,8 +536,8 @@
       "badge": "GARANZIA DIFF 100% LOCALE",
       "title": "I TUOI DATI NON LASCIANO MAI IL TUO DISPOSITIVO",
       "archTitle": "ARCHITETTURA SENZA CARICAMENTI SU SERVER",
-      "archP1": "In CompareExcel comprendiamo che i fogli di calcolo racchiudono spesso dati altamente confidenziali: bilanci aziendali, retribuzioni, elenchi clienti e formule proprietarie. Gli strumenti online tradizionali caricano i file su server remoti, esponendoti a rischi di violazione e non conformità.",
-      "archP2": "CompareExcel è sviluppato con una rigorosa architettura confinata al client. Quando rilasci i file, l’analisi, il calcolo e la visualizzazione avvengono interamente nel browser tramite Web Workers e SheetJS. Nessun byte viaggia sulla rete.",
+      "archP1": "In ExcelCompareColumns comprendiamo che i fogli di calcolo racchiudono spesso dati altamente confidenziali: bilanci aziendali, retribuzioni, elenchi clienti e formule proprietarie. Gli strumenti online tradizionali caricano i file su server remoti, esponendoti a rischi di violazione e non conformità.",
+      "archP2": "ExcelCompareColumns è sviluppato con una rigorosa architettura confinata al client. Quando rilasci i file, l’analisi, il calcolo e la visualizzazione avvengono interamente nel browser tramite Web Workers e SheetJS. Nessun byte viaggia sulla rete.",
       "techTitle": "VERIFICA TECNICA",
       "tech1": "Zero richieste HTTP POST: Apri il pannello Network degli strumenti di sviluppo del browser — noterai zero caricamenti di dati durante l’elaborazione.",
       "tech2": "Funzionamento offline: Una volta aperta la pagina, puoi scollegarti dalla rete e continuare a confrontare file senza interruzioni.",
@@ -552,33 +552,33 @@
       "caption": "TERMINI & CONDIZIONI",
       "title": "TERMINI DI UTILIZZO",
       "s1Title": "1. ACCETTAZIONE DEI TERMINI",
-      "s1": "Accedendo a CompareExcel (il \"Servizio\") o utilizzandolo, accetti di essere vincolato dai presenti Termini di Utilizzo. Se non accetti, non utilizzare il Servizio.",
+      "s1": "Accedendo a ExcelCompareColumns (il \"Servizio\") o utilizzandolo, accetti di essere vincolato dai presenti Termini di Utilizzo. Se non accetti, non utilizzare il Servizio.",
       "s2Title": "2. ELABORAZIONE LATO CLIENT & PRIVACY",
       "s2": "Tutte le operazioni di analisi, confronto e rendering si svolgono localmente nel tuo browser. I dati delle tue cartelle non vengono mai caricati su server, mai memorizzati e mai condivisi con terze parti. Mantieni la piena proprietà dei tuoi dati.",
       "s3Title": "3. ESCLUSIONE DI GARANZIE",
       "s3": "Il Servizio viene fornito \"così com’è\" e \"in base alla disponibilità\", senza garanzie di alcun tipo. Non garantiamo che i risultati del confronto siano privi di errori o adatti a scopi specifici. L’utilizzo è a tuo rischio.",
       "s4Title": "4. LIMITAZIONE DI RESPONSABILITÀ",
-      "s4": "Nella misura massima consentita dalla legge, CompareExcel e i suoi gestori non saranno responsabili per danni indiretti, incidentali o perdita di dati derivanti dall’utilizzo o dall’impossibilità di utilizzo del Servizio.",
+      "s4": "Nella misura massima consentita dalla legge, ExcelCompareColumns e i suoi gestori non saranno responsabili per danni indiretti, incidentali o perdita di dati derivanti dall’utilizzo o dall’impossibilità di utilizzo del Servizio.",
       "s5Title": "5. UTILIZZO ACCETTABILE",
       "s5": "Accetti di non utilizzare il Servizio per scopi illeciti, di non caricare contenuti su cui non possiedi diritti e di non tentare di manomettere o violare il Servizio.",
       "s6Title": "6. MODIFICHE AI TERMINI",
       "s6": "Ci riserviamo il diritto di modificare i presenti termini in qualsiasi momento. L’uso continuato del Servizio implica l’accettazione delle modifiche.",
       "s7Title": "7. CONTATTI",
-      "s7": "Per domande su questi termini, scrivi a legal@compareexcel.com."
+      "s7": "Per domande su questi termini, scrivi a legal@excelcomparecolumns.com."
     },
     "index": {
-      "seoTitle": "CompareExcel — Confronta Colonne e Fogli Excel Online in Sicurezza",
-      "seoAbout": "Quando devi <strong>confrontare colonne Excel</strong> tra due cartelle di lavoro, trovare corrispondenze o scovare differenze tra fogli, CompareExcel ti offre un motore ultra-rapido e riservato che viene eseguito interamente sul tuo dispositivo. Sia per analisti finanziari che riconciliano mastrini contabili, sia per responsabili operativi o revisori, confronta cella per cella senza caricare file su server esterni.",
+      "seoTitle": "ExcelCompareColumns — Confronta Colonne e Fogli Excel Online in Sicurezza",
+      "seoAbout": "Quando devi <strong>confrontare colonne Excel</strong> tra due cartelle di lavoro, trovare corrispondenze o scovare differenze tra fogli, ExcelCompareColumns ti offre un motore ultra-rapido e riservato che viene eseguito interamente sul tuo dispositivo. Sia per analisti finanziari che riconciliano mastrini contabili, sia per responsabili operativi o revisori, confronta cella per cella senza caricare file su server esterni.",
       "seoColsTitle": "Cosa significa confrontare colonne in Excel?",
-      "seoCols": "<strong>Confrontare colonne in Excel</strong> significa prendere una colonna dal File A e una dal File B e individuare quali valori esistono in entrambe, quali compaiono solo a sinistra e quali solo a destra. CompareExcel esegue questa logica all’istante, isolando <strong>corrispondenze tra due colonne</strong> (intersezione) e <strong>differenze</strong> (valori unici) con esportazione immediata in CSV.",
+      "seoCols": "<strong>Confrontare colonne in Excel</strong> significa prendere una colonna dal File A e una dal File B e individuare quali valori esistono in entrambe, quali compaiono solo a sinistra e quali solo a destra. ExcelCompareColumns esegue questa logica all’istante, isolando <strong>corrispondenze tra due colonne</strong> (intersezione) e <strong>differenze</strong> (valori unici) con esportazione immediata in CSV.",
       "seoMatchesTitle": "Excel confronta due colonne per corrispondenze e differenze",
       "seoMatches": "Molti utenti devono <strong>confrontare due colonne per trovare corrispondenze</strong> (ad esempio verificare se nuovi contatti sono già presenti nel CRM). Altri devono <strong>isolare le differenze</strong>, come codici prodotto eliminati da un listino prezzi. La nostra modalità insiemistica risolve entrambe le esigenze con un solo clic.",
       "seoSheetsTitle": "Excel confronta due fogli, due file e due celle",
-      "seoSheets": "Oltre alle colonne, CompareExcel consente di <strong>confrontare due fogli</strong> all’interno della stessa cartella o tra file separati. La modalità <strong>confronta due file</strong> elabora i documenti localmente tramite Web Workers SheetJS, mostrando una griglia sincronizzata con codice colore. Per <strong>confrontare due celle</strong>, l’ispettore evidenzia modifiche a valori e formule specifiche.",
+      "seoSheets": "Oltre alle colonne, ExcelCompareColumns consente di <strong>confrontare due fogli</strong> all’interno della stessa cartella o tra file separati. La modalità <strong>confronta due file</strong> elabora i documenti localmente tramite Web Workers SheetJS, mostrando una griglia sincronizzata con codice colore. Per <strong>confrontare due celle</strong>, l’ispettore evidenzia modifiche a valori e formule specifiche.",
       "seoDatesTitle": "Excel confronta date e due elenchi",
       "seoDates": "Lavori con serie temporali? Il nostro motore gestisce le date nativamente, permettendo di <strong>confrontare date</strong> tra colonne e individuare timestamp disallineati. Inoltre, nel conciliare anagrafiche o codici articolo, il flusso <strong>confronta due elenchi</strong> sfrutta l’allineamento fuzzy per abbinare i record anche con ordinamenti differenti.",
       "seoWhyTitle": "Perché scegliere un tool online per confrontare Excel?",
-      "seoWhy": "I metodi desktop tradizionali richiedono formule complesse (CERCA.VERT / VLOOKUP) o faticosi ordinamenti manuali. Un tool di <strong>confronto Excel online</strong> come CompareExcel elimina ogni complicazione: nessuna installazione, nessuna registrazione e nessun limite restrittivo sulle dimensioni dei file. I dati riservati non escono mai dal browser.",
+      "seoWhy": "I metodi desktop tradizionali richiedono formule complesse (CERCA.VERT / VLOOKUP) o faticosi ordinamenti manuali. Un tool di <strong>confronto Excel online</strong> come ExcelCompareColumns elimina ogni complicazione: nessuna installazione, nessuna registrazione e nessun limite restrittivo sulle dimensioni dei file. I dati riservati non escono mai dal browser.",
       "seoCapsTitle": "Funzionalità chiave del motore di confronto Excel",
       "seoCaps1": "<strong>Diff cella per cella</strong> — Ogni cella modificata, aggiunta o eliminata ha un colore dedicato (ambra per modificato, verde per aggiunto, rosso per eliminato).",
       "seoCaps2": "<strong>Ispezione delle formule</strong> — Esaminiamo le formule Excel reali, rilevando differenze come <code>=SUM(A1:A10)</code> rispetto a <code>=SUM(A1:A9)</code> anche se il valore calcolato coincide.",
@@ -588,10 +588,10 @@
       "seoCaps6": "<strong>Opzioni di esportazione</strong> — Scarica report HTML pronti per la stampa o tabelle CSV strutturate.",
       "seoCaps7": "<strong>Elaborazione in blocco</strong> — Esegui confronti su coppie multiple di file in una sola sessione automatica.",
       "seoUseTitle": "Ambiti di utilizzo comuni per il confronto colonne Excel",
-      "seoUse": "I team finanziari usano CompareExcel per <strong>confrontare due colonne</strong> durante la chiusura mensile per correggere le anomalie prima del bilancio. Gli addetti alla logistica confrontano gli ordini di acquisto con le bolle di carico. Le risorse umane confrontano elenchi di matricole dipendenti per verificare gli organici.",
+      "seoUse": "I team finanziari usano ExcelCompareColumns per <strong>confrontare due colonne</strong> durante la chiusura mensile per correggere le anomalie prima del bilancio. Gli addetti alla logistica confrontano gli ordini di acquisto con le bolle di carico. Le risorse umane confrontano elenchi di matricole dipendenti per verificare gli organici.",
       "seoPrivTitle": "Confronto Excel online con massima tutela della privacy",
-      "seoPriv": "A differenza di molti servizi cloud, CompareExcel non archivia i tuoi file. Tutte le operazioni di parsing e rendering avvengono nei Web Workers del tuo computer. Puoi disconnetterti da Internet dopo il caricamento della pagina e operare in totale riservatezza.",
-      "seoStartTitle": "Inizia oggi con CompareExcel",
+      "seoPriv": "A differenza di molti servizi cloud, ExcelCompareColumns non archivia i tuoi file. Tutte le operazioni di parsing e rendering avvengono nei Web Workers del tuo computer. Puoi disconnetterti da Internet dopo il caricamento della pagina e operare in totale riservatezza.",
+      "seoStartTitle": "Inizia oggi con ExcelCompareColumns",
       "seoStart": "Pronto a <strong>confrontare colonne Excel</strong>, <strong>confrontare due fogli</strong> o effettuare un <strong>audit completo tra file</strong>? Apri l’area di lavoro, rilascia le cartelle e visualizza subito le differenze nel browser locale. Gratuito, senza registrazione e senza installazione."
     },
     "about": {
@@ -599,7 +599,7 @@
       "title": "MOTORE DIFFERENZIALE PER FOGLI DI CALCOLO AD ALTA PRECISIONE",
       "subtitle": "Progettato per analisti, contabili e ingegneri che devono confrontare file Excel senza caricare dati riservati su server remoti.",
       "privacyTitle": "IL NOSTRO IMPEGNO PER LA PRIVACY",
-      "privacyBody": "CompareExcel è uno strumento di confronto di fogli di calcolo eseguito al 100% lato client. Tutte le operazioni di parsing, calcolo delle differenze e rendering avvengono localmente nel browser tramite Web Workers e SheetJS. Nessun file lascia il tuo dispositivo, nulla viene salvato su server e nessun dato viene trasmesso a servizi di analisi terzi.",
+      "privacyBody": "ExcelCompareColumns è uno strumento di confronto di fogli di calcolo eseguito al 100% lato client. Tutte le operazioni di parsing, calcolo delle differenze e rendering avvengono localmente nel browser tramite Web Workers e SheetJS. Nessun file lascia il tuo dispositivo, nulla viene salvato su server e nessun dato viene trasmesso a servizi di analisi terzi.",
       "whyClientSideTitle": "PERCHÉ SOLO LATO CLIENT",
       "whyClientSide1": "Nessun caricamento di file — i tuoi fogli di calcolo non escono mai dal browser.",
       "whyClientSide2": "Funziona completamente offline una volta caricata la pagina.",

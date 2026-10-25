@@ -2,7 +2,7 @@
   "lang": "en",
   "dir": "ltr",
   "locale": "en_US",
-  "siteName": "CompareExcel",
+  "siteName": "ExcelCompareColumns",
   "nav": {
     "home": "Home",
     "compareFiles": "Compare Files",
@@ -50,7 +50,7 @@
     "desc": "Designed from the ground up to solve the core limitations of standard online spreadsheet diffing.",
     "colFeature": "FEATURE & CAPABILITY",
     "colGeneric": "GENERIC TOOLS (e.g. excelcompare.org)",
-    "colCompareExcel": "COMPAREEXCEL.COM (OUR ADVANTAGE)",
+    "colExcelCompareColumns": "EXCELCOMPARECOLUMNS.COM (OUR ADVANTAGE)",
     "rows": [
       [
         "Formula Difference Inspection",
@@ -128,7 +128,7 @@
     "privacyGuarantee": "PRIVACY GUARANTEE",
     "privacyDesc": "Your files never leave your computer. Parsing and comparison run entirely inside Web Workers in your local browser window.",
     "zeroServerUploads": "ZERO SERVER UPLOADS",
-    "copyright": "© 2026 CompareExcel. Engineered for privacy & extreme accuracy.",
+    "copyright": "© 2026 ExcelCompareColumns. Engineered for privacy & extreme accuracy.",
     "aboutUs": "About Us",
     "privacyPolicy": "Privacy Policy",
     "termsConditions": "Terms & Conditions",
@@ -139,43 +139,43 @@
   },
   "pages": {
     "index": {
-      "title": "CompareExcel — Online Excel Compare Columns & Spreadsheet Diff Tool",
+      "title": "ExcelCompareColumns — Online Excel Compare Columns & Spreadsheet Diff Tool",
       "description": "Compare Excel spreadsheets online for free. Compare two columns, two sheets, two files, dates, and cell-by-cell differences with 100% private client-side processing.",
       "keywords": "excel compare columns, excel compare, excel compare two columns, excel compare two sheets, excel compare two files, online excel compare"
     },
     "about": {
-      "title": "About CompareExcel — High-Precision Client-Side Spreadsheet Diff Engine",
-      "description": "Learn about CompareExcel: a client-side spreadsheet comparison tool for diffing Excel files, columns, sheets, and lists with zero server uploads, formula inspection, and full privacy.",
+      "title": "About ExcelCompareColumns — High-Precision Client-Side Spreadsheet Diff Engine",
+      "description": "Learn about ExcelCompareColumns: a client-side spreadsheet comparison tool for diffing Excel files, columns, sheets, and lists with zero server uploads, formula inspection, and full privacy.",
       "keywords": "about compareexcel, excel compare, spreadsheet diff, client-side comparison, compareexcel team"
     },
     "features": {
-      "title": "CompareExcel Features — Excel Compare Columns & Sheet Diff Matrix",
-      "description": "CompareExcel feature matrix: formula inspection, fuzzy row matching, cell annotations, offline diff, and export for excel compare columns, two sheets, two files, dates, and lists.",
+      "title": "ExcelCompareColumns Features — Excel Compare Columns & Sheet Diff Matrix",
+      "description": "ExcelCompareColumns feature matrix: formula inspection, fuzzy row matching, cell annotations, offline diff, and export for excel compare columns, two sheets, two files, dates, and lists.",
       "keywords": "excel compare columns, excel compare two sheets, excel compare two files, excel compare dates, excel compare two lists, excel compare, online excel compare, feature matrix"
     },
     "help": {
       "title": "Excel Compare Help — How to Compare Columns, Sheets & Files",
-      "description": "Learn how to excel compare columns, sheets, files, dates, and lists with CompareExcel. Step-by-step documentation for online spreadsheet diffing.",
+      "description": "Learn how to excel compare columns, sheets, files, dates, and lists with ExcelCompareColumns. Step-by-step documentation for online spreadsheet diffing.",
       "keywords": "excel compare columns, excel compare two sheets, excel compare two files, excel compare dates, excel compare two lists, online excel compare, excel compare help, documentation"
     },
     "faq": {
       "title": "Excel Compare FAQ — Columns, Sheets, Lists & Reconciliation",
-      "description": "Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with CompareExcel.",
+      "description": "Frequently asked questions about comparing Excel spreadsheets, columns, sheets, and lists. Learn how to compare two columns, compare two excel sheets, match lists, and find differences and matches with ExcelCompareColumns.",
       "keywords": "excel compare faq, how to compare two columns in excel, how to compare two excel sheets, how to compare two lists in excel, compare excel sheets differences matches, match two columns output third column, compare two sets of data"
     },
     "privacy": {
       "title": "Excel Compare Privacy — 100% Client-Side Browser Processing",
-      "description": "CompareExcel privacy guarantee: all excel compare columns, sheets, and files processing runs 100% locally in your browser. Zero server uploads.",
+      "description": "ExcelCompareColumns privacy guarantee: all excel compare columns, sheets, and files processing runs 100% locally in your browser. Zero server uploads.",
       "keywords": "excel compare columns, excel compare, excel compare two files, online excel compare, excel compare privacy"
     },
     "terms": {
-      "title": "Terms & Conditions — CompareExcel",
-      "description": "Terms and conditions for using CompareExcel, the client-side spreadsheet comparison tool.",
+      "title": "Terms & Conditions — ExcelCompareColumns",
+      "description": "Terms and conditions for using ExcelCompareColumns, the client-side spreadsheet comparison tool.",
       "keywords": "terms conditions compareexcel, compareexcel terms of use"
     },
     "contact": {
-      "title": "Contact Us — CompareExcel",
-      "description": "Contact CompareExcel for support, feedback, or questions about spreadsheet comparison.",
+      "title": "Contact Us — ExcelCompareColumns",
+      "description": "Contact ExcelCompareColumns for support, feedback, or questions about spreadsheet comparison.",
       "keywords": "contact compareexcel, support compareexcel, compareexcel contact"
     },
     "compare": {
@@ -199,16 +199,16 @@
       "keywords": "excel compare two lists, excel compare dates, excel compare two sheets, excel compare two columns, online excel compare"
     },
     "error404": {
-      "title": "Page Not Found — CompareExcel",
-      "description": "The page you're looking for doesn't exist. Return to CompareExcel and compare spreadsheets online, 100% client-side.",
+      "title": "Page Not Found — ExcelCompareColumns",
+      "description": "The page you're looking for doesn't exist. Return to ExcelCompareColumns and compare spreadsheets online, 100% client-side.",
       "keywords": "compareexcel, page not found, 404, excel compare, spreadsheet diff",
       "heading": "404",
       "message": "This page could not be found. The URL may be mistyped or the page may have moved.",
       "button": "START COMPARING"
     },
     "error500": {
-      "title": "Server Error — CompareExcel",
-      "description": "Something went wrong on our end. Please try again or return to CompareExcel to compare spreadsheets online.",
+      "title": "Server Error — ExcelCompareColumns",
+      "description": "Something went wrong on our end. Please try again or return to ExcelCompareColumns to compare spreadsheets online.",
       "keywords": "compareexcel, server error, 500, excel compare",
       "heading": "500",
       "message": "We're sorry, but something went wrong on our end. Please try refreshing the page.",
@@ -238,31 +238,31 @@
       "support": "SUPPORT",
       "email": "Email",
       "supportDesc": "For support, bug reports, or feature requests, write to our support address.",
-      "supportAddr": "support@compareexcel.com",
+      "supportAddr": "support@excelcomparecolumns.com",
       "general": "GENERAL",
       "press": "Press & Partnerships",
-      "pressDesc": "Media inquiries, partnership opportunities, and questions about the CompareExcel diff engine.",
-      "pressAddr": "hello@compareexcel.com",
+      "pressDesc": "Media inquiries, partnership opportunities, and questions about the ExcelCompareColumns diff engine.",
+      "pressAddr": "hello@excelcomparecolumns.com",
       "selfHelp": "SELF-HELP",
       "docsFaq": "Documentation & FAQ",
       "docsDesc": "Step-by-step guides for comparing columns, sheets, files, dates, and lists, plus answers to common questions.",
       "docsLink": "Documentation",
       "faqLink": "FAQ",
-      "privacyNote": "CompareExcel processes all comparisons locally in your browser. We never see, store, or transmit your spreadsheet data."
+      "privacyNote": "ExcelCompareColumns processes all comparisons locally in your browser. We never see, store, or transmit your spreadsheet data."
     },
     "faq": {
       "caption": "FREQUENTLY ASKED QUESTIONS",
       "title": "COMMON QUESTIONS ABOUT EXCEL COMPARISON",
       "startBtn": "START COMPARING",
       "needHelp": "NEED MORE HELP?",
-      "helpDesc": "Start a new comparison at CompareExcel — all processing runs locally in your browser."
+      "helpDesc": "Start a new comparison at ExcelCompareColumns — all processing runs locally in your browser."
     },
     "features": {
       "caption": "FEATURE MATRIX & ARCHITECTURE",
       "title": "ENGINEERED FOR SPREADSHEET SUPREMACY",
       "desc": "Discover how formula awareness, smart fuzzy row matching, cell annotations, and export tools revolutionize Excel auditing — all with zero server uploads.",
       "f1Title": "01. FORMULA INSPECTION",
-      "f1Desc": "Standard tools only read calculated display numbers. CompareExcel inspects underlying formulas (=SUM(A1:A100) vs =SUM(A1:A99)), highlighting subtle calculation errors before they reach production.",
+      "f1Desc": "Standard tools only read calculated display numbers. ExcelCompareColumns inspects underlying formulas (=SUM(A1:A100) vs =SUM(A1:A99)), highlighting subtle calculation errors before they reach production.",
       "f2Title": "02. FUZZY ROW ALIGNMENT",
       "f2Desc": "If a row is added or sorted differently, conventional diff tools mark all subsequent rows as deleted/added. Our smart algorithm computes row signatures to keep matching data aligned seamlessly.",
       "f3Title": "03. CELL ANNOTATIONS",
@@ -291,7 +291,7 @@
       "h4Title": "4. EXPORTING REPORTS & SHARING",
       "h4Desc": "Click \"Export Diff\" in the toolbar to generate a high-density, printable HTML report suitable for PDF conversion. You can also grab the compare-excel web component snippet for intranet dashboards.",
       "h5Title": "5. PRIVACY & OFFLINE USE",
-      "h5Desc": "CompareExcel performs 100% of parsing, diff calculation, set matching, and report rendering locally inside your web browser using JavaScript Web Workers and SheetJS. No files are uploaded to a server. Once loaded, the tool works offline — open Network DevTools and confirm no HTTP POST or file upload requests occur.",
+      "h5Desc": "ExcelCompareColumns performs 100% of parsing, diff calculation, set matching, and report rendering locally inside your web browser using JavaScript Web Workers and SheetJS. No files are uploaded to a server. Once loaded, the tool works offline — open Network DevTools and confirm no HTTP POST or file upload requests occur.",
       "guideTitle": "MODE SELECTION GUIDE",
       "thUseCase": "Use case",
       "thMode": "Mode",
@@ -314,8 +314,8 @@
       "badge": "100% LOCAL BROWSER DIFF GUARANTEE",
       "title": "YOUR SPREADSHEET DATA NEVER LEAVES YOUR DEVICE",
       "archTitle": "ZERO SERVER UPLOAD ARCHITECTURE",
-      "archP1": "At CompareExcel, we understand that financial reports, payroll sheets, supplier pricing lists, and audit files contain private, highly sensitive business data.",
-      "archP2": "Unlike legacy cloud diff services that require uploading your .xlsx files to a remote server, CompareExcel performs 100% of its parsing, diff calculation, set matching, and report rendering locally inside your web browser using JavaScript Web Workers and SheetJS.",
+      "archP1": "At ExcelCompareColumns, we understand that financial reports, payroll sheets, supplier pricing lists, and audit files contain private, highly sensitive business data.",
+      "archP2": "Unlike legacy cloud diff services that require uploading your .xlsx files to a remote server, ExcelCompareColumns performs 100% of its parsing, diff calculation, set matching, and report rendering locally inside your web browser using JavaScript Web Workers and SheetJS.",
       "techTitle": "TECHNICAL VERIFICATION",
       "tech1": "Open Network DevTools: No HTTP POST or file upload requests occur when loading or diffing spreadsheets.",
       "tech2": "Works Offline: Once the page is loaded, you can disconnect your internet entirely and continue diffing files offline.",
@@ -330,33 +330,33 @@
       "caption": "TERMS & CONDITIONS",
       "title": "TERMS OF USE",
       "s1Title": "1. ACCEPTANCE OF TERMS",
-      "s1": "By accessing or using CompareExcel (the \"Service\"), you agree to be bound by these Terms of Use. If you do not agree, you may not use the Service.",
+      "s1": "By accessing or using ExcelCompareColumns (the \"Service\"), you agree to be bound by these Terms of Use. If you do not agree, you may not use the Service.",
       "s2Title": "2. CLIENT-SIDE PROCESSING & PRIVACY",
       "s2": "All file parsing, comparison, and rendering occurs locally in your browser. Your spreadsheet data is never uploaded to a server, never stored by us, and never shared with third parties. You retain full ownership of your data at all times.",
       "s3Title": "3. NO WARRANTY",
       "s3": "The Service is provided \"as is\" and \"as available\" without warranty of any kind, express or implied. We do not guarantee that the comparison results are error-free or suitable for any particular purpose. You use the Service at your own risk.",
       "s4Title": "4. LIMITATION OF LIABILITY",
-      "s4": "To the fullest extent permitted by law, CompareExcel and its providers shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or data, arising out of your use or inability to use the Service.",
+      "s4": "To the fullest extent permitted by law, ExcelCompareColumns and its providers shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or data, arising out of your use or inability to use the Service.",
       "s5Title": "5. ACCEPTABLE USE",
       "s5": "You agree not to use the Service for any unlawful purpose, to upload content you do not have rights to, or to attempt to reverse-engineer, interfere with, or disrupt the Service.",
       "s6Title": "6. CHANGES TO THESE TERMS",
       "s6": "We reserve the right to modify these terms at any time. Your continued use of the Service after changes are posted constitutes acceptance of the revised terms.",
       "s7Title": "7. CONTACT",
-      "s7": "Questions about these terms may be directed to legal@compareexcel.com."
+      "s7": "Questions about these terms may be directed to legal@excelcomparecolumns.com."
     },
     "index": {
-      "seoTitle": "CompareExcel — The Online Excel Compare Columns & Spreadsheet Comparison Solution",
-      "seoAbout": "When you need to <strong>excel compare columns</strong> across two workbooks, find matching values, or spot differences between sheets, CompareExcel gives you a fast, private, browser-based engine that runs entirely on your device. Whether you are a finance analyst reconciling ledgers, an operations manager checking inventory SKUs, or a data auditor validating customer lists, our online Excel compare tool lets you upload two files, run a cell-by-cell diff, and review every change — all without sending your data to a remote server.",
+      "seoTitle": "ExcelCompareColumns — The Online Excel Compare Columns & Spreadsheet Comparison Solution",
+      "seoAbout": "When you need to <strong>excel compare columns</strong> across two workbooks, find matching values, or spot differences between sheets, ExcelCompareColumns gives you a fast, private, browser-based engine that runs entirely on your device. Whether you are a finance analyst reconciling ledgers, an operations manager checking inventory SKUs, or a data auditor validating customer lists, our online Excel compare tool lets you upload two files, run a cell-by-cell diff, and review every change — all without sending your data to a remote server.",
       "seoColsTitle": "What Does It Mean to Excel Compare Columns?",
-      "seoCols": "To <strong>excel compare columns</strong> means taking one column from File A and one column from File B and determining which values exist in both, which appear only on the left, and which appear only on the right. CompareExcel performs this set logic instantly. You can isolate the <strong>excel compare two columns for matches</strong> (the intersection), the <strong>excel compare two columns for differences</strong> (unique values), and export each result as a clean CSV for downstream reporting.",
+      "seoCols": "To <strong>excel compare columns</strong> means taking one column from File A and one column from File B and determining which values exist in both, which appear only on the left, and which appear only on the right. ExcelCompareColumns performs this set logic instantly. You can isolate the <strong>excel compare two columns for matches</strong> (the intersection), the <strong>excel compare two columns for differences</strong> (unique values), and export each result as a clean CSV for downstream reporting.",
       "seoMatchesTitle": "Excel Compare Two Columns for Matches and Differences",
       "seoMatches": "Many users arrive looking to <strong>excel compare two columns for matches</strong> — for example, verifying that a new subscriber list overlaps with a master CRM export. Others need to <strong>excel compare two columns for differences</strong>, such as identifying product SKUs that were removed from a price sheet. Our column set comparison mode handles both cases with a single click, showing intersection, left-only, and right-only values side by side.",
       "seoSheetsTitle": "Excel Compare Two Sheets, Two Files, and Two Cells",
-      "seoSheets": "Beyond columns, CompareExcel supports <strong>excel compare two sheets</strong> within the same workbook or across separate files. Our <strong>excel compare two files</strong> mode parses both spreadsheets locally using SheetJS Web Workers, then renders a synchronized, color-coded diff grid. If you only need to <strong>excel compare two cells</strong> — for example, confirming that a single calculated value did not drift between versions — the cell-level inspector highlights exact value and formula changes at the individual cell level.",
+      "seoSheets": "Beyond columns, ExcelCompareColumns supports <strong>excel compare two sheets</strong> within the same workbook or across separate files. Our <strong>excel compare two files</strong> mode parses both spreadsheets locally using SheetJS Web Workers, then renders a synchronized, color-coded diff grid. If you only need to <strong>excel compare two cells</strong> — for example, confirming that a single calculated value did not drift between versions — the cell-level inspector highlights exact value and formula changes at the individual cell level.",
       "seoDatesTitle": "Excel Compare Dates and Two Lists",
       "seoDates": "Working with time-series data? Our engine treats date cells as first-class values, so you can <strong>excel compare dates</strong> across columns and flag shifted or mismatched timestamps. Likewise, if you are reconciling mailing lists, part numbers, or account codes, the <strong>excel compare two lists</strong> workflow uses fuzzy row matching to align records even when sort order differs between files.",
       "seoWhyTitle": "Why Choose an Online Excel Compare Tool?",
-      "seoWhy": "Traditional desktop methods require complex formulas, VLOOKUP helper columns, or manual sorting. An <strong>online excel compare</strong> utility like CompareExcel removes that friction. There is no software to install, no account to create, and no file size limit that blocks your audit. Because processing happens client-side, sensitive financial records, payroll sheets, and supplier pricing never leave your browser — a critical advantage over cloud diff services that upload your .xlsx files to third-party servers.",
+      "seoWhy": "Traditional desktop methods require complex formulas, VLOOKUP helper columns, or manual sorting. An <strong>online excel compare</strong> utility like ExcelCompareColumns removes that friction. There is no software to install, no account to create, and no file size limit that blocks your audit. Because processing happens client-side, sensitive financial records, payroll sheets, and supplier pricing never leave your browser — a critical advantage over cloud diff services that upload your .xlsx files to third-party servers.",
       "seoCapsTitle": "Key Capabilities of the Excel Comparison Engine",
       "seoCaps1": "<strong>Cell-by-cell diff</strong> — Every changed, added, or deleted cell is color-coded (amber for modified, green for added, red for deleted).",
       "seoCaps2": "<strong>Formula inspection</strong> — We compare underlying Excel formulas, not just displayed values, so <code>=SUM(A1:A10)</code> vs <code>=SUM(A1:A9)</code> is caught immediately.",
@@ -366,10 +366,10 @@
       "seoCaps6": "<strong>Export options</strong> — Download printable HTML reports, CSV breakdowns, or Excel workbooks.",
       "seoCaps7": "<strong>Batch queue</strong> — Process multiple file pairs in one automated run with a consolidated summary log.",
       "seoUseTitle": "Common Use Cases for Excel Compare Columns",
-      "seoUse": "Finance teams use CompareExcel to <strong>excel compare two columns</strong> in monthly close workbooks, catching variance before it hits the general ledger. Supply chain analysts run <strong>excel compare two sheets</strong> to confirm inbound purchase orders against received goods. HR professionals <strong>excel compare two lists</strong> of employee IDs across systems to surface headcount discrepancies. IT auditors use <strong>excel compare dates</strong> to verify change logs and system timestamps. Whatever your scenario, if your task involves <strong>excel compare columns</strong> or broader spreadsheet diffing, this tool is built for it.",
+      "seoUse": "Finance teams use ExcelCompareColumns to <strong>excel compare two columns</strong> in monthly close workbooks, catching variance before it hits the general ledger. Supply chain analysts run <strong>excel compare two sheets</strong> to confirm inbound purchase orders against received goods. HR professionals <strong>excel compare two lists</strong> of employee IDs across systems to surface headcount discrepancies. IT auditors use <strong>excel compare dates</strong> to verify change logs and system timestamps. Whatever your scenario, if your task involves <strong>excel compare columns</strong> or broader spreadsheet diffing, this tool is built for it.",
       "seoPrivTitle": "Privacy-First Online Excel Compare",
-      "seoPriv": "Unlike many <strong>online excel compare</strong> services, CompareExcel does not store your files. Parsing, diff calculation, and rendering all occur inside Web Workers on your machine. You can disconnect from the internet after loading the page and continue comparing spreadsheets offline. Network DevTools confirms zero HTTP upload requests when you load or diff workbooks, making this suitable for confidential business data.",
-      "seoStartTitle": "Get Started with CompareExcel Today",
+      "seoPriv": "Unlike many <strong>online excel compare</strong> services, ExcelCompareColumns does not store your files. Parsing, diff calculation, and rendering all occur inside Web Workers on your machine. You can disconnect from the internet after loading the page and continue comparing spreadsheets offline. Network DevTools confirms zero HTTP upload requests when you load or diff workbooks, making this suitable for confidential business data.",
+      "seoStartTitle": "Get Started with ExcelCompareColumns Today",
       "seoStart": "Ready to <strong>excel compare columns</strong>, <strong>excel compare two sheets</strong>, or run a full <strong>excel compare two files</strong> audit? Open the comparison workspace, drop your workbooks, and review instant visual diffs in your local browser. No sign-up, no credit card, and no installation required — just accurate, private spreadsheet comparison whenever you need it."
     },
     "about": {
@@ -377,7 +377,7 @@
       "title": "HIGH-PRECISION SPREADSHEET DIFF ENGINE",
       "subtitle": "Built for analysts, accountants, and engineers who need to diff Excel files without uploading sensitive data to a server.",
       "privacyTitle": "OUR STANCE ON PRIVACY",
-      "privacyBody": "CompareExcel is a client-side spreadsheet comparison tool. All parsing, comparison, and rendering runs locally in your browser using Web Workers and SheetJS. No files ever leave your device, nothing is stored on a server, and no spreadsheet content is sent to third-party analytics.",
+      "privacyBody": "ExcelCompareColumns is a client-side spreadsheet comparison tool. All parsing, comparison, and rendering runs locally in your browser using Web Workers and SheetJS. No files ever leave your device, nothing is stored on a server, and no spreadsheet content is sent to third-party analytics.",
       "whyClientSideTitle": "WHY CLIENT-SIDE ONLY",
       "whyClientSide1": "No file uploads — your spreadsheets never leave your browser.",
       "whyClientSide2": "Works offline once the page has loaded.",
@@ -424,7 +424,7 @@
     "needFile1": "Please upload or drop {file1} in the dropzone above to generate visual cell diffs.",
     "dropTwo": "DROP TWO EXCEL FILES ABOVE TO START",
     "dropTwoDesc": "Or select one of the demo samples at the top right to instantly test formula differences, row reordering, and set comparisons.",
-    "exportTitle": "CompareExcel Diff Audit Report",
+    "exportTitle": "ExcelCompareColumns Diff Audit Report",
     "exportReportTitle": "COMPAREEXCEL AUDIT REPORT",
     "leftFile": "LEFT FILE",
     "rightFile": "RIGHT FILE",

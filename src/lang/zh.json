@@ -2,7 +2,7 @@
   "lang": "zh",
   "dir": "ltr",
   "locale": "zh_CN",
-  "siteName": "CompareExcel",
+  "siteName": "ExcelCompareColumns",
   "nav": {
     "home": "主页",
     "compareFiles": "比较文件",
@@ -46,11 +46,11 @@
   },
   "competitor": {
     "matrixHeading": "竞争矩阵",
-    "title": "为什么 CompareExcel 胜过通用差异工具",
+    "title": "为什么 ExcelCompareColumns 胜过通用差异工具",
     "desc": "从零开始设计，旨在解决标准在线电子表格差异的核心限制。",
     "colFeature": "功能与能力",
     "colGeneric": "通用工具（例如 excelcompare.org）",
-    "colCompareExcel": "COMPAREEXCEL.COM（我们的优势）",
+    "colExcelCompareColumns": "EXCELCOMPARECOLUMNS.COM（我们的优势）",
     "rows": [
       [
         "公式差异检查",
@@ -128,7 +128,7 @@
     "privacyGuarantee": "隐私保障",
     "privacyDesc": "您的文件永远不会离开您的计算机。分析和比较完全在本地浏览器窗口内的 Web Worker 中运行。",
     "zeroServerUploads": "零服务器上传",
-    "copyright": "© 2026 CompareExcel. 为隐私和极致准确性而设计。",
+    "copyright": "© 2026 ExcelCompareColumns. 为隐私和极致准确性而设计。",
     "aboutUs": "关于我们",
     "privacyPolicy": "隐私政策",
     "termsConditions": "条款与条件",
@@ -139,43 +139,43 @@
   },
   "pages": {
     "index": {
-      "title": "CompareExcel — 在线 Excel 列比较和电子表格差异工具",
+      "title": "ExcelCompareColumns — 在线 Excel 列比较和电子表格差异工具",
       "description": "免费在线比较 Excel 电子表格。比较两列、两张表、两个文件、日期和逐单元格差异，100% 私密客户端处理。",
       "keywords": "excel 列比较, excel 比较, excel 比较两列, excel 比较两张表, excel 比较两个文件, 在线 excel 比较"
     },
     "about": {
-      "title": "关于 CompareExcel — 高精度客户端电子表格差异引擎",
-      "description": "了解 CompareExcel：用于差异比较 Excel 文件、列、表和列表的客户端电子表格比较工具，零服务器上传，公式检查，完全隐私。",
+      "title": "关于 ExcelCompareColumns — 高精度客户端电子表格差异引擎",
+      "description": "了解 ExcelCompareColumns：用于差异比较 Excel 文件、列、表和列表的客户端电子表格比较工具，零服务器上传，公式检查，完全隐私。",
       "keywords": "关于 compareexcel, excel 比较, 电子表格差异, 客户端比较, compareexcel 团队"
     },
     "features": {
-      "title": "CompareExcel 功能 — Excel 列比较和表差异矩阵",
-      "description": "CompareExcel 功能矩阵：公式检查、模糊行匹配、单元格注释、离线差异，以及用于 excel 列比较、两张表、两个文件、日期和列表的导出。",
+      "title": "ExcelCompareColumns 功能 — Excel 列比较和表差异矩阵",
+      "description": "ExcelCompareColumns 功能矩阵：公式检查、模糊行匹配、单元格注释、离线差异，以及用于 excel 列比较、两张表、两个文件、日期和列表的导出。",
       "keywords": "excel 列比较, excel 比较两张表, excel 比较两个文件, excel 比较日期, excel 比较两个列表, excel 比较, 在线 excel 比较, 功能矩阵"
     },
     "help": {
       "title": "Excel Compare 帮助 — 如何比较列、表和文件",
-      "description": "了解如何使用 CompareExcel 比较列、表、文件、日期和列表。在线电子表格差异的逐步文档。",
+      "description": "了解如何使用 ExcelCompareColumns 比较列、表、文件、日期和列表。在线电子表格差异的逐步文档。",
       "keywords": "excel 列比较, excel 比较两张表, excel 比较两个文件, excel 比较日期, excel 比较两个列表, 在线 excel 比较, excel 比较帮助, 文档"
     },
     "faq": {
       "title": "Excel Compare 常见问题 — 列、表、列表和对账",
-      "description": "关于比较 Excel 电子表格、列、表和列表的常见问题。了解如何比较两列、比较两个 Excel 表、匹配列表，并使用 CompareExcel 查找差异和匹配项。",
+      "description": "关于比较 Excel 电子表格、列、表和列表的常见问题。了解如何比较两列、比较两个 Excel 表、匹配列表，并使用 ExcelCompareColumns 查找差异和匹配项。",
       "keywords": "excel 比较常见问题, 如何在 excel 中比较两列, 如何比较两个 Excel 表, 如何比较两个列表, 比较 Excel 表差异匹配, 匹配两列输出第三列, 比较两组数据"
     },
     "privacy": {
       "title": "Excel Compare 隐私 — 100% 客户端浏览器处理",
-      "description": "CompareExcel 隐私保证：所有 excel 列、表和文件处理在浏览器中 100% 本地运行。零服务器上传。",
+      "description": "ExcelCompareColumns 隐私保证：所有 excel 列、表和文件处理在浏览器中 100% 本地运行。零服务器上传。",
       "keywords": "excel 列比较, excel 比较, excel 比较两个文件, 在线 excel 比较, excel 比较隐私"
     },
     "terms": {
-      "title": "条款与条件 — CompareExcel",
-      "description": "使用 CompareExcel（客户端电子表格比较工具）的条款和条件。",
+      "title": "条款与条件 — ExcelCompareColumns",
+      "description": "使用 ExcelCompareColumns（客户端电子表格比较工具）的条款和条件。",
       "keywords": "条款条件 compareexcel, compareexcel 使用条款"
     },
     "contact": {
-      "title": "联系我们 — CompareExcel",
-      "description": "联系 CompareExcel 以获取支持、反馈或关于电子表格比较的问题。",
+      "title": "联系我们 — ExcelCompareColumns",
+      "description": "联系 ExcelCompareColumns 以获取支持、反馈或关于电子表格比较的问题。",
       "keywords": "联系 compareexcel, 支持 compareexcel, compareexcel 联系"
     },
     "compare": {
@@ -199,16 +199,16 @@
       "keywords": "excel 比较两个列表, excel 比较日期, excel 比较两张表, excel 比较两列, 在线 excel 比较"
     },
     "error404": {
-      "title": "页面未找到 — CompareExcel",
-      "description": "您要查找的页面不存在。返回 CompareExcel，100% 在客户端在线比较电子表格。",
+      "title": "页面未找到 — ExcelCompareColumns",
+      "description": "您要查找的页面不存在。返回 ExcelCompareColumns，100% 在客户端在线比较电子表格。",
       "keywords": "compareexcel, 页面未找到, 404, 比较 excel, 电子表格差异",
       "heading": "404",
       "message": "未找到该页面。URL 可能输入错误，或者页面已移动。",
       "button": "开始比较"
     },
     "error500": {
-      "title": "服务器错误 — CompareExcel",
-      "description": "我们遇到了一些问题。请重试或返回 CompareExcel 在线比较电子表格。",
+      "title": "服务器错误 — ExcelCompareColumns",
+      "description": "我们遇到了一些问题。请重试或返回 ExcelCompareColumns 在线比较电子表格。",
       "keywords": "compareexcel, 服务器错误, 500, 比较 excel",
       "heading": "500",
       "message": "非常抱歉，我们遇到了一些问题。请尝试刷新页面。",
@@ -245,7 +245,7 @@
     "needFile1": "请在上方拖放或上传 {file1} 以生成可视差异。",
     "dropTwo": "在上方拖入两个 EXCEL 文件以开始",
     "dropTwoDesc": "或点击右上角示例数据，即刻体验公式差异、行重排与列集合比对。",
-    "exportTitle": "CompareExcel 差异审计报告",
+    "exportTitle": "ExcelCompareColumns 差异审计报告",
     "exportReportTitle": "COMPAREEXCEL 审计报告",
     "leftFile": "左侧文件",
     "rightFile": "右侧文件",
@@ -460,17 +460,17 @@
       "support": "技术支持",
       "email": "电子邮件",
       "supportDesc": "技术咨询、问题反馈与功能建议。",
-      "supportAddr": "support@compareexcel.com",
+      "supportAddr": "support@excelcomparecolumns.com",
       "general": "常规咨询",
       "press": "媒体与合作",
       "pressDesc": "媒体采访、企业合作与商务洽谈。",
-      "pressAddr": "hello@compareexcel.com",
+      "pressAddr": "hello@excelcomparecolumns.com",
       "selfHelp": "自助资源",
       "docsFaq": "文档与常见问题",
       "docsDesc": "涵盖比较列、工作表、文件、日期及列表的详尽使用指南。",
       "docsLink": "文档",
       "faqLink": "常见问题",
-      "privacyNote": "CompareExcel 在您的浏览器本地处理所有比对，我们绝不会查看或存储您的表格数据。"
+      "privacyNote": "ExcelCompareColumns 在您的浏览器本地处理所有比对，我们绝不会查看或存储您的表格数据。"
     },
     "faq": {
       "caption": "常见问题解答",
@@ -484,7 +484,7 @@
       "title": "为卓越的电子表格审计而生",
       "desc": "深入了解公式感知、模糊行对齐与单元格注释如何彻底革新 Excel 审计体验。",
       "f1Title": "01. 公式深度检查",
-      "f1Desc": "CompareExcel 能检查底层 Excel 公式，而不仅是显示数值。在产生下游错误前，即刻捕捉计算公式的细微变更。",
+      "f1Desc": "ExcelCompareColumns 能检查底层 Excel 公式，而不仅是显示数值。在产生下游错误前，即刻捕捉计算公式的细微变更。",
       "f2Title": "02. 智能模糊行对齐",
       "f2Desc": "插入或重新排序的行不会引发连锁误报。内容特征签名算法让匹配记录在不同表格间始终保持精确对齐。",
       "f3Title": "03. 单元格审计批注",
@@ -513,7 +513,7 @@
       "h4Title": "4. 报告导出与协作分享",
       "h4Desc": "在任意比对视图中点击“导出”，即可生成包含详细变更条目、单元格坐标及批注的可打印 HTML 审计报告，或下载 CSV 供后续分析。",
       "h5Title": "5. 隐私保障与离线运行",
-      "h5Desc": "CompareExcel 完全在您的浏览器本地执行。加载完成后，您甚至可以断开网络连接，全离线安全比对机密表格。",
+      "h5Desc": "ExcelCompareColumns 完全在您的浏览器本地执行。加载完成后，您甚至可以断开网络连接，全离线安全比对机密表格。",
       "guideTitle": "比对模式选择指南",
       "thUseCase": "应用场景",
       "thMode": "推荐模式",
@@ -536,8 +536,8 @@
       "badge": "100% 本地运算安全承诺",
       "title": "您的表格数据绝不离开您的设备",
       "archTitle": "零服务器上传架构",
-      "archP1": "在 CompareExcel，我们深知电子表格中往往包含极其机密的财务数据、薪资记录、客户资料和专有算法。传统的在线工具通常需要将文件上传到远程服务器，带来泄密与合规风险。",
-      "archP2": "CompareExcel 坚持严格的纯客户端架构。当您将文件拖入工具时，所有解析、差异计算和视图渲染均在您本地浏览器的 Web Workers 和 SheetJS 中完成，网络上绝不产生任何文件数据传输。",
+      "archP1": "在 ExcelCompareColumns，我们深知电子表格中往往包含极其机密的财务数据、薪资记录、客户资料和专有算法。传统的在线工具通常需要将文件上传到远程服务器，带来泄密与合规风险。",
+      "archP2": "ExcelCompareColumns 坚持严格的纯客户端架构。当您将文件拖入工具时，所有解析、差异计算和视图渲染均在您本地浏览器的 Web Workers 和 SheetJS 中完成，网络上绝不产生任何文件数据传输。",
       "techTitle": "技术验证方法",
       "tech1": "零 HTTP POST 请求：打开浏览器控制台 Network 面板，解析和比对全程无任何上传请求。",
       "tech2": "完全支持离线：页面加载完成后，断开互联网仍可顺畅使用全部比对功能。",
@@ -552,33 +552,33 @@
       "caption": "条款与条件",
       "title": "使用条款",
       "s1Title": "1. 条款接受",
-      "s1": "访问或使用 CompareExcel（以下简称“本服务”），即表示您同意遵守本使用条款。如不同意，请勿使用本服务。",
+      "s1": "访问或使用 ExcelCompareColumns（以下简称“本服务”），即表示您同意遵守本使用条款。如不同意，请勿使用本服务。",
       "s2Title": "2. 客户端运算与隐私",
       "s2": "所有文件解析、比对和渲染均在您的浏览器本地进行。您的表格数据绝不上传至服务器，不被我们存储，亦不与任何第三方共享。您始终拥有数据的全部所有权。",
       "s3Title": "3. 免责声明",
       "s3": "本服务按“现状”及“可用”基础提供，不提供任何明示或暗示的担保。我们不保证比对结果完全无误或符合特定用途。使用本服务所产生风险由您自行承担。",
       "s4Title": "4. 责任限制",
-      "s4": "在法律允许的最大范围内，CompareExcel 及其运营者对因使用或无法使用本服务导致的任何间接、附带、特殊、后果性损害或利润、数据损失概不承担责任。",
+      "s4": "在法律允许的最大范围内，ExcelCompareColumns 及其运营者对因使用或无法使用本服务导致的任何间接、附带、特殊、后果性损害或利润、数据损失概不承担责任。",
       "s5Title": "5. 合理使用",
       "s5": "您同意不将本服务用于任何非法目的，不上传无权处理的内容，亦不尝试对本服务进行逆向工程、干扰或破坏。",
       "s6Title": "6. 条款变更",
       "s6": "我们保留随时修改本条款的权利。修改发布后继续使用本服务即视为接受修改后的条款。",
       "s7Title": "7. 联系方式",
-      "s7": "如对本条款有任何疑问，请联系 legal@compareexcel.com。"
+      "s7": "如对本条款有任何疑问，请联系 legal@excelcomparecolumns.com。"
     },
     "index": {
-      "seoTitle": "CompareExcel — 在线 Excel 比较列与电子表格差异比对方案",
-      "seoAbout": "当您需要在两个工作簿之间<strong>比较 Excel 列</strong>、查找匹配值或发现表格差异时，CompareExcel 为您提供快速、私密、纯浏览器驱动的强劲引擎。无论是核对账目的财务分析师、核查 SKU 的运营主管，还是校验客户名单的数据审计员，我们的在线 Excel 比较工具均支持您拖入文件、执行逐单元格比对并审查每处变更 — 无需向远程服务器上传任何数据。",
+      "seoTitle": "ExcelCompareColumns — 在线 Excel 比较列与电子表格差异比对方案",
+      "seoAbout": "当您需要在两个工作簿之间<strong>比较 Excel 列</strong>、查找匹配值或发现表格差异时，ExcelCompareColumns 为您提供快速、私密、纯浏览器驱动的强劲引擎。无论是核对账目的财务分析师、核查 SKU 的运营主管，还是校验客户名单的数据审计员，我们的在线 Excel 比较工具均支持您拖入文件、执行逐单元格比对并审查每处变更 — 无需向远程服务器上传任何数据。",
       "seoColsTitle": "什么是 Excel 列比较？",
-      "seoCols": "<strong>比较 Excel 列</strong>是指从文件 A 和文件 B 中各取一列，确定哪些值在两列中同时存在、哪些仅出现在左侧、哪些仅出现在右侧。CompareExcel 即时完成集合运算。您可以快速分离<strong>比较两列匹配项</strong>（交集）与<strong>比较两列差异项</strong>（唯一值），并导出整洁的 CSV 报表。",
+      "seoCols": "<strong>比较 Excel 列</strong>是指从文件 A 和文件 B 中各取一列，确定哪些值在两列中同时存在、哪些仅出现在左侧、哪些仅出现在右侧。ExcelCompareColumns 即时完成集合运算。您可以快速分离<strong>比较两列匹配项</strong>（交集）与<strong>比较两列差异项</strong>（唯一值），并导出整洁的 CSV 报表。",
       "seoMatchesTitle": "Excel 比较两列的匹配项与差异项",
       "seoMatches": "许多用户需要<strong>比较两列查找匹配项</strong>（如验证新增订阅名单是否已存在于 CRM 导出库中）。也有用户需要<strong>比较两列查找差异项</strong>（如找出从价目表中下架的商品 SKU）。我们的列集合比对模式一键搞定两种需求，并排显示交集、左侧独有与右侧独有数据。",
       "seoSheetsTitle": "Excel 比较两个工作表、两个文件及两个单元格",
-      "seoSheets": "除列比对外，CompareExcel 还支持在同一工作簿内或不同文件间<strong>比较两个工作表</strong>。我们的<strong>比较两个文件</strong>模式利用 SheetJS Web Workers 在本地解析表格，渲染同步且带颜色标记的差异网格。若只需<strong>比对两个单元格</strong>，单元格检查器可在独立单元格级别高亮显示精确数值与公式变动。",
+      "seoSheets": "除列比对外，ExcelCompareColumns 还支持在同一工作簿内或不同文件间<strong>比较两个工作表</strong>。我们的<strong>比较两个文件</strong>模式利用 SheetJS Web Workers 在本地解析表格，渲染同步且带颜色标记的差异网格。若只需<strong>比对两个单元格</strong>，单元格检查器可在独立单元格级别高亮显示精确数值与公式变动。",
       "seoDatesTitle": "Excel 比较日期与两个列表",
       "seoDates": "处理时序数据？我们的引擎将日期视作一等公民，支持跨列<strong>比较日期</strong>并精准标出偏移或不匹配的时间戳。同样，在核对邮件列表、零件编号或会计科目时，<strong>比较两个列表</strong>流程能通过模糊行对齐算法确保即便排序不一致也能正确匹配。",
       "seoWhyTitle": "为何选择在线 Excel 比较工具？",
-      "seoWhy": "传统桌面方法往往依赖复杂公式、VLOOKUP 辅助列或繁琐的手工排序。CompareExcel 这类<strong>在线 Excel 比较</strong>工具彻底消除了这些障碍：无需安装软件、无需注册账户、亦无文件大小硬性限制。更重要的是所有处理都在客户端进行，机密财务报表、员工工资单及采购报价绝不离开您的浏览器。",
+      "seoWhy": "传统桌面方法往往依赖复杂公式、VLOOKUP 辅助列或繁琐的手工排序。ExcelCompareColumns 这类<strong>在线 Excel 比较</strong>工具彻底消除了这些障碍：无需安装软件、无需注册账户、亦无文件大小硬性限制。更重要的是所有处理都在客户端进行，机密财务报表、员工工资单及采购报价绝不离开您的浏览器。",
       "seoCapsTitle": "Excel 比对引擎的核心优势",
       "seoCaps1": "<strong>逐单元格差异高亮</strong> — 修改、新增或删除的单元格均带有醒目的颜色标记（琥珀色表示修改，绿色表示新增，红色表示删除）。",
       "seoCaps2": "<strong>公式深度剖析</strong> — 对比底层 Excel 公式而非单纯数值，及时捕捉 <code>=SUM(A1:A10)</code> 与 <code>=SUM(A1:A9)</code> 等隐蔽差异。",
@@ -588,10 +588,10 @@
       "seoCaps6": "<strong>多维导出选项</strong> — 一键下载可打印 HTML 审计报告或结构化 CSV 明细。",
       "seoCaps7": "<strong>批量作业队列</strong> — 在单个自动化任务中批量处理多对文件，汇总输出综合审计日志。",
       "seoUseTitle": "Excel 列比较的常见业务场景",
-      "seoUse": "财务团队在月末结账工作簿中使用 CompareExcel <strong>比较两列</strong>，在登记总账前提前发现偏差；供应链分析师通过<strong>比对两个工作表</strong>核实采购订单与入库明细；人力资源部门<strong>比对两个员工 ID 列表</strong>排查人员配置出入；IT 审计员通过<strong>比对日期</strong>核实系统变更日志。无论您的需求如何，本工具都能完美胜任。",
+      "seoUse": "财务团队在月末结账工作簿中使用 ExcelCompareColumns <strong>比较两列</strong>，在登记总账前提前发现偏差；供应链分析师通过<strong>比对两个工作表</strong>核实采购订单与入库明细；人力资源部门<strong>比对两个员工 ID 列表</strong>排查人员配置出入；IT 审计员通过<strong>比对日期</strong>核实系统变更日志。无论您的需求如何，本工具都能完美胜任。",
       "seoPrivTitle": "注重隐私保护的在线 Excel 比较",
-      "seoPriv": "与市面上许多上传服务器的在线工具不同，CompareExcel 绝不存储您的任何文件。解析、差异计算和渲染全部在您设备本机的 Web Workers 中完成。页面加载后断网仍可正常比对。浏览器 DevTools 证实无任何 HTTP 上传请求，非常适合处理高度保密的商业数据。",
-      "seoStartTitle": "立即体验 CompareExcel",
+      "seoPriv": "与市面上许多上传服务器的在线工具不同，ExcelCompareColumns 绝不存储您的任何文件。解析、差异计算和渲染全部在您设备本机的 Web Workers 中完成。页面加载后断网仍可正常比对。浏览器 DevTools 证实无任何 HTTP 上传请求，非常适合处理高度保密的商业数据。",
+      "seoStartTitle": "立即体验 ExcelCompareColumns",
       "seoStart": "准备好<strong>比较 Excel 列</strong>、<strong>比较两个工作表</strong>或开启全量<strong>双文件比对</strong>审计了吗？打开比对工作区，拖入您的工作簿，即可在本地浏览器中获得实时可视差异报告。无需注册、无需付费、免安装 — 随时随地享受精准、私密的电子表格比对。"
     },
     "about": {
@@ -599,7 +599,7 @@
       "title": "高精度电子表格差异比对引擎",
       "subtitle": "专为需要比对 Excel 文件而无需将敏感数据上传至服务器的分析师、会计师和工程师设计。",
       "privacyTitle": "我们的隐私立场",
-      "privacyBody": "CompareExcel 是一款纯客户端电子表格比较工具。所有解析、比对和渲染均使用 Web Workers 和 SheetJS 在您的浏览器本地运行。任何文件都不会离开您的设备，服务器上不存储任何内容，也不会向第三方分析发送任何表格内容。",
+      "privacyBody": "ExcelCompareColumns 是一款纯客户端电子表格比较工具。所有解析、比对和渲染均使用 Web Workers 和 SheetJS 在您的浏览器本地运行。任何文件都不会离开您的设备，服务器上不存储任何内容，也不会向第三方分析发送任何表格内容。",
       "whyClientSideTitle": "为什么坚持仅限客户端",
       "whyClientSide1": "无文件上传 — 您的电子表格绝不会离开您的浏览器。",
       "whyClientSide2": "页面加载完成后即可完全离线工作。",

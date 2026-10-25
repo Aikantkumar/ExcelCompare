@@ -2,7 +2,7 @@
   "lang": "es",
   "dir": "ltr",
   "locale": "es_ES",
-  "siteName": "CompareExcel",
+  "siteName": "ExcelCompareColumns",
   "nav": {
     "home": "Inicio",
     "compareFiles": "Comparar archivos",
@@ -50,7 +50,7 @@
     "desc": "Diseñado desde cero para resolver las limitaciones principales de la comparación de hojas de cálculo en línea estándar.",
     "colFeature": "CARACTERÍSTICA Y CAPACIDAD",
     "colGeneric": "HERRAMIENTAS GENÉRICAS (p. ej. excelcompare.org)",
-    "colCompareExcel": "COMPAREEXCEL.COM (VENTAJA NUESTRA)",
+    "colExcelCompareColumns": "EXCELCOMPARECOLUMNS.COM (VENTAJA NUESTRA)",
     "rows": [
       [
         "Inspección de diferencia de fórmulas",
@@ -128,7 +128,7 @@
     "privacyGuarantee": "GARANTÍA DE PRIVACIDAD",
     "privacyDesc": "Sus archivos nunca salen de su computadora. El análisis y la comparación se ejecutan completamente dentro de Web Workers en su ventana de navegador local.",
     "zeroServerUploads": "CERO SUBIDAS AL SERVIDOR",
-    "copyright": "© 2026 CompareExcel. Diseñado para privacidad y precisión extrema.",
+    "copyright": "© 2026 ExcelCompareColumns. Diseñado para privacidad y precisión extrema.",
     "aboutUs": "Nosotros",
     "privacyPolicy": "Política de privacidad",
     "termsConditions": "Términos y Condiciones",
@@ -139,43 +139,43 @@
   },
   "pages": {
     "index": {
-      "title": "CompareExcel — Herramienta en línea para comparar columnas de Excel y diferenciar hojas de cálculo",
+      "title": "ExcelCompareColumns — Herramienta en línea para comparar columnas de Excel y diferenciar hojas de cálculo",
       "description": "Compare hojas de cálculo de Excel en línea de forma gratuita. Compare dos columnas, dos hojas, dos archivos, fechas y diferencias celda por celda con procesamiento del lado del cliente 100% privado.",
       "keywords": "excel comparar columnas, excel comparar, excel comparar dos columnas, excel comparar dos hojas, excel comparar dos archivos, comparador de excel en línea"
     },
     "about": {
-      "title": "Acerca de CompareExcel — Motor diferencial de hojas de cálculo del lado del cliente de alta precisión",
-      "description": "Conozca CompareExcel: una herramienta de comparación de hojas de cálculo del lado del cliente para diferenciar archivos, columnas, hojas y listas de Excel con cero subidas al servidor, inspección de fórmulas y privacidad total.",
+      "title": "Acerca de ExcelCompareColumns — Motor diferencial de hojas de cálculo del lado del cliente de alta precisión",
+      "description": "Conozca ExcelCompareColumns: una herramienta de comparación de hojas de cálculo del lado del cliente para diferenciar archivos, columnas, hojas y listas de Excel con cero subidas al servidor, inspección de fórmulas y privacidad total.",
       "keywords": "acerca de compareexcel, excel comparar, diferencia de hoja de cálculo, comparación del lado del cliente, equipo compareexcel"
     },
     "features": {
-      "title": "CompareExcel Características — Matriz de diferencia de columnas y hojas de Excel",
-      "description": "Matriz de características de CompareExcel: inspección de fórmulas, coincidencia difusa de filas, anotaciones de celdas, diferencia fuera de línea y exportación para comparar columnas de excel, dos hojas, dos archivos, fechas y listas.",
+      "title": "ExcelCompareColumns Características — Matriz de diferencia de columnas y hojas de Excel",
+      "description": "Matriz de características de ExcelCompareColumns: inspección de fórmulas, coincidencia difusa de filas, anotaciones de celdas, diferencia fuera de línea y exportación para comparar columnas de excel, dos hojas, dos archivos, fechas y listas.",
       "keywords": "excel comparar columnas, excel comparar dos hojas, excel comparar dos archivos, excel comparar fechas, excel comparar dos listas, excel comparar, comparador de excel en línea, matriz de características"
     },
     "help": {
       "title": "Ayuda de Excel Compare — Cómo comparar columnas, hojas y archivos",
-      "description": "Aprenda a comparar columnas, hojas, archivos, fechas y listas con CompareExcel. Documentación paso a paso para la comparación en línea de hojas de cálculo.",
+      "description": "Aprenda a comparar columnas, hojas, archivos, fechas y listas con ExcelCompareColumns. Documentación paso a paso para la comparación en línea de hojas de cálculo.",
       "keywords": "excel comparar columnas, excel comparar dos hojas, excel comparar dos archivos, excel comparar fechas, excel comparar dos listas, comparador de excel en línea, ayuda de excel comparar, documentación"
     },
     "faq": {
       "title": "Preguntas frecuentes de Excel Compare — Columnas, hojas, listas y reconciliación",
-      "description": "Preguntas frecuentes sobre comparar hojas de cálculo, columnas, hojas y listas de Excel. Aprenda a comparar dos columnas, comparar dos hojas de Excel, hacer coincidir listas y encontrar diferencias y coincidencias con CompareExcel.",
+      "description": "Preguntas frecuentes sobre comparar hojas de cálculo, columnas, hojas y listas de Excel. Aprenda a comparar dos columnas, comparar dos hojas de Excel, hacer coincidir listas y encontrar diferencias y coincidencias con ExcelCompareColumns.",
       "keywords": "preguntas frecuentes excel comparar, cómo comparar dos columnas en excel, cómo comparar dos hojas de excel, cómo comparar dos listas en excel, comparar hojas de excel diferencias coincidencias, hacer coincidir dos columnas salida tercera columna, comparar dos conjuntos de datos"
     },
     "privacy": {
       "title": "Privacidad de Excel Compare — Procesamiento del navegador 100% del lado del cliente",
-      "description": "Garantía de privacidad de CompareExcel: todo el procesamiento de comparar columnas, hojas y archivos de Excel se ejecuta 100% localmente en su navegador. Cero subidas al servidor.",
+      "description": "Garantía de privacidad de ExcelCompareColumns: todo el procesamiento de comparar columnas, hojas y archivos de Excel se ejecuta 100% localmente en su navegador. Cero subidas al servidor.",
       "keywords": "excel comparar columnas, excel comparar, excel comparar dos archivos, comparador de excel en línea, privacidad de excel comparar"
     },
     "terms": {
-      "title": "Términos y Condiciones — CompareExcel",
-      "description": "Términos y condiciones para usar CompareExcel, la herramienta de comparación de hojas de cálculo del lado del cliente.",
+      "title": "Términos y Condiciones — ExcelCompareColumns",
+      "description": "Términos y condiciones para usar ExcelCompareColumns, la herramienta de comparación de hojas de cálculo del lado del cliente.",
       "keywords": "términos condiciones compareexcel, términos de uso compareexcel"
     },
     "contact": {
-      "title": "Contáctenos — CompareExcel",
-      "description": "Contáctenos con CompareExcel para soporte, comentarios o preguntas sobre la comparación de hojas de cálculo.",
+      "title": "Contáctenos — ExcelCompareColumns",
+      "description": "Contáctenos con ExcelCompareColumns para soporte, comentarios o preguntas sobre la comparación de hojas de cálculo.",
       "keywords": "contacto compareexcel, soporte compareexcel, contacto compareexcel"
     },
     "compare": {
@@ -199,16 +199,16 @@
       "keywords": "excel comparar dos listas, excel comparar fechas, excel comparar dos hojas, excel comparar dos columnas, comparador de excel en línea"
     },
     "error404": {
-      "title": "Página No Encontrada — CompareExcel",
-      "description": "La página que buscas no existe. Vuelve a CompareExcel y compara hojas de cálculo en línea, 100% del lado del cliente.",
+      "title": "Página No Encontrada — ExcelCompareColumns",
+      "description": "La página que buscas no existe. Vuelve a ExcelCompareColumns y compara hojas de cálculo en línea, 100% del lado del cliente.",
       "keywords": "compareexcel, página no encontrada, 404, comparar excel, diferencia de hoja de cálculo",
       "heading": "404",
       "message": "Esta página no se ha encontrado. La URL puede estar mal escrita o la página puede haberse movido.",
       "button": "EMPEZAR A COMPARAR"
     },
     "error500": {
-      "title": "Error del Servidor — CompareExcel",
-      "description": "Algo salió mal de nuestra parte. Inténtalo de nuevo o vuelve a CompareExcel para comparar hojas de cálculo en línea.",
+      "title": "Error del Servidor — ExcelCompareColumns",
+      "description": "Algo salió mal de nuestra parte. Inténtalo de nuevo o vuelve a ExcelCompareColumns para comparar hojas de cálculo en línea.",
       "keywords": "compareexcel, error del servidor, 500, comparar excel",
       "heading": "500",
       "message": "Lo sentimos, pero algo salió mal de nuestra parte. Intenta recargar la página.",
@@ -245,7 +245,7 @@
     "needFile1": "Sube o suelta {file1} en el área de colocación de arriba para generar diferencias visuales de celdas.",
     "dropTwo": "SUELTA DOS ARCHIVOS DE EXCEL ARRIBA PARA COMENZAR",
     "dropTwoDesc": "O selecciona una de las pruebas de demostración en la parte superior derecha para probar instantáneamente diferencias de fórmula, reordenamiento de filas y comparaciones de conjuntos.",
-    "exportTitle": "Informe de Auditoría de Diferencias de CompareExcel",
+    "exportTitle": "Informe de Auditoría de Diferencias de ExcelCompareColumns",
     "exportReportTitle": "INFORME DE AUDITORÍA DE COMPAREEXCEL",
     "leftFile": "ARCHIVO IZQUIERDO",
     "rightFile": "ARCHIVO DERECHO",
@@ -460,31 +460,31 @@
       "support": "SOPORTE",
       "email": "Correo electrónico",
       "supportDesc": "Para soporte, informes de errores o solicitudes de funciones, escríbenos a nuestra dirección de soporte.",
-      "supportAddr": "support@compareexcel.com",
+      "supportAddr": "support@excelcomparecolumns.com",
       "general": "GENERAL",
       "press": "Prensa y Alianzas",
-      "pressDesc": "Consultas de medios, oportunidades de asociación y preguntas sobre el motor diferencial de CompareExcel.",
-      "pressAddr": "hello@compareexcel.com",
+      "pressDesc": "Consultas de medios, oportunidades de asociación y preguntas sobre el motor diferencial de ExcelCompareColumns.",
+      "pressAddr": "hello@excelcomparecolumns.com",
       "selfHelp": "AUTOAYUDA",
       "docsFaq": "Documentación y Preguntas Frecuentes",
       "docsDesc": "Guías paso a paso para comparar columnas, hojas, archivos, fechas y listas, además de respuestas a preguntas comunes.",
       "docsLink": "Documentación",
       "faqLink": "Preguntas Frecuentes",
-      "privacyNote": "CompareExcel procesa todas las comparaciones localmente en tu navegador. Nunca vemos, almacenamos ni transmitimos tus datos de hojas de cálculo."
+      "privacyNote": "ExcelCompareColumns procesa todas las comparaciones localmente en tu navegador. Nunca vemos, almacenamos ni transmitimos tus datos de hojas de cálculo."
     },
     "faq": {
       "caption": "PREGUNTAS FRECUENTES",
       "title": "PREGUNTAS COMUNES SOBRE LA COMPARACIÓN DE EXCEL",
       "startBtn": "EMPEZAR A COMPARAR",
       "needHelp": "¿NECESITAS MÁS AYUDA?",
-      "helpDesc": "Inicia una nueva comparación en CompareExcel — todo el procesamiento se ejecuta localmente en tu navegador."
+      "helpDesc": "Inicia una nueva comparación en ExcelCompareColumns — todo el procesamiento se ejecuta localmente en tu navegador."
     },
     "features": {
       "caption": "MATRIZ DE CARACTERÍSTICAS Y ARQUITECTURA",
       "title": "DISEÑADO PARA LA SUPREMACÍA DE HOJAS DE CÁLCULO",
       "desc": "Descubre cómo la conciencia de fórmulas, la alineación difusa inteligente de filas, las anotaciones de celdas y las herramientas de exportación revolucionan la auditoría de Excel — todo con cero subidas al servidor.",
       "f1Title": "01. INSPECCIÓN DE FÓRMULAS",
-      "f1Desc": "Las herramientas estándar solo leen números calculados mostrados. CompareExcel inspecciona fórmulas subyacentes (=SUMA(A1:A100) vs =SUMA(A1:A99)), resaltando errores de cálculo sutiles antes de que lleguen a producción.",
+      "f1Desc": "Las herramientas estándar solo leen números calculados mostrados. ExcelCompareColumns inspecciona fórmulas subyacentes (=SUMA(A1:A100) vs =SUMA(A1:A99)), resaltando errores de cálculo sutiles antes de que lleguen a producción.",
       "f2Title": "02. ALINEACIÓN DIFUSA DE FILAS",
       "f2Desc": "Si se agrega una fila o se ordena de forma diferente, las herramientas diferenciales convencionales marcan todas las filas subsiguientes como eliminadas/agregadas. Nuestro algoritmo inteligente calcula firmas de filas para mantener los datos coincidentes alineados sin problemas.",
       "f3Title": "03. ANOTACIONES DE CELDAS",
@@ -513,7 +513,7 @@
       "h4Title": "4. EXPORTACIÓN DE INFORMES Y COMPARTICIÓN",
       "h4Desc": "Haz clic en \"Exportar Diferencia\" en la barra de herramientas para generar un informe de alta densidad imprimible en HTML adecuado para conversión a PDF. También puedes tomar el fragmento del componente web compare-excel para paneles de intranet.",
       "h5Title": "5. PRIVACIDAD Y USO SIN CONEXIÓN",
-      "h5Desc": "CompareExcel realiza el 100% del análisis, el cálculo de diferencias, la coincidencia de conjuntos y la representación de informes localmente dentro de tu navegador web usando JavaScript Web Workers y SheetJS. No se suben archivos a un servidor. Una vez cargada, la herramienta funciona sin conexión — abre las Herramientas de Desarrollador de Red y confirma que no ocurren solicitudes HTTP POST o de carga de archivos.",
+      "h5Desc": "ExcelCompareColumns realiza el 100% del análisis, el cálculo de diferencias, la coincidencia de conjuntos y la representación de informes localmente dentro de tu navegador web usando JavaScript Web Workers y SheetJS. No se suben archivos a un servidor. Una vez cargada, la herramienta funciona sin conexión — abre las Herramientas de Desarrollador de Red y confirma que no ocurren solicitudes HTTP POST o de carga de archivos.",
       "guideTitle": "GUÍA DE SELECCIÓN DE MODO",
       "thUseCase": "Caso de uso",
       "thMode": "Modo",
@@ -536,8 +536,8 @@
       "badge": "GARANTÍA DE DIFERENCIAL DE NAVEGADOR 100% LOCAL",
       "title": "TUS DATOS DE HOJA DE CÁLCULO NUNCA SALEN DE TU DISPOSITIVO",
       "archTitle": "ARQUITECTURA DE CERO SUBIDAS AL SERVIDOR",
-      "archP1": "En CompareExcel, entendemos que los informes financieros, las nóminas, las listas de precios de proveedores y los archivos de auditoría contienen datos privados y altamente sensibles del negocio.",
-      "archP2": "A diferencia de los servicios diferenciales en la nube heredados que requieren subir tus archivos .xlsx a un servidor remoto, CompareExcel realiza el 100% de su análisis, cálculo de diferencias, coincidencia de conjuntos y representación de informes localmente dentro de tu navegador web usando JavaScript Web Workers y SheetJS.",
+      "archP1": "En ExcelCompareColumns, entendemos que los informes financieros, las nóminas, las listas de precios de proveedores y los archivos de auditoría contienen datos privados y altamente sensibles del negocio.",
+      "archP2": "A diferencia de los servicios diferenciales en la nube heredados que requieren subir tus archivos .xlsx a un servidor remoto, ExcelCompareColumns realiza el 100% de su análisis, cálculo de diferencias, coincidencia de conjuntos y representación de informes localmente dentro de tu navegador web usando JavaScript Web Workers y SheetJS.",
       "techTitle": "VERIFICACIÓN TÉCNICA",
       "tech1": "Abre las Herramientas de Desarrollador de Red: No ocurren solicitudes HTTP POST o de carga de archivos al cargar o diferenciar hojas de cálculo.",
       "tech2": "Funciona sin conexión: Una vez cargada la página, puedes desconectar tu internet por completo y continuar diferenciando archivos sin conexión.",
@@ -552,33 +552,33 @@
       "caption": "TÉRMINOS Y CONDICIONES",
       "title": "TÉRMINOS DE USO",
       "s1Title": "1. ACEPTACIÓN DE LOS TÉRMINOS",
-      "s1": "Al acceder o usar CompareExcel (el \"Servicio\"), aceptas quedar sujeto a estos Términos de Uso. Si no estás de acuerdo, no puedes usar el Servicio.",
+      "s1": "Al acceder o usar ExcelCompareColumns (el \"Servicio\"), aceptas quedar sujeto a estos Términos de Uso. Si no estás de acuerdo, no puedes usar el Servicio.",
       "s2Title": "2. PROCESAMIENTO DEL LADO DEL CLIENTE Y PRIVACIDAD",
       "s2": "Todo el análisis, comparación y representación de archivos ocurre localmente en tu navegador. Tus datos de hojas de cálculo nunca se suben a un servidor, nunca se almacenan por nosotros y nunca se comparten con terceros. Conservas la propiedad total de tus datos en todo momento.",
       "s3Title": "3. SIN GARANTÍA",
       "s3": "El Servicio se proporciona \"tal cual\" y \"según disponibilidad\" sin garantía de ningún tipo, expresa o implícita. No garantizamos que los resultados de comparación estén libres de errores o sean adecuados para ningún propósito en particular. Usas el Servicio bajo tu propio riesgo.",
       "s4Title": "4. LIMITACIÓN DE RESPONSABILIDAD",
-      "s4": "En la máxima medida permitida por la ley, CompareExcel y sus proveedores no serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos, ni por pérdida de ganancias o datos, que surjan de tu uso o incapacidad para usar el Servicio.",
+      "s4": "En la máxima medida permitida por la ley, ExcelCompareColumns y sus proveedores no serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos, ni por pérdida de ganancias o datos, que surjan de tu uso o incapacidad para usar el Servicio.",
       "s5Title": "5. USO ACEPTABLE",
       "s5": "Aceptas no usar el Servicio para ningún propósito ilegal, subir contenido del que no tienes derechos, o intentar realizar ingeniería inversa, interferir o interrumpir el Servicio.",
       "s6Title": "6. CAMBIOS A ESTOS TÉRMINOS",
       "s6": "Nos reservamos el derecho de modificar estos términos en cualquier momento. Tu uso continuado del Servicio después de que se publiquen los cambios constituye la aceptación de los términos revisados.",
       "s7Title": "7. CONTACTO",
-      "s7": "Las preguntas sobre estos términos pueden dirigirse a legal@compareexcel.com."
+      "s7": "Las preguntas sobre estos términos pueden dirigirse a legal@excelcomparecolumns.com."
     },
     "index": {
-      "seoTitle": "CompareExcel — La Solución en Línea para Comparar Columnas de Excel y Diferenciar Hojas de Cálculo",
-      "seoAbout": "Cuando necesitas <strong>comparar columnas de Excel</strong> entre dos libros de trabajo, encontrar valores coincidentes o detectar diferencias entre hojas, CompareExcel te ofrece un motor rápido y privado basado en el navegador que se ejecuta totalmente en tu dispositivo. Ya seas un analista financiero reconciliando libros contables, un gerente de operaciones verificando SKUs de inventario o un auditor de datos validando listas de clientes, nuestra herramienta en línea de comparación de Excel te permite subir dos archivos, ejecutar una diferencia celda por celda y revisar cada cambio — todo sin enviar tus datos a un servidor remoto.",
+      "seoTitle": "ExcelCompareColumns — La Solución en Línea para Comparar Columnas de Excel y Diferenciar Hojas de Cálculo",
+      "seoAbout": "Cuando necesitas <strong>comparar columnas de Excel</strong> entre dos libros de trabajo, encontrar valores coincidentes o detectar diferencias entre hojas, ExcelCompareColumns te ofrece un motor rápido y privado basado en el navegador que se ejecuta totalmente en tu dispositivo. Ya seas un analista financiero reconciliando libros contables, un gerente de operaciones verificando SKUs de inventario o un auditor de datos validando listas de clientes, nuestra herramienta en línea de comparación de Excel te permite subir dos archivos, ejecutar una diferencia celda por celda y revisar cada cambio — todo sin enviar tus datos a un servidor remoto.",
       "seoColsTitle": "¿Qué Significa Comparar Columnas de Excel?",
-      "seoCols": "Para <strong>comparar columnas de Excel</strong> significa tomar una columna del Archivo A y una columna del Archivo B y determinar qué valores existen en ambos, cuáles aparecen solo a la izquierda y cuáles aparecen solo a la derecha. CompareExcel realiza esta lógica de conjunto al instante. Puedes aislar el <strong>comparar dos columnas de Excel para coincidencias</strong> (la intersección), el <strong>comparar dos columnas de Excel para diferencias</strong> (valores únicos) y exportar cada resultado como un CSV limpio para informes posteriores.",
+      "seoCols": "Para <strong>comparar columnas de Excel</strong> significa tomar una columna del Archivo A y una columna del Archivo B y determinar qué valores existen en ambos, cuáles aparecen solo a la izquierda y cuáles aparecen solo a la derecha. ExcelCompareColumns realiza esta lógica de conjunto al instante. Puedes aislar el <strong>comparar dos columnas de Excel para coincidencias</strong> (la intersección), el <strong>comparar dos columnas de Excel para diferencias</strong> (valores únicos) y exportar cada resultado como un CSV limpio para informes posteriores.",
       "seoMatchesTitle": "Excel Comparar Dos Columnas para Coincidencias y Diferencias",
       "seoMatches": "Muchos usuarios llegan buscando <strong>comparar dos columnas de Excel para coincidencias</strong> — por ejemplo, verificar que una nueva lista de suscriptores se superpone con una exportación de CRM maestra. Otros necesitan <strong>comparar dos columnas de Excel para diferencias</strong>, como identificar SKUs de productos que fueron eliminados de una hoja de precios. Nuestro modo de comparación de conjuntos de columnas maneja ambos casos con un solo clic, mostrando intersección, solo izquierda y solo derecha lado a lado.",
       "seoSheetsTitle": "Excel Comparar Dos Hojas, Dos Archivos y Dos Celdas",
-      "seoSheets": "Más allá de las columnas, CompareExcel admite <strong>comparar dos hojas</strong> dentro del mismo libro de trabajo o en archivos separados. Nuestro modo <strong>comparar dos archivos de Excel</strong> analiza ambas hojas de cálculo localmente usando Web Workers de SheetJS, luego renderiza una cuadrícula diferencial sincronizada y codificada por colores. Si solo necesitas <strong>comparar dos celdas de Excel</strong> — por ejemplo, confirmar que un único valor calculado no drifted entre versiones — el inspectora de nivel de celda resalta cambios exactos de valor y fórmula a nivel individual de celda.",
+      "seoSheets": "Más allá de las columnas, ExcelCompareColumns admite <strong>comparar dos hojas</strong> dentro del mismo libro de trabajo o en archivos separados. Nuestro modo <strong>comparar dos archivos de Excel</strong> analiza ambas hojas de cálculo localmente usando Web Workers de SheetJS, luego renderiza una cuadrícula diferencial sincronizada y codificada por colores. Si solo necesitas <strong>comparar dos celdas de Excel</strong> — por ejemplo, confirmar que un único valor calculado no drifted entre versiones — el inspectora de nivel de celda resalta cambios exactos de valor y fórmula a nivel individual de celda.",
       "seoDatesTitle": "Excel Comparar Fechas y Dos Listas",
       "seoDates": "¿Trabajas con datos de series temporales? Nuestro motor trata las celdas de fecha como valores de primera clase, por lo que puedes <strong>comparar fechas de Excel</strong> entre columnas y marcar marcas de tiempo desplazadas o no coincidentes. De igual manera, si estás reconciliando listas de correo, números de parte o códigos de cuenta, el flujo de trabajo <strong>comparar dos listas de Excel</strong> usa coincidencia difusa de filas para alinear registros incluso cuando el orden de clasificación difiere entre archivos.",
       "seoWhyTitle": "¿Por Qué Elegir una Herramienta en Línea para Comparar Excel?",
-      "seoWhy": "Los métodos de escritorio tradicionales requieren fórmulas complejas, columnas auxiliares de VLOOKUP o clasificación manual. Una utilidad <strong>de comparación de Excel en línea</strong> como CompareExcel elimina esa fricción. No hay software que instalar, ninguna cuenta que crear y ningún límite de tamaño de archivo que bloquee tu auditoría. Como el procesamiento ocurre del lado del cliente, los registros financieros sensibles, las nóminas y los precios de proveedores nunca salen de tu navegador — una ventaja crítica sobre servicios diferenciales en la nube que suben tus archivos .xlsx a servidores de terceros.",
+      "seoWhy": "Los métodos de escritorio tradicionales requieren fórmulas complejas, columnas auxiliares de VLOOKUP o clasificación manual. Una utilidad <strong>de comparación de Excel en línea</strong> como ExcelCompareColumns elimina esa fricción. No hay software que instalar, ninguna cuenta que crear y ningún límite de tamaño de archivo que bloquee tu auditoría. Como el procesamiento ocurre del lado del cliente, los registros financieros sensibles, las nóminas y los precios de proveedores nunca salen de tu navegador — una ventaja crítica sobre servicios diferenciales en la nube que suben tus archivos .xlsx a servidores de terceros.",
       "seoCapsTitle": "Capacidades Clave del Motor de Comparación de Excel",
       "seoCaps1": "<strong>Diferencia celda por celda</strong> — Cada celda modificada, agregada o eliminada está codificada por color (ámbar para modificada, verde para agregada, roja para eliminada).",
       "seoCaps2": "<strong>Inspección de fórmulas</strong> — Comparamos fórmulas de Excel subyacentes, no solo los valores mostrados, por lo que <code>=SUMA(A1:A10)</code> vs <code>=SUMA(A1:A9)</code> se detecta de inmediato.",
@@ -588,10 +588,10 @@
       "seoCaps6": "<strong>Opciones de exportación</strong> — Descarga informes imprimibles en HTML, desgloses CSV o libros de Excel.",
       "seoCaps7": "<strong>Cola por lotes</strong> — Procesa múltiples pares de archivos en una ejecución automatizada con un registro de resumen consolidado.",
       "seoUseTitle": "Casos de Uso Comunes para Comparar Columnas de Excel",
-      "seoUse": "Los equipos de finanzas usan CompareExcel para <strong>comparar dos columnas de Excel</strong> en libros de cierre mensual, detectando variaciones antes de que lleguen al libro mayor general. Los analistas de cadena de suministro ejecutan <strong>comparar dos hojas de Excel</strong> para confirmar órdenes de compra entrantes contra mercancías recibidas. Los profesionales de recursos humanos <strong>comparan dos listas de Excel</strong> de IDs de empleados entre sistemas para mostrar discrepancias de headcount. Los auditores de TI usan <strong>comparar fechas de Excel</strong> para verificar registros de cambios y marcas de tiempo del sistema. Cualquier sea tu escenario, si tu tarea involucra <strong>comparar columnas de Excel</strong> o la diferenciación de hojas de cálculo en general, esta herramienta está construida para ello.",
+      "seoUse": "Los equipos de finanzas usan ExcelCompareColumns para <strong>comparar dos columnas de Excel</strong> en libros de cierre mensual, detectando variaciones antes de que lleguen al libro mayor general. Los analistas de cadena de suministro ejecutan <strong>comparar dos hojas de Excel</strong> para confirmar órdenes de compra entrantes contra mercancías recibidas. Los profesionales de recursos humanos <strong>comparan dos listas de Excel</strong> de IDs de empleados entre sistemas para mostrar discrepancias de headcount. Los auditores de TI usan <strong>comparar fechas de Excel</strong> para verificar registros de cambios y marcas de tiempo del sistema. Cualquier sea tu escenario, si tu tarea involucra <strong>comparar columnas de Excel</strong> o la diferenciación de hojas de cálculo en general, esta herramienta está construida para ello.",
       "seoPrivTitle": "Comparación de Excel en Línea con Prioridad a la Privacidad",
-      "seoPriv": "A diferencia de muchos servicios <strong>de comparación de Excel en línea</strong>, CompareExcel no almacena tus archivos. El análisis, el cálculo de diferencias y la representación ocurren dentro de Web Workers en tu máquina. Puedes desconectarte de internet después de cargar la página y continuar comparando hojas de cálculo sin conexión. Las Herramientas de Desarrollador de Red confirman cero solicitudes de carga HTTP cuando cargas o diferencias libros de trabajo, lo que hace que esto sea adecuado para datos comerciales confidenciales.",
-      "seoStartTitle": "Comienza con CompareExcel Hoy",
+      "seoPriv": "A diferencia de muchos servicios <strong>de comparación de Excel en línea</strong>, ExcelCompareColumns no almacena tus archivos. El análisis, el cálculo de diferencias y la representación ocurren dentro de Web Workers en tu máquina. Puedes desconectarte de internet después de cargar la página y continuar comparando hojas de cálculo sin conexión. Las Herramientas de Desarrollador de Red confirman cero solicitudes de carga HTTP cuando cargas o diferencias libros de trabajo, lo que hace que esto sea adecuado para datos comerciales confidenciales.",
+      "seoStartTitle": "Comienza con ExcelCompareColumns Hoy",
       "seoStart": "¿Listo para <strong>comparar columnas de Excel</strong>, <strong>comparar dos hojas de Excel</strong> o ejecutar una auditoría completa de <strong>comparar dos archivos de Excel</strong>? Abre el espacio de comparación, suelta tus libros de trabajo y revisa diferencias visuales instantáneas en tu navegador local. Sin registro, sin tarjeta de crédito y sin instalación requerida — solo comparación de hojas de cálculo precisa y privada cuando lo necesites."
     },
     "about": {
@@ -599,7 +599,7 @@
       "title": "MOTOR DIFERENCIAL DE HOJAS DE CÁLCULO DE ALTA PRECISIÓN",
       "subtitle": "Diseñado para analistas, contadores e ingenieros que necesitan diferenciar archivos de Excel sin subir datos sensibles a un servidor.",
       "privacyTitle": "NUESTRA POSTURA SOBRE LA PRIVACIDAD",
-      "privacyBody": "CompareExcel es una herramienta de comparación de hojas de cálculo del lado del cliente. Todo el análisis, comparación y renderizado se ejecuta localmente en tu navegador usando Web Workers y SheetJS. Ningún archivo sale nunca de tu dispositivo, nada se almacena en un servidor y ningún contenido de hoja de cálculo se envía a análisis de terceros.",
+      "privacyBody": "ExcelCompareColumns es una herramienta de comparación de hojas de cálculo del lado del cliente. Todo el análisis, comparación y renderizado se ejecuta localmente en tu navegador usando Web Workers y SheetJS. Ningún archivo sale nunca de tu dispositivo, nada se almacena en un servidor y ningún contenido de hoja de cálculo se envía a análisis de terceros.",
       "whyClientSideTitle": "POR QUÉ SOLO DEL LADO DEL CLIENTE",
       "whyClientSide1": "No hay subidas de archivos — tus hojas de cálculo nunca salen de tu navegador.",
       "whyClientSide2": "Funciona sin conexión una vez que la página se ha cargado.",

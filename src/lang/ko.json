@@ -2,7 +2,7 @@
   "lang": "ko",
   "dir": "ltr",
   "locale": "ko_KR",
-  "siteName": "CompareExcel",
+  "siteName": "ExcelCompareColumns",
   "nav": {
     "home": "홈",
     "compareFiles": "파일 비교",
@@ -46,11 +46,11 @@
   },
   "competitor": {
     "matrixHeading": "경쟁 매트릭스",
-    "title": "왜 CompareExcel이 범용 차이 도구를 능가하는가",
+    "title": "왜 ExcelCompareColumns이 범용 차이 도구를 능가하는가",
     "desc": "표준 온라인 스프레드시트 차이 도구의 근본적인 한계를 해결하기 위해 처음부터 설계되었습니다.",
     "colFeature": "기능 및 능력",
     "colGeneric": "범용 도구(예: excelcompare.org)",
-    "colCompareExcel": "COMPAREEXCEL.COM(당사의 이점)",
+    "colExcelCompareColumns": "EXCELCOMPARECOLUMNS.COM(당사의 이점)",
     "rows": [
       [
         "수식 차이 검사",
@@ -128,7 +128,7 @@
     "privacyGuarantee": "개인정보 보호 보증",
     "privacyDesc": "파일은 컴퓨터를 떠나지 않습니다. 파싱 및 비교는 로컬 브라우저 창 내 Web Worker에서 완전히 실행됩니다.",
     "zeroServerUploads": "제로 서버 업로드",
-    "copyright": "© 2026 CompareExcel. 개인정보 보호 및 극도의 정확성을 위해 설계되었습니다.",
+    "copyright": "© 2026 ExcelCompareColumns. 개인정보 보호 및 극도의 정확성을 위해 설계되었습니다.",
     "aboutUs": "회사 소개",
     "privacyPolicy": "개인정보처리방침",
     "termsConditions": "이용 약관",
@@ -139,43 +139,43 @@
   },
   "pages": {
     "index": {
-      "title": "CompareExcel — 온라인 Excel 열 비교 및 스프레드시트 차이 도구",
+      "title": "ExcelCompareColumns — 온라인 Excel 열 비교 및 스프레드시트 차이 도구",
       "description": "Excel 스프레드시트를 온라인으로 무료로 비교하세요. 두 열, 두 시트, 두 파일, 날짜, 셀 단위 차이를 100% 개인 클라이언트 사이드 처리로 비교합니다.",
       "keywords": "excel 열 비교, excel 비교, excel 두 열 비교, excel 두 시트 비교, excel 두 파일 비교, 온라인 excel 비교"
     },
     "about": {
-      "title": "CompareExcel 소개 — 고정밀 클라이언트 사이드 스프레드시트 차이 엔진",
-      "description": "CompareExcel에 대해 알아보세요: Excel 파일, 열, 시트, 목록을 차이 비교하는 클라이언트 사이드 스프레드시트 비교 도구입니다. 서버 업로드 제로, 수식 검사, 완전한 개인정보 보호.",
+      "title": "ExcelCompareColumns 소개 — 고정밀 클라이언트 사이드 스프레드시트 차이 엔진",
+      "description": "ExcelCompareColumns에 대해 알아보세요: Excel 파일, 열, 시트, 목록을 차이 비교하는 클라이언트 사이드 스프레드시트 비교 도구입니다. 서버 업로드 제로, 수식 검사, 완전한 개인정보 보호.",
       "keywords": "compareexcel 소개, excel 비교, 스프레드시트 차이, 클라이언트 사이드 비교, compareexcel 팀"
     },
     "features": {
-      "title": "CompareExcel 기능 — Excel 열 비교 및 시트 차이 매트릭스",
-      "description": "CompareExcel 기능 매트릭스: 수식 검사, 퍼지 행 일치, 셀 주석, 오프라인 차이, 내보내기. excel 열 비교, 두 시트, 두 파일, 날짜, 목록용.",
+      "title": "ExcelCompareColumns 기능 — Excel 열 비교 및 시트 차이 매트릭스",
+      "description": "ExcelCompareColumns 기능 매트릭스: 수식 검사, 퍼지 행 일치, 셀 주석, 오프라인 차이, 내보내기. excel 열 비교, 두 시트, 두 파일, 날짜, 목록용.",
       "keywords": "excel 열 비교, excel 두 시트 비교, excel 두 파일 비교, excel 날짜 비교, excel 두 목록 비교, excel 비교, 온라인 excel 비교, 기능 매트릭스"
     },
     "help": {
       "title": "Excel Compare 도움말 — 열, 시트, 파일 비교 방법",
-      "description": "CompareExcel을 사용하여 열, 시트, 파일, 날짜, 목록을 비교하는 방법을 알아보세요. 온라인 스프레드시트 차이에 대한 단계별 문서입니다.",
+      "description": "ExcelCompareColumns을 사용하여 열, 시트, 파일, 날짜, 목록을 비교하는 방법을 알아보세요. 온라인 스프레드시트 차이에 대한 단계별 문서입니다.",
       "keywords": "excel 열 비교, excel 두 시트 비교, excel 두 파일 비교, excel 날짜 비교, excel 두 목록 비교, 온라인 excel 비교, excel 비교 도움말, 문서"
     },
     "faq": {
       "title": "Excel Compare FAQ — 열, 시트, 목록 및 대조",
-      "description": "Excel 스프레드시트, 열, 시트, 목록 비교에 대한 자주 묻는 질문입니다. 두 열 비교, 두 Excel 시트 비교, 목록 대조, CompareExcel로 차이 및 일치 찾기 방법을 알아보세요.",
+      "description": "Excel 스프레드시트, 열, 시트, 목록 비교에 대한 자주 묻는 질문입니다. 두 열 비교, 두 Excel 시트 비교, 목록 대조, ExcelCompareColumns로 차이 및 일치 찾기 방법을 알아보세요.",
       "keywords": "excel 비교 FAQ, excel에서 두 열 비교하는 방법, 두 Excel 시트 비교하는 방법, 두 목록 비교하는 방법, Excel 시트 차이 일치, 두 열 세 번째 열 출력, 두 데이터 세트 비교"
     },
     "privacy": {
       "title": "Excel Compare 개인정보 — 100% 클라이언트 사이드 브라우저 처리",
-      "description": "CompareExcel 개인정보 보호 보증: excel 열, 시트, 파일 처리가 모두 브라우저에서 100% 로컬로 실행됩니다. 서버 업로드 제로.",
+      "description": "ExcelCompareColumns 개인정보 보호 보증: excel 열, 시트, 파일 처리가 모두 브라우저에서 100% 로컬로 실행됩니다. 서버 업로드 제로.",
       "keywords": "excel 열 비교, excel 비교, excel 두 파일 비교, 온라인 excel 비교, excel 비교 개인정보"
     },
     "terms": {
-      "title": "이용 약관 — CompareExcel",
-      "description": "CompareExcel(클라이언트 사이드 스프레드시트 비교 도구) 사용을 위한 이용 약관입니다.",
+      "title": "이용 약관 — ExcelCompareColumns",
+      "description": "ExcelCompareColumns(클라이언트 사이드 스프레드시트 비교 도구) 사용을 위한 이용 약관입니다.",
       "keywords": "약관 compareexcel, compareexcel 이용 약관"
     },
     "contact": {
-      "title": "문의하기 — CompareExcel",
-      "description": "스프레드시트 비교에 대한 지원, 피드백 또는 질문은 CompareExcel로 문의하세요.",
+      "title": "문의하기 — ExcelCompareColumns",
+      "description": "스프레드시트 비교에 대한 지원, 피드백 또는 질문은 ExcelCompareColumns로 문의하세요.",
       "keywords": "compareexcel 연락, compareexcel 지원, compareexcel 문의"
     },
     "compare": {
@@ -199,16 +199,16 @@
       "keywords": "excel 두 목록 비교, excel 날짜 비교, excel 두 시트 비교, excel 두 열 비교, 온라인 excel 비교"
     },
     "error404": {
-      "title": "페이지를 찾을 수 없습니다 — CompareExcel",
-      "description": "찾으시는 페이지가 존재하지 않습니다. CompareExcel로 돌아가 100% 클라이언트 측에서 스프레드시트를 온라인으로 비교하세요.",
+      "title": "페이지를 찾을 수 없습니다 — ExcelCompareColumns",
+      "description": "찾으시는 페이지가 존재하지 않습니다. ExcelCompareColumns로 돌아가 100% 클라이언트 측에서 스프레드시트를 온라인으로 비교하세요.",
       "keywords": "compareexcel, 페이지를 찾을 수 없음, 404, 엑셀 비교, 스프레드시트 차이",
       "heading": "404",
       "message": "페이지를 찾을 수 없습니다. URL을 잘못 입력했거나 페이지가 이동되었을 수 있습니다.",
       "button": "비교 시작하기"
     },
     "error500": {
-      "title": "서버 오류 — CompareExcel",
-      "description": "서버 측에 문제가 발생했습니다. 다시 시도하시거나 CompareExcel로 돌아가 스프레드시트를 비교하세요.",
+      "title": "서버 오류 — ExcelCompareColumns",
+      "description": "서버 측에 문제가 발생했습니다. 다시 시도하시거나 ExcelCompareColumns로 돌아가 스프레드시트를 비교하세요.",
       "keywords": "compareexcel, 서버 오류, 500, 엑셀 비교",
       "heading": "500",
       "message": "죄송합니다. 서버 처리 중 문제가 발생했습니다. 페이지를 새로고침해 주세요.",
@@ -245,7 +245,7 @@
     "needFile1": "시각적 셀 차이를 확인하려면 위 영역에 {file1}을(를) 업로드하거나 드롭하세요.",
     "dropTwo": "시작하려면 위에 두 개의 EXCEL 파일을 끌어다 놓으세요",
     "dropTwoDesc": "또는 우측 상단의 데모 샘플을 선택하여 수식 차이와 행 정렬을 즉시 체험해 보세요.",
-    "exportTitle": "CompareExcel 차이 감사 보고서",
+    "exportTitle": "ExcelCompareColumns 차이 감사 보고서",
     "exportReportTitle": "COMPAREEXCEL 감사 보고서",
     "leftFile": "왼쪽 파일",
     "rightFile": "오른쪽 파일",
@@ -460,17 +460,17 @@
       "support": "기술 지원",
       "email": "이메일",
       "supportDesc": "기술 문의, 버그 보고 및 기능 개선 요청.",
-      "supportAddr": "support@compareexcel.com",
+      "supportAddr": "support@excelcomparecolumns.com",
       "general": "일반 문의",
       "press": "언론 및 제휴",
       "pressDesc": "미디어 취재, 엔터프라이즈 도입 및 비즈니스 파트너십.",
-      "pressAddr": "hello@compareexcel.com",
+      "pressAddr": "hello@excelcomparecolumns.com",
       "selfHelp": "셀프 도움말 리소스",
       "docsFaq": "문서 및 자주 묻는 질문",
       "docsDesc": "열, 시트, 파일, 날짜 및 목록 비교에 관한 상세한 가이드.",
       "docsLink": "문서",
       "faqLink": "자주 묻는 질문",
-      "privacyNote": "CompareExcel은 브라우저 로컬에서 모든 비교를 처리합니다. 저희는 사용자의 스프레드시트 데이터를 절대 열람하거나 저장하지 않습니다."
+      "privacyNote": "ExcelCompareColumns은 브라우저 로컬에서 모든 비교를 처리합니다. 저희는 사용자의 스프레드시트 데이터를 절대 열람하거나 저장하지 않습니다."
     },
     "faq": {
       "caption": "자주 묻는 질문",
@@ -513,7 +513,7 @@
       "h4Title": "4. 보고서 내보내기 및 공유",
       "h4Desc": "어느 비교 화면에서든 \"내보내기\"를 클릭하면 상세 변경 내역, 셀 좌표, 주석이 포함된 인쇄용 HTML 감사 보고서를 만들 수 있으며, 추가 분석을 위해 CSV 데이터를 다운로드할 수 있습니다.",
       "h5Title": "5. 개인정보 보호 및 오프라인 이용",
-      "h5Desc": "CompareExcel은 브라우저에서 100% 로컬로 실행됩니다. 한 번 로드되면 인터넷 연결을 완전히 차단한 상태에서도 기밀 문서를 안심하고 비교할 수 있습니다.",
+      "h5Desc": "ExcelCompareColumns은 브라우저에서 100% 로컬로 실행됩니다. 한 번 로드되면 인터넷 연결을 완전히 차단한 상태에서도 기밀 문서를 안심하고 비교할 수 있습니다.",
       "guideTitle": "비교 모드 선택 가이드",
       "thUseCase": "사용 사례",
       "thMode": "권장 모드",
@@ -536,8 +536,8 @@
       "badge": "100% 로컬 연산 안전 보증",
       "title": "스프레드시트 데이터는 기기 외부로 절대 나가지 않습니다",
       "archTitle": "서버 업로드 제로 아키텍처",
-      "archP1": "CompareExcel은 스프레드시트에 재무제표, 급여 명세, 고객 명단, 독점 알고리즘 등 매우 민감한 정보가 포함되어 있음을 잘 알고 있습니다. 일반적인 온라인 도구는 파일을 원격 서버로 업로드하여 처리하므로 유출 및 규정 위반의 위험이 큽니다.",
-      "archP2": "CompareExcel은 철저하게 클라이언트 측 전용 아키텍처로 설계되었습니다. 파일을 끌어다 놓으면 모든 파싱, 차이 계산 및 시각화가 브라우저 내의 Web Workers와 SheetJS에서 완벽히 처리됩니다. 네트워크를 통해 단 1바이트의 파일 데이터도 전송되지 않습니다.",
+      "archP1": "ExcelCompareColumns은 스프레드시트에 재무제표, 급여 명세, 고객 명단, 독점 알고리즘 등 매우 민감한 정보가 포함되어 있음을 잘 알고 있습니다. 일반적인 온라인 도구는 파일을 원격 서버로 업로드하여 처리하므로 유출 및 규정 위반의 위험이 큽니다.",
+      "archP2": "ExcelCompareColumns은 철저하게 클라이언트 측 전용 아키텍처로 설계되었습니다. 파일을 끌어다 놓으면 모든 파싱, 차이 계산 및 시각화가 브라우저 내의 Web Workers와 SheetJS에서 완벽히 처리됩니다. 네트워크를 통해 단 1바이트의 파일 데이터도 전송되지 않습니다.",
       "techTitle": "기술적 검증 방법",
       "tech1": "HTTP POST 요청 제로: 브라우저 개발자 도구의 Network 탭을 열어 확인해 보세요. 파일 처리 도중 어떠한 업로드 요청도 발생하지 않습니다.",
       "tech2": "완벽한 오프라인 작동: 페이지 로드 후 인터넷 연결을 완전히 끊어도 모든 비교 기능을 중단 없이 오프라인으로 사용할 수 있습니다.",
@@ -552,33 +552,33 @@
       "caption": "이용 약관",
       "title": "이용 약관",
       "s1Title": "1. 약관의 동의",
-      "s1": "CompareExcel(이하 \"서비스\")에 접속하거나 이를 이용함으로써 본 이용 약관을 준수하는 데 동의하게 됩니다. 동의하지 않는 경우 서비스를 이용하실 수 없습니다.",
+      "s1": "ExcelCompareColumns(이하 \"서비스\")에 접속하거나 이를 이용함으로써 본 이용 약관을 준수하는 데 동의하게 됩니다. 동의하지 않는 경우 서비스를 이용하실 수 없습니다.",
       "s2Title": "2. 클라이언트 측 처리 및 개인정보 보호",
       "s2": "모든 파일 파싱, 비교 및 렌더링은 브라우저 로컬에서 발생합니다. 사용자의 스프레드시트 데이터는 서버로 업로드되지 않으며, 당사가 저장하거나 제3자와 공유하지 않습니다. 데이터에 대한 모든 권리는 사용자에게 있습니다.",
       "s3Title": "3. 보증의 부인",
       "s3": "본 서비스는 어떠한 명시적 또는 묵시적 보증 없이 \"있는 그대로\", \"이용 가능한 상태로\" 제공됩니다. 비교 결과의 오류 없음이나 특정 목적 적합성을 보증하지 않으며, 서비스 이용에 따른 책임은 사용자 본인에게 있습니다.",
       "s4Title": "4. 책임의 제한",
-      "s4": "법률이 허용하는 최대 범위 내에서 CompareExcel 및 운영자는 서비스 이용 또는 이용 불능으로 인해 발생하는 간접적, 부수적 손해나 이익 및 데이터 손실에 대해 책임을 지지 않습니다.",
+      "s4": "법률이 허용하는 최대 범위 내에서 ExcelCompareColumns 및 운영자는 서비스 이용 또는 이용 불능으로 인해 발생하는 간접적, 부수적 손해나 이익 및 데이터 손실에 대해 책임을 지지 않습니다.",
       "s5Title": "5. 적법한 이용",
       "s5": "사용자는 불법적인 목적으로 서비스를 이용하지 않으며, 정당한 권리가 없는 콘텐츠를 업로드하거나 서비스의 역설계 및 시스템 방해를 시도하지 않는 데 동의합니다.",
       "s6Title": "6. 약관의 변경",
       "s6": "당사는 언제든지 본 약관을 수정할 권리를 보유합니다. 변경 사항이 게시된 후에도 서비스를 계속 이용하는 것은 개정된 약관에 동의한 것으로 간주됩니다.",
       "s7Title": "7. 문의처",
-      "s7": "본 약관에 관한 문의는 legal@compareexcel.com 으로 보내주시기 바랍니다."
+      "s7": "본 약관에 관한 문의는 legal@excelcomparecolumns.com 으로 보내주시기 바랍니다."
     },
     "index": {
-      "seoTitle": "CompareExcel — 온라인 Excel 열 비교 및 스프레드시트 차이 분석 솔루션",
-      "seoAbout": "두 통합 문서 간에 <strong>Excel 열을 비교</strong>하거나 일치하는 값을 찾고 시트 간의 차이점을 파악해야 할 때, CompareExcel은 기기에서 안전하게 구동되는 빠르고 신뢰할 수 있는 브라우저 엔진을 제공합니다. 장부를 대사하는 재무 분석가, 재고 SKU를 점검하는 물류 관리자, 고객 명단을 검증하는 데이터 감사자 모두 원격 서버에 데이터를 전송하지 않고 셀 단위의 정밀한 차이를 확인할 수 있습니다.",
+      "seoTitle": "ExcelCompareColumns — 온라인 Excel 열 비교 및 스프레드시트 차이 분석 솔루션",
+      "seoAbout": "두 통합 문서 간에 <strong>Excel 열을 비교</strong>하거나 일치하는 값을 찾고 시트 간의 차이점을 파악해야 할 때, ExcelCompareColumns은 기기에서 안전하게 구동되는 빠르고 신뢰할 수 있는 브라우저 엔진을 제공합니다. 장부를 대사하는 재무 분석가, 재고 SKU를 점검하는 물류 관리자, 고객 명단을 검증하는 데이터 감사자 모두 원격 서버에 데이터를 전송하지 않고 셀 단위의 정밀한 차이를 확인할 수 있습니다.",
       "seoColsTitle": "Excel 열 비교란 무엇인가요?",
-      "seoCols": "<strong>Excel 열 비교</strong>는 파일 A의 한 열과 파일 B의 한 열을 가져와 양쪽 모두에 존재하는 값, 왼쪽에만 있는 값, 오른쪽에만 있는 값을 규명하는 작업을 의미합니다. CompareExcel은 이러한 집합 논리를 즉시 연산하여 <strong>두 열의 일치 항목</strong>(교집합)과 <strong>두 열의 차이 항목</strong>(고유값)을 분류하고 깔끔한 CSV 보고서로 내보냅니다.",
+      "seoCols": "<strong>Excel 열 비교</strong>는 파일 A의 한 열과 파일 B의 한 열을 가져와 양쪽 모두에 존재하는 값, 왼쪽에만 있는 값, 오른쪽에만 있는 값을 규명하는 작업을 의미합니다. ExcelCompareColumns은 이러한 집합 논리를 즉시 연산하여 <strong>두 열의 일치 항목</strong>(교집합)과 <strong>두 열의 차이 항목</strong>(고유값)을 분류하고 깔끔한 CSV 보고서로 내보냅니다.",
       "seoMatchesTitle": "일치와 차이를 확인하는 Excel 두 열 비교",
       "seoMatches": "많은 사용자가 <strong>두 열을 비교하여 일치하는 항목을 찾고자</strong> 합니다(예: 새 구독자 명단이 CRM 마스터 데이터와 겹치는지 확인). 반대로 가격표에서 누락된 품목 SKU를 찾기 위해 <strong>두 열의 차이점을 비교</strong>해야 하는 경우도 있습니다. 당사의 열 집합 비교 모드는 단 한 번의 클릭으로 양쪽 모두를 깔끔하게 해결합니다.",
       "seoSheetsTitle": "Excel 두 시트, 두 파일 및 두 셀 비교",
-      "seoSheets": "CompareExcel은 열 비교뿐만 아니라 동일한 파일 또는 서로 다른 파일 간의 <strong>두 시트 비교</strong>도 지원합니다. <strong>두 파일 비교</strong> 모드는 SheetJS Web Workers로 로컬에서 문서를 분석하고 동기화된 색상 그리드를 표시합니다. 단순히 <strong>두 셀만 비교</strong>해야 하는 경우에도 셀 인스펙터가 정확한 수식 및 값 차이를 짚어냅니다.",
+      "seoSheets": "ExcelCompareColumns은 열 비교뿐만 아니라 동일한 파일 또는 서로 다른 파일 간의 <strong>두 시트 비교</strong>도 지원합니다. <strong>두 파일 비교</strong> 모드는 SheetJS Web Workers로 로컬에서 문서를 분석하고 동기화된 색상 그리드를 표시합니다. 단순히 <strong>두 셀만 비교</strong>해야 하는 경우에도 셀 인스펙터가 정확한 수식 및 값 차이를 짚어냅니다.",
       "seoDatesTitle": "Excel 날짜 비교 및 두 목록 대조",
       "seoDates": "시계열 데이터를 다루시나요? 당사 엔진은 날짜 형식을 완벽하게 지원하므로 열 간의 <strong>날짜 비교</strong>를 수행하고 어긋난 타임스탬프를 쉽게 찾아낼 수 있습니다. 마찬가지로 주소록, 부품 번호, 계정 코드를 맞출 때 <strong>두 목록 비교</strong> 기능은 퍼지 행 매칭을 통해 정렬 순서가 달라도 데이터를 올바르게 연결합니다.",
       "seoWhyTitle": "온라인 Excel 비교 도구를 선택해야 하는 이유",
-      "seoWhy": "전통적인 데스크톱 방식은 복잡한 VLOOKUP 수식이나 번거로운 수동 정렬을 필요로 합니다. CompareExcel과 같은 <strong>온라인 Excel 비교</strong> 유틸리티는 이러한 불편을 제거합니다. 소프트웨어 설치나 계정 가입이 필요 없고 파일 크기 제약도 없습니다. 브라우저에서 직접 처리되므로 민감한 급여 대장과 원가 표가 외부로 나가지 않습니다.",
+      "seoWhy": "전통적인 데스크톱 방식은 복잡한 VLOOKUP 수식이나 번거로운 수동 정렬을 필요로 합니다. ExcelCompareColumns과 같은 <strong>온라인 Excel 비교</strong> 유틸리티는 이러한 불편을 제거합니다. 소프트웨어 설치나 계정 가입이 필요 없고 파일 크기 제약도 없습니다. 브라우저에서 직접 처리되므로 민감한 급여 대장과 원가 표가 외부로 나가지 않습니다.",
       "seoCapsTitle": "Excel 비교 엔진의 주요 장점",
       "seoCaps1": "<strong>셀 단위 정밀 차이 표시</strong> — 수정, 추가, 삭제된 모든 셀이 색상으로 명확히 구분됩니다 (수정은 앰버, 추가는 녹색, 삭제는 빨간색).",
       "seoCaps2": "<strong>수식 심층 검사</strong> — 겉으로 보이는 결과값뿐 아니라 실제 Excel 수식을 비교하여 <code>=SUM(A1:A10)</code> 과 <code>=SUM(A1:A9)</code> 처럼 겉보기에 같아 보이는 오류를 즉시 잡아냅니다.",
@@ -588,10 +588,10 @@
       "seoCaps6": "<strong>다양한 내보내기 옵션</strong> — 인쇄 가능한 HTML 감사 보고서와 구조화된 CSV 데이터를 손쉽게 다운로드할 수 있습니다.",
       "seoCaps7": "<strong>일괄 대기열 처리</strong> — 여러 파일 쌍을 한 번에 자동으로 비교하고 통합 요약 로그를 확인하세요.",
       "seoUseTitle": "Excel 열 비교의 대표적 활용 분야",
-      "seoUse": "재무팀은 월말 결산 시 CompareExcel로 <strong>두 열을 비교</strong>하여 원장 반영 전에 오차를 바로잡습니다. 공급망 담당자는 구매 주문서와 입고 내역을 대조하기 위해 <strong>두 시트를 비교</strong>합니다. 인사팀은 직원 ID 목록을 맞춰보고 인원수 불일치를 해결합니다.",
+      "seoUse": "재무팀은 월말 결산 시 ExcelCompareColumns로 <strong>두 열을 비교</strong>하여 원장 반영 전에 오차를 바로잡습니다. 공급망 담당자는 구매 주문서와 입고 내역을 대조하기 위해 <strong>두 시트를 비교</strong>합니다. 인사팀은 직원 ID 목록을 맞춰보고 인원수 불일치를 해결합니다.",
       "seoPrivTitle": "개인정보 보호를 최우선으로 하는 온라인 Excel 비교",
-      "seoPriv": "클라우드 기반의 여타 서비스와 달리 CompareExcel은 파일을 저장하지 않습니다. 모든 파싱과 렌더링이 기기 내 Web Workers에서 완결됩니다. 페이지를 연 후 인터넷을 끄고도 안전하게 작업할 수 있어 기밀 비즈니스 데이터 처리에 적합합니다.",
-      "seoStartTitle": "지금 바로 CompareExcel을 사용해 보세요",
+      "seoPriv": "클라우드 기반의 여타 서비스와 달리 ExcelCompareColumns은 파일을 저장하지 않습니다. 모든 파싱과 렌더링이 기기 내 Web Workers에서 완결됩니다. 페이지를 연 후 인터넷을 끄고도 안전하게 작업할 수 있어 기밀 비즈니스 데이터 처리에 적합합니다.",
+      "seoStartTitle": "지금 바로 ExcelCompareColumns을 사용해 보세요",
       "seoStart": "<strong>Excel 열 비교</strong>, <strong>두 시트 비교</strong> 또는 종합적인 <strong>파일 간 차이 감사</strong>를 수행할 준비가 되셨나요? 작업 공간을 열고 통합 문서를 끌어다 놓기만 하면 즉각적인 시각적 비교가 진행됩니다. 가입이나 결제 없이 언제든 편리하게 이용하세요."
     },
     "about": {
@@ -599,7 +599,7 @@
       "title": "초정밀 스프레드시트 차이 분석 엔진",
       "subtitle": "민감한 데이터를 서버에 업로드하지 않고 Excel 파일 간 차이점을 비교해야 하는 분석가, 회계사, 엔지니어를 위해 제작되었습니다.",
       "privacyTitle": "개인정보 보호 원칙",
-      "privacyBody": "CompareExcel은 완전한 클라이언트 측 스프레드시트 비교 도구입니다. 모든 파싱, 차이 계산 및 렌더링은 Web Workers와 SheetJS를 사용하여 브라우저 로컬에서 안전하게 실행됩니다. 어떠한 파일도 기기 외부로 전송되지 않으며, 서버에 저장되지 않고, 제3자 분석 도구로 전달되지도 않습니다.",
+      "privacyBody": "ExcelCompareColumns은 완전한 클라이언트 측 스프레드시트 비교 도구입니다. 모든 파싱, 차이 계산 및 렌더링은 Web Workers와 SheetJS를 사용하여 브라우저 로컬에서 안전하게 실행됩니다. 어떠한 파일도 기기 외부로 전송되지 않으며, 서버에 저장되지 않고, 제3자 분석 도구로 전달되지도 않습니다.",
       "whyClientSideTitle": "오직 클라이언트 측 처리만 고집하는 이유",
       "whyClientSide1": "파일 업로드 없음 — 스프레드시트가 브라우저 외부로 절대 나가지 않습니다.",
       "whyClientSide2": "페이지가 로드된 후에는 인터넷 연결 없이 완벽한 오프라인으로 작동합니다.",
