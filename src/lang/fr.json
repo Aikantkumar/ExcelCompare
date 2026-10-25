@@ -14,7 +14,6 @@
     "launchTool": "Lancer l'outil"
   },
   "hero": {
-    "offlineBadge": "MOTEUR DE DIFF NAVIGATEUR 100 % HORS LIGNE",
     "headline": "MOTEUR DIFFÉRENTIEL DE FEUILLE DE CALCUL EXCEL HAUTE PRÉCISION",
     "subheadline": "Comparez des fichiers Excel cellule par cellule avec prise en charge des formules, alignement flou intelligent des lignes, annotations de cellules et exportations d'audit instantanées, le tout traité strictement dans votre navigateur local.",
     "launchComparisonTool": "LANCER L'OUTIL DE COMPARAISON",

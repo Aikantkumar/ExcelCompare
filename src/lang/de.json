@@ -14,7 +14,6 @@
     "launchTool": "Tool starten"
   },
   "hero": {
-    "offlineBadge": "100% OFFLINE-BROWSER-DIFF-ENGINE",
     "headline": "HOCHPRÄZISE EXCEL-TABELLEN-DIFFERENZ-ENGINE",
     "subheadline": "Vergleichen Sie Excel-Dateien zellgenau mit Formelbewusstsein, intelligenter fuzzy-Zeilenausrichtung, Zellannotations und sofortigen Audit-Exporten – alles wird strikt in Ihrem lokalen Browser verarbeitet.",
     "launchComparisonTool": "VERGLEICHSTOOL STARTEN",

@@ -14,7 +14,6 @@
     "launchTool": "ツールを起動"
   },
   "hero": {
-    "offlineBadge": "100% オフラインブラウザ差分エンジン",
     "headline": "高精度 Excel スプレッドシート差分エンジン",
     "subheadline": "Excel ファイルをセル単位で比較。数式認識、スマートなファジィ行整列、セル注釈、即時監査エクスポートをすべてローカルブラウザ内で厳密に処理します。",
     "launchComparisonTool": "比較ツールを起動",

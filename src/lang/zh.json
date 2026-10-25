@@ -14,7 +14,6 @@
     "launchTool": "启动工具"
   },
   "hero": {
-    "offlineBadge": "100% 离线浏览器差异引擎",
     "headline": "高精度 Excel 电子表格差异引擎",
     "subheadline": "在本地浏览器中逐单元格比较 Excel 文件，具有公式感知、智能模糊行对齐、单元格注释和即时审计导出，全部严格在本地处理。",
     "launchComparisonTool": "启动比较工具",

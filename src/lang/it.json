@@ -14,7 +14,6 @@
     "launchTool": "Avvia strumento"
   },
   "hero": {
-    "offlineBadge": "MOTORE DIFF BROWSER 100% OFFLINE",
     "headline": "MOTORE DIFFERENZIALE FOGLIO DI CALCOLO EXCEL AD ALTA PRECISIONE",
     "subheadline": "Confronta file Excel cella per cella con consapevolezza delle formule, allineamento righe fuzzy intelligente, annotazioni celle ed esportazioni di controllo istantanee, il tutto elaborato strettamente all'interno del tuo browser locale.",
     "launchComparisonTool": "AVVIA STRUMENTO DI CONFRONTO",

@@ -14,7 +14,6 @@
     "launchTool": "도구 실행"
   },
   "hero": {
-    "offlineBadge": "100% 오프라인 브라우저 차이 엔진",
     "headline": "고정밀 Excel 스프레드시트 차이 엔진",
     "subheadline": "Excel 파일을 셀 단위로 비교하고 수식 인식, 스마트 퍼지 행 정렬, 셀 주석, 즉시 감사 내보내기를 로컬 브라우저에서만 엄격하게 처리합니다.",
     "launchComparisonTool": "비교 도구 실행",

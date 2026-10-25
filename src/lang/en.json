@@ -14,7 +14,6 @@
     "launchTool": "Launch Tool"
   },
   "hero": {
-    "offlineBadge": "100% OFFLINE BROWSER DIFF ENGINE",
     "headline": "HIGH PRECISE EXCEL SPREADSHEET DIFFERENTIAL ENGINE",
     "subheadline": "Compare Excel files cell-by-cell with formula awareness, smart fuzzy row alignment, cell annotations, and instant audit exports — all processed strictly inside your local browser.",
     "launchComparisonTool": "LAUNCH COMPARISON TOOL",
