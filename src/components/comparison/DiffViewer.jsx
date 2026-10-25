@@ -503,16 +503,16 @@ export default function DiffViewer({
 
         {/* Center: Search & Formula Indicator */}
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#666666]" />
-            <input
-              type="text"
-              placeholder="Filter cells..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#000000] border border-[#3a3a3a] pl-8 pr-3 py-1 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white w-40 sm:w-56"
-            />
-          </div>
+<div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#666666]" />
+              <input
+                type="text"
+                placeholder="Filter cells..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-[#000000] border border-[#3a3a3a] pl-8 pr-3 h-9 text-xs font-mono text-white placeholder-[#666666] focus:outline-none focus:border-white w-40 sm:w-56"
+              />
+            </div>
           {viewTab === 'sideBySide' && (
             <label className="flex items-center gap-2 cursor-pointer text-xs font-mono text-[#999999] hover:text-white hidden sm:inline">
               <input
@@ -536,13 +536,13 @@ export default function DiffViewer({
             <Settings className="w-4 h-4" />
           </button>
 
-          <button
-            onClick={onExport}
-            className="btn-primary py-1.5 px-3 text-xs h-8 tracking-[1px]"
-          >
-            <Download className="w-3.5 h-3.5 inline mr-1" />
-            Export
-          </button>
+<button
+              onClick={onExport}
+              className="btn-primary py-1.5 px-3 text-xs h-9 tracking-[1px]"
+            >
+              <Download className="w-3.5 h-3.5 inline mr-1" />
+              Export
+            </button>
 
           <div className="h-4 w-px bg-[#262626] mx-1" />
 

@@ -58,6 +58,22 @@ const flags: Record<Locale, string> = {
 <script is:inline>
   (function () {
     try {
+      const detailsElements = document.querySelectorAll('details');
+      const handlePointerDown = (event) => {
+        detailsElements.forEach((details) => {
+          const isClickOutside = !details.contains(event.target);
+          if (isClickOutside) {
+            details.removeAttribute('open');
+          }
+        });
+      };
+      const handleKeydown = (event) => {
+        if (event.key === 'Escape') {
+          detailsElements.forEach((details) => details.removeAttribute('open'));
+        }
+      };
+      document.addEventListener('pointerdown', handlePointerDown);
+      document.addEventListener('keydown', handleKeydown);
       document.querySelectorAll('a[data-lang]').forEach(function (anchor) {
         anchor.addEventListener('click', function () {
           var lang = anchor.getAttribute('data-lang');
@@ -68,6 +84,8 @@ const flags: Record<Locale, string> = {
           try {
             document.cookie = 'preferredLocale=' + lang + '; path=/; max-age=31536000; SameSite=Lax';
           } catch (e) {}
+          // Close the language switcher after selecting a language
+          detailsElements.forEach((details) => details.removeAttribute('open'));
         });
       });
     } catch (e) {}

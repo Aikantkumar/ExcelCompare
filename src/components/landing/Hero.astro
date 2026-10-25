@@ -12,7 +12,7 @@ const lang = propLang as Locale;
 const localizedHref = (href: string) => localizeHref(lang, href);
 ---
 
-<section class="relative bg-canvas text-ink pt-6 sm:pt-8 border-b border-hairline">
+<section class="relative bg-canvas text-ink pt-6 sm:pt-8 pb-8 sm:pb-12 border-b border-hairline">
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6 relative z-10">
 
@@ -31,19 +31,19 @@ const localizedHref = (href: string) => localizeHref(lang, href);
     <div class="hero-stage">
       <!-- 1) LEFT: four feature boxes -->
       <div class="hero-features">
-        <div class="border border-hairline bg-surface-soft p-4 text-center">
+        <div class="border border-hairline bg-surface-soft p-3 text-center">
           <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.formulaDiff', 'FORMULA DIFF')}</div>
           <div>{t(lang, 'hero.formulaDiffDesc', 'Compares Excel formulas, not just values')}</div>
         </div>
-        <div class="border border-hairline bg-surface-soft p-4 text-center">
+        <div class="border border-hairline bg-surface-soft p-3 text-center">
           <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.smartRowMatch', 'SMART ROW MATCH')}</div>
           <div>{t(lang, 'hero.smartRowMatchDesc', 'Fuzzy matches reordered rows')}</div>
         </div>
-        <div class="border border-hairline bg-surface-soft p-4 text-center">
+        <div class="border border-hairline bg-surface-soft p-3 text-center">
           <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.syncScroll', 'SYNC SCROLL')}</div>
           <div>{t(lang, 'hero.syncScrollDesc', 'Lockstep dual sheet scrolling')}</div>
         </div>
-        <div class="border border-hairline bg-surface-soft p-4 text-center">
+        <div class="border border-hairline bg-surface-soft p-3 text-center">
           <div class="text-ink font-mono text-sm mb-1">{t(lang, 'hero.pdfHtmlExport', 'PDF & HTML EXPORT')}</div>
           <div>{t(lang, 'hero.pdfHtmlExportDesc', 'Auditable report generation')}</div>
         </div>
@@ -147,9 +147,9 @@ const localizedHref = (href: string) => localizeHref(lang, href);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: 1fr;
-    gap: 0.75rem;
+    gap: 0.6rem;
     width: 100%;
-    max-width: 30rem;
+    max-width: 26rem;
     overflow-wrap: anywhere;
     hyphens: auto;
   }

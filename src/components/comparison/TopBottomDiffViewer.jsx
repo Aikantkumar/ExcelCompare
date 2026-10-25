@@ -25,6 +25,7 @@ import { downloadBlob, buildFilename } from './exportUtils';
 import { SpreadsheetVirtualizedTable } from './VirtualizedTable';
 import { useFullView } from './useFullView';
 import { t } from '../../utils/translations';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import * as XLSX from 'xlsx';
 
 export default function TopBottomDiffViewer({ 
@@ -57,7 +58,9 @@ export default function TopBottomDiffViewer({
   const [appearanceTheme, setAppearanceTheme] = useState('dark');
   const [exportToast, setExportToast] = useState(null);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  useClickOutside(wrapperRef, () => setExportMenuOpen(false), exportMenuOpen);
   const [syncScroll, setSyncScroll] = useState(true);
+  const wrapperRef = useRef(null);
   const [tableHeight, setTableHeight] = useState(() => {
     if (typeof window === 'undefined') return 400;
     return Math.min(Math.max(Math.floor(window.innerHeight / 2 - 140), 220), Math.floor(window.innerHeight * 0.6));
@@ -537,13 +540,13 @@ export default function TopBottomDiffViewer({
 
         <div className="flex items-center gap-3 shrink-0">
           <div className="relative shrink-0">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-muted-soft" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none w-3.5 h-3.5 text-muted-soft" />
             <input
               type="text"
               placeholder="Filter cells..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-canvas border border-hairline-strong pl-8 pr-3 py-1 text-xs font-mono text-ink placeholder-muted-soft focus:outline-none focus:border-ink w-full sm:w-56 max-w-xs sm:max-w-none shrink-0"
+              className="bg-canvas border border-hairline-strong pl-8 pr-3 h-9 text-xs font-mono text-ink placeholder-muted-soft focus:outline-none focus:border-ink w-full sm:w-56 max-w-xs sm:max-w-none shrink-0"
             />
           </div>
         </div>
@@ -579,21 +582,21 @@ export default function TopBottomDiffViewer({
             <Download className="w-3 h-3 inline mr-1" />
             {t(locale, 'comparison.exportBtn', 'Export')}
           </button>
-          <div className="relative shrink-0">
+          <div className="relative inline-flex items-stretch shrink-0" ref={wrapperRef}>
             <button
               onClick={() => runExport('csv')}
               disabled={stats.totalChanges === 0}
-              className="btn-secondary px-2 py-1.5 text-[10px] h-9 tracking-[1px] flex items-center gap-1"
+              className="btn-secondary h-9 rounded-r-none whitespace-nowrap inline-flex items-center gap-1.5 px-3"
               title={stats.totalChanges === 0 ? t(locale, 'comparison.noChangesToExport', 'No changes to export') : t(locale, 'comparison.exportChangesCsv', 'Export changes to CSV')}
               aria-disabled={stats.totalChanges === 0}
             >
-              <Download className="w-3 h-3 inline mr-1" />
+              <Download className="w-3 h-3 shrink-0" />
               <span className="hidden sm:inline">{t(locale, 'comparison.exportChangesCsv', 'EXPORT CSV')}</span>
               <span className="block sm:hidden">CSV</span>
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); setExportMenuOpen(!exportMenuOpen); }}
-              className="px-1.5 py-1.5 text-xs font-mono border border-hairline-strong text-muted rounded-l-none hover:border-white hover:text-ink"
+              className="h-9 inline-flex items-center justify-center px-2 border border-l-0 border-hairline-strong rounded-r-full text-muted hover:border-white hover:text-ink"
               aria-label={t(locale, 'comparison.exportMenu', 'Export format options')}
               aria-haspopup="true"
               aria-expanded={exportMenuOpen}
