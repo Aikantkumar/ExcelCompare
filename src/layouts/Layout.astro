@@ -1,7 +1,7 @@
 ---
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { localeConfig, type Locale, defaultLocale, locales, getLocaleFromPathname, buildCanonical } from '../config';
+import { localeConfig, type Locale, defaultLocale, locales, getLocaleFromPathname, buildCanonical, gaMeasurementId } from '../config';
 import '../styles/global.css';
 
 interface Props {
@@ -40,6 +40,26 @@ const alternates = [...locales, 'x-default'] as (Locale | 'x-default')[];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {import.meta.env.PROD ? (
+      <!-- Google tag (gtag.js) -->
+      <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-RWL8QFE4RW"></script>
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RWL8QFE4RW');
+      </script>
+    ) : null}
+    {import.meta.env.PROD && (
+      <!-- Google tag (gtag.js) -->
+      <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-RWL8QFE4RW"></script>
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RWL8QFE4RW');
+      </script>
+    )}
     <meta name="theme-color" content="#000000" />
     <script is:inline>{`
       try {
@@ -59,9 +79,8 @@ const alternates = [...locales, 'x-default'] as (Locale | 'x-default')[];
           if (/\/404($|\/)/.test(pathname) || /\/500($|\/)/.test(pathname)) return;
           var target = '/' + stored + (pathname === '/' ? '' : pathname) + window.location.search + window.location.hash;
           window.location.replace(target);
-        } catch (e) {}
-      })();
-    `}</script>
+        })();
+      `}</script>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -92,7 +111,7 @@ const alternates = [...locales, 'x-default'] as (Locale | 'x-default')[];
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={title} />
-    <meta property="og:locale" content={localeConfig[lang].locale} />
+    <meta property="og:locale" content={localeConfig[lang].locale} -->
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />

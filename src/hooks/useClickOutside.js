@@ -1,29 +1,26 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export function useClickOutside(ref, onOutside, enabled = true) {
-  const handlePointerDown = useCallback(
-    (event) => {
-      if (!enabled || !ref.current) return;
-      if (ref.current.contains(event.target)) return;
-      onOutside();
-    },
-    [ref, onOutside, enabled]
-  );
+  const callbackRef = useRef(onOutside);
+  callbackRef.current = onOutside;
 
   useEffect(() => {
-    document.addEventListener('pointerdown', handlePointerDown);
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        onOutside();
+    if (!enabled) return;
+
+    const handlePointerDown = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callbackRef.current();
       }
-    });
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') callbackRef.current();
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown);
-      document.removeEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          onOutside();
-        }
-      });
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [enabled, ref, onOutside]);
+  }, [enabled, ref]);
 }

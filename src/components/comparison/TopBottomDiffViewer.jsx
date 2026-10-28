@@ -58,9 +58,9 @@ export default function TopBottomDiffViewer({
   const [appearanceTheme, setAppearanceTheme] = useState('dark');
   const [exportToast, setExportToast] = useState(null);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const wrapperRef = useRef(null);
   useClickOutside(wrapperRef, () => setExportMenuOpen(false), exportMenuOpen);
   const [syncScroll, setSyncScroll] = useState(true);
-  const wrapperRef = useRef(null);
   const [tableHeight, setTableHeight] = useState(() => {
     if (typeof window === 'undefined') return 400;
     return Math.min(Math.max(Math.floor(window.innerHeight / 2 - 140), 220), Math.floor(window.innerHeight * 0.6));

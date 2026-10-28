@@ -14,6 +14,8 @@ export const localeConfig: Record<Locale, { dir: 'ltr' | 'rtl'; locale: string; 
   it: { dir: 'ltr', locale: 'it_IT', name: 'Italian', nativeName: 'Italiano' },
 };
 
+export const gaMeasurementId = 'G-RWL8QFE4RW';
+
 export const siteUrl = 'https://compareexcel.com';
 
 export function getLocaleFromPathname(pathname: string): Locale {
